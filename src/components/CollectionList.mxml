@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="720" height="200" xmlns:local="*" xmlns:components="components.*" creationComplete="initCollection(event)">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function initCollection(event:FlexEvent):void {
+				for(var i:uint=0; i<9; i++) {
+					var newItem:CollectionItem = new CollectionItem();
+					newItem.id = "ID " + i;
+					collectionItems.addElement(newItem);
+				}
+			}
+		]]>
+	</fx:Script>
+		<s:Scroller width="700" height="150">
+			<s:Group>
+				<s:HGroup id="collectionItems"></s:HGroup>
+			</s:Group>
+		</s:Scroller>
+</s:Group>

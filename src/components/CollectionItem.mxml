@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" width="128" height="128" xmlns:local="*" creationComplete="initItem(event)" >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+		import mx.events.FlexEvent;
+			
+		protected function initItem(event:FlexEvent):void {
+			title.text = "Item " + this.id;
+		}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color.selected="0x383c40" color.normal="0x23252a" color.hovered="0x383c40"
+						  alpha.selected="0.8" alpha.hovered="0.5" alpha.normal="0.8" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:Label id="title" x="15" y="15" width="370" color="0xffffff" text="Test"/>
+	
+	<s:Line left="0" right="0" bottom="0" width="1">
+		<s:stroke>
+			<s:SolidColorStroke color="0x000000"/>
+		</s:stroke>
+	</s:Line>
+	
+</s:ItemRenderer>
