@@ -8,12 +8,10 @@
 		<![CDATA[
 			import mx.events.FlexEvent;
 			
-			protected function retrieveGroups(event:FlexEvent):void
-			{
+			protected function retrieveGroups(event:FlexEvent):void {
 				// TODO Auto-generated method stub
 				
 			}
-			
 		]]>
 	</fx:Script>
 </s:Group>

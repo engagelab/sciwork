@@ -7,15 +7,12 @@
 		[ResourceBundle("resources")]
 	</fx:Metadata>
 	
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
 	<s:states>
 		<s:State name="loggedOff" />
 		<s:State name="loggedIn" />
 	</s:states>
 	
+	<!-- Logging component -->
 	<local:GroupLogger id="groupLogger" horizontalCenter="0" verticalCenter="0" excludeFrom="loggedIn" />
 	
 </s:WindowedApplication>
