@@ -31,9 +31,9 @@
 	
 	<!-- Logging component -->
 	<local:GroupLogger id="groupLogger" horizontalCenter="0" verticalCenter="0" excludeFrom="loggedIn" />
-	<components:CollectionList id="collectionList" x="360" y="700" />
 	
-	<s:Group excludeFrom="loggedOff">
+	<s:Group excludeFrom="loggedOff" width="100%" height="100%">
+		<components:CollectionList id="collectionList" x="360" y="700" />
 		<s:Label id="ll" horizontalCenter="0" verticalCenter="0" />
 	</s:Group>
 </s:WindowedApplication>
