@@ -19,7 +19,6 @@
 			
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				this.currentState = "loggedIn";
-				ll.text = "Welcome group: "+evt.groupId;
 			}
 			
 		]]>
@@ -29,11 +28,13 @@
 		<s:State name="loggedIn" />
 	</s:states>
 	
+	
 	<!-- Logging component -->
 	<local:GroupLogger id="groupLogger" horizontalCenter="0" verticalCenter="0" excludeFrom="loggedIn" />
 	
 	<s:Group excludeFrom="loggedOff" width="100%" height="100%">
 		<components:CollectionList id="collectionList" x="360" y="700" />
-		<s:Label id="ll" horizontalCenter="0" verticalCenter="0" />
 	</s:Group>
+	
+	
 </s:WindowedApplication>

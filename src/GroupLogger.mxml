@@ -39,7 +39,7 @@
 				//instantiate and build group array
 				groupList = new ArrayCollection();
 				for each (var act:Object in res) {
-					groupList.addItem({title: act.name, id: act.groupId});
+					groupList.addItem({title: act.name, id: act.id});
 				}
 			}
 			
@@ -66,10 +66,10 @@
 			 **/
 			protected function submitForm():void {
 				var params:Object = new Object();
-				params.groupid = (groupCombo.selectedItem as Object).id;
-				params.pass = groupPass.text;
+				params.groupId = (groupCombo.selectedItem as Object).id;
+				params.password = groupPass.text;
 				
-				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL')+'/login');
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL')+'/connect');
 				urlRequest.method = URLRequestMethod.POST;
 				urlRequest.contentType = "application/json";
 				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
@@ -121,7 +121,7 @@
 	
 	<fx:Declarations>
 		<!-- retrieve list of group names -->
-		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupinfo/'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
+		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
 
 		<!-- validators for login -->
 		<s:NumberValidator id="groupValidator" source="{groupCombo}" property="selectedIndex" minValue="0" lessThanMinError="Choose a group from the list" />
