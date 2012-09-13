@@ -42,7 +42,7 @@
 				switch(evt.sceneId)
 				{
 					case "1":
-						[currentIntreface].changeScene(evt.sceneId);
+				//		[currentIntreface].changeScene(evt.sceneId);
 						break;
 					case "2":
 						break;
