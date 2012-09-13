@@ -5,11 +5,20 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import listeners.SceneChangeEvent;
+			import listeners.TaskChangeEvent;
+			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Button;
 			
 			import spark.events.IndexChangeEvent;
 			
-			[Bindable] private var tabs:ArrayCollection = new ArrayCollection([
+			/**
+			 * 
+			 * Static menu definition 
+			 * 
+			 **/
+			private static const tabs:ArrayCollection = new ArrayCollection([
 				{label: "week 1", tasks: new ArrayCollection(["task 1", "task 2", "task 3"])},
 				{label: "week 2", tasks: new ArrayCollection(["task 4", "task 5", "task 6"])},
 				{label: "week 3", tasks: new ArrayCollection(["task 7", "task 8", "task 9"])},
@@ -19,12 +28,35 @@
 				{label: "week 7", tasks: new ArrayCollection(["task 19", "task 20", "task 21"])},
 				{label: "week 8", tasks: new ArrayCollection(["task 22", "task 23", "task 24"])}
 			]);
+			
+			/**
+			 * 
+			 * Handle scene change 
+			 * 
+			 **/
+			protected function sceneBar_changeHandler(event:IndexChangeEvent):void {
+				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
+				sce.sceneId = (sceneBar.selectedItem as Button).label;
+				dispatchEvent(sce);
+			}
+			
+			/**
+			 * 
+			 * Handle task change 
+			 * 
+			 **/
+			protected function taskBar_changeHandler(event:IndexChangeEvent):void {
+				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
+				tce.taskId = (taskBar.selectedItem as Button).label;
+				dispatchEvent(tce);
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<s:VGroup width="100%">
-		<s:ButtonBar id="sceneBar" width="100%" requireSelection="true" dataProvider="{tabs}" />
-		<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" />
+		<s:ButtonBar id="sceneBar" width="100%" requireSelection="true" dataProvider="{tabs}" change="sceneBar_changeHandler(event)"/>
+		<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)"/>
 	</s:VGroup>
 	
 </s:Group>
