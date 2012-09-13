@@ -11,10 +11,7 @@
 			public function changeTask(taskId:uint):void {
 				;
 			}
-			
-			public function changeTask(taskId:uint):void {
-				
-			}
+
 		]]>
 	</fx:Script>
 	

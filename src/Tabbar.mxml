@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getMenu.send()">
+	
+	<fx:Declarations>
+		<!-- retrieve list of menu items -->
+		<s:HTTPService url="http://localhost:4567/menu" method="GET" result="getMenu_resultHandler(event)" fault="getMenu_faultHandler(event)" resultFormat="text" id="getMenu" />
+	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
 			import listeners.SceneChangeEvent;
 			import listeners.TaskChangeEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.controls.Button;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			import spark.events.IndexChangeEvent;
 			
@@ -18,7 +28,7 @@
 			 * Static menu definition 
 			 * 
 			 **/
-			private static const tabs:ArrayCollection = new ArrayCollection([
+			/*private static const tabs:ArrayCollection = new ArrayCollection([
 				{label: "week 1", tasks: new ArrayCollection(["task 1", "task 2", "task 3"])},
 				{label: "week 2", tasks: new ArrayCollection(["task 4", "task 5", "task 6"])},
 				{label: "week 3", tasks: new ArrayCollection(["task 7", "task 8", "task 9"])},
@@ -27,7 +37,9 @@
 				{label: "week 6", tasks: new ArrayCollection(["task 16", "task 17", "task 18"])},
 				{label: "week 7", tasks: new ArrayCollection(["task 19", "task 20", "task 21"])},
 				{label: "week 8", tasks: new ArrayCollection(["task 22", "task 23", "task 24"])}
-			]);
+			]);*/
+			
+			[Bindable] private var tabs:ArrayCollection;
 			
 			/**
 			 * 
@@ -35,6 +47,8 @@
 			 * 
 			 **/
 			protected function sceneBar_changeHandler(event:IndexChangeEvent):void {
+				taskBar.dataProvider = (tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection;
+				
 				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
 				sce.sceneId = (sceneBar.selectedItem as Object).label;
 				dispatchEvent(sce);
@@ -49,6 +63,38 @@
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				tce.taskId = taskBar.selectedItem;
 				dispatchEvent(tce);
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getMenu service
+			 * 
+			 **/
+			protected function getMenu_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving menu items from the server.", "Menu service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getMenu service 
+			 * 
+			 **/
+			protected function getMenu_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				tabs = new ArrayCollection();
+				var tasks:ArrayCollection;
+				
+				//loop through all the scenes object
+				for each (var scene:Object in res) {
+					tasks = new ArrayCollection();
+					//loop through all the tasks for current scene
+					for each (var task:Object in scene.tasks as Array) {
+						tasks.addItem({label: task.label, taskId: task.taskId});
+					}
+					tabs.addItem({label: scene.label, sceneId: scene.sceneId, tasks: tasks});
+				}			
 			}
 			
 		]]>
