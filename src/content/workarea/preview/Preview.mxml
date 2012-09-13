@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<preview:VideoViewer>
-		
-	</preview:VideoViewer>
-	<preview:ImageViewer>
-		
-	</preview:ImageViewer>
-	<preview:KeywordsViewer>
-		
-	</preview:KeywordsViewer>
-	<preview:ArticleUploader>
-		
-	</preview:ArticleUploader>
-	<preview:Comments>
-		
-	</preview:Comments>
-	<s:Button>
-		
-	</s:Button>
-</s:Group>
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" backgroundColor="#777777" backgroundAlpha=".5">
+	
+	<s:states>
+		<s:State name="videoState" />
+		<s:State name="imageState" />
+		<s:State name="keywordsState" />
+		<s:State name="articleState" />
+	</s:states>
+	
+	<preview:VideoViewer />
+	<preview:ImageViewer />
+	<preview:KeywordsViewer />
+	<preview:ArticleUploader />
+	<preview:Comments />
+	<s:Button label="Add to portfolio" right="0" top="0" />
+</s:SkinnableContainer>

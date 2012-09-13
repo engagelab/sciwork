@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*" xmlns:workarea="content.workarea.*">
+	
 	<fx:Script>
 		<![CDATA[
 			public function changeScene(sceneId:uint):void {
 				
 			}
+			
+			public function changeTask(taskId:uint):void {
+				
+			}
 		]]>
 	</fx:Script>
 	
-	<content:Content>
-		
-	</content:Content>
-	<simulation:Simulation>	</simulation:Simulation>
+	<s:states>
+		<s:State name="contentState" />
+		<s:State name="simulationState" />
+	</s:states>
+	
+	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState">
+		<s:VGroup width="200" height="100%">
+			<content:Activity id="activityContainer" width="100%" height="200"/>
+			<content:Resources id="resourceContainer" width="100%" height="100%"/>
+		</s:VGroup>
+		<workarea:WorkArea id="workareaContainer" width="100%" height="100%"/>
+	</s:HGroup>
+	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState" />
 </s:Group>
