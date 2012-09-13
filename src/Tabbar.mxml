@@ -91,6 +91,7 @@
 					for each (var task:Object in scene.tasks as Array) {
 						tasks.addItem({label: task.label, taskId: task.taskId});
 					}
+					//build menu collection
 					tabs.addItem({label: scene.label, sceneId: scene.sceneId, tasks: tasks});
 				}			
 			}
