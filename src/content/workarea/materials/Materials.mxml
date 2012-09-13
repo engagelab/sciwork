@@ -14,7 +14,7 @@
 			
 			protected function initCollection(event:FlexEvent):void {
 				for(var i:uint=0; i<9; i++) {
-					var newItem:CollectionItem = new CollectionItem();
+					var newItem:MaterialsItem = new MaterialsItem();
 					newItem.id = "ID " + i;
 					collectionItems.addElement(newItem);
 				}

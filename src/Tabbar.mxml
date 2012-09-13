@@ -36,8 +36,8 @@
 			 **/
 			protected function sceneBar_changeHandler(event:IndexChangeEvent):void {
 				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
-				sce.sceneId = (sceneBar.selectedItem as Button).label;
-				dispatchEvent(sce);
+		//		sce.sceneId = (sceneBar.selectedItem as Button).label;
+		//		dispatchEvent(sce);
 			}
 			
 			/**
@@ -47,8 +47,8 @@
 			 **/
 			protected function taskBar_changeHandler(event:IndexChangeEvent):void {
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
-				tce.taskId = (taskBar.selectedItem as Button).label;
-				dispatchEvent(tce);
+		//		tce.taskId = (taskBar.selectedItem as Button).label;
+		//		dispatchEvent(tce);
 			}
 			
 		]]>

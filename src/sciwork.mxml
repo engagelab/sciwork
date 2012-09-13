@@ -9,15 +9,21 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.net.dns.AAAARecord;
+			
 			import listeners.LoginAcceptedEvent;
+			import listeners.SceneChangeEvent;
+			import listeners.TaskChangeEvent;
 			
 			import mx.events.FlexEvent;
 			
 			protected function initApp(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleLoginAccepted);
+				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
+				this.addEventListener(resourceManager.getString('resources', 'TASK_CHANGED'), handleTaskChange);
 				
 				// FOR TESTING: In the case of no server connection
-				this.currentState = "loggedIn";
+			//	this.currentState = "loggedIn";
 			}
 			
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
@@ -26,6 +32,34 @@
 				}
 				else {
 					this.currentState = "loggedIn";
+				}
+			}
+			protected function handleSceneChange(evt:SceneChangeEvent):void {
+				var currentIntreface = "studentInterface";
+				if(this.currentState == "loggedInTeacher")
+					currentIntreface = "teacherInterface";
+				
+				switch(evt.sceneId)
+				{
+					case "1":
+						[currentIntreface].changeScene(evt.sceneId);
+						break;
+					case "2":
+						break;
+				}
+			}
+			protected function handleTaskChange(evt:TaskChangeEvent):void {
+				var currentIntreface = "StudentInterface";
+				if(this.currentState == "loggedInTeacher")
+					currentIntreface = "TeacherInterface";
+				
+				switch(evt.taskId)
+				{
+					case "1":
+						
+						break;
+					case "2":
+						break;
 				}
 			}
 			
@@ -49,14 +83,12 @@
 		<local:Tabbar width="100%" excludeFrom="loggedOff"/>
 		
 		<!-- Student space -->
-		<s:Group includeIn="loggedIn" width="100%" height="100%">
-			<materials:CollectionList id="collectionList" x="360" y="700" />
-		</s:Group>
+		<local:StudentInterface id="studentInterface" includeIn="loggedIn" width="100%" height="100%"></local:StudentInterface>
 		
 		<!-- Teacher space -->
-		<s:Group includeIn="loggedInTeacher" width="100%" height="100%">
+		<local:TeacherInterface id="teacherInterface" includeIn="loggedInTeacher" width="100%" height="100%">
 			<s:Label text="welcome teacher" horizontalCenter="0" verticalCenter="0" />
-		</s:Group>
+		</local:TeacherInterface>
 	</s:VGroup>
 	
 	
