@@ -15,6 +15,9 @@
 			
 			protected function initApp(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleLoginAccepted);
+				
+				// FOR TESTING: In the case of no server connection
+				this.currentState = "loggedIn";
 			}
 			
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
