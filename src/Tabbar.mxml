@@ -7,18 +7,24 @@
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			
+			import spark.events.IndexChangeEvent;
+			
 			[Bindable] private var tabs:ArrayCollection = new ArrayCollection([
-				{label: "week 1", tasks: new Array("task 1", "task 2", "task 3")},
-				{label: "week 2", tasks: new Array("task 4", "task 5", "task 6")},
-				{label: "week 3", tasks: new Array("task 7", "task 8", "task 9")},
-				{label: "week 4", tasks: new Array("task 10", "task 11", "task 12")},
-				{label: "week 5", tasks: new Array("task 13", "task 14", "task 15")},
-				{label: "week 6", tasks: new Array("task 16", "task 17", "task 18")},
-				{label: "week 7", tasks: new Array("task 19", "task 20", "task 21")},
-				{label: "week 8", tasks: new Array("task 22", "task 23", "task 24")}
+				{label: "week 1", tasks: new ArrayCollection(["task 1", "task 2", "task 3"])},
+				{label: "week 2", tasks: new ArrayCollection(["task 4", "task 5", "task 6"])},
+				{label: "week 3", tasks: new ArrayCollection(["task 7", "task 8", "task 9"])},
+				{label: "week 4", tasks: new ArrayCollection(["task 10", "task 11", "task 12"])},
+				{label: "week 5", tasks: new ArrayCollection(["task 13", "task 14", "task 15"])},
+				{label: "week 6", tasks: new ArrayCollection(["task 16", "task 17", "task 18"])},
+				{label: "week 7", tasks: new ArrayCollection(["task 19", "task 20", "task 21"])},
+				{label: "week 8", tasks: new ArrayCollection(["task 22", "task 23", "task 24"])}
 			]);
 		]]>
 	</fx:Script>
 	
-	<s:ButtonBar width="100%" requireSelection="true" dataProvider="{tabs}" />
+	<s:VGroup width="100%">
+		<s:ButtonBar id="sceneBar" width="100%" requireSelection="true" dataProvider="{tabs}" />
+		<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" />
+	</s:VGroup>
+	
 </s:Group>
