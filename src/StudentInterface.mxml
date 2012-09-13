@@ -6,7 +6,10 @@
 	<fx:Script>
 		<![CDATA[
 			public function changeScene(sceneId:uint):void {
-				
+				;
+			}
+			public function changeTask(taskId:uint):void {
+				;
 			}
 			
 			public function changeTask(taskId:uint):void {

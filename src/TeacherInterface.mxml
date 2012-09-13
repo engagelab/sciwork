@@ -5,4 +5,14 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			public function changeScene(sceneId:uint):void {
+				;
+			}
+			public function changeTask(taskId:uint):void {
+				;
+			}
+		]]>
+	</fx:Script>
 </s:Group>

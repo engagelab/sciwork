@@ -12,27 +12,21 @@
 		private var previewType:String = "video";
 		private var youtubeBaseImageURL:String = "http://img.youtube.com/vi/";
 		private var youtubeBaseVideoURL:String = "http://www.youtube.com/v/";
-		[Bindable]private var videoUrl:String;
+		[Bindable]private var sourceURL:String;
 			
 		protected function initItem(event:FlexEvent):void {
 			title.text = "Item " + this.id;
 			switch(previewType)
 			{
-				case "image":
-					sourceImage.visible = true;
-					sourceImage.source= youtubeBaseImageURL + "pUrJQbBFez8/1.jpg";
-					break;
-				case "video":
-					sourceVideo.visible = true;
-					videoUrl = youtubeBaseVideoURL + "pUrJQbBFez8" + "?version=3";
+				case "image" || "video":
+					sourceImage.source = youtubeBaseImageURL + sourceURL;
 					break;
 			}
 		}
 			
 		protected function onSelected(event:FlexEvent):void
 		{
-			if(previewType == "video")
-				;
+			
 		}
 		]]>
 	</fx:Script>
@@ -50,13 +44,6 @@
 	</s:Rect>
 	
 	<s:Image id="sourceImage" visible="false"></s:Image>
-	<mx:SWFLoader id="sourceVideo"
-				  minHeight="100"
-				  minWidth="100"
-				  source="{videoUrl}"
-				  autoLoad="true"
-				  maintainAspectRatio="true"
-				  scaleContent="true"/>
 	
 	<s:Label id="title" x="15" y="15" width="370" color="0xffffff" text="Test"/>
 	
