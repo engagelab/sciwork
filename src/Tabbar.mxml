@@ -47,8 +47,6 @@
 			 * 
 			 **/
 			protected function sceneBar_changeHandler(event:IndexChangeEvent):void {
-				taskBar.dataProvider = (tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection;
-				
 				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
 				sce.sceneId = (sceneBar.selectedItem as Object).label;
 				dispatchEvent(sce);
