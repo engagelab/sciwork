@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			[Bindable] private var tabs:ArrayCollection = new ArrayCollection([
+				{label: "week 1", tasks: new Array("task 1", "task 2", "task 3")},
+				{label: "week 2", tasks: new Array("task 4", "task 5", "task 6")},
+				{label: "week 3", tasks: new Array("task 7", "task 8", "task 9")},
+				{label: "week 4", tasks: new Array("task 10", "task 11", "task 12")},
+				{label: "week 5", tasks: new Array("task 13", "task 14", "task 15")},
+				{label: "week 6", tasks: new Array("task 16", "task 17", "task 18")},
+				{label: "week 7", tasks: new Array("task 19", "task 20", "task 21")},
+				{label: "week 8", tasks: new Array("task 22", "task 23", "task 24")}
+			]);
+		]]>
+	</fx:Script>
+	
+	<s:ButtonBar width="100%" requireSelection="true" dataProvider="{tabs}" />
+</s:Group>
