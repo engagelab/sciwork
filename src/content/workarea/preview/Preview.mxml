@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" backgroundColor="#777777" backgroundAlpha=".5">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" backgroundColor="#777777" backgroundAlpha=".5" creationComplete="initPreview(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.MaterialToPreviewEvent;
+			
+			import mx.events.FlexEvent;
+			
+			private var _previewType:String;
+			private var _previewSource:String;
+			private var _fullSizeSource:String;
+			
+			protected function initPreview(event:FlexEvent):void
+			{
+				// this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleMaterialRequest);
+			}
+			public function previewMaterial(previewType:String, fullSizeSource:String, previewSource:String):void
+			{
+				_previewType = previewType;
+				_fullSizeSource = fullSizeSource;
+				_previewSource = previewSource;
+				switch(previewType)
+				{
+					case "image":
+						imageViewer.setupPreview(previewType, fullSizeSource);
+						this.currentState = "imageState";
+						break;
+					case "video" :
+						// YouTube image thumbnail look slike this:   http://img.youtube.com/vi/xxxxxxxxxxx/1.jpg
+						// Size is 120x90
+						videoViewer.setupPreview(previewType, fullSizeSource);
+						this.currentState = "videoState";
+						break;
+					case "text":
+						this.currentState = "keywordsState";
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
 	
 	<s:states>
 		<s:State name="videoState" />
@@ -10,10 +50,19 @@
 		<s:State name="articleState" />
 	</s:states>
 	
+<<<<<<< HEAD
 	<preview:VideoViewer width="100%" height="100%" />
 	<preview:ImageViewer width="100%" height="100%" />
 	<preview:KeywordsViewer width="100%" height="100%" />
 	<preview:ArticleUploader width="100%" height="100%" />
 	<preview:Comments width="100%" height="100%" />
 	<s:Button label="Add to portfolio" right="0" top="0" />
+=======
+	<preview:VideoViewer id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" horizontalCenter="{-videoViewer.videoWidth/2}" verticalCenter="{-videoViewer.videoHeight/2}"/>
+	<preview:ImageViewer id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" horizontalCenter="{-imageViewer.imageWidth/2}" verticalCenter="{-imageViewer.imageHeight/2}"/>
+	<preview:KeywordsViewer id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
+	<preview:ArticleUploader id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
+	<preview:Comments id="comments"/>
+	<s:Button label="Add to portfolio" id="addToPortfolioButton" right="0" top="0" />
+>>>>>>> Image / Video Material & Preview completed
 </s:SkinnableContainer>

@@ -17,6 +17,10 @@
 			
 			import mx.events.FlexEvent;
 			
+		//	Security.allowDomain("www.youtube.com");
+			
+			private var _currentGroupID:String;
+			
 			protected function initApp(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleLoginAccepted);
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
@@ -26,6 +30,11 @@
 				// this.currentState = "loggedIn";
 			}
 			
+			public function get currentGroupID():String
+			{
+				return _currentGroupID;
+			}
+			
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				if(evt.groupId == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
 					this.currentState = "loggedInTeacher";
@@ -33,6 +42,7 @@
 				else {
 					this.currentState = "loggedIn";
 				}
+				_currentGroupID = evt.groupId;
 			}
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
 				var currentIntreface:String = "studentInterface";
@@ -43,9 +53,9 @@
 				trace("scene changed to id: "+ evt.sceneId);
 			}
 			protected function handleTaskChange(evt:TaskChangeEvent):void {
-				var currentIntreface:String = "StudentInterface";
+				var currentIntreface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher")
-					currentIntreface = "TeacherInterface";
+					currentIntreface = "teacherInterface";
 				
 				this[currentIntreface].changeTask(evt.taskId);
 				trace("task changed to id: "+ evt.taskId);

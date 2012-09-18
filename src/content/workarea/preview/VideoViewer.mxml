@@ -1,8 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="initVideoViewer(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			
+			/**
+			 * 
+			 * YouTube Flash API Reference    https://developers.google.com/youtube/flash_api_reference
+			 * 
+			 **/
+			// This will hold the API player instance once it is initialized.
+			private var player:Object;
+			private var loader:Loader;
+			[Bindable] public var videoWidth:uint;
+			[Bindable] public var videoHeight:uint;
+			// UIComponent required to add Loader to an IVisualElement
+			// private var container:UIComponent = new UIComponent();
+			
+			private function initVideoViewer(event:FlexEvent):void
+			{
+				addElement(container);
+				loader = new Loader();
+				loader.contentLoaderInfo.addEventListener(Event.INIT, onLoaderInit);
+				loader.load(new URLRequest("http://www.youtube.com/apiplayer?version=3"));
+			}
+			
+			private function onLoaderInit(event:Event):void {
+				container.addChild(loader);
+				loader.content.addEventListener("onReady", onPlayerReady);
+				loader.content.addEventListener("onError", onPlayerError);
+				loader.content.addEventListener("onStateChange", onPlayerStateChange);
+				loader.content.addEventListener("onPlaybackQualityChange", onVideoPlaybackQualityChange);
+			}
+			
+			private function onPlayerReady(event:Event):void {
+				// Event.data contains the event parameter, which is the Player API ID 
+				trace("player ready:", Object(event).data);
+				
+				// Once this event has been dispatched by the player, we can use
+				// cueVideoById, loadVideoById, cueVideoByUrl and loadVideoByUrl
+				// to load a particular YouTube video.
+				player = loader.content;
+				// Set appropriate player dimensions for your application
+				player.setSize(480, 360);
+				videoWidth = 480;
+				videoHeight = 360;
+			}
+			
+			private function onPlayerError(event:Event):void {
+				// Event.data contains the event parameter, which is the error code
+				trace("player error:", Object(event).data);
+			}
+			
+			private function onPlayerStateChange(event:Event):void {
+				// Event.data contains the event parameter, which is the new player state
+				trace("player state:", Object(event).data);
+			}
+			
+			private function onVideoPlaybackQualityChange(event:Event):void {
+				// Event.data contains the event parameter, which is the new video quality
+				trace("video quality:", Object(event).data);
+			}
+			
+			/**
+			 * 
+			 * Called from the instantiator to set up preview type and source
+			 * 
+			 **/
+			public function setupPreview(previewType:String, fullSizeSource:String):void
+			{
+				player.cueVideoById(fullSizeSource);
+			}
+		]]>
+	</fx:Script>
+	<s:SpriteVisualElement id="container"/>
 </s:Group>

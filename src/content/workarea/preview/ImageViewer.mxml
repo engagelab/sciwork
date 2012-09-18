@@ -5,4 +5,32 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			[Bindable] public var imageWidth:uint;
+			[Bindable] public var imageHeight:uint;
+			
+			/**
+			 * 
+			 * Called from the instantiator to set up preview type and source
+			 * 
+			 **/
+			public function setupPreview(previewType:String, fullSizeSource:String):void
+			{
+				sourceImage.source = fullSizeSource;
+				
+			}
+			private function setSourceSizes(event:Event):void
+			{
+				imageWidth = sourceImage.width;
+				imageHeight = sourceImage.height;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Image id="sourceImage" complete="setSourceSizes(event)"></s:Image>
+	
 </s:Group>

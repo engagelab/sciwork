@@ -12,12 +12,29 @@
 		<![CDATA[
 			import mx.events.FlexEvent;
 			
+			private var _baseImageURL:String = "";
+			// YouTube image thumbnail looks like this:   http://img.youtube.com/vi/xxxxxxxxxxx/1.jpg
+			// Size is 120x90
+			private var _youtubeBaseImageURL:String = "http://img.youtube.com/vi/";
+			
+			// YouTube video looks like this: http://www.youtube.com/v/agY1PPsq6oA
+			private var _youtubeBaseVideoURL:String = "http://www.youtube.com/v/"; 
+			
+			private var testPreviewSource:String = _youtubeBaseImageURL + "hCSPf5Viwd0" + "/1.jpg";
+			private var testFullSizeSource:String = "hCSPf5Viwd0";
+			private var test2PreviewSource:String = _youtubeBaseImageURL + "agY1PPsq6oA" + "/1.jpg";
+			private var test2FullSizeSource:String = _youtubeBaseImageURL + "agY1PPsq6oA" + "/0.jpg";
+			
 			protected function initCollection(event:FlexEvent):void {
-				for(var i:uint=0; i<9; i++) {
 					var newItem:MaterialsItem = new MaterialsItem();
-					newItem.id = "ID " + i;
+					newItem.id = "ID " + "1";
+					newItem.setupPreview("video", testFullSizeSource, testPreviewSource);
 					collectionItems.addElement(newItem);
-				}
+
+					var newItem2:MaterialsItem = new MaterialsItem();
+					newItem2.id = "ID " + "2";
+					newItem2.setupPreview("image", test2FullSizeSource, test2PreviewSource);
+					collectionItems.addElement(newItem2);
 			}
 		]]>
 	</fx:Script>

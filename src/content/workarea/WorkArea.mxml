@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*" creationComplete="initWorkArea(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import listeners.MaterialToPreviewEvent;
+			
+			protected function initWorkArea(event:FlexEvent):void
+			{
+				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
+			}
+			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void
+			{
+				preview.previewMaterial(evt.previewType, evt.fullSizeSource, evt.previewSource);
+			}
+		]]>
+	</fx:Script>
 	
 	<s:HGroup width="100%" height="100%">
 		<s:VGroup width="100%" height="100%">
-			<preview:Preview width="100%" height="100%" />
-			<materials:Materials id="collectionList" width="100%" height="150"/>
+			<preview:Preview id="preview" width="100%" height="100%" />
+			<materials:Materials id="materials" width="100%" height="150"/>
 		</s:VGroup>
 		<workarea:Selection width="200" height="100%" />
 	</s:HGroup>

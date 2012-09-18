@@ -8,6 +8,7 @@
 			public function changeScene(sceneId:uint):void {
 				;
 			}
+
 			public function changeTask(taskId:uint):void {
 				;
 			}
