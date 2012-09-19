@@ -18,7 +18,7 @@
 			 * 
 			 **/
 			// This will hold the API player instance once it is initialized.
-			private var player:Object;
+			public var player:Object;
 			private var loader:Loader;
 			[Bindable] public var videoWidth:uint;
 			[Bindable] public var videoHeight:uint;
@@ -29,8 +29,12 @@
 			{
 				addElement(container);
 				loader = new Loader();
+		//		var context:LoaderContext = new LoaderContext();
+		//		if(Security.sandboxType == Security.REMOTE)
+		//			context.securityDomain = SecurityDomain.currentDomain;
 				loader.contentLoaderInfo.addEventListener(Event.INIT, onLoaderInit);
 				loader.load(new URLRequest("http://www.youtube.com/apiplayer?version=3"));
+
 			}
 			
 			private function onLoaderInit(event:Event):void {

@@ -4,7 +4,7 @@ package listeners
 	
 	public class LoginAcceptedEvent extends Event {
 		
-		public var groupId:String;
+		public var selectedGroup:Object;
 		
 		public function LoginAcceptedEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

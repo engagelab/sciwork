@@ -5,7 +5,8 @@
 	
 	<fx:Declarations>
 		<!-- retrieve list of menu items -->
-		<s:HTTPService url="http://localhost:4567/menu" method="GET" result="getMenu_resultHandler(event)" fault="getMenu_faultHandler(event)" resultFormat="text" id="getMenu" />
+		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/menu'}" method="GET" result="getMenu_resultHandler(event)" fault="getMenu_faultHandler(event)" resultFormat="text" id="getMenu" />
+		<s:ArrayCollection id="tabs" />
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -14,6 +15,7 @@
 			
 			import listeners.SceneChangeEvent;
 			import listeners.TaskChangeEvent;
+			import listeners.LogoutEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -22,6 +24,7 @@
 			import mx.rpc.events.ResultEvent;
 			
 			import spark.events.IndexChangeEvent;
+			import mx.events.FlexEvent;
 			
 			/**
 			 * 
@@ -39,7 +42,7 @@
 				{label: "week 8", tasks: new ArrayCollection(["task 22", "task 23", "task 24"])}
 			]);*/
 			
-			[Bindable] private var tabs:ArrayCollection;
+	//		[Bindable] private var tabs:ArrayCollection;
 			
 			/**
 			 * 
@@ -51,7 +54,22 @@
 				sce.sceneId = (sceneBar.selectedItem as Object).label;
 				dispatchEvent(sce);
 			}
+			protected function sceneBar_valueHandler(event:FlexEvent):void {
+				
+			}
+			protected function buttonClickHandler(event:MouseEvent):void  
+			{  
+				var index:int = event.currentTarget.selectedIndex;  
+				var item:Object = (event.currentTarget.dataProvider as ArrayCollection).getItemAt(index);  
+				
+				trace(item.label+ " label was clicked" );
+			}
 			
+			private function logout(event:MouseEvent):void
+			{
+				var loe:LogoutEvent = new LogoutEvent(resourceManager.getString('resources', 'LOGOUT'), true);
+				dispatchEvent(loe);
+			}
 			/**
 			 * 
 			 * Handle task change 
@@ -61,6 +79,9 @@
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				tce.taskId = taskBar.selectedItem;
 				dispatchEvent(tce);
+			}
+			protected function taskBar_valueHandler(event:FlexEvent):void {
+				;
 			}
 			
 			/**
@@ -93,15 +114,19 @@
 					}
 					//build menu collection
 					tabs.addItem({label: scene.label, sceneId: scene.sceneId, tasks: tasks});
-				}			
+				}
+				sceneBar.dataProvider = tabs;
 			}
 			
 		]]>
 	</fx:Script>
 	
 	<s:VGroup width="100%">
-		<s:ButtonBar id="sceneBar" width="100%" requireSelection="true" dataProvider="{tabs}" change="sceneBar_changeHandler(event)"/>
-		<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)"/>
+		<s:ButtonBar id="sceneBar" width="100%" requireSelection="true" change="sceneBar_changeHandler(event)" click="buttonClickHandler(event)" skinClass="skins.buttonBarSkin" />
+		<s:HGroup>
+			<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.buttonBarSkin"/>
+			<s:Button label="Log Out" click="logout(event)" />
+		</s:HGroup>
 	</s:VGroup>
 	
 </s:Group>

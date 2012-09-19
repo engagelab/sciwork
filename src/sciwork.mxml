@@ -12,17 +12,17 @@
 			import flash.net.dns.AAAARecord;
 			
 			import listeners.LoginAcceptedEvent;
+			import listeners.LogoutEvent;
 			import listeners.SceneChangeEvent;
 			import listeners.TaskChangeEvent;
 			
 			import mx.events.FlexEvent;
 			
-		//	Security.allowDomain("www.youtube.com");
-			
-			private var _currentGroupID:String;
+			private var _currentGroup:Object;
 			
 			protected function initApp(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleLoginAccepted);
+				this.addEventListener(resourceManager.getString('resources', 'LOGOUT'), handleLogout);
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
 				this.addEventListener(resourceManager.getString('resources', 'TASK_CHANGED'), handleTaskChange);
 				
@@ -30,19 +30,22 @@
 				// this.currentState = "loggedIn";
 			}
 			
-			public function get currentGroupID():String
+			public function get currentGroup():Object
 			{
-				return _currentGroupID;
+				return _currentGroup;
 			}
 			
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
-				if(evt.groupId == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
+				if(evt.selectedGroup.id == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
 					this.currentState = "loggedInTeacher";
 				}
 				else {
 					this.currentState = "loggedIn";
 				}
-				_currentGroupID = evt.groupId;
+				_currentGroup = evt.selectedGroup;
+			}
+			protected function handleLogout(evt:LogoutEvent):void {
+				this.currentState = "loggedOff";
 			}
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
 				var currentIntreface:String = "studentInterface";
