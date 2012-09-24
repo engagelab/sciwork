@@ -73,7 +73,7 @@
 				params.groupId = (groupCombo.selectedItem as Object).id;
 				params.password = groupPass.text;
 				
-				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL')+'/login');
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL')+'/connect');
 				urlRequest.method = URLRequestMethod.POST;
 				urlRequest.contentType = "application/json";
 				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
@@ -139,7 +139,7 @@
 		</s:HGroup>
 		<s:HGroup verticalAlign="middle" width="100%">
 			<s:Label text="Password:" width="70"/>
-			<s:TextInput id="groupPass" text="lilla" displayAsPassword="true" width="100%"/>
+			<s:TextInput id="groupPass" text="password" displayAsPassword="true" width="100%"/>
 		</s:HGroup>
 		<s:Spacer height="20" />
 		<s:Button label="LOG IN" click="validateBeforeLoggingIn(event)" />

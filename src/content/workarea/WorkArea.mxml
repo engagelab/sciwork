@@ -8,12 +8,11 @@
 			import mx.events.FlexEvent;
 			import listeners.MaterialToPreviewEvent;
 			
-			protected function initWorkArea(event:FlexEvent):void
-			{
+			protected function initWorkArea(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
 			}
-			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void
-			{
+			
+			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
 				preview.previewMaterial(evt.previewType, evt.fullSizeSource, evt.previewSource);
 			}
 		]]>
