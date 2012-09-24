@@ -25,7 +25,7 @@ get '/group' do
 	return [{:susers => "[]", :password => "password", :spostits => null, :id => "5051ad583004427957d0da52", :simages => null, :runId => 3, :name => "Group 1", :svideos => null},{:susers => "[]", :password => "teacher", :spostits => null, :id => "50505a3430041fb1c28ea433", :simages => null, :runId => 3, :name => "Teacher", :svideos => null},{:susers => "[]", :password => "password", :spostits => null, :id => "50191e38da061f83602e8825", :simages => null, :runId => 3, :name => "LILLA", :svideos => null}].to_json;
 end
 
-post '/login' do
+post '/connect' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
