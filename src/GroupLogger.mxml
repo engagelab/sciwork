@@ -125,7 +125,9 @@
 	
 	<fx:Declarations>
 		<!-- retrieve list of group names -->
-		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
+		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" 
+					   method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" 
+					   resultFormat="text" id="getAllGroups" />
 
 		<!-- validators for login -->
 		<s:NumberValidator id="groupValidator" source="{groupCombo}" property="selectedIndex" minValue="0" lessThanMinError="Choose a group from the list" />
