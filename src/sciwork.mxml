@@ -10,7 +10,6 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.net.dns.AAAARecord;
-			
 			import listeners.LoginAcceptedEvent;
 			import listeners.SceneChangeEvent;
 			import listeners.TaskChangeEvent;

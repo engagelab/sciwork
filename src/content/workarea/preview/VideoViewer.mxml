@@ -54,10 +54,10 @@
 				// to load a particular YouTube video.
 				player = loader.content;
 				// Set appropriate player dimensions for your application
-				player.setSize(432, 324);
+				videoWidth = 432;
+				videoHeight = 324;
+				player.setSize(videoWidth, videoHeight);
 			//	player.setSize(480, 360);   Standard YouTube size
-				videoWidth = 480;
-				videoHeight = 360;
 			}
 			
 			private function onPlayerError(event:Event):void {
