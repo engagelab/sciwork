@@ -54,9 +54,10 @@
 				// to load a particular YouTube video.
 				player = loader.content;
 				// Set appropriate player dimensions for your application
-				videoWidth = 432;
-				videoHeight = 324;
-				player.setSize(videoWidth, videoHeight);
+				//videoWidth = 432;
+				//videoHeight = 324;
+				player.setSize(container.width, container.height);
+				//player.setSize(videoWidth, videoHeight);
 			//	player.setSize(480, 360);   Standard YouTube size
 			}
 			
@@ -86,5 +87,5 @@
 			}
 		]]>
 	</fx:Script>
-	<s:SpriteVisualElement id="container"/>
+	<s:SpriteVisualElement id="container" top="20" left="20" right="20" bottom="20"/>
 </s:Group>

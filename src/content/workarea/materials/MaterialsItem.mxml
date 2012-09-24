@@ -1,72 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
-				xmlns:mx="library://ns.adobe.com/flex/mx" width="128" height="128" xmlns:local="*" creationComplete="initItem(event)" click="currentState= 'selected';">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+				xmlns:mx="library://ns.adobe.com/flex/mx" width="150" height="150" xmlns:local="*" creationComplete="initItem(event)" click="currentState= 'selected';">
+	
+
 	<fx:Script>
 		<![CDATA[
-		import listeners.MaterialToPreviewEvent;
-		
-		import mx.events.FlexEvent;
-	//	import mx.core.FlexGlobals;
-
-		private var _previewType:String;
-		private var _previewSource:String;
-		private var _fullSizeSource:String;
+			import listeners.MaterialToPreviewEvent;
 			
-		protected function initItem(event:FlexEvent):void
-		{
-			title.text = "Item " + this.id;
-		}
-		
-		/**
-		 * 
-		 * Called from the instantiator to set up preview type and source
-		 * 
-		 **/
-		public function setupPreview(previewType:String, fullSizeSource:String, previewSource:String):void
-		{
-			_previewType = previewType;
-			_fullSizeSource = fullSizeSource;
-			_previewSource = previewSource;
-			switch(previewType)
-			{
-				case "image":
-					sourceImage.source = previewSource;
-					sourceImage.x = 4;
-					sourceImage.y = 19;
-					sourceImage.visible = true;
-					break;
-				case "video" :
-					// YouTube image thumbnail look slike this:   http://img.youtube.com/vi/xxxxxxxxxxx/1.jpg
-					// Size is 120x90
-					sourceImage.source = previewSource;
-					sourceImage.x = 4;
-					sourceImage.y = 19;
-					sourceImage.visible = true;
-					break;
-				case "text":
-					sourceText.text = previewSource;
-					sourceText.visible = true;
-					break;
+			import mx.events.FlexEvent;
+			//import mx.core.FlexGlobals;
+	
+			private var _previewType:String;
+			private var _previewSource:String;
+			private var _fullSizeSource:String;
+				
+			protected function initItem(event:FlexEvent):void {
+				title.text = "Item " + this.id;
 			}
-		}
-		protected function onHovered(event:FlexEvent):void
-		{
-			;
-		}
-		protected function onSelected(event:FlexEvent):void
-		{
-			var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
-			mtpe.previewSource = _previewSource;
-			mtpe.fullSizeSource = _fullSizeSource;
-			mtpe.previewType = _previewType;
-			dispatchEvent(mtpe);
-		}
+			
+			/**
+			 * 
+			 * Called from the instantiator to set up preview type and source
+			 * 
+			 **/
+			public function setupPreview(previewType:String, fullSizeSource:String, previewSource:String):void {
+				_previewType = previewType;
+				_fullSizeSource = fullSizeSource;
+				_previewSource = previewSource;
+				switch(previewType)
+				{
+					case "image":
+						sourceImage.source = previewSource;
+						sourceImage.visible = true;
+						break;
+					case "video" :
+						// YouTube image thumbnail look slike this:   http://img.youtube.com/vi/xxxxxxxxxxx/1.jpg
+						// Size is 120x90
+						sourceImage.source = previewSource;
+						sourceImage.visible = true;
+						break;
+					case "text":
+						sourceText.text = previewSource;
+						sourceText.visible = true;
+						break;
+				}
+			}
+				
+			protected function onHovered(event:FlexEvent):void {
+				;
+			}
+				
+			protected function onSelected(event:FlexEvent):void {
+				var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+				mtpe.previewSource = _previewSource;
+				mtpe.fullSizeSource = _fullSizeSource;
+				mtpe.previewType = _previewType;
+				dispatchEvent(mtpe);
+			}
 		]]>
 	</fx:Script>
+	
 	<s:states>
 		<s:State name="normal" />
 		<s:State name="hovered"  enterState="onHovered(event)" />
@@ -80,9 +74,9 @@
 		</s:fill>
 	</s:Rect>
 	
-	<s:Label id="title" x="2" y="2" width="126" color="0xffff00" text="Test"/>
-	<s:Image id="sourceImage" visible="false"></s:Image>
-	<s:Label id="sourceText" x="2" y="20" width="126" color="0xffffff" visible="false"/>
+	<s:Label id="title" x="2" y="2" width="126" color="0xffff00" text="Test" />
+	<s:Image id="sourceImage" visible="false" horizontalCenter="0" verticalCenter="0" />
+	<s:Label id="sourceText" x="2" y="20" width="126" color="0xffffff" visible="false" />
 	
 	<s:Line left="0" right="0" bottom="0" width="1">
 		<s:stroke>

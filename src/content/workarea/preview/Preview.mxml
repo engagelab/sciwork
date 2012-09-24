@@ -17,6 +17,7 @@
 			{
 				// this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleMaterialRequest);
 			}
+			
 			public function previewMaterial(previewType:String, fullSizeSource:String, previewSource:String):void
 			{
 				_previewType = previewType;
@@ -45,16 +46,17 @@
 	</fx:Script>
 	
 	<s:states>
+		<s:State name="normal" />
 		<s:State name="videoState" />
 		<s:State name="imageState" />
 		<s:State name="keywordsState" />
 		<s:State name="articleState" />
 	</s:states>
 	
-	<preview:VideoViewer id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" horizontalCenter="{-videoViewer.videoWidth/2}" verticalCenter="{-videoViewer.videoHeight/2}"/>
-	<preview:ImageViewer id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" horizontalCenter="{-imageViewer.imageWidth/2}" verticalCenter="{-imageViewer.imageHeight/2}"/>
-	<preview:KeywordsViewer id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
-	<preview:ArticleUploader id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
+	<preview:VideoViewer width="100%" height="100%" id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" horizontalCenter="{-videoViewer.videoWidth/2}" verticalCenter="{-videoViewer.videoHeight/2}"/>
+	<preview:ImageViewer top="20" left="20" right="20" bottom="20" id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" />
+	<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
+	<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
 	<preview:Comments id="comments"/>
 	<s:Button label="Add to portfolio" id="addToPortfolioButton" right="0" top="0" />
 
