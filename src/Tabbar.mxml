@@ -15,7 +15,6 @@
 			
 			import listeners.SceneChangeEvent;
 			import listeners.TaskChangeEvent;
-			import listeners.LogoutEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -65,11 +64,6 @@
 				trace(item.label+ " label was clicked" );
 			}
 			
-			private function logout(event:MouseEvent):void
-			{
-				var loe:LogoutEvent = new LogoutEvent(resourceManager.getString('resources', 'LOGOUT'), true);
-				dispatchEvent(loe);
-			}
 			/**
 			 * 
 			 * Handle task change 
@@ -125,7 +119,6 @@
 		<s:ButtonBar id="sceneBar" width="100%" requireSelection="true" change="sceneBar_changeHandler(event)" click="buttonClickHandler(event)" skinClass="skins.buttonBarSkin" />
 		<s:HGroup>
 			<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.buttonBarSkin"/>
-			<s:Button label="Log Out" click="logout(event)" />
 		</s:HGroup>
 	</s:VGroup>
 	
