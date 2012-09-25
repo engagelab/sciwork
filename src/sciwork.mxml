@@ -73,7 +73,7 @@
 		<s:State name="loggedInTeacher" />
 	</s:states>
 	
-	<s:Button label="LOGG UT" click="logout(event)" right="0" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff"/>
+	<s:Button label="LOGG UT" click="logout(event)" right="0" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff" itemDestructionPolicy="auto"/>
 	<s:VGroup top="100" left="140" right="140" bottom="100">
 		
 		<!-- Header banner component -->
@@ -92,15 +92,15 @@
 			
 			<s:VGroup width="100%" height="100%">
 				<!-- Tabbar component -->
-				<local:Tabbar width="100%"/>
+				<local:Tabbar width="100%" excludeFrom="loggedOff" itemDestructionPolicy="auto"/>
 				
 				<s:Spacer height="10" />
 				
 				<!-- Student space -->
-				<local:StudentInterface id="studentInterface" includeIn="loggedIn" width="100%" height="100%"></local:StudentInterface>
+				<local:StudentInterface id="studentInterface" includeIn="loggedIn" width="100%" height="100%" itemDestructionPolicy="auto"></local:StudentInterface>
 				
 				<!-- Teacher space -->
-				<local:TeacherInterface id="teacherInterface" includeIn="loggedInTeacher" width="100%" height="100%">
+				<local:TeacherInterface id="teacherInterface" includeIn="loggedInTeacher" width="100%" height="100%" itemDestructionPolicy="auto">
 					<s:Label text="welcome teacher" horizontalCenter="0" verticalCenter="0" />
 				</local:TeacherInterface>
 			</s:VGroup>
