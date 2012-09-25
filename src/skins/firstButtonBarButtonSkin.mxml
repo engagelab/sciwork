@@ -25,6 +25,7 @@
                    xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
                    minWidth="21" minHeight="21" 
                    alpha.disabledStates="0.5">
+	
 	<fx:Metadata>[HostComponent("spark.components.ButtonBarButton")]</fx:Metadata>
     
     <!-- host component -->
@@ -107,7 +108,7 @@
 	-->
     <!-- layer 2: fill -->
     <!--- @private -->
-    <s:Rect id="fill" left="0" right="0" top="0" bottom="0" radiusX="0">
+    <s:Rect id="fill" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4">
         <s:fill>
             <s:LinearGradient rotation="90">
 				<!-- original
@@ -141,27 +142,6 @@
             </s:LinearGradient>
         </s:fill>
     </s:Rect>
-	
-	<!-- little hack to hide the left divider when button down -->
-	<s:Rect id="dividerHider" left="-1" top="0" bottom="0" width="1" radiusX="0" excludeFrom="up">
-		<s:fill>
-			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0x333333" 
-								 color.selectedUpStates="0xBBBDBD"
-								 color.overStates="0xBBBDBD" 
-								 color.downStates="0xAAAAAA"
-								 alpha="1" 
-								 alpha.overAndSelected="1" />
-				<s:GradientEntry color="0x333333" 
-								 color.selectedUpStates="{groupColour}"
-								 color.over="{groupColour}" 
-								 color.overAndSelected="{groupColour}"
-								 color.downStates="{groupColour}" 
-								 alpha="1"
-								 alpha.overAndSelected="1" />
-			</s:LinearGradient>
-		</s:fill>
-	</s:Rect>
     
     <!-- layer 3: fill lowlight -->
     <!--- @private 
@@ -177,7 +157,7 @@
 	-->
     <!-- layer 4: fill highlight -->
     <!--- @private -->
-    <s:Rect id="highlight" left="0" right="0" top="0" bottom="0" radiusX="0">
+    <s:Rect id="highlight" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4">
         <s:fill>
 			<!-- original
             <s:LinearGradient rotation="90">
@@ -220,11 +200,12 @@
 	
     <!-- layer 5: highlight stroke (all states except down) -->
     <!--- @private -->
-	<s:Rect id="highlightStroke" right="1" top="5" bottom="5" width="1" excludeFrom="downStates,overStates">
-		<s:fill>
+    <s:Rect id="highlightStroke" right="1" top="5" bottom="5" width="1" excludeFrom="downStates,overStates">
+        <s:fill>
 			<s:SolidColor color="#999999" alpha.selectedStates="0" />
 		</s:fill>
-	</s:Rect>
+    </s:Rect>
+	
     
     <!-- layer 6: highlight stroke (down state only) -->
     <!--- @private 
@@ -253,9 +234,9 @@
     </s:Rect>
 	-->
     <!-- layer 7: border - put on top of the fill so it doesn't disappear when scale is less than 1 -->
-    <!--- @private 
-    <s:Rect id="border" left="0" right="0" top="0" bottom="0" width="69" height="20" radiusX="2">
-        <s:stroke>
+    <!--- @private
+    <s:Rect id="border" right="-1" top="5" bottom="5" width="1">
+		<s:stroke>
             <s:LinearGradientStroke rotation="90" weight="1">
                 <s:GradientEntry color="0x000000" 
                                alpha="0.5625"
@@ -269,6 +250,7 @@
         </s:stroke>
     </s:Rect>
 	-->
+	
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
     <s:Label id="labelDisplay"
