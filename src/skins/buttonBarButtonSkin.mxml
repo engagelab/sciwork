@@ -46,6 +46,7 @@
         override protected function initializationComplete():void
         {
             useChromeColor = true;
+			trace(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
             super.initializationComplete();
         }
         

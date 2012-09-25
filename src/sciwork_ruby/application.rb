@@ -5,6 +5,13 @@ require 'json'
 require 'fileutils'
 require 'logger'
 
+BLACK = '0x000000'
+ORANGE = '0xFF9736'
+PINK = '0xFF3288'
+PURPLE = '0x8111D78'
+GREEN = '0x89BD46'
+BLUE = '0x4ACAF1'
+ROWN = '0x6E3F30'
 
 Dir.mkdir('logs') unless File.exist?('logs')
 $log = Logger.new('logs/output.log')
@@ -19,6 +26,7 @@ end
 
 get '/groupInfo' do
 	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => "0x00FF00"},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => "0xFFF000"},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => "0x00FF00"}].to_json;
+	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => BLACK},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => ORANGE},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => GREEN}].to_json;
 end
 
 get '/group' do
