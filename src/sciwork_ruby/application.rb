@@ -25,7 +25,6 @@ get '/' do
 end
 
 get '/groupInfo' do
-	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => "0x00FF00"},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => "0xFFF000"},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => "0x00FF00"}].to_json;
 	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => BLACK},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => ORANGE},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => GREEN}].to_json;
 end
 
