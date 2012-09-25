@@ -108,7 +108,7 @@
 	-->
     <!-- layer 2: fill -->
     <!--- @private -->
-    <s:Rect id="fill" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4">
+    <s:Rect id="fill" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4" bottomLeftRadiusX="4" bottomLeftRadiusY="4" bottomLeftRadiusX.selectedStates="0" bottomLeftRadiusY.selectedStates="0">
         <s:fill>
             <s:LinearGradient rotation="90">
 				<!-- original
@@ -157,7 +157,7 @@
 	-->
     <!-- layer 4: fill highlight -->
     <!--- @private -->
-    <s:Rect id="highlight" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4">
+    <s:Rect id="highlight" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4" bottomLeftRadiusX="4" bottomLeftRadiusY="4" bottomLeftRadiusX.selectedStates="0" bottomLeftRadiusY.selectedStates="0">
         <s:fill>
 			<!-- original
             <s:LinearGradient rotation="90">

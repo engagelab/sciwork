@@ -10,6 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.net.dns.AAAARecord;
+			
 			import listeners.LoginAcceptedEvent;
 			import listeners.SceneChangeEvent;
 			import listeners.TaskChangeEvent;
@@ -33,13 +34,15 @@
 			}
 			
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
+				//this needs to be assigned before we change the application's state
+				_currentGroup = evt.selectedGroup;
+				
 				if(evt.selectedGroup.id == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
 					this.currentState = "loggedInTeacher";
 				}
 				else {
 					this.currentState = "loggedIn";
 				}
-				_currentGroup = evt.selectedGroup;
 			}
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
 				var currentIntreface:String = "studentInterface";
@@ -70,7 +73,7 @@
 		<s:State name="loggedInTeacher" />
 	</s:states>
 	
-	<s:Button label="Log Out" click="logout(event)" right="10" top="10"/>
+	<s:Button label="LOGG UT" click="logout(event)" right="0" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff"/>
 	<s:VGroup top="100" left="140" right="140" bottom="100">
 		
 		<!-- Header banner component -->
