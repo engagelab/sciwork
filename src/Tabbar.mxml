@@ -52,6 +52,8 @@
 				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
 				sce.sceneId = (sceneBar.selectedItem as Object).label;
 				dispatchEvent(sce);
+				
+				selectFirstTask(sceneBar.selectedIndex);
 			}
 			
 			protected function sceneBar_valueHandler(event:FlexEvent):void {
@@ -69,9 +71,7 @@
 				tce.taskId = (taskBar.selectedItem as Object).taskId;
 				dispatchEvent(tce);
 			}
-			protected function taskBar_valueHandler(event:FlexEvent):void {
-				;
-			}
+			
 			
 			/**
 			 * 
@@ -106,9 +106,20 @@
 				}
 				
 				dividerColor = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
-				trace(sceneBar.width);
+				
+				if(tabs.length > 0) {
+					selectFirstTask(0);
+				}
+				
 			}
 			
+			protected function selectFirstTask(tabNumber:Number):void {
+				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
+				if(tabs[tabNumber].tasks.length > 0) {
+					tce.taskId = tabs[tabNumber].tasks[0].taskId;
+					dispatchEvent(tce);
+				}
+			}
 		]]>
 	</fx:Script>
 	
@@ -134,7 +145,7 @@
 					<s:SolidColor color="#EEEEEE" />
 				</s:fill>
 			</s:Rect>
-			<s:ButtonBar height="50" id="taskBar" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
+			<s:ButtonBar height="50" id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}"  change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
 				<s:layout>
 					<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{sceneBar.width/tabs.length}" />
 				</s:layout>
