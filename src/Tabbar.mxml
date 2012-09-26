@@ -58,14 +58,7 @@
 				
 			}
 			
-			protected function buttonClickHandler(event:MouseEvent):void  
-			{  
-				var index:int = event.currentTarget.selectedIndex;
-				var item:Object = (event.currentTarget.dataProvider as ArrayCollection).getItemAt(index);  
-				
-				trace(item.label+ " label was clicked" );
-			}
-			
+					
 			/**
 			 * 
 			 * Handle task change 
@@ -73,7 +66,7 @@
 			 **/
 			protected function taskBar_changeHandler(event:IndexChangeEvent):void {
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
-				tce.taskId = taskBar.selectedItem;
+				tce.taskId = (taskBar.selectedItem as Object).taskId;
 				dispatchEvent(tce);
 			}
 			protected function taskBar_valueHandler(event:FlexEvent):void {
@@ -125,7 +118,7 @@
 				distance="3" alpha=".5" blurX="7" blurY="7"
 				angle="90" />
 		</s:filters>
-		<s:ButtonBar id="sceneBar" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" click="buttonClickHandler(event)" skinClass="skins.buttonBarSkin">
+		<s:ButtonBar id="sceneBar" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" skinClass="skins.buttonBarSkin">
 			<s:layout>
 				<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{(sceneBar.width)/tabs.length}" />
 			</s:layout>

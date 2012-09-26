@@ -3,12 +3,12 @@
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
 		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<fx:String id="content" />
 	</fx:Declarations>
 	
 	<components:sectionHeader width="100%" height="20" titleString="RESSURSER" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3">
-		<s:Label text="Some resources" left="5" right="5" top="5" />
+		<s:Label text="{content}" left="5" right="5" top="5" />
 	</s:BorderContainer>
 	
 </s:VGroup>

@@ -56,12 +56,12 @@
 				trace("scene changed to id: "+ evt.sceneId);
 			}
 			protected function handleTaskChange(evt:TaskChangeEvent):void {
-				var currentIntreface:String = "studentInterface";
+				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
-					currentIntreface = "teacherInterface";					
+					currentInterface = "teacherInterface";					
 				}
 				
-				this[currentIntreface].changeTask(evt.taskId);
+				this[currentInterface].changeTask(evt.taskId);
 				trace("task changed to id: "+ evt.taskId);
 			}
 			
