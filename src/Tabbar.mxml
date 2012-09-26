@@ -106,10 +106,10 @@
 					tasks = new ArrayCollection();
 					//loop through all the tasks for current scene
 					for each (var task:Object in scene.tasks as Array) {
-						tasks.addItem({label: task.label, taskId: task.taskId});
+						tasks.addItem({label: task.title, taskId: task.taskId});
 					}
 					//build menu collection
-					tabs.addItem({label: scene.label, sceneId: scene.sceneId, tasks: tasks});
+					tabs.addItem({label: scene.title, sceneId: scene.sceneId, tasks: tasks});
 				}
 				
 				dividerColor = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
@@ -136,7 +136,7 @@
 					<s:SolidColor color="#CCCCCC" />
 				</s:fill>
 			</s:Rect>
-			<s:ButtonBar top="10" bottom="10" id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin"/>
+			<s:ButtonBar top="10" bottom="10" id="taskBar" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin"/>
 		</s:Group>
 	</s:VGroup>
 	

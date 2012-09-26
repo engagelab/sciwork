@@ -5,16 +5,45 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			
 			public function changeScene(sceneId:uint):void {
 				;
 			}
 
 			public function changeTask(taskId:uint):void {
-				;
+				getTask.url = resourceManager.getString('resources', 'SERVER_URL') + "/task/" + taskId;
+				getTask.send();
 			}
-
+			
+			/**
+			 *
+			 * Result handling method for getTask service 
+			 * 
+			 **/
+			protected function getTask_resultHandler(event:ResultEvent):void {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getTask service
+			 * 
+			 **/
+			protected function getTask_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
+			}
+			
 		]]>
 	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService method="GET" result="getTask_resultHandler(event)" fault="getTask_faultHandler(event)" resultFormat="text" id="getTask" />
+	</fx:Declarations>
 	
 	<s:states>
 		<s:State name="contentState" />

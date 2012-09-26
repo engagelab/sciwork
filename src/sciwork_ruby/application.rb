@@ -47,17 +47,17 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:sceneId => "1q", :label => "Week 1", :tasks => [{:taskId => "11", :label => "task 1"},{:taskId => "12", :label => "task 2"},{:taskId => "13", :label => "task 3"}]}, 
-	{:sceneId => "1w", :label => "Week 2", :tasks => [{:taskId => "21", :label => "task 4"},{:taskId => "22", :label => "task 5"},{:taskId => "23", :label => "task 6"}]},
-	{:sceneId => "1e", :label => "Week 3", :tasks => [{:taskId => "31", :label => "task 7"},{:taskId => "32", :label => "task 8"},{:taskId => "33", :label => "task 9"}]},
-	{:sceneId => "1r", :label => "Week 4", :tasks => [{:taskId => "41", :label => "task 10"},{:taskId => "42", :label => "task 11"},{:taskId => "43", :label => "task 12"}]},
-	{:sceneId => "1t", :label => "Week 5", :tasks => [{:taskId => "51", :label => "task 13"},{:taskId => "52", :label => "task 14"},{:taskId => "53", :label => "task 15"}]},
-	{:sceneId => "1y", :label => "Week 6", :tasks => [{:taskId => "61", :label => "task 16"},{:taskId => "62", :label => "task 17"},{:taskId => "63", :label => "task 18"}]},
-	{:sceneId => "1u", :label => "Week 7", :tasks => [{:taskId => "71", :label => "task 19"},{:taskId => "72", :label => "task 20"},{:taskId => "73", :label => "task 21"}]},
-	{:sceneId => "1i", :label => "Week 8", :tasks => [{:taskId => "81", :label => "task 22"},{:taskId => "82", :label => "task 23"},{:taskId => "83", :label => "task 24"}]}].to_json;
+	return [{:sceneId => "1q", :title => "Week 1", :tasks => [{:taskId => "11", :title => "task 1"},{:taskId => "12", :title => "task 2"},{:taskId => "13", :title => "task 3"}]}, 
+	{:sceneId => "1w", :title => "Week 2", :tasks => [{:taskId => "21", :title => "task 4"},{:taskId => "22", :title => "task 5"},{:taskId => "23", :title => "task 6"}]},
+	{:sceneId => "1e", :title => "Week 3", :tasks => [{:taskId => "31", :title => "task 7"},{:taskId => "32", :title => "task 8"},{:taskId => "33", :title => "task 9"}]},
+	{:sceneId => "1r", :title => "Week 4", :tasks => [{:taskId => "41", :title => "task 10"},{:taskId => "42", :title => "task 11"},{:taskId => "43", :title => "task 12"}]},
+	{:sceneId => "1t", :title => "Week 5", :tasks => [{:taskId => "51", :title => "task 13"},{:taskId => "52", :title => "task 14"},{:taskId => "53", :title => "task 15"}]},
+	{:sceneId => "1y", :title => "Week 6", :tasks => [{:taskId => "61", :title => "task 16"},{:taskId => "62", :title => "task 17"},{:taskId => "63", :title => "task 18"}]},
+	{:sceneId => "1u", :title => "Week 7", :tasks => [{:taskId => "71", :title => "task 19"},{:taskId => "72", :title => "task 20"},{:taskId => "73", :title => "task 21"}]},
+	{:sceneId => "1i", :title => "Week 8", :tasks => [{:taskId => "81", :title => "task 22"},{:taskId => "82", :title => "task 23"},{:taskId => "83", :title => "task 24"}]}].to_json;
 end
 
 
 get '/task/:id' do
-
+	return [].to_json;
 end
