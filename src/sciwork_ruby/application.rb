@@ -56,3 +56,8 @@ get '/menu' do
 	{:sceneId => "1u", :label => "Week 7", :tasks => [{:taskId => "71", :label => "task 19"},{:taskId => "72", :label => "task 20"},{:taskId => "73", :label => "task 21"}]},
 	{:sceneId => "1i", :label => "Week 8", :tasks => [{:taskId => "81", :label => "task 22"},{:taskId => "82", :label => "task 23"},{:taskId => "83", :label => "task 24"}]}].to_json;
 end
+
+
+get '/task/:id' do
+
+end

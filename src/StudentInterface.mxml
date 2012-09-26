@@ -21,10 +21,10 @@
 		<s:State name="simulationState" />
 	</s:states>
 	
-	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState">
-		<s:VGroup width="200" height="100%">
-			<content:Activity id="activityContainer" width="100%" height="200"/>
-			<content:Resources id="resourceContainer" width="100%" height="100%"/>
+	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState" gap="{sciwork._gapBetweenContainers}">
+		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
+			<content:Activity id="activityContainer" width="100%" height="100%"/>
+			<content:Resources id="resourceContainer" width="100%" height="150"/>
 		</s:VGroup>
 		<workarea:WorkArea id="workareaContainer" width="100%" height="100%"/>
 	</s:HGroup>
