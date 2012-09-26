@@ -199,9 +199,9 @@
 	
     <!-- layer 5: highlight stroke (all states except down) -->
     <!--- @private -->
-    <s:Rect id="highlightStroke" right="1" top="10" bottom="10" width="1" excludeFrom="downStates,overStates">
+    <s:Rect id="highlightStroke" right="0" top="10" bottom="10" width="1">
         <s:fill>
-			<s:SolidColor color="#999999" alpha.selectedStates="0" />
+			<s:SolidColor color="#999999" />
 		</s:fill>
     </s:Rect>
 	

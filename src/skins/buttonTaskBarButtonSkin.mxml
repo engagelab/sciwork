@@ -141,14 +141,7 @@
         </s:fill>
     </s:Rect>
 	
-	<!-- little hack to hide the left divider when button down -->
-	<s:Rect id="dividerHider" left="-3" top="0" bottom="0" width="3" radiusX="0" excludeFrom="up">
-		<s:fill>
-			<s:SolidColor color="0xEEEEEE" alpha="0" alpha.over="1" alpha.selectedStates="1" />
-		</s:fill>
-	</s:Rect>
-    
-    <!-- layer 3: fill lowlight -->
+	<!-- layer 3: fill lowlight -->
     <!--- @private 
     <s:Rect id="lowlight" left="1" right="1" top="1" bottom="1" radiusX="2">
         <s:fill>
@@ -205,9 +198,9 @@
 	
     <!-- layer 5: highlight stroke (all states except down) -->
     <!--- @private -->
-	<s:Rect id="highlightStroke" right="1" top="10" bottom="10" width="1" excludeFrom="downStates,overStates">
+	<s:Rect id="highlightStroke" right="0" top="10" bottom="10" width="1">
 		<s:fill>
-			<s:SolidColor color="#999999" alpha.selectedStates="0" />
+			<s:SolidColor color="#999999" />
 		</s:fill>
 	</s:Rect>
     

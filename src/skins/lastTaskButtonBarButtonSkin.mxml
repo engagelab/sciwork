@@ -196,27 +196,7 @@
         </s:fill>
     </s:Rect>
 	
-	<!-- little hack to hide the left divider when button down -->
-	<s:Rect id="dividerHider" left="-1" top="0" bottom="0" width="2" radiusX="0" excludeFrom="up">
-		<s:fill>
-			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0xEEEEEE" 
-								 color.over="0xEEEEEE" 
-								 color.selectedStates="0xEEEEEE"
-								 alpha="0" 
-								 alpha.over="1"
-								 alpha.selectedStates="1" />
-				<s:GradientEntry color="0xEEEEEE" 
-								 color.over="0xEEEEEE" 
-								 color.selectedStates="0xEEEEEE"
-								 alpha="0" 
-								 alpha.over="1"
-								 alpha.selectedStates="1" />
-			</s:LinearGradient>
-		</s:fill>
-	</s:Rect>
-	
-    <!-- layer 5: highlight stroke (all states except down) -->
+	<!-- layer 5: highlight stroke (all states except down) -->
     <!--- @private
     <s:Rect id="highlightStroke" left="1" right="1" top="1" bottom="1" radiusX="2" excludeFrom="downStates">
         <s:stroke>
