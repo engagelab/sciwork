@@ -23,7 +23,7 @@
 <s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
                    xmlns:s="library://ns.adobe.com/flex/spark" 
                    xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
-                   minWidth="21" minHeight="21" 
+                   minWidth="21" minHeight="50" 
                    alpha.disabledStates="0.5">
 	
 	<fx:Metadata>[HostComponent("spark.components.ButtonBarButton")]</fx:Metadata>
@@ -34,7 +34,7 @@
            For toggle button, the graphics are colorized but the label is not. */
         static private const exclusions:Array = ["labelDisplay"];
 		
-		[Bindable] private var groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
+		//[Bindable] private var groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
 
         /**
          * @private
@@ -108,7 +108,7 @@
 	-->
     <!-- layer 2: fill -->
     <!--- @private -->
-    <s:Rect id="fill" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4">
+    <s:Rect id="fill" left="4" right="4" top="4" bottom="4" radiusX="4" radiusY="4">
         <s:fill>
             <s:LinearGradient rotation="90">
 				<!-- original
@@ -126,19 +126,18 @@
                                alpha="0.85"
                                alpha.overAndSelected="1" />
 				-->
-				<s:GradientEntry color="0x333333" 
-								 color.selectedUpStates="0xBBBDBD"
-								 color.overStates="0xBBBDBD" 
-								 color.downStates="0xAAAAAA"
-								 alpha="1" 
-								 alpha.overAndSelected="1" />
-				<s:GradientEntry color="0x333333" 
-								 color.selectedUpStates="{groupColour}"
-								 color.over="{groupColour}" 
-								 color.overAndSelected="{groupColour}"
-								 color.downStates="{groupColour}" 
-								 alpha="1"
-								 alpha.overAndSelected="1" />
+				<s:GradientEntry color="0x666666" 
+								 color.over="0x666666" 
+								 color.selectedStates="0x666666"
+								 alpha="0" 
+								 alpha.over="1"
+								 alpha.selectedStates="1"/>
+				<s:GradientEntry color="0xFFFFFF" 
+								 color.over="0xFFFFFF" 
+								 color.selectedStates="0xFFFFFF"
+								 alpha="0" 
+								 alpha.over="0"
+								 alpha.selectedStates="0"/>
             </s:LinearGradient>
         </s:fill>
     </s:Rect>
@@ -157,7 +156,7 @@
 	-->
     <!-- layer 4: fill highlight -->
     <!--- @private -->
-    <s:Rect id="highlight" left="0" right="0" top="0" bottom="0" topLeftRadiusX="4" topLeftRadiusY="4">
+    <s:Rect id="highlight" left="4" right="4" top="4" bottom="4" radiusX="4" radiusY="4">
         <s:fill>
 			<!-- original
             <s:LinearGradient rotation="90">
@@ -200,7 +199,7 @@
 	
     <!-- layer 5: highlight stroke (all states except down) -->
     <!--- @private -->
-    <s:Rect id="highlightStroke" right="1" top="5" bottom="5" width="1" excludeFrom="downStates,overStates">
+    <s:Rect id="highlightStroke" right="1" top="10" bottom="10" width="1" excludeFrom="downStates,overStates">
         <s:fill>
 			<s:SolidColor color="#999999" alpha.selectedStates="0" />
 		</s:fill>
@@ -254,7 +253,7 @@
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
     <s:Label id="labelDisplay"
-			 color="#FFFFFF"
+			 color="#333333"
              textAlign="center"
              verticalAlign="middle"
              maxDisplayedLines="1"

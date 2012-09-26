@@ -78,7 +78,7 @@
 	</s:states>
 	
 	<s:Button label="LOGG UT" click="logout(event)" right="0" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff" itemDestructionPolicy="auto" />
-	<s:VGroup top="100" left="140" right="140" bottom="100">
+	<s:VGroup width="995" height="600" horizontalCenter="0" verticalCenter="0">
 		
 		<!-- Header banner component -->
 		<local:Header excludeFrom="loggedOff" itemDestructionPolicy="auto" />

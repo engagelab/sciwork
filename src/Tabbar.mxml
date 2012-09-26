@@ -113,6 +113,7 @@
 				}
 				
 				dividerColor = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
+				trace(sceneBar.width);
 			}
 			
 		]]>
@@ -124,19 +125,27 @@
 				distance="3" alpha=".5" blurX="7" blurY="7"
 				angle="90" />
 		</s:filters>
-		<s:ButtonBar id="sceneBar" dataProvider="{tabs}" width="100%" minHeight="40" requireSelection="true" change="sceneBar_changeHandler(event)" click="buttonClickHandler(event)" skinClass="skins.buttonBarSkin" />
+		<s:ButtonBar id="sceneBar" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" click="buttonClickHandler(event)" skinClass="skins.buttonBarSkin">
+			<s:layout>
+				<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{(sceneBar.width)/tabs.length}" />
+			</s:layout>
+		</s:ButtonBar>
 		<s:Rect width="100%" height="4">
 			<s:fill>
 				<s:SolidColor color="{dividerColor}" />
 			</s:fill>
 		</s:Rect>
-		<s:Group width="100%">
+		<s:Group width="100%" height="50">
 			<s:Rect width="100%" height="100%">
 				<s:fill>
-					<s:SolidColor color="#CCCCCC" />
+					<s:SolidColor color="#EEEEEE" />
 				</s:fill>
 			</s:Rect>
-			<s:ButtonBar top="10" bottom="10" id="taskBar" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin"/>
+			<s:ButtonBar height="50" id="taskBar" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin">
+				<s:layout>
+					<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{sceneBar.width/tabs.length}" />
+				</s:layout>
+			</s:ButtonBar>
 		</s:Group>
 	</s:VGroup>
 	
