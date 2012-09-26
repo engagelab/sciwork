@@ -117,7 +117,7 @@
     
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay  -->
-	<s:HGroup left="4" right="10" top="4" bottom="4">
+	<s:HGroup left="4" right="20" top="4" bottom="4" gap="15">
 	    <s:Rect width="30" height="30" radiusX="4" radiusY="4">
 			<s:fill>
 				<s:SolidColor color="{groupColour}" />

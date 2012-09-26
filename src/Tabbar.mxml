@@ -125,7 +125,7 @@
 				angle="90" />
 		</s:filters>
 		<s:ButtonBar id="sceneBar" dataProvider="{tabs}" width="100%" minHeight="40" requireSelection="true" change="sceneBar_changeHandler(event)" click="buttonClickHandler(event)" skinClass="skins.buttonBarSkin" />
-		<s:Rect width="100%" height="3">
+		<s:Rect width="100%" height="4">
 			<s:fill>
 				<s:SolidColor color="{dividerColor}" />
 			</s:fill>

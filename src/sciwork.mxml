@@ -28,8 +28,7 @@
 				// this.currentState = "loggedIn";
 			}
 			
-			public function get currentGroup():Object
-			{
+			public function get currentGroup():Object {
 				return _currentGroup;
 			}
 			
@@ -44,24 +43,27 @@
 					this.currentState = "loggedIn";
 				}
 			}
+			
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
 				var currentIntreface:String = "studentInterface";
-				if(this.currentState == "loggedInTeacher")
-					currentIntreface = "teacherInterface";
+				if(this.currentState == "loggedInTeacher") {
+					currentIntreface = "teacherInterface";					
+				}
 				
 				this[currentIntreface].changeScene(evt.sceneId);
 				trace("scene changed to id: "+ evt.sceneId);
 			}
 			protected function handleTaskChange(evt:TaskChangeEvent):void {
 				var currentIntreface:String = "studentInterface";
-				if(this.currentState == "loggedInTeacher")
-					currentIntreface = "teacherInterface";
+				if(this.currentState == "loggedInTeacher") {
+					currentIntreface = "teacherInterface";					
+				}
 				
 				this[currentIntreface].changeTask(evt.taskId);
 				trace("task changed to id: "+ evt.taskId);
 			}
-			private function logout(event:MouseEvent):void
-			{
+			
+			private function logout(event:MouseEvent):void {
 				this.currentState = "loggedOff";
 			}
 		]]>
