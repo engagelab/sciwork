@@ -16,7 +16,8 @@
 			
 			
 			public function changeScene(sceneId:uint):void {
-				;
+				_description = "";
+				_resources = "";
 			}
 
 			public function changeTask(taskId:uint):void {
