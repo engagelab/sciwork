@@ -129,7 +129,10 @@
 			protected function getKeywords_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				updateKeywordsList(res.keywords);
+				
+				if(res.keywords != null) {
+					updateKeywordsList(res.keywords);
+				}
 			}
 			
 			/**
@@ -138,11 +141,13 @@
 			 * 
 			 **/
 			protected function updateKeywordsList(kWords:Array):void {
-				//update keywords list
-				selection.keywordSelection.addNewWords(kWords);
-				
-				//reset input field
-				keywordInput.wordInput.text = "";
+				if(kWords.length == 5) {
+					//update keywords list
+					selection.keywordSelection.addNewWords(kWords);
+					
+					//reset input field
+					keywordInput.wordInput.text = "";
+				}
 			}
 			
 		]]>

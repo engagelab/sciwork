@@ -21,16 +21,25 @@
 				
 				//populate the list
 				for each (var word:Object in words)  {
-					if(wordArray.length < 5) {
-						wordArray.addItem(word);
-					}
+					wordArray.addItem(word);
 				}
 				
+				selectionheader.editButton.addEventListener(MouseEvent.CLICK, handleEditSelectionClick);
+				selectionheader.editButton.visible = true;
+			}
+			
+			/**
+			 *
+			 * click handler for the button editButton in component selectionheader
+			 * 
+			 **/
+			protected function handleEditSelectionClick(evt:MouseEvent):void {
+				trace(evt);
 			}
 		]]>
 	</fx:Script>
 	
-	<components:selectionHeader width="100%" height="20" titleString="" />
+	<components:selectionHeader id="selectionheader" width="100%" height="20" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
 		<s:List top="5" right="5" bottom="5" left="5" dataProvider="{wordArray}" borderVisible="false"/>
 	</s:BorderContainer>

@@ -3,9 +3,5 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
 					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
 	
-	<fx:Declarations>
-		<fx:String id="titleString" />
-	</fx:Declarations>
-	
-	<s:Label width="100%" height="100%" id="title" color="#333333" verticalAlign="middle" text="{titleString}" left="5" right="5" top="2" bottom="2" />
+	<s:Button id="editButton" label="edit" right="1" visible="false" fontSize="8" height="18" width="40" skinClass="skins.editKeywordListButton" verticalCenter="0"/>
 </s:SkinnableContainer>
