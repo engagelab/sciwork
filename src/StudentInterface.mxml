@@ -14,13 +14,18 @@
 			[Bindable] private var _description:String = "";
 			[Bindable] private var _resources:String = "";
 			
+			[Bindable] private var _currentGroup:Object;
+			[Bindable] private var _taskId:uint;
+			
 			
 			public function changeScene(sceneId:uint):void {
 				_description = "";
 				_resources = "";
 			}
 
-			public function changeTask(taskId:uint):void {
+			public function changeTask(taskId:uint, currentGroup:Object):void {
+				_taskId = taskId;
+				_currentGroup = currentGroup;
 				getTask.url = resourceManager.getString('resources', 'SERVER_URL') + "/task/" + taskId;
 				getTask.send();
 			}
@@ -65,7 +70,7 @@
 			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
 			<content:Resources id="resourceContainer" width="100%" height="150" content="{_resources}" />
 		</s:VGroup>
-		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" />
+		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" />
 	</s:HGroup>
 	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState" />
 </s:Group>

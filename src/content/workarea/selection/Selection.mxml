@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#999999" backgroundAlpha=".5">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:selection="content.workarea.selection.*">
 	
 	
 	<s:states>
@@ -10,5 +10,5 @@
 	</s:states>
 	
 	<s:Label text="portfolio here" width="100%" height="100%" includeIn="default"/>
-	<s:Label text="keywords here" width="100%" height="100%" includeIn="keywords"/>
+	<selection:KeywordsSelection id="keywordSelection" width="100%" height="100%" includeIn="keywords"/>
 </s:SkinnableContainer>

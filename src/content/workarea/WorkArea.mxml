@@ -5,18 +5,92 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
 			import listeners.MaterialToPreviewEvent;
+			import listeners.SubmitKeywordsEvent;
 			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
+			/**
+			 * 
+			 * Event handling method for creationComplete
+			 * 
+			 **/
 			protected function initWorkArea(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
+				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
 			}
 			
+			/**
+			 * 
+			 * Event handling method for MATERIAL_TO_PREVIEW
+			 * 
+			 **/
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
 				preview.previewMaterial(evt.previewType, evt.fullSizeSource, evt.previewSource);
 			}
 			
+			/**
+			 * 
+			 * Event handling method for KEYWORD_LIST_SUBMITTED
+			 * 
+			 **/
+			protected function handleKeywordsSubmitted(evt:SubmitKeywordsEvent):void {
+				//getKeywords.url = resourceManager.getString('resources', 'SERVER_URL') + "/keywords/" + currentGroup.id + "/" + taskId;
+				//getKeywords.send();
+				var params:Object = new Object();
+				params.groupId = currentGroup.id;
+				params.taskId = taskId;
+				params.keywords = evt.keywords;
+				
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/keywords");
+				urlRequest.method = URLRequestMethod.POST;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
+				uploader.load(urlRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsComplete
+			 * 
+			 **/
+			protected function handlePostKeywordsComplete(ev:Event):void {
+				//extract result as JSON
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
+				var receivedWords:Array = res.keywords;
+				
+				//update keywords list
+				selection.keywordSelection.addNewWords(receivedWords);
+				
+				//reset input field
+				keywordInput.wordInput.text = "";
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsIOerror
+			 * 
+			 **/
+			protected function handlePostKeywordsIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while posting the keywords from the server.", "Keyword service error");
+			}
+			
+			
+			
+			/**
+			 * 
+			 * Switch layout to correct state based on task type
+			 * 
+			 **/
 			public function updateCurrentState(type:String):void {
 				switch(type)
 				{
@@ -37,8 +111,35 @@
 					}
 				}
 			}
+			
+			/**
+			 * 
+			 * Error handling method for getKeywords service
+			 * 
+			 **/
+			protected function getKeywords_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the keywords from the server.", "Keyword service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getKeywords service 
+			 * 
+			 **/
+			protected function getKeywords_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+
+			}
+			
 		]]>
 	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywords" />
+		<fx:Object id="currentGroup" />
+		<fx:uint id="taskId" />
+	</fx:Declarations>
 	
 	<s:states>
 		<s:State name="default" />

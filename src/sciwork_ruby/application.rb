@@ -69,3 +69,20 @@ get '/task/:id' do
 		return {:description => "", :resources => ""}.to_json;
 	end
 end
+
+
+get '/keywords/:groupId/:taskId' do
+	return [].to_json;
+end
+
+post '/keywords' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
+end
+
+put '/keywords' do
+	return [].to_json;
+end

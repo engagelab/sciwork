@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="wordArray" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			public function addNewWords(words:Array):void {
+				for each (var word:Object in words)  {
+					if(wordArray.length < 5) {
+						wordArray.addItem(word);
+					}
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<components:selectionHeader width="100%" height="20" titleString="" />
+	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
+		<s:List top="5" right="5" bottom="5" left="5" dataProvider="{wordArray}" borderVisible="false"/>
+	</s:BorderContainer>
+</s:VGroup>

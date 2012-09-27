@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" borderAlpha=".2" borderWeight="2">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.SubmitKeywordsEvent;
+			
+			import mx.controls.Alert;
+			protected function sendKeywords(event:MouseEvent):void {
+				var wordsString:String = wordInput.text;
+				
+				if(wordsString.length > 0) {
+					var ske:SubmitKeywordsEvent = new SubmitKeywordsEvent(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), true);
+					ske.keywords = wordsString.split(" ");
+					dispatchEvent(ske);
+				}
+				else {
+					Alert.show("Please provide at least one keyword", "Keyword submit error");					
+				}
+			}
+		]]>
+	</fx:Script>
 	
 	<s:HGroup width="100%" height="100%" gap="0">
-		<s:TextInput width="100%" height="100%" />
-		<s:Button height="100%" label="LEVER" />
+		<s:TextInput id="wordInput" width="100%" height="100%" borderVisible="false" />
+		<s:Button height="100%" width="100" label="LEVER" buttonMode="true" skinClass="skins.keywordSendButtonSkin" click="sendKeywords(event)" />
 	</s:HGroup>
-</s:Group>
+</s:BorderContainer>
