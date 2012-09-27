@@ -5,9 +5,10 @@
 	
 	
 	<s:states>
-		<s:State name="portfolio" />
+		<s:State name="default" />
 		<s:State name="keywords" />
 	</s:states>
 	
-	<s:Label text="portfolio here" width="100%" height="100%" excludeFrom="keywords"/>
+	<s:Label text="portfolio here" width="100%" height="100%" includeIn="default"/>
+	<s:Label text="keywords here" width="100%" height="100%" includeIn="keywords"/>
 </s:SkinnableContainer>

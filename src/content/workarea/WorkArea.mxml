@@ -5,8 +5,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import mx.events.FlexEvent;
 			import listeners.MaterialToPreviewEvent;
+			
+			import mx.events.FlexEvent;
 			
 			protected function initWorkArea(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
@@ -15,13 +16,40 @@
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
 				preview.previewMaterial(evt.previewType, evt.fullSizeSource, evt.previewSource);
 			}
+			
+			public function updateCurrentState(type:String):void {
+				switch(type)
+				{
+					case 'keywords':
+					{
+						this.currentState = "keywords";
+						selection.currentState = "keywords";
+						preview.currentState = "keywordsState";
+						break;
+					}
+						
+					default:
+					{
+						this.currentState = "default";
+						selection.currentState = "default";
+						preview.currentState = "default";
+						break;
+					}
+				}
+			}
 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="keywords" />
+	</s:states>
 	
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<preview:Preview id="preview" width="100%" height="100%" />
-			<materials:Materials id="materials" width="100%" height="150"/>
+			<materials:Materials id="materials" width="100%" height="150" excludeFrom="keywords" />
+			<workarea:KeywordInput id="keywordInput" width="100%" height="50" includeIn="keywords" />
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>

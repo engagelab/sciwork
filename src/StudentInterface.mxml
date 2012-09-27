@@ -35,6 +35,8 @@
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				_description = res.description;
 				_resources = res.resources;
+				
+				workareaContainer.updateCurrentState(res.taskType);
 			}
 			
 			/**
@@ -63,7 +65,7 @@
 			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
 			<content:Resources id="resourceContainer" width="100%" height="150" content="{_resources}" />
 		</s:VGroup>
-		<workarea:WorkArea id="workareaContainer" width="100%" height="100%"/>
+		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" />
 	</s:HGroup>
 	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState" />
 </s:Group>
