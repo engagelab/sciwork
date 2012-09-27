@@ -53,6 +53,8 @@
 				}
 				
 				this[currentIntreface].changeScene(evt.sceneId);
+				
+				//deselect previously selected task
 				tabBar.taskBar.selectedIndex = -1;
 				trace("scene changed to id: "+ evt.sceneId);
 			}

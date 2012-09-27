@@ -107,16 +107,24 @@
 				
 				dividerColor = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
 				
+				//fetch the content for the first scene if it exists
 				if(tabs.length > 0) {
 					selectFirstTask(0);
 				}
 				
 			}
 			
-			protected function selectFirstTask(tabNumber:Number):void {
+			/**
+			 *
+			 * Dispatch event to get the content of first task for a given scene 
+			 * 
+			 **/
+			protected function selectFirstTask(sceneNumber:Number):void {
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
-				if(tabs[tabNumber].tasks.length > 0) {
-					tce.taskId = tabs[tabNumber].tasks[0].taskId;
+				
+				//check that the scene has tasks before fetching content
+				if(tabs[sceneNumber].tasks.length > 0) {
+					tce.taskId = tabs[sceneNumber].tasks[0].taskId;
 					dispatchEvent(tce);
 				}
 			}
