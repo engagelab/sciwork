@@ -72,7 +72,7 @@ end
 
 
 get '/keywords/:groupId/:taskId' do
-	return [].to_json;
+	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["un","deux","trois","quatre","cinq"], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
 end
 
 post '/keywords' do

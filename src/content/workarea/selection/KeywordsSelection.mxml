@@ -9,7 +9,17 @@
 	
 	<fx:Script>
 		<![CDATA[
+			
+			/**
+			 *
+			 * public function to refresh the keywords list
+			 * 
+			 **/
 			public function addNewWords(words:Array):void {
+				//clear the list
+				wordArray.removeAll();
+				
+				//populate the list
 				for each (var word:Object in words)  {
 					if(wordArray.length < 5) {
 						wordArray.addItem(word);

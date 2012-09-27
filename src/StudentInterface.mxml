@@ -18,14 +18,27 @@
 			[Bindable] private var _taskId:uint;
 			
 			
+			/**
+			 *
+			 * called when a new scene is selected 
+			 * 
+			 **/
 			public function changeScene(sceneId:uint):void {
+				//reset left panels
 				_description = "";
 				_resources = "";
 			}
 
+			/**
+			 *
+			 * called when a new task is selected 
+			 * 
+			 **/
 			public function changeTask(taskId:uint, currentGroup:Object):void {
 				_taskId = taskId;
 				_currentGroup = currentGroup;
+				
+				//fetch the inherent tasks for the selected taskid
 				getTask.url = resourceManager.getString('resources', 'SERVER_URL') + "/task/" + taskId;
 				getTask.send();
 			}

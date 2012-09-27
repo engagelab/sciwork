@@ -40,18 +40,19 @@
 			 * 
 			 **/
 			protected function handleKeywordsSubmitted(evt:SubmitKeywordsEvent):void {
-				//getKeywords.url = resourceManager.getString('resources', 'SERVER_URL') + "/keywords/" + currentGroup.id + "/" + taskId;
-				//getKeywords.send();
+				//build the object to post
 				var params:Object = new Object();
 				params.groupId = currentGroup.id;
 				params.taskId = taskId;
 				params.keywords = evt.keywords;
 				
+				//create urlrequest with correct headers
 				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/keywords");
 				urlRequest.method = URLRequestMethod.POST;
 				urlRequest.contentType = "application/json";
 				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
 				
+				//load the url and define listeners
 				var uploader:URLLoader = new URLLoader();
 				uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
 				uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
@@ -66,13 +67,7 @@
 			protected function handlePostKeywordsComplete(ev:Event):void {
 				//extract result as JSON
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
-				var receivedWords:Array = res.keywords;
-				
-				//update keywords list
-				selection.keywordSelection.addNewWords(receivedWords);
-				
-				//reset input field
-				keywordInput.wordInput.text = "";
+				updateKeywordsList(res.keywords);
 			}
 			
 			/**
@@ -96,9 +91,14 @@
 				{
 					case 'keywords':
 					{
+						//set correct state in subsequent components
 						this.currentState = "keywords";
 						selection.currentState = "keywords";
 						preview.currentState = "keywordsState";
+						
+						//get existing keywords for the current task and group
+						getKeywords.url = resourceManager.getString('resources', 'SERVER_URL') + "/keywords/" + currentGroup.id + "/" + taskId;
+						getKeywords.send();
 						break;
 					}
 						
@@ -129,7 +129,20 @@
 			protected function getKeywords_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-
+				updateKeywordsList(res.keywords);
+			}
+			
+			/**
+			 *
+			 * Update UI with keywords list 
+			 * 
+			 **/
+			protected function updateKeywordsList(kWords:Array):void {
+				//update keywords list
+				selection.keywordSelection.addNewWords(kWords);
+				
+				//reset input field
+				keywordInput.wordInput.text = "";
 			}
 			
 		]]>
