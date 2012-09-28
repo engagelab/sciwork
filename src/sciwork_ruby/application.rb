@@ -62,9 +62,9 @@ get '/task/:id' do
 	if params[:id] == '11'
 		return {:description => "this is the description for task ID 11", :resources => "some resources for task ID 11", :taskType => "keywords" }.to_json;
 	elsif params[:id] == '12'
-		return {:description => "this is the description for task ID 12", :resources => "some resources for task ID 12", :taskType => "default" }.to_json;
+		return {:description => "this is the description for task ID 12", :resources => "some resources for task ID 12", :taskType => "assets" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "this is the description for task ID 13", :resources => "some resources for task ID 13", :taskType => "default" }.to_json;
+		return {:description => "this is the description for task ID 13", :resources => "some resources for task ID 13", :taskType => "assets" }.to_json;
 	else
 		return {:description => "", :resources => ""}.to_json;
 	end
@@ -84,6 +84,16 @@ post '/keywords' do
 	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
-put '/keywords' do
+get '/assets/:groupId/:taskId' do
+	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["un","deux","trois","quatre","cinq"], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
 	return [].to_json;
+end
+
+post '/assets' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	return [].to_json;
+	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end

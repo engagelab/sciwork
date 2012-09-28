@@ -8,6 +8,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
 			
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
@@ -20,8 +22,12 @@
 			// This will hold the API player instance once it is initialized.
 			public var player:Object;
 			private var loader:Loader;
+			
 			[Bindable] public var videoWidth:uint;
 			[Bindable] public var videoHeight:uint;
+			
+			private var _timeUpdateInterval:Number;
+			
 			// UIComponent required to add Loader to an IVisualElement
 			// private var container:UIComponent = new UIComponent();
 			
@@ -53,12 +59,8 @@
 				// cueVideoById, loadVideoById, cueVideoByUrl and loadVideoByUrl
 				// to load a particular YouTube video.
 				player = loader.content;
-				// Set appropriate player dimensions for your application
-				//videoWidth = 432;
-				//videoHeight = 324;
-				player.setSize(container.width, container.height);
-				//player.setSize(videoWidth, videoHeight);
-			//	player.setSize(480, 360);   Standard YouTube size
+				
+				dispatchEvent(new Event(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), true));
 			}
 			
 			private function onPlayerError(event:Event):void {
@@ -69,7 +71,45 @@
 			private function onPlayerStateChange(event:Event):void {
 				// Event.data contains the event parameter, which is the new player state
 				trace("player state:", Object(event).data);
+				
+				clearInterval(_timeUpdateInterval);
+				switch(new Number(Object(event).data)) {
+					case -1:
+					{
+						this.currentState = "stopped";
+						break;
+					}
+						
+					case 0:
+					{
+						this.currentState = "stopped";
+						break;
+					}
+						
+					case 1:
+					{
+						this.currentState = "playing";
+						_timeUpdateInterval = setInterval(updateElapsedTime, 1000);
+						break;
+					}
+						
+					case 2:
+					{
+						this.currentState = "paused";
+						break;
+					}
+				}
+				
 			}
+			
+			protected function updateElapsedTime():void {
+				slider.maximum = player.getDuration();
+				slider.value = player.getCurrentTime();
+				
+				totalTime.text = "| " + getFormattedTime(player.getDuration());
+				elaspsedTime.text = getFormattedTime(player.getCurrentTime()); 
+			}
+			
 			
 			private function onVideoPlaybackQualityChange(event:Event):void {
 				// Event.data contains the event parameter, which is the new video quality
@@ -81,11 +121,57 @@
 			 * Called from the instantiator to set up preview type and source
 			 * 
 			 **/
-			public function setupPreview(previewType:String, fullSizeSource:String):void
-			{
+			public function setupPreview(previewType:String, fullSizeSource:String):void {
+				// Set appropriate player dimensions for your application
+				player.setSize(container.width, container.height-25);
 				player.cueVideoById(fullSizeSource);
+			}
+			
+			//function to return the played time/maximum time when scrubbing
+			protected function getFormattedTime(val:Number):String {
+				if(isNaN(val) || val == -1) {
+					return "00:00:00";
+				}
+				else {
+					// Current play time
+					var sec:Number = val;
+					var h:Number = Math.floor(sec/3600);
+					var m:Number = Math.floor((sec%3600)/60);
+					var s:Number = Math.floor((sec%3600)%60);
+					
+					return (h == 0 ? "":(h<10 ? "0"+h.toString()+":" : h.toString()+":"))
+					+(m<10 ? "0"+m.toString() : m.toString())+":"
+						+(s<10 ? "0"+s.toString() : s.toString());
+				}
 			}
 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="stopped" />
+		<s:State name="playing" />
+		<s:State name="paused" />
+	</s:states>
+	
+
 	<s:SpriteVisualElement id="container" width="100%" height="100%"/>
+	<s:HGroup width="100%" height="25" bottom="0" gap="0" verticalAlign="middle">
+		<s:Button id="playButton" buttonMode="true" height="100%" width="{playButton.height}" skinClass="skins.VideoPlayButtonSmall" excludeFrom="playing" click="player.playVideo();" />
+		<s:Button id="pauseButton" buttonMode="true" height="100%" width="{pauseButton.height}" skinClass="skins.VideoPauseButtonSmall" excludeFrom="paused"  click="player.pauseVideo();"/>
+		<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="stopped"  click="player.stopVideo();"/>
+		<s:Group width="100%" height="100%">
+			<mx:HSlider id="slider" bottom="10"
+						thumbSkin="skins.VideoThumb" 
+						trackSkin="skins.VideoTrack" 
+						trackHighlightSkin="skins.VideoTrackSkin" 
+						showTrackHighlight="true" 
+						enabled="false" 
+						width="100%" 
+						visible="true" 
+						allowTrackClick="true" />
+		</s:Group>
+		<s:Label id="elaspsedTime" color="#FFFFFF" />
+		<s:Label id="totalTime" color="#999999" />
+		<s:Spacer width="10" />
+	</s:HGroup>
 </s:Group>

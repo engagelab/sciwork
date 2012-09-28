@@ -17,6 +17,8 @@
 			
 			import spark.events.TextOperationEvent;
 			
+			[Bindable] private var _enableMaterials:Boolean = false;
+			
 			/**
 			 * 
 			 * Event handling method for creationComplete
@@ -26,6 +28,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
 				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), handleEditKeywords);
+				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
 			}
 			
 			/**
@@ -98,8 +101,20 @@
 						preview.currentState = "keywordsState";
 						
 						//get existing keywords for the current task and group
-						getKeywords.url = resourceManager.getString('resources', 'SERVER_URL') + "/keywords/" + currentGroup.id + "/" + taskId;
-						getKeywords.send();
+						getKeywordsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/keywords/" + currentGroup.id + "/" + taskId;
+						getKeywordsPortfolio.send();
+						break;
+					}
+						
+					case 'assets': {
+						//set correct state in subsequent components
+						this.currentState = "assets";
+						selection.currentState = "assets";
+						preview.currentState = "default";
+						
+						//get existing assets selection (portfolio) for the current task and group
+						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/assets/" + currentGroup.id + "/" + taskId;
+						getAssetsPortfolio.send();
 						break;
 					}
 						
@@ -172,24 +187,56 @@
 				
 			}
 			
+			/**
+			 * 
+			 * Error handling method for getAssets service
+			 * 
+			 **/
+			protected function getAssets_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getAssets service 
+			 * 
+			 **/
+			protected function getAssets_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				materials.initCollection();
+			}
+			
+			/**
+			 *
+			 * Event handling method for VIDEO_PLAYER_READY 
+			 * 
+			 **/
+			protected function handleVideoPlayerReady(evt:Event):void {
+				_enableMaterials = true;
+			}
+			
+			
 		]]>
 	</fx:Script>
 	
 	<fx:Declarations>
-		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywords" />
+		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" />
+		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" />
 		<fx:Object id="currentGroup" />
 		<fx:uint id="taskId" />
 	</fx:Declarations>
 	
 	<s:states>
 		<s:State name="default" />
+		<s:State name="assets" />
 		<s:State name="keywords" />
 	</s:states>
 	
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<preview:Preview id="preview" width="100%" height="100%" />
-			<materials:Materials id="materials" width="100%" height="150" excludeFrom="keywords" />
+			<materials:Materials id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" />
 			<workarea:KeywordInput id="keywordInput" width="100%" height="50" includeIn="keywords" />
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />

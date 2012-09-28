@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" backgroundColor="#777777" backgroundAlpha=".5" creationComplete="initPreview(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" creationComplete="initPreview(event)" xmlns:components="components.*" gap="0">
 	
 	<fx:Declarations>
 		<fx:String id="taskType" />
@@ -57,11 +57,22 @@
 		<s:State name="articleState" />
 	</s:states>
 	
-	<preview:VideoViewer top="25" left="25" right="25" bottom="25" id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" horizontalCenter="{-videoViewer.videoWidth/2}" verticalCenter="{-videoViewer.videoHeight/2}"/>
-	<preview:ImageViewer top="25" left="25" right="25" bottom="25" id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" />
-	<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
-	<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
-	<preview:Comments id="comments"/>
-	<s:Button label="Add to portfolio" id="addToPortfolioButton" right="0" top="0" excludeFrom="keywordsState" />
+	<components:SelectionHeader id="selectionheader" width="100%" height="30" excludeFrom="keywordsState" />
+	<s:BorderContainer width="100%" height="100%" borderWeight="1" borderAlpha=".3" borderWeight.keywordsState="2">
+		<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0" excludeFrom="keywordsState">
+			<s:fill>
+				<s:LinearGradient rotation="135">
+					<s:GradientEntry color="#CCCCCC" />
+					<s:GradientEntry color="#000000" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<preview:VideoViewer width="100%" height="100%" id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" />
+		<preview:ImageViewer width="100%" height="100%" id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" />
+		<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
+		<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
+		<preview:Comments id="comments"/>
+		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" skinClass="skins.keywordSendButtonSkin" excludeFrom="keywordsState, default" />
+	</s:BorderContainer>	
 
-</s:SkinnableContainer>
+</s:VGroup>
