@@ -46,8 +46,12 @@
 		]]>
 	</fx:Script>
 	
-	<components:selectionHeader id="selectionheader" width="100%" height="20" />
+	<components:selectionHeader id="selectionheader" width="100%" height="30" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:List top="5" right="5" bottom="5" left="5" dataProvider="{wordArray}" borderVisible="false"/>
+		<s:List top="15" left="15" right="15" bottom="15" selectionColor="#FFFFFF" dataProvider="{wordArray}" borderVisible="false" itemRenderer="itemRenderers.selectedKeywordItem">
+			<s:layout>
+				<s:VerticalLayout gap="15" horizontalAlign="contentJustify" variableRowHeight="false" />
+			</s:layout>
+		</s:List>
 	</s:BorderContainer>
 </s:VGroup>

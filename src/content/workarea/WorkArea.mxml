@@ -170,6 +170,7 @@
 				
 				//append the keywords in the text input
 				keywordInput.wordInput.text = wordString.substr(0, wordString.length-1);
+				//enable button again via dispatchevent
 				keywordInput.wordInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
 				
 			}
