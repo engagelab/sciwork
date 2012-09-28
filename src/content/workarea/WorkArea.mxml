@@ -15,6 +15,8 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import spark.events.TextOperationEvent;
+			
 			/**
 			 * 
 			 * Event handling method for creationComplete
@@ -23,6 +25,7 @@
 			protected function initWorkArea(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
 				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
+				this.addEventListener(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), handleEditKeywords);
 			}
 			
 			/**
@@ -148,6 +151,27 @@
 					//reset input field
 					keywordInput.wordInput.text = "";
 				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method for EDIT_KEYWORD_LIST
+			 * 
+			 **/
+			protected function handleEditKeywords(evt:Event):void {
+				//rebuild the keywords string
+				var wordString:String = "";
+				for each (var word:Object in selection.keywordSelection.wordArray) {
+					wordString = wordString + word + " ";
+				}
+				
+				//clear the selection
+				selection.keywordSelection.clearWordList();
+				
+				//append the keywords in the text input
+				keywordInput.wordInput.text = wordString.substr(0, wordString.length-1);
+				keywordInput.wordInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
+				
 			}
 			
 		]]>

@@ -24,8 +24,15 @@
 					wordArray.addItem(word);
 				}
 				
+				//enable edit button for keywords
 				selectionheader.editButton.addEventListener(MouseEvent.CLICK, handleEditSelectionClick);
 				selectionheader.editButton.visible = true;
+			}
+			
+			public function clearWordList():void {
+				wordArray.removeAll();
+				selectionheader.editButton.removeEventListener(MouseEvent.CLICK, handleEditSelectionClick);
+				selectionheader.editButton.visible = false;
 			}
 			
 			/**
@@ -34,7 +41,7 @@
 			 * 
 			 **/
 			protected function handleEditSelectionClick(evt:MouseEvent):void {
-				trace(evt);
+				dispatchEvent(new Event(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), true));
 			}
 		]]>
 	</fx:Script>
