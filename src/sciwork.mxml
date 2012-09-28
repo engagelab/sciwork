@@ -47,12 +47,12 @@
 			}
 			
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
-				var currentIntreface:String = "studentInterface";
+				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
-					currentIntreface = "teacherInterface";					
+					currentInterface = "teacherInterface";					
 				}
 				
-				this[currentIntreface].changeScene(evt.sceneId);
+				this[currentInterface].changeScene(evt.sceneId);
 				
 				//deselect previously selected task
 				tabBar.taskBar.selectedIndex = -1;
@@ -69,6 +69,12 @@
 			}
 			
 			private function logout(event:MouseEvent):void {
+				var currentInterface:String = "studentInterface";
+				if(this.currentState == "loggedInTeacher") {
+					currentInterface = "teacherInterface";					
+				}
+				
+				this[currentInterface].stopPlayingMedia();
 				this.currentState = "loggedOff";
 			}
 		]]>

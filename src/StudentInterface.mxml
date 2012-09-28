@@ -66,6 +66,12 @@
 				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
 			}
 			
+			public function stopPlayingMedia():void {
+				if(workareaContainer.currentState == "assets") {
+					workareaContainer.preview.videoViewer.player.stopVideo();
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	
