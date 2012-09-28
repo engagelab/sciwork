@@ -13,6 +13,7 @@
 			
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
+			import mx.events.SliderEvent;
 			
 			/**
 			 * 
@@ -59,7 +60,8 @@
 				// cueVideoById, loadVideoById, cueVideoByUrl and loadVideoByUrl
 				// to load a particular YouTube video.
 				player = loader.content;
-				
+				totalTime.text = "| " + getFormattedTime(0);
+				elaspsedTime.text = getFormattedTime(0); 
 				dispatchEvent(new Event(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), true));
 			}
 			
@@ -73,6 +75,7 @@
 				trace("player state:", Object(event).data);
 				
 				clearInterval(_timeUpdateInterval);
+				slider.enabled = false;
 				switch(new Number(Object(event).data)) {
 					case -1:
 					{
@@ -82,6 +85,7 @@
 						
 					case 0:
 					{
+						slider.value = 0;
 						this.currentState = "stopped";
 						break;
 					}
@@ -89,6 +93,7 @@
 					case 1:
 					{
 						this.currentState = "playing";
+						slider.enabled = true;
 						_timeUpdateInterval = setInterval(updateElapsedTime, 1000);
 						break;
 					}
@@ -144,6 +149,20 @@
 						+(s<10 ? "0"+s.toString() : s.toString());
 				}
 			}
+			
+			protected function sliderChanged(evt:SliderEvent):void {
+				if(evt.clickTarget == "track") {
+					player.seekTo(evt.value);
+				}
+			}
+			
+			protected function stopVideo(event:MouseEvent):void {
+				player.pauseVideo();
+				player.seekTo(0);
+				slider.value = 0;
+				elaspsedTime.text = getFormattedTime(0); 
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -157,8 +176,8 @@
 	<s:SpriteVisualElement id="container" width="100%" height="100%"/>
 	<s:HGroup width="100%" height="25" bottom="0" gap="0" verticalAlign="middle">
 		<s:Button id="playButton" buttonMode="true" height="100%" width="{playButton.height}" skinClass="skins.VideoPlayButtonSmall" excludeFrom="playing" click="player.playVideo();" />
-		<s:Button id="pauseButton" buttonMode="true" height="100%" width="{pauseButton.height}" skinClass="skins.VideoPauseButtonSmall" excludeFrom="paused"  click="player.pauseVideo();"/>
-		<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="stopped"  click="player.stopVideo();"/>
+		<s:Button id="pauseButton" buttonMode="true" height="100%" width="{pauseButton.height}" skinClass="skins.VideoPauseButtonSmall" includeIn="playing"  click="player.pauseVideo();"/>
+		<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="stopped"  click="stopVideo(event)"/>
 		<s:Group width="100%" height="100%">
 			<mx:HSlider id="slider" bottom="10"
 						thumbSkin="skins.VideoThumb" 
@@ -168,7 +187,8 @@
 						enabled="false" 
 						width="100%" 
 						visible="true" 
-						allowTrackClick="true" />
+						allowTrackClick="true" 
+						change="sliderChanged(event)" />
 		</s:Group>
 		<s:Label id="elaspsedTime" color="#FFFFFF" />
 		<s:Label id="totalTime" color="#999999" />
