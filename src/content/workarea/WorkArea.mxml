@@ -90,10 +90,8 @@
 			 * 
 			 **/
 			public function updateCurrentState(type:String):void {
-				switch(type)
-				{
-					case 'keywords':
-					{
+				switch(type) {
+					case 'keywords': {
 						//set correct state in subsequent components
 						this.currentState = "keywords";
 						selection.currentState = "keywords";
@@ -105,8 +103,7 @@
 						break;
 					}
 						
-					default:
-					{
+					default: {
 						this.currentState = "default";
 						selection.currentState = "default";
 						preview.currentState = "default";
