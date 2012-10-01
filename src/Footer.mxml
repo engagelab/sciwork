@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" minHeight="30" backgroundColor="#333333" skinClass="skins.footerSkin">
-</s:SkinnableContainer>
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import components.SceneContainer;
+			
+			import mx.collections.ArrayCollection;
+			
+			public function buildTrajectory(menu:ArrayCollection):void {
+				trajMenu.removeAllElements();
+				
+				var sceneContainer:SceneContainer;
+				for each (var scene:Object in menu) {
+					sceneContainer = new SceneContainer();
+					trajMenu.addElement(sceneContainer);
+					sceneContainer.initScene(scene);
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<s:SkinnableContainer id="footerBar" width="100%" height="30" bottom="0" backgroundColor="#333333" skinClass="skins.footerSkin" />
+	
+	<s:HGroup id="trajMenu" bottom="20" gap="15" horizontalCenter="0"/>
+</s:Group>

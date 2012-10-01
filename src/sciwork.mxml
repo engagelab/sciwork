@@ -13,6 +13,7 @@
 			
 			import listeners.LoginAcceptedEvent;
 			import listeners.SceneChangeEvent;
+			import listeners.TabbarLoadedEvent;
 			import listeners.TaskChangeEvent;
 			
 			import mx.events.FlexEvent;
@@ -21,19 +22,35 @@
 			
 			private var _currentGroup:Object;
 			
+			/**
+			 *
+			 * Called when application creation is complete
+			 * 
+			 **/
 			protected function initApp(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleLoginAccepted);
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
 				this.addEventListener(resourceManager.getString('resources', 'TASK_CHANGED'), handleTaskChange);
+				this.addEventListener(resourceManager.getString('resources', 'TABBAR_LOADED'), handleMenuLoaded);
 				
 				// FOR TESTING: In the case of no server connection
 				// this.currentState = "loggedIn";
 			}
 			
+			/**
+			 *
+			 * Function to return the current selected group
+			 * 
+			 **/
 			public function get currentGroup():Object {
 				return _currentGroup;
 			}
 			
+			/**
+			 *
+			 * Event handling method when login is OK
+			 * 
+			 **/
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
@@ -46,6 +63,11 @@
 				}
 			}
 			
+			/**
+			 *
+			 * Event handling method for scene change
+			 * 
+			 **/
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
@@ -58,6 +80,12 @@
 				tabBar.taskBar.selectedIndex = -1;
 				trace("scene changed to id: "+ evt.sceneId);
 			}
+			
+			/**
+			 *
+			 * Event handling method for task change 
+			 * 
+			 **/
 			protected function handleTaskChange(evt:TaskChangeEvent):void {
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
@@ -68,6 +96,11 @@
 				trace("task changed to id: "+ evt.taskId);
 			}
 			
+			/**
+			 *
+			 * Event handling method for login out
+			 * 
+			 **/
 			private function logout(event:MouseEvent):void {
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
@@ -76,6 +109,15 @@
 				
 				this[currentInterface].stopPlayingMedia();
 				this.currentState = "loggedOff";
+			}
+			
+			/**
+			 *
+			 * Event handling method for building the trajectory in the footer 
+			 * 
+			 **/
+			private function handleMenuLoaded(evt:TabbarLoadedEvent):void {
+				footer.buildTrajectory(evt.menu);
 			}
 		]]>
 	</fx:Script>
@@ -120,6 +162,6 @@
 		</s:BorderContainer>
 	</s:VGroup>
 	
-	<local:Footer bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" />
+	<local:Footer id="footer" bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" />
 	
 </s:WindowedApplication>

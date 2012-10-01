@@ -13,6 +13,7 @@
 			import com.adobe.serialization.json.JSON;
 			
 			import listeners.SceneChangeEvent;
+			import listeners.TabbarLoadedEvent;
 			import listeners.TaskChangeEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -110,6 +111,9 @@
 				//fetch the content for the first scene if it exists
 				if(tabs.length > 0) {
 					selectFirstTask(0);
+					var tbe:TabbarLoadedEvent = new TabbarLoadedEvent(resourceManager.getString('resources', 'TABBAR_LOADED'), true);
+					tbe.menu = tabs;
+					dispatchEvent(tbe);
 				}
 				
 			}
