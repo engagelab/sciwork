@@ -60,7 +60,7 @@
 				// cueVideoById, loadVideoById, cueVideoByUrl and loadVideoByUrl
 				// to load a particular YouTube video.
 				player = loader.content;
-				totalTime.text = "| " + getFormattedTime(0);
+				totalTime.text = " | " + getFormattedTime(0);
 				elaspsedTime.text = getFormattedTime(0); 
 				dispatchEvent(new Event(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), true));
 			}
@@ -79,14 +79,14 @@
 				switch(new Number(Object(event).data)) {
 					case -1:
 					{
-						this.currentState = "stopped";
+						this.currentState = "paused";
 						break;
 					}
 						
 					case 0:
 					{
 						slider.value = 0;
-						this.currentState = "stopped";
+						this.currentState = "paused";
 						break;
 					}
 						
@@ -111,7 +111,7 @@
 				slider.maximum = player.getDuration();
 				slider.value = player.getCurrentTime();
 				
-				totalTime.text = "| " + getFormattedTime(player.getDuration());
+				totalTime.text = " | " + getFormattedTime(player.getDuration());
 				elaspsedTime.text = getFormattedTime(player.getCurrentTime()); 
 			}
 			
@@ -132,10 +132,14 @@
 				player.cueVideoById(fullSizeSource);
 			}
 			
-			//function to return the played time/maximum time when scrubbing
+			/**
+			 * 
+			 * Function to return the played time/maximum time when scrubbing
+			 * 
+			 **/
 			protected function getFormattedTime(val:Number):String {
 				if(isNaN(val) || val == -1) {
-					return "00:00:00";
+					return "00:00";
 				}
 				else {
 					// Current play time
@@ -150,12 +154,22 @@
 				}
 			}
 			
+			/**
+			 * 
+			 * Handles seek clicks on progress trackbar
+			 * 
+			 **/
 			protected function sliderChanged(evt:SliderEvent):void {
 				if(evt.clickTarget == "track") {
 					player.seekTo(evt.value);
 				}
 			}
 			
+			/**
+			 * 
+			 * Stop video procedure
+			 * 
+			 **/
 			protected function stopVideo(event:MouseEvent):void {
 				player.pauseVideo();
 				player.seekTo(0);
@@ -167,9 +181,8 @@
 	</fx:Script>
 	
 	<s:states>
-		<s:State name="stopped" />
-		<s:State name="playing" />
 		<s:State name="paused" />
+		<s:State name="playing" />
 	</s:states>
 	
 
@@ -177,7 +190,7 @@
 	<s:HGroup width="100%" height="25" bottom="0" gap="0" verticalAlign="middle">
 		<s:Button id="playButton" buttonMode="true" height="100%" width="{playButton.height}" skinClass="skins.VideoPlayButtonSmall" excludeFrom="playing" click="player.playVideo();" />
 		<s:Button id="pauseButton" buttonMode="true" height="100%" width="{pauseButton.height}" skinClass="skins.VideoPauseButtonSmall" includeIn="playing"  click="player.pauseVideo();"/>
-		<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="stopped"  click="stopVideo(event)"/>
+		<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="paused"  click="stopVideo(event)"/>
 		<s:Group width="100%" height="100%">
 			<mx:HSlider id="slider" bottom="10"
 						thumbSkin="skins.VideoThumb" 
@@ -191,7 +204,7 @@
 						change="sliderChanged(event)" />
 		</s:Group>
 		<s:Label id="elaspsedTime" color="#FFFFFF" />
-		<s:Label id="totalTime" color="#999999" />
+		<s:Label id="totalTime" color="#333333" />
 		<s:Spacer width="10" />
 	</s:HGroup>
 </s:Group>
