@@ -100,7 +100,7 @@
 					tasks = new ArrayCollection();
 					//loop through all the tasks for current scene
 					for each (var task:Object in scene.tasks as Array) {
-						tasks.addItem({label: task.title, taskId: task.taskId});
+						tasks.addItem({label: task.title, taskId: task.taskId, taskCompleted: task.taskCompleted});
 					}
 					//build menu collection
 					tabs.addItem({label: scene.title, sceneId: scene.sceneId, tasks: tasks});

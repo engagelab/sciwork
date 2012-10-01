@@ -117,7 +117,7 @@
 			 * 
 			 **/
 			private function handleMenuLoaded(evt:TabbarLoadedEvent):void {
-				footer.buildTrajectory(evt.menu);
+				footer.buildTrajectory(evt.menu, evt.menu[0]);
 			}
 		]]>
 	</fx:Script>

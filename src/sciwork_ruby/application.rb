@@ -47,14 +47,14 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "task 1"},{:taskId => "12", :title => "task 2"},{:taskId => "13", :title => "task 3"}]}, 
-	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4"},{:taskId => "22", :title => "task 5"},{:taskId => "23", :title => "task 6"}]},
-	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7"},{:taskId => "32", :title => "task 8"},{:taskId => "33", :title => "task 9"}]},
-	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10"},{:taskId => "42", :title => "task 11"},{:taskId => "43", :title => "task 12"}]},
-	{:sceneId => "1t", :title => "Presentasjon", :tasks => [{:taskId => "51", :title => "task 13"},{:taskId => "52", :title => "task 14"},{:taskId => "53", :title => "task 15"}]},
-	{:sceneId => "1y", :title => "Diagram", :tasks => [{:taskId => "61", :title => "task 16"},{:taskId => "62", :title => "task 17"},{:taskId => "63", :title => "task 18"}]},
-	{:sceneId => "1u", :title => "Artikkel", :tasks => [{:taskId => "71", :title => "task 19"},{:taskId => "72", :title => "task 20"},{:taskId => "73", :title => "task 21"}]},
-	{:sceneId => "1i", :title => "Portfolio", :tasks => [{:taskId => "81", :title => "task 22"},{:taskId => "82", :title => "task 23"},{:taskId => "83", :title => "task 24"}]}].to_json;
+	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "task 1", :taskCompleted => true},{:taskId => "12", :title => "task 2", :taskCompleted => false},{:taskId => "13", :title => "task 3", :taskCompleted => false}]}, 
+	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4", :taskCompleted => true},{:taskId => "22", :title => "task 5", :taskCompleted => false},{:taskId => "23", :title => "task 6", :taskCompleted => false}]},
+	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7", :taskCompleted => true},{:taskId => "32", :title => "task 8", :taskCompleted => true},{:taskId => "33", :title => "task 9", :taskCompleted => false}]},
+	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10", :taskCompleted => false},{:taskId => "42", :title => "task 11", :taskCompleted => false},{:taskId => "43", :title => "task 12", :taskCompleted => false}]},
+	{:sceneId => "1t", :title => "Presentasjon", :tasks => [{:taskId => "51", :title => "task 13", :taskCompleted => false},{:taskId => "52", :title => "task 14", :taskCompleted => false},{:taskId => "53", :title => "task 15", :taskCompleted => false}]},
+	{:sceneId => "1y", :title => "Diagram", :tasks => [{:taskId => "61", :title => "task 16", :taskCompleted => true},{:taskId => "62", :title => "task 17", :taskCompleted => false},{:taskId => "63", :title => "task 18", :taskCompleted => false}]},
+	{:sceneId => "1u", :title => "Artikkel", :tasks => [{:taskId => "71", :title => "task 19", :taskCompleted => false},{:taskId => "72", :title => "task 20", :taskCompleted => false},{:taskId => "73", :title => "task 21", :taskCompleted => false}]},
+	{:sceneId => "1i", :title => "Portfolio", :tasks => [{:taskId => "81", :title => "task 22", :taskCompleted => false},{:taskId => "82", :title => "task 23", :taskCompleted => false},{:taskId => "83", :title => "task 24", :taskCompleted => false}]}].to_json;
 end
 
 

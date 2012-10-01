@@ -5,21 +5,27 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import components.SceneContainer;
+			import components.FooterSceneContainer;
 			
 			import mx.collections.ArrayCollection;
 			
-			public function buildTrajectory(menu:ArrayCollection):void {
+			public function buildTrajectory(menu:ArrayCollection, selectedScene:Object):void {
 				trajMenu.removeAllElements();
 				
-				var sceneContainer:SceneContainer;
+				var sceneContainer:FooterSceneContainer;
 				for each (var scene:Object in menu) {
-					sceneContainer = new SceneContainer();
+					sceneContainer = new FooterSceneContainer();
 					trajMenu.addElement(sceneContainer);
 					sceneContainer.initScene(scene);
+					
+					if(scene.sceneId == selectedScene.sceneId) {
+						sceneContainer.currentState = "selected";
+					}
 				}
 				
 			}
+			
+			
 		]]>
 	</fx:Script>
 	
