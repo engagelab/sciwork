@@ -9,6 +9,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
 			import flash.net.dns.AAAARecord;
 			
 			import listeners.LoginAcceptedEvent;
@@ -16,9 +18,14 @@
 			import listeners.TabbarLoadedEvent;
 			import listeners.TaskChangeEvent;
 			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			public static const _gapBetweenContainers:Number = 15;
+			
+			[Bindable] private var _completedTaskArray:Array;
 			
 			private var _currentGroup:Object;
 			
@@ -54,13 +61,8 @@
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
-				
-				if(evt.selectedGroup.id == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
-					this.currentState = "loggedInTeacher";
-				}
-				else {
-					this.currentState = "loggedIn";
-				}
+				getCompletedTasks.url =  resourceManager.getString('resources', 'SERVER_URL') + "/completedTasks/" + _currentGroup.id;
+				getCompletedTasks.send();
 			}
 			
 			/**
@@ -124,8 +126,39 @@
 			private function handleMenuLoaded(evt:TabbarLoadedEvent):void {
 				footer.buildTrajectory(evt.menu, evt.menu[0]);
 			}
+			
+			/**
+			 * 
+			 * Error handling method for getCompletedTasks service
+			 * 
+			 **/
+			protected function getCompletedTasks_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving completed tasks from the server.", "Completed tasks service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getCompletedTasks service 
+			 * 
+			 **/
+			protected function getCompletedTasks_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				_completedTaskArray = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				if(_currentGroup.id == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
+					this.currentState = "loggedInTeacher";
+				}
+				else {
+					this.currentState = "loggedIn";
+				}
+			}
+			
 		]]>
 	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService method="GET" result="getCompletedTasks_resultHandler(event)" fault="getCompletedTasks_faultHandler(event)" resultFormat="text" id="getCompletedTasks" />
+	</fx:Declarations>
 	
 	<s:states>
 		<s:State name="loggedOff" />
@@ -168,6 +201,6 @@
 	</s:VGroup>
 	
 	<!-- Footer navigation component -->
-	<local:Footer id="footer" bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" />
+	<local:Footer id="footer" bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" completedTasks="{_completedTaskArray}" />
 	
 </s:WindowedApplication>

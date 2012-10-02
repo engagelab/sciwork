@@ -9,7 +9,6 @@
 			
 			import mx.collections.ArrayCollection;
 			
-			
 			/**
 			 *
 			 * Method to create the footer navigation bar.
@@ -25,11 +24,10 @@
 				for each (var scene:Object in menu) {
 					sceneContainer = new FooterSceneContainer();
 					trajMenu.addElement(sceneContainer);
-					sceneContainer.initScene(scene);
+					sceneContainer.initScene(scene, completedTasks);
 				}
 				
-				updateSelectedFooterScene(selectedScene);
-				
+				updateSelectedFooterScene(selectedScene);				
 			}
 			
 			
@@ -47,12 +45,23 @@
 						sceneC.currentState = "default";
 					}
 				}
-				
+			}
+			
+			public function updateCompletedTasks():void {
+				var sceneC:FooterSceneContainer;
+				for (var i:int = 0; i < trajMenu.numElements; i++) {
+					sceneC = trajMenu.getElementAt(i) as FooterSceneContainer;
+					sceneC.updateCompletedTasks(completedTasks);
+				}
 			}
 			
 			
 		]]>
 	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:Array id="completedTasks" />
+	</fx:Declarations>
 	
 	<s:SkinnableContainer id="footerBar" width="100%" height="30" bottom="0" backgroundColor="#333333" skinClass="skins.footerSkin" />
 	

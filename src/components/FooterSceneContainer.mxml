@@ -19,7 +19,7 @@
 			 * Method to initialise the footer scene object.
 			 * 
 			 **/
-			public function initScene(scene:Object):void {
+			public function initScene(scene:Object, completedTasks:Array):void {
 				//assign the scene object some metadata
 				_currentScene = scene;
 				sceneId = _currentScene.sceneId;
@@ -29,9 +29,18 @@
 				for each (var task:Object in scene.tasks as ArrayCollection) {
 					cb = new FooterTask();
 					sceneGroup.addElement(cb);
-					cb.enabled = !task.taskCompleted as Boolean;
+					
+					//only way to display the checkbox a little bigger
 					cb.scaleX = 1.3;
 					cb.scaleY = 1.3;
+					
+					//assign the task id to the object
+					cb.taskId = task.taskId;
+					
+					//assess if task is completed
+					if(completedTasks.indexOf(new String(cb.taskId)) > -1) {
+						cb.enabled = false;
+					}
 					
 					if(cb.enabled) {
 						cb.buttonMode = true;
@@ -61,6 +70,21 @@
 				sce.eventOrigin = SceneChangeEvent.FOOTER;
 				sce.sceneIndex = sceneIndex;
 				dispatchEvent(sce);
+			}
+			
+			/**
+			 *
+			 * Method to refresh the completed tasks of this scene object
+			 * 
+			 **/
+			public function updateCompletedTasks(completedTasks:Array):void {
+				var cb:FooterTask;
+				for (var i:int = 0; i < sceneGroup.numElements; i++) {
+					cb = sceneGroup.getElementAt(i) as FooterTask;
+					if(completedTasks.indexOf(cb.taskId) > -1) {
+						cb.enabled = true;
+					}
+				}
 			}
 			
 		]]>
