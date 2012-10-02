@@ -9,17 +9,42 @@
 			
 			import mx.collections.ArrayCollection;
 			
+			
+			/**
+			 *
+			 * Method to create the footer navigation bar.
+			 * 
+			 **/
 			public function buildTrajectory(menu:ArrayCollection, selectedScene:Object):void {
+				//clean the group before building
 				trajMenu.removeAllElements();
 				
+				
 				var sceneContainer:FooterSceneContainer;
+				//for each scene, add a scene object (scene button + tasks checkboxes)
 				for each (var scene:Object in menu) {
 					sceneContainer = new FooterSceneContainer();
 					trajMenu.addElement(sceneContainer);
 					sceneContainer.initScene(scene);
+				}
+				
+				updateSelectedFooterScene(selectedScene);
+				
+			}
+			
+			
+			public function updateSelectedFooterScene(selectedScene:Object):void {
+				var sceneC:FooterSceneContainer;
+				for (var i:int = 0; i < trajMenu.numElements; i++) {
+					sceneC = trajMenu.getElementAt(i) as FooterSceneContainer;
+					sceneC.sceneIndex = i;
 					
-					if(scene.sceneId == selectedScene.sceneId) {
-						sceneContainer.currentState = "selected";
+					//highlight the selected scene
+					if(sceneC.sceneId == selectedScene.sceneId) {
+						sceneC.currentState = "selected";
+					}
+					else {
+						sceneC.currentState = "default";
 					}
 				}
 				

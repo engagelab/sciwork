@@ -51,14 +51,11 @@
 			 **/
 			protected function sceneBar_changeHandler(event:IndexChangeEvent):void {
 				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
-				sce.sceneId = (sceneBar.selectedItem as Object).label;
+				sce.scene = sceneBar.selectedItem as Object;
+				sce.eventOrigin = SceneChangeEvent.MENU;
 				dispatchEvent(sce);
 				
 				selectFirstTask(sceneBar.selectedIndex);
-			}
-			
-			protected function sceneBar_valueHandler(event:FlexEvent):void {
-				
 			}
 			
 					
@@ -123,7 +120,7 @@
 			 * Dispatch event to get the content of first task for a given scene 
 			 * 
 			 **/
-			protected function selectFirstTask(sceneNumber:Number):void {
+			public function selectFirstTask(sceneNumber:Number):void {
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				
 				//check that the scene has tasks before fetching content

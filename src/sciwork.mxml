@@ -69,16 +69,22 @@
 			 * 
 			 **/
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
+				tabBar.taskBar.selectedIndex = -1;
+				
+				if(evt.eventOrigin == SceneChangeEvent.FOOTER) {
+					tabBar.sceneBar.selectedItem = evt.scene;
+					tabBar.selectFirstTask(evt.sceneIndex);
+				}
+				
+				//update footer bar
+				footer.updateSelectedFooterScene(evt.scene);
+								
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
 					currentInterface = "teacherInterface";					
 				}
 				
-				this[currentInterface].changeScene(evt.sceneId);
-				
-				//deselect previously selected task
-				tabBar.taskBar.selectedIndex = -1;
-				trace("scene changed to id: "+ evt.sceneId);
+				this[currentInterface].changeScene(evt.scene.label);
 			}
 			
 			/**
@@ -162,6 +168,7 @@
 		</s:BorderContainer>
 	</s:VGroup>
 	
+	<!-- Footer navigation component -->
 	<local:Footer id="footer" bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" />
 	
 </s:WindowedApplication>
