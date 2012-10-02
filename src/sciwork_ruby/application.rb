@@ -25,11 +25,15 @@ get '/' do
 end
 
 get '/groupInfo' do
-	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => BLACK},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => ORANGE},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => GREEN}].to_json;
+	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => BLACK},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => PURPLE},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => PINK}].to_json;
 end
 
-get '/group' do
-	return [{:susers => "[]", :password => "password", :spostits => null, :id => "5051ad583004427957d0da52", :simages => null, :runId => 3, :name => "Group 1", :svideos => null},{:susers => "[]", :password => "teacher", :spostits => null, :id => "50505a3430041fb1c28ea433", :simages => null, :runId => 3, :name => "Teacher", :svideos => null},{:susers => "[]", :password => "password", :spostits => null, :id => "50191e38da061f83602e8825", :simages => null, :runId => 3, :name => "LILLA", :svideos => null}].to_json;
+get '/completedTasks/:groupId' do
+	if params[:groupId] == '50191e38da061f83602e8825'
+		return ["11","21","22","31","41","42"].to_json;
+	else
+		return [].to_json;
+	end
 end
 
 post '/connect' do
@@ -47,14 +51,14 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "task 1", :taskCompleted => true},{:taskId => "12", :title => "task 2", :taskCompleted => false},{:taskId => "13", :title => "task 3", :taskCompleted => false}]}, 
-	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4", :taskCompleted => true},{:taskId => "22", :title => "task 5", :taskCompleted => false},{:taskId => "23", :title => "task 6", :taskCompleted => false}]},
-	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7", :taskCompleted => true},{:taskId => "32", :title => "task 8", :taskCompleted => true},{:taskId => "33", :title => "task 9", :taskCompleted => false}]},
-	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10", :taskCompleted => false},{:taskId => "42", :title => "task 11", :taskCompleted => false},{:taskId => "43", :title => "task 12", :taskCompleted => false}]},
-	{:sceneId => "1t", :title => "Presentasjon", :tasks => [{:taskId => "51", :title => "task 13", :taskCompleted => false},{:taskId => "52", :title => "task 14", :taskCompleted => false},{:taskId => "53", :title => "task 15", :taskCompleted => false}]},
-	{:sceneId => "1y", :title => "Diagram", :tasks => [{:taskId => "61", :title => "task 16", :taskCompleted => true},{:taskId => "62", :title => "task 17", :taskCompleted => false},{:taskId => "63", :title => "task 18", :taskCompleted => false}]},
-	{:sceneId => "1u", :title => "Artikkel", :tasks => [{:taskId => "71", :title => "task 19", :taskCompleted => false},{:taskId => "72", :title => "task 20", :taskCompleted => false},{:taskId => "73", :title => "task 21", :taskCompleted => false}]},
-	{:sceneId => "1i", :title => "Portfolio", :tasks => [{:taskId => "81", :title => "task 22", :taskCompleted => false},{:taskId => "82", :title => "task 23", :taskCompleted => false},{:taskId => "83", :title => "task 24", :taskCompleted => false}]}].to_json;
+	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "task 1"},{:taskId => "12", :title => "task 2"},{:taskId => "13", :title => "task 3"}]}, 
+	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4"},{:taskId => "22", :title => "task 5"},{:taskId => "23", :title => "task 6"}]},
+	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7"},{:taskId => "32", :title => "task 8"},{:taskId => "33", :title => "task 9"}]},
+	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10"},{:taskId => "42", :title => "task 11"},{:taskId => "43", :title => "task 12"}]},
+	{:sceneId => "1t", :title => "Presentasjon", :tasks => [{:taskId => "51", :title => "task 13"},{:taskId => "52", :title => "task 14"},{:taskId => "53", :title => "task 15"}]},
+	{:sceneId => "1y", :title => "Diagram", :tasks => [{:taskId => "61", :title => "task 16"},{:taskId => "62", :title => "task 17"},{:taskId => "63", :title => "task 18"}]},
+	{:sceneId => "1u", :title => "Artikkel", :tasks => [{:taskId => "71", :title => "task 19"},{:taskId => "72", :title => "task 20"},{:taskId => "73", :title => "task 21"}]},
+	{:sceneId => "1i", :title => "Portfolio", :tasks => [{:taskId => "81", :title => "task 22"},{:taskId => "82", :title => "task 23"},{:taskId => "83", :title => "task 24"}]}].to_json;
 end
 
 
@@ -64,7 +68,7 @@ get '/task/:id' do
 	elsif params[:id] == '12'
 		return {:description => "this is the description for task ID 12", :resources => "some resources for task ID 12", :taskType => "assets" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "this is the description for task ID 13", :resources => "some resources for task ID 13", :taskType => "assets" }.to_json;
+		return {:description => "this is the description for task ID 13", :resources => "some resources for task ID 13", :taskType => "keywords" }.to_json;
 	else
 		return {:description => "", :resources => ""}.to_json;
 	end
@@ -72,11 +76,22 @@ end
 
 
 get '/keywords/:groupId/:taskId' do
-	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["un","deux","trois","quatre","cinq"], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
-	#return [].to_json;
+	if params[:taskId] == '13'
+		return {"id" => "5061a1c40364f440d872358e", "keywords" => ["un","deux","trois","quatre","cinq"], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
+	else
+		return [].to_json;
+	end
 end
 
 post '/keywords' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
+end
+
+put '/keywords' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read

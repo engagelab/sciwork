@@ -18,6 +18,7 @@
 			import spark.events.TextOperationEvent;
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
+			private var _isKeywordUpdate:Boolean = false;
 			
 			/**
 			 * 
@@ -54,7 +55,12 @@
 				
 				//create urlrequest with correct headers
 				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/keywords");
-				urlRequest.method = URLRequestMethod.POST;
+				if(_isKeywordUpdate) {
+					urlRequest.method = URLRequestMethod.PUT;
+				}
+				else {
+					urlRequest.method = URLRequestMethod.POST;
+				}
 				urlRequest.contentType = "application/json";
 				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
 				
@@ -93,6 +99,8 @@
 			 * 
 			 **/
 			public function updateCurrentState(type:String):void {
+				
+				
 				switch(type) {
 					case 'keywords': {
 						//set correct state in subsequent components
@@ -148,6 +156,9 @@
 				if(res.keywords != null) {
 					updateKeywordsList(res.keywords);
 				}
+				else {
+					selection.keywordSelection.clearWordList();
+				}
 			}
 			
 			/**
@@ -184,6 +195,8 @@
 				keywordInput.wordInput.text = wordString.substr(0, wordString.length-1);
 				//enable button again via dispatchevent
 				keywordInput.wordInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
+				
+				_isKeywordUpdate = true;
 				
 			}
 			

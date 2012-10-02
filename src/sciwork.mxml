@@ -99,7 +99,6 @@
 				}
 				
 				this[currentInterface].changeTask(evt.taskId, currentGroup);
-				trace("task changed to id: "+ evt.taskId);
 			}
 			
 			/**
