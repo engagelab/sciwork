@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" verticalAlign="bottom" gap="0">
 	
 	<fx:Script>
 		<![CDATA[
@@ -79,9 +79,14 @@
 			 **/
 			public function updateCompletedTasks(completedTasks:Array):void {
 				var cb:FooterTask;
+				
 				for (var i:int = 0; i < sceneGroup.numElements; i++) {
 					cb = sceneGroup.getElementAt(i) as FooterTask;
-					if(completedTasks.indexOf(cb.taskId) > -1) {
+					
+					if(completedTasks.indexOf(new String(cb.taskId)) > -1) {
+						cb.enabled = false;
+					}
+					else {
 						cb.enabled = true;
 					}
 				}
@@ -100,8 +105,7 @@
 		<s:State name="selected" />
 	</s:states>
 	
-	<s:HGroup id="sceneGroup" verticalAlign="bottom" gap="0">
-		<s:Button id="scene" width="30" height="30" enabled.selected="false" click="handleSceneClick(event)" enabled.default="true" skinClass="skins.footerSceneButtonSkin" buttonMode.selected="false" buttonMode.default="true" />
-		<s:Spacer width="5" />
-	</s:HGroup>
+	<s:Button id="scene" width="30" height="30" enabled.selected="false" click="handleSceneClick(event)" enabled.default="true" skinClass="skins.footerSceneButtonSkin" buttonMode.selected="false" buttonMode.default="true" />
+	<s:Spacer width="5" />
+	<s:HGroup id="sceneGroup" gap="0"/>
 </s:HGroup>

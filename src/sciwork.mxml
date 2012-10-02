@@ -61,6 +61,15 @@
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
+				refreshGroupsCompletedTasks();
+			}
+			
+			/**
+			 *
+			 * Method to (re)load completed tasks by this group
+			 * 
+			 **/
+			protected function refreshGroupsCompletedTasks():void {
 				getCompletedTasks.url =  resourceManager.getString('resources', 'SERVER_URL') + "/completedTasks/" + _currentGroup.id;
 				getCompletedTasks.send();
 			}
@@ -151,6 +160,8 @@
 				else {
 					this.currentState = "loggedIn";
 				}
+				
+				footer.updateCompletedTasks();
 			}
 			
 		]]>
@@ -202,5 +213,4 @@
 	
 	<!-- Footer navigation component -->
 	<local:Footer id="footer" bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" completedTasks="{_completedTaskArray}" />
-	
 </s:WindowedApplication>
