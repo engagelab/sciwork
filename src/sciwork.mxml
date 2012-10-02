@@ -159,9 +159,8 @@
 				}
 				else {
 					this.currentState = "loggedIn";
+					footer.updateCompletedTasks();
 				}
-				
-				footer.updateCompletedTasks();
 			}
 			
 		]]>
