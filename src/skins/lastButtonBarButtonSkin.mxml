@@ -126,8 +126,8 @@
                                alpha.overAndSelected="1" />
 				-->
 				<s:GradientEntry color="0x333333" 
-								 color.selectedUpStates="0xBBBDBD"
-								 color.overStates="0xBBBDBD" 
+								 color.selectedUpStates="{groupColour}"
+								 color.overStates="{groupColour}" 
 								 color.downStates="0xAAAAAA"
 								 alpha="1" 
 								 alpha.overAndSelected="1" />
@@ -202,8 +202,8 @@
 		<s:fill>
 			<s:LinearGradient rotation="90">
 				<s:GradientEntry color="0x333333" 
-								 color.selectedUpStates="0xBBBDBD"
-								 color.overStates="0xBBBDBD" 
+								 color.selectedUpStates="{groupColour}"
+								 color.overStates="{groupColour}" 
 								 color.downStates="0xAAAAAA"
 								 alpha="1" 
 								 alpha.overAndSelected="1" />

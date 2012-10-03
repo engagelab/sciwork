@@ -8,7 +8,7 @@ require 'logger'
 BLACK = '0x000000'
 ORANGE = '0xFF9736'
 PINK = '0xFF3288'
-PURPLE = '0x8111D78'
+PURPLE = '0x811D78'
 GREEN = '0x89BD46'
 BLUE = '0x4ACAF1'
 ROWN = '0x6E3F30'
@@ -51,7 +51,7 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "task 1"},{:taskId => "12", :title => "task 2"},{:taskId => "13", :title => "task 3"}]}, 
+	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "Level 1"},{:taskId => "12", :title => "task 2"},{:taskId => "13", :title => "task 3"}]}, 
 	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4"},{:taskId => "22", :title => "task 5"},{:taskId => "23", :title => "task 6"}]},
 	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7"},{:taskId => "32", :title => "task 8"},{:taskId => "33", :title => "task 9"}]},
 	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10"},{:taskId => "42", :title => "task 11"},{:taskId => "43", :title => "task 12"}]},

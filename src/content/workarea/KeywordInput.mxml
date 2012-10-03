@@ -61,6 +61,6 @@
 	
 	<s:HGroup width="100%" height="100%" gap="0">
 		<s:TextInput id="wordInput" width="100%" height="100%" borderVisible="false" change="wordInput_changeHandler(event)" />
-		<s:Button id="sender" enabled="false" height="100%" width="100" label="LEVER" buttonMode="true" skinClass="skins.keywordSendButtonSkin" click="sendKeywords(event)" />
+		<s:Button id="sender" enabled="false" height="100%" width="100" label="LEVER" buttonMode="true" skinClass="skins.addToPortfolioButtonSkin" click="sendKeywords(event)" />
 	</s:HGroup>
 </s:BorderContainer>

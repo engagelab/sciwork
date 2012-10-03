@@ -72,7 +72,7 @@
 		<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
 		<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
 		<preview:Comments id="comments"/>
-		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" skinClass="skins.keywordSendButtonSkin" excludeFrom="keywordsState, default" />
+		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" skinClass="skins.addToPortfolioButtonSkin" excludeFrom="keywordsState, default" />
 	</s:BorderContainer>	
 
 </s:VGroup>
