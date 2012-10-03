@@ -236,6 +236,7 @@
 	<fx:Declarations>
 		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" />
 		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" />
+		
 		<fx:Object id="currentGroup" />
 		<fx:uint id="taskId" />
 	</fx:Declarations>

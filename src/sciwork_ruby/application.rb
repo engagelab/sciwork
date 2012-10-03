@@ -64,11 +64,11 @@ end
 
 get '/task/:id' do
 	if params[:id] == '11'
-		return {:description => "this is the description for task ID 11", :resources => "some resources for task ID 11", :taskType => "keywords" }.to_json;
+		return {:description => "this is the description for task ID 11", :taskType => "keywords", :title => "Level 1" }.to_json;
 	elsif params[:id] == '12'
-		return {:description => "this is the description for task ID 12", :resources => "some resources for task ID 12", :taskType => "assets" }.to_json;
+		return {:description => "this is the description for task ID 12", :taskType => "assets", :title => "task 2" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "this is the description for task ID 13", :resources => "some resources for task ID 13", :taskType => "keywords" }.to_json;
+		return {:description => "this is the description for task ID 13", :taskType => "keywords", :title => "task 3" }.to_json;
 	else
 		return {:description => "", :resources => ""}.to_json;
 	end

@@ -7,12 +7,12 @@
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			[Bindable] private var _description:String = "";
-			[Bindable] private var _resources:String = "";
 			
 			[Bindable] private var _currentGroup:Object;
 			[Bindable] private var _taskId:uint;
@@ -26,7 +26,6 @@
 			public function changeScene(sceneId:uint):void {
 				//reset left panels
 				_description = "";
-				_resources = "";
 			}
 
 			/**
@@ -52,7 +51,7 @@
 				//store the returned object as JSON 
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				_description = res.description;
-				_resources = res.resources;
+				updateResources(res.title);
 				
 				workareaContainer.updateCurrentState(res.taskType);
 			}
@@ -66,10 +65,63 @@
 				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
 			}
 			
+			/**
+			 * 
+			 * public method to stop the videoPlayer
+			 * 
+			 **/
 			public function stopPlayingMedia():void {
 				if(workareaContainer.currentState == "assets") {
 					workareaContainer.preview.videoViewer.player.stopVideo();
 				}
+			}
+			
+			/**
+			 * 
+			 * Function to call the GDrive service an obtain a listing of resources
+			 * 
+			 **/
+			protected function updateResources(taskName:String):void {
+				var params:Object = new Object();
+				params.folderName = taskName;
+				
+				//create urlrequest with correct headers
+				var urlRequest:URLRequest = new URLRequest("http://scihub.uio.no:4568/gdriveFiles");
+				urlRequest.method = URLRequestMethod.POST;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				//load the url and define listeners
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
+				uploader.load(urlRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsComplete
+			 * 
+			 **/
+			protected function handlePostKeywordsComplete(ev:Event):void {
+				//extract result as JSON
+				var res:Array = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
+				
+				var resourceArray:ArrayCollection = new ArrayCollection();
+				for each (var resource:Object in res) {
+					resourceArray.addItem(resource);
+				}
+				
+				resourceContainer.content = resourceArray;
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsIOerror
+			 * 
+			 **/
+			protected function handlePostKeywordsIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while retrieving the list of resources from the server.", "GDrive service error");
 			}
 			
 		]]>
@@ -87,7 +139,7 @@
 	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState" gap="{sciwork._gapBetweenContainers}">
 		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
-			<content:Resources id="resourceContainer" width="100%" height="150" content="{_resources}" />
+			<content:Resources id="resourceContainer" width="100%" height="150" />
 		</s:VGroup>
 		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" />
 	</s:HGroup>
