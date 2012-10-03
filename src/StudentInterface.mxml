@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*" xmlns:workarea="content.workarea.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*" xmlns:workarea="content.workarea.*" creationComplete="initGroup(event)">
 	
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
-			
+			import listeners.ShowWebPage;
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
 			[Bindable] private var _description:String = "";
-			
 			[Bindable] private var _currentGroup:Object;
 			[Bindable] private var _taskId:uint;
+			[Bindable] private var _htmlLocation:String = "";
 			
 			
 			/**
@@ -24,6 +25,8 @@
 			 * 
 			 **/
 			public function changeScene(sceneId:uint):void {
+				this.currentState = "contentState";
+				
 				//reset left panels
 				_description = "";
 			}
@@ -34,6 +37,7 @@
 			 * 
 			 **/
 			public function changeTask(taskId:uint, currentGroup:Object):void {
+				this.currentState = "contentState";
 				_taskId = taskId;
 				_currentGroup = currentGroup;
 				
@@ -82,6 +86,8 @@
 			 * 
 			 **/
 			protected function updateResources(taskName:String):void {
+				resourceContainer.currentState = "loading";
+				
 				var params:Object = new Object();
 				params.folderName = taskName;
 				
@@ -113,6 +119,7 @@
 				}
 				
 				resourceContainer.content = resourceArray;
+				resourceContainer.currentState = "loaded";
 			}
 			
 			/**
@@ -122,6 +129,25 @@
 			 **/
 			protected function handlePostKeywordsIOerror(ev:IOErrorEvent):void {
 				Alert.show("An error occured while retrieving the list of resources from the server.", "GDrive service error");
+			}
+			
+			/**
+			 * 
+			 * Init function for this component 
+			 * 
+			 **/
+			protected function initGroup(event:FlexEvent):void {
+				this.addEventListener(resourceManager.getString('resources', 'LOAD_WEBPAGE'), handleLoadWebpagelRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handling method for LOAD_WEBPAGE
+			 * 
+			 **/
+			protected function handleLoadWebpagelRequest(evt:ShowWebPage):void {
+				this.currentState = "webState";				
+				_htmlLocation = evt.url;
 			}
 			
 		]]>
@@ -134,6 +160,7 @@
 	<s:states>
 		<s:State name="contentState" />
 		<s:State name="simulationState" />
+		<s:State name="webState" />
 	</s:states>
 	
 	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState" gap="{sciwork._gapBetweenContainers}">
@@ -144,4 +171,8 @@
 		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" />
 	</s:HGroup>
 	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState" />
+	<s:Group width="100%" height="100%" includeIn="webState">
+		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" />
+		<s:Button label="X" click="this.currentState='contentState'" />
+	</s:Group>
 </s:Group>

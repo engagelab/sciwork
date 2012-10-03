@@ -51,7 +51,7 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "Level 1"},{:taskId => "12", :title => "task 2"},{:taskId => "13", :title => "task 3"}]}, 
+	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "Level 1"},{:taskId => "12", :title => "Level 2"},{:taskId => "13", :title => "Level 3"}]}, 
 	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4"},{:taskId => "22", :title => "task 5"},{:taskId => "23", :title => "task 6"}]},
 	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7"},{:taskId => "32", :title => "task 8"},{:taskId => "33", :title => "task 9"}]},
 	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10"},{:taskId => "42", :title => "task 11"},{:taskId => "43", :title => "task 12"}]},
@@ -66,9 +66,9 @@ get '/task/:id' do
 	if params[:id] == '11'
 		return {:description => "this is the description for task ID 11", :taskType => "keywords", :title => "Level 1" }.to_json;
 	elsif params[:id] == '12'
-		return {:description => "this is the description for task ID 12", :taskType => "assets", :title => "task 2" }.to_json;
+		return {:description => "this is the description for task ID 12", :taskType => "assets", :title => "Level 2" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "this is the description for task ID 13", :taskType => "keywords", :title => "task 3" }.to_json;
+		return {:description => "this is the description for task ID 13", :taskType => "keywords", :title => "Level 3" }.to_json;
 	else
 		return {:description => "", :resources => ""}.to_json;
 	end

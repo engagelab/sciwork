@@ -6,9 +6,14 @@
 		<s:ArrayCollection id="content" />
 	</fx:Declarations>
 	
+	<s:states>
+		<s:State name="loading" />
+		<s:State name="loaded" />
+	</s:states>
+	
 	<components:SectionHeader width="100%" height="20" titleString="RESSURSER" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:List borderVisible="false" dataProvider="{content}" left="5" right="5" top="5" bottom="5" itemRenderer="itemRenderers.resourceListRenderer"/>
+		<s:List borderVisible="false" dataProvider="{content}" left="5" right="5" top="5" bottom="5" itemRenderer="itemRenderers.resourceListRenderer" includeIn="loaded"/>
+		<s:BusyIndicator horizontalCenter="0" verticalCenter="0" includeIn="loading" />
 	</s:BorderContainer>
-	
 </s:VGroup>

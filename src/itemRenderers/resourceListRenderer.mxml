@@ -2,7 +2,21 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="true" minHeight="20">
+				autoDrawBackground="true" minHeight="20" click="goToLinkURL(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ShowWebPage;
+			
+			protected function goToLinkURL(event:MouseEvent):void {
+				var swp:ShowWebPage = new ShowWebPage(resourceManager.getString('resources', 'LOAD_WEBPAGE'), true);
+				swp.url = data.url;
+				dispatchEvent(swp);
+			}
+		]]>
+	</fx:Script>
+	
+	
 	
 	<s:Label text="{data.title}" color="0x26C1FF" textDecoration="underline" verticalCenter="0" />
 	
