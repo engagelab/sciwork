@@ -96,11 +96,11 @@
 				for each (var scene:Object in res) {
 					tasks = new ArrayCollection();
 					//loop through all the tasks for current scene
-					for each (var task:Object in scene.tasks as Array) {
-						tasks.addItem({label: task.title, taskId: task.taskId, taskCompleted: task.taskCompleted});
+					for each (var task:Object in scene.stasks as Array) {
+						tasks.addItem({label: task.title, taskId: task.id});
 					}
 					//build menu collection
-					tabs.addItem({label: scene.title, sceneId: scene.sceneId, tasks: tasks});
+					tabs.addItem({label: scene.title, sceneId: scene.id, tasks: tasks});
 				}
 				
 				dividerColor = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);

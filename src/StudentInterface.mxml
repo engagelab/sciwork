@@ -6,7 +6,9 @@
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
+			
 			import listeners.ShowWebPage;
+			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -15,7 +17,7 @@
 			
 			[Bindable] private var _description:String = "";
 			[Bindable] private var _currentGroup:Object;
-			[Bindable] private var _taskId:uint;
+			[Bindable] private var _taskId:String;
 			[Bindable] private var _htmlLocation:String = "";
 			
 			
@@ -36,7 +38,7 @@
 			 * called when a new task is selected 
 			 * 
 			 **/
-			public function changeTask(taskId:uint, currentGroup:Object):void {
+			public function changeTask(taskId:String, currentGroup:Object):void {
 				this.currentState = "contentState";
 				_taskId = taskId;
 				_currentGroup = currentGroup;

@@ -28,7 +28,7 @@ get '/groupInfo' do
 	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => BLACK},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => PURPLE},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => PINK}].to_json;
 end
 
-get '/completedTasks/:groupId' do
+get '/tasksCompleted/:groupId' do
 	if params[:groupId] == '50191e38da061f83602e8825'
 		return ["11","21","22","31","41","42"].to_json;
 	else
@@ -51,14 +51,14 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:sceneId => "1q", :title => "Stikkord", :tasks => [{:taskId => "11", :title => "Level 1"},{:taskId => "12", :title => "Level 2"},{:taskId => "13", :title => "Level 3"}]}, 
-	{:sceneId => "1w", :title => "Eksperiment", :tasks => [{:taskId => "21", :title => "task 4"},{:taskId => "22", :title => "task 5"},{:taskId => "23", :title => "task 6"}]},
-	{:sceneId => "1e", :title => "Museum", :tasks => [{:taskId => "31", :title => "task 7"},{:taskId => "32", :title => "task 8"},{:taskId => "33", :title => "task 9"}]},
-	{:sceneId => "1r", :title => "Simulering", :tasks => [{:taskId => "41", :title => "task 10"},{:taskId => "42", :title => "task 11"},{:taskId => "43", :title => "task 12"}]},
-	{:sceneId => "1t", :title => "Presentasjon", :tasks => [{:taskId => "51", :title => "task 13"},{:taskId => "52", :title => "task 14"},{:taskId => "53", :title => "task 15"}]},
-	{:sceneId => "1y", :title => "Diagram", :tasks => [{:taskId => "61", :title => "task 16"},{:taskId => "62", :title => "task 17"},{:taskId => "63", :title => "task 18"}]},
-	{:sceneId => "1u", :title => "Artikkel", :tasks => [{:taskId => "71", :title => "task 19"},{:taskId => "72", :title => "task 20"},{:taskId => "73", :title => "task 21"}]},
-	{:sceneId => "1i", :title => "Portfolio", :tasks => [{:taskId => "81", :title => "task 22"},{:taskId => "82", :title => "task 23"},{:taskId => "83", :title => "task 24"}]}].to_json;
+	return [{:id => "1q", :title => "Stikkord", :stasks => [{:id => "11", :title => "Level 1"},{:id => "12", :title => "Level 2"},{:id => "13", :title => "Level 3"}]}, 
+	{:id => "1w", :title => "Eksperiment", :stasks => [{:id => "21", :title => "task 4"},{:id => "22", :title => "task 5"},{:id => "23", :title => "task 6"}]},
+	{:id => "1e", :title => "Museum", :stasks => [{:id => "31", :title => "task 7"},{:id => "32", :title => "task 8"},{:id => "33", :title => "task 9"}]},
+	{:id => "1r", :title => "Simulering", :stasks => [{:id => "41", :title => "task 10"},{:id => "42", :title => "task 11"},{:id => "43", :title => "task 12"}]},
+	{:id => "1t", :title => "Presentasjon", :stasks => [{:id => "51", :title => "task 13"},{:id => "52", :title => "task 14"},{:id => "53", :title => "task 15"}]},
+	{:id => "1y", :title => "Diagram", :stasks => [{:id => "61", :title => "task 16"},{:id => "62", :title => "task 17"},{:id => "63", :title => "task 18"}]},
+	{:id => "1u", :title => "Artikkel", :stasks => [{:id => "71", :title => "task 19"},{:id => "72", :title => "task 20"},{:id => "73", :title => "task 21"}]},
+	{:id => "1i", :title => "Portfolio", :stasks => [{:id => "81", :title => "task 22"},{:id => "82", :title => "task 23"},{:id => "83", :title => "task 24"}]}].to_json;
 end
 
 

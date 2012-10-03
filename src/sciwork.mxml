@@ -70,7 +70,7 @@
 			 * 
 			 **/
 			protected function refreshGroupsCompletedTasks():void {
-				getCompletedTasks.url =  resourceManager.getString('resources', 'SERVER_URL') + "/completedTasks/" + _currentGroup.id;
+				getCompletedTasks.url =  resourceManager.getString('resources', 'SERVER_URL') + "/tasksCompleted/" + _currentGroup.id;
 				getCompletedTasks.send();
 			}
 			
