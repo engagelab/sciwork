@@ -25,22 +25,6 @@
 			
 			import spark.events.IndexChangeEvent;
 			
-			/**
-			 * 
-			 * Static menu definition 
-			 * 
-			 **/
-			/*private static const tabs:ArrayCollection = new ArrayCollection([
-				{label: "week 1", tasks: new ArrayCollection(["task 1", "task 2", "task 3"])},
-				{label: "week 2", tasks: new ArrayCollection(["task 4", "task 5", "task 6"])},
-				{label: "week 3", tasks: new ArrayCollection(["task 7", "task 8", "task 9"])},
-				{label: "week 4", tasks: new ArrayCollection(["task 10", "task 11", "task 12"])},
-				{label: "week 5", tasks: new ArrayCollection(["task 13", "task 14", "task 15"])},
-				{label: "week 6", tasks: new ArrayCollection(["task 16", "task 17", "task 18"])},
-				{label: "week 7", tasks: new ArrayCollection(["task 19", "task 20", "task 21"])},
-				{label: "week 8", tasks: new ArrayCollection(["task 22", "task 23", "task 24"])}
-			]);*/
-			
 			[Bindable] private var tabs:ArrayCollection;
 			[Bindable] private var dividerColor:uint = 0xFFFFFF;
 			
@@ -97,6 +81,10 @@
 					tasks = new ArrayCollection();
 					//loop through all the tasks for current scene
 					for each (var task:Object in scene.stasks as Array) {
+						
+						if(task.icon == "") {
+							task.icon = "cyclepump.png";
+						}
 						tasks.addItem({label: task.title, taskId: task.id, icon: task.icon});
 					}
 					//build menu collection
@@ -154,7 +142,7 @@
 					<s:SolidColor color="#EEEEEE" />
 				</s:fill>
 			</s:Rect>
-			<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}"  change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
+			<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
 				<s:layout>
 					<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{sceneBar.width/tabs.length}" />
 				</s:layout>
