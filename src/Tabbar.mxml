@@ -83,10 +83,14 @@
 					for each (var task:Object in scene.stasks as Array) {
 						
 						if(task.icon == "") {
-							task.icon = "cyclepump.png";
+							task.icon = "notask.png";
 						}
 						tasks.addItem({label: task.title, taskId: task.id, icon: task.icon});
 					}
+					
+					if(scene.icon == "") {
+						scene.icon = "noscene.png";
+					}					
 					//build menu collection
 					tabs.addItem({label: scene.title, sceneId: scene.id, tasks: tasks, icon: scene.icon});
 				}
@@ -126,7 +130,7 @@
 				distance="3" alpha=".5" blurX="7" blurY="7"
 				angle="90" />
 		</s:filters>
-		<s:ButtonBar id="sceneBar" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" skinClass="skins.buttonBarSkin" buttonMode="true">
+		<s:ButtonBar id="sceneBar" tabEnabled="false" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" skinClass="skins.buttonBarSkin" buttonMode="true">
 			<s:layout>
 				<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{(sceneBar.width)/tabs.length}" />
 			</s:layout>
