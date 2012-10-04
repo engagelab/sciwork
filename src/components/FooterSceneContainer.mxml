@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx" verticalAlign="bottom" gap="0">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" verticalAlign="bottom" gap="0" xmlns:components="components.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -10,9 +10,10 @@
 			import mx.collections.ArrayCollection;
 			
 			import spark.components.CheckBox;
+			import spark.primitives.BitmapImage;
 			
 			
-			private var _currentScene:Object;
+			[Bindable] private var _currentScene:Object;
 			
 			/**
 			 *
@@ -23,6 +24,11 @@
 				//assign the scene object some metadata
 				_currentScene = scene;
 				sceneId = _currentScene.sceneId;
+				
+				//var bi:BitmapImage = new BitmapImage();
+				//bi.source = resourceManager.getString('resources', 'SERVER_URL')+'/assets/toolbars/'+_currentScene.icon;
+				//sceneBtn.iconDisplay = bi;
+				
 				
 				var cb:FooterTask;
 				//for each tasks found in the scene, display them as a "finished" or "unfinished" checkbox
@@ -47,7 +53,6 @@
 						//cb.addEventListener(MouseEvent.CLICK, handleTaskClick);
 					}
 				}
-				
 			}
 			
 			/**
@@ -105,7 +110,7 @@
 		<s:State name="selected" />
 	</s:states>
 	
-	<s:Button id="scene" width="30" height="30" enabled.selected="false" click="handleSceneClick(event)" enabled.default="true" skinClass="skins.footerSceneButtonSkin" buttonMode.selected="false" buttonMode.default="true" />
+	<components:FooterSceneButton imgUrl="{resourceManager.getString('resources', 'SERVER_URL')+'/assets/toolbars/'+_currentScene.icon}" currentState="{this.currentState}" click="handleSceneClick(event)" buttonMode.default="true" buttonMode.selected="false" />
 	<s:Spacer width="5" />
 	<s:HGroup id="sceneGroup" gap="0"/>
 </s:HGroup>

@@ -183,7 +183,7 @@
 		<local:Header excludeFrom="loggedOff" itemDestructionPolicy="auto" />
 		
 		<!-- Logging component -->
-		<local:GroupLogger id="groupLogger" width="100%" height="100%" includeIn="loggedOff" />
+		<local:GroupLogger id="groupLogger" width="100%" height="100%" includeIn="loggedOff" itemDestructionPolicy="auto" />
 		
 		
 		<s:BorderContainer width="100%" height="100%" borderColor="#eeeeee" cornerRadius="4" borderAlpha=".3" excludeFrom="loggedOff">

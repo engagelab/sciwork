@@ -51,14 +51,14 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:id => "1q", :title => "Stikkord", :stasks => [{:id => "11", :title => "Level 1"},{:id => "12", :title => "Level 2"},{:id => "13", :title => "Level 3"}]}, 
-	{:id => "1w", :title => "Eksperiment", :stasks => [{:id => "21", :title => "task 4"},{:id => "22", :title => "task 5"},{:id => "23", :title => "task 6"}]},
-	{:id => "1e", :title => "Museum", :stasks => [{:id => "31", :title => "task 7"},{:id => "32", :title => "task 8"},{:id => "33", :title => "task 9"}]},
-	{:id => "1r", :title => "Simulering", :stasks => [{:id => "41", :title => "task 10"},{:id => "42", :title => "task 11"},{:id => "43", :title => "task 12"}]},
-	{:id => "1t", :title => "Presentasjon", :stasks => [{:id => "51", :title => "task 13"},{:id => "52", :title => "task 14"},{:id => "53", :title => "task 15"}]},
-	{:id => "1y", :title => "Diagram", :stasks => [{:id => "61", :title => "task 16"},{:id => "62", :title => "task 17"},{:id => "63", :title => "task 18"}]},
-	{:id => "1u", :title => "Artikkel", :stasks => [{:id => "71", :title => "task 19"},{:id => "72", :title => "task 20"},{:id => "73", :title => "task 21"}]},
-	{:id => "1i", :title => "Portfolio", :stasks => [{:id => "81", :title => "task 22"},{:id => "82", :title => "task 23"},{:id => "83", :title => "task 24"}]}].to_json;
+	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "Level 1", :icon => "cyclepump.png"},{:id => "12", :title => "Level 2", :icon => "vapo.png"},{:id => "13", :title => "Level 3", :icon => "seringe.png"}]}, 
+	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "task 4", :icon => ""},{:id => "22", :title => "task 5", :icon => ""},{:id => "23", :title => "task 6", :icon => ""}]},
+	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "task 7", :icon => ""},{:id => "32", :title => "task 8", :icon => ""},{:id => "33", :title => "task 9", :icon => ""}]},
+	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "task 10", :icon => ""},{:id => "42", :title => "task 11", :icon => ""},{:id => "43", :title => "task 12", :icon => ""}]},
+	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "task 13", :icon => ""},{:id => "52", :title => "task 14", :icon => ""},{:id => "53", :title => "task 15", :icon => ""}]},
+	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "task 16", :icon => ""},{:id => "62", :title => "task 17", :icon => ""},{:id => "63", :title => "task 18", :icon => ""}]},
+	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "task 19", :icon => ""},{:id => "72", :title => "task 20", :icon => ""},{:id => "73", :title => "task 21", :icon => ""}]},
+	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "task 22", :icon => ""},{:id => "82", :title => "task 23", :icon => ""},{:id => "83", :title => "task 24", :icon => ""}]}].to_json;
 end
 
 
@@ -99,8 +99,7 @@ put '/keywords' do
 	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
-get '/assets/:groupId/:taskId' do
-	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["un","deux","trois","quatre","cinq"], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
+get '/contributions/:groupId/:taskId' do
 	return [].to_json;
 end
 

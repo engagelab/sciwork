@@ -178,7 +178,7 @@
 		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" />
 	</s:HGroup>
 	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState" />
-	<s:Group width="100%" height="100%" includeIn="webState">
+	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">
 		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:Button label="X" click="this.currentState='contentState'" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />

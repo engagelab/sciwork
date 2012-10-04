@@ -121,7 +121,7 @@
 						preview.currentState = "default";
 						
 						//get existing assets selection (portfolio) for the current task and group
-						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/assets/" + currentGroup.id + "/" + taskId;
+						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
 						getAssetsPortfolio.send();
 						break;
 					}

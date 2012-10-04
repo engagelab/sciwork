@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="getAllGroups.send()">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="initGroup(event)" >
 	
 	<fx:Script>
 		<![CDATA[
@@ -41,6 +41,8 @@
 				for each (var act:Object in res) {
 					_groupList.addItem({title: act.name, id: act.id, colour: act.colour});
 				}
+				
+				groupCombo.selectedIndex = 1;
 			}
 			public function get groupList():ArrayCollection
 			{
@@ -52,7 +54,7 @@
 			 * Handles click on LOG IN button 
 			 * 
 			 **/
-			protected function validateBeforeLoggingIn(event:MouseEvent):void {
+			protected function validateBeforeLoggingIn():void {
 				//validate the combo
 				var groupValidation:ValidationResultEvent = groupValidator.validate();
 				var passValidation:ValidationResultEvent = passwordValidator.validate();
@@ -60,7 +62,6 @@
 				if (groupValidation.type == ValidationResultEvent.VALID && passValidation.type == ValidationResultEvent.VALID) {
 					submitForm();
 				}
-
 			}
 			
 			/**
@@ -98,10 +99,11 @@
 						break;
 					case 200:
 						//login OK, password accepted
+						this.removeEventListener(KeyboardEvent.KEY_DOWN, checkKey);
+						
 						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'SERVER_URL'), true);
 						lae.selectedGroup = groupCombo.selectedItem as Object;
 						dispatchEvent(lae);
-						
 						break;
 					case 401:
 						//login not OK, wrong password
@@ -118,6 +120,22 @@
 			 **/
 			private function ioErrorHandler(ev:IOErrorEvent):void {
 				trace(ev.errorID);
+			}
+			
+			/**
+			 *
+			 * Init function for this component 
+			 * 
+			 **/
+			protected function initGroup(event:FlexEvent):void {
+				this.addEventListener(KeyboardEvent.KEY_DOWN, checkKey);
+				getAllGroups.send();
+			}
+			
+			protected function checkKey(event:KeyboardEvent):void {
+				if(event.charCode == 13) {
+					validateBeforeLoggingIn();
+				}
 			}
 			
 		]]>
@@ -141,9 +159,9 @@
 		</s:HGroup>
 		<s:HGroup verticalAlign="middle" width="100%">
 			<s:Label text="Password:" width="70"/>
-			<s:TextInput id="groupPass" text="password" displayAsPassword="true" width="100%"/>
+			<s:TextInput id="groupPass" text="lilla" displayAsPassword="true" width="100%"/>
 		</s:HGroup>
 		<s:Spacer height="20" />
-		<s:Button label="LOG IN" click="validateBeforeLoggingIn(event)" />
+		<s:Button label="LOG IN" click="validateBeforeLoggingIn()" />
 	</s:VGroup>
 </s:Group>
