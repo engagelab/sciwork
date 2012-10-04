@@ -41,8 +41,6 @@
 				for each (var act:Object in res) {
 					_groupList.addItem({title: act.name, id: act.id, colour: act.colour});
 				}
-				
-				groupCombo.selectedIndex = 1;
 			}
 			public function get groupList():ArrayCollection
 			{
@@ -159,7 +157,7 @@
 		</s:HGroup>
 		<s:HGroup verticalAlign="middle" width="100%">
 			<s:Label text="Password:" width="70"/>
-			<s:TextInput id="groupPass" text="lilla" displayAsPassword="true" width="100%"/>
+			<s:TextInput id="groupPass" text="password" displayAsPassword="true" width="100%"/>
 		</s:HGroup>
 		<s:Spacer height="20" />
 		<s:Button label="LOG IN" click="validateBeforeLoggingIn()" />
