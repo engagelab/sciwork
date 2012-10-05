@@ -52,13 +52,13 @@ end
 
 get '/menu' do
 	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "Level 1", :icon => "cyclepump.png"},{:id => "12", :title => "Level 2", :icon => "vapo.png"},{:id => "13", :title => "Level 3", :icon => "seringe.png"}]}, 
-	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "task 4", :icon => ""},{:id => "22", :title => "task 5", :icon => ""},{:id => "23", :title => "task 6", :icon => ""}]},
-	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "task 7", :icon => ""},{:id => "32", :title => "task 8", :icon => ""},{:id => "33", :title => "task 9", :icon => ""}]},
-	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "task 10", :icon => ""},{:id => "42", :title => "task 11", :icon => ""},{:id => "43", :title => "task 12", :icon => ""}]},
-	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "task 13", :icon => ""},{:id => "52", :title => "task 14", :icon => ""},{:id => "53", :title => "task 15", :icon => ""}]},
-	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "task 16", :icon => ""},{:id => "62", :title => "task 17", :icon => ""},{:id => "63", :title => "task 18", :icon => ""}]},
-	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "task 19", :icon => ""},{:id => "72", :title => "task 20", :icon => ""},{:id => "73", :title => "task 21", :icon => ""}]},
-	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "task 22", :icon => ""},{:id => "82", :title => "task 23", :icon => ""},{:id => "83", :title => "task 24", :icon => ""}]}].to_json;
+	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "task", :icon => ""},{:id => "22", :title => "task", :icon => ""},{:id => "23", :title => "task", :icon => ""}]},
+	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "task", :icon => ""},{:id => "32", :title => "task", :icon => ""},{:id => "33", :title => "task", :icon => ""}]},
+	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "task", :icon => ""},{:id => "42", :title => "task", :icon => ""},{:id => "43", :title => "task", :icon => ""}]},
+	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "task", :icon => ""},{:id => "52", :title => "task", :icon => ""},{:id => "53", :title => "task", :icon => ""}]},
+	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "task", :icon => ""},{:id => "62", :title => "task", :icon => ""},{:id => "63", :title => "task", :icon => ""}]},
+	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "task", :icon => ""},{:id => "72", :title => "task", :icon => ""},{:id => "73", :title => "task", :icon => ""}]},
+	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "task", :icon => ""},{:id => "82", :title => "task", :icon => ""},{:id => "83", :title => "task", :icon => ""}]}].to_json;
 end
 
 
@@ -70,7 +70,7 @@ get '/task/:id' do
 	elsif params[:id] == '13'
 		return {:description => "this is the description for task ID 13", :taskType => "keywords", :title => "Level 3" }.to_json;
 	else
-		return {:description => "", :resources => ""}.to_json;
+		return {:description => "", :resources => "", :title => "task" }.to_json;
 	end
 end
 
@@ -100,7 +100,7 @@ put '/keywords' do
 end
 
 get '/contributions/:groupId/:taskId' do
-	return [].to_json;
+	return {"svideos" => [{:id => "vid1", :name => "hCSPf5Viwd0"}], "simages" => [{:id => "img1", :name => "agY1PPsq6oA"}], "spostits" => []}.to_json;
 end
 
 post '/assets' do

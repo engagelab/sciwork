@@ -8,34 +8,31 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import mx.events.FlexEvent;
-			
-			private var _baseImageURL:String = "";
-			// YouTube image thumbnail looks like this:   http://img.youtube.com/vi/xxxxxxxxxxx/1.jpg
-			// Size is 120x90
-			private var _youtubeBaseImageURL:String = "http://img.youtube.com/vi/";
-			
-			// YouTube video looks like this: http://www.youtube.com/v/agY1PPsq6oA
-			private var _youtubeBaseVideoURL:String = "http://www.youtube.com/v/"; 
-			
-			private var testPreviewSource:String = _youtubeBaseImageURL + "hCSPf5Viwd0" + "/1.jpg";
-			private var testFullSizeSource:String = "hCSPf5Viwd0";
-			private var test2PreviewSource:String = _youtubeBaseImageURL + "agY1PPsq6oA" + "/1.jpg";
-			private var test2FullSizeSource:String = _youtubeBaseImageURL + "agY1PPsq6oA" + "/0.jpg";
-			
-			public function initCollection():void {
+			public function initCollection(contributions:Object):void {
 					this.currentState = "graphicState";
 					materialItems.removeAllElements();
+					var newItem:MaterialsItem;
 					
-					var newItem:MaterialsItem = new MaterialsItem();
-					newItem.id = "ID " + "1";
-					newItem.setupPreview("video", testFullSizeSource, testPreviewSource);
-					materialItems.addElement(newItem);
-
-					var newItem2:MaterialsItem = new MaterialsItem();
-					newItem2.id = "ID " + "2";
-					newItem2.setupPreview("image", test2FullSizeSource, test2PreviewSource);
-					materialItems.addElement(newItem2);
+					//extract videos
+					for each (var video:Object in contributions.svideos) {
+						newItem = new MaterialsItem();
+						newItem.id = video.id;
+						newItem.setupPreview("video", video.name, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+video.name+"/1.jpg");
+						materialItems.addElement(newItem);
+					}
+					
+					//extract images
+					for each (var image:Object in contributions.simages) {
+						newItem = new MaterialsItem();
+						newItem.id = image.id;
+						newItem.setupPreview("image", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+image.name+"/0.jpg", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+image.name+"/1.jpg");
+						materialItems.addElement(newItem);
+					}
+					
+					//extract texts
+					for each (var text:Object in contributions.spostits) {
+						//TODO: define text object
+					}
 			}
 		]]>
 	</fx:Script>

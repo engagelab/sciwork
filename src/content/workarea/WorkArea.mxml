@@ -217,7 +217,7 @@
 			protected function getAssets_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				materials.initCollection();
+				materials.initCollection(res);
 			}
 			
 			/**
