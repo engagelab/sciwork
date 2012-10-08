@@ -100,7 +100,7 @@ put '/keywords' do
 end
 
 get '/contributions/:groupId/:taskId' do
-	return {"svideos" => [{:id => "vid1", :name => "hCSPf5Viwd0"}], "simages" => [{:id => "img1", :name => "agY1PPsq6oA"}], "spostits" => []}.to_json;
+	return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => "false"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => "true"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => "false"}], "spostits" => []}.to_json;
 end
 
 post '/assets' do

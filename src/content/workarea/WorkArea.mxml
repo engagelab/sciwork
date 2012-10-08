@@ -7,6 +7,8 @@
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
 			
+			import content.workarea.materials.MaterialsItem;
+			
 			import listeners.MaterialToPreviewEvent;
 			import listeners.SubmitKeywordsEvent;
 			
@@ -216,8 +218,45 @@
 			 **/
 			protected function getAssets_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
-				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				materials.initCollection(res);
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				materialItems.removeAllElements();
+				var newItem:MaterialsItem;
+				
+				//extract videos
+				for each (var video:Object in contributions.svideos) {
+					newItem = new MaterialsItem();
+					
+					if(video.isPortfolio == "false") {
+						materialItems.addElement(newItem);
+					}
+					else {
+						selection.assetSelection.portfolioGroup.addElement(newItem);
+					}
+					
+					newItem.id = video.id;
+					newItem.setupPreview("video", video.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+video.uri+"/1.jpg");
+				}
+				
+				//extract images
+				for each (var image:Object in contributions.simages) {
+					newItem = new MaterialsItem();
+					
+					if(image.isPortfolio == "false") {
+						materialItems.addElement(newItem);
+					}
+					else {
+						selection.assetSelection.portfolioGroup.addElement(newItem);
+					}
+					
+					newItem.id = image.id;
+					newItem.setupPreview("image", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+image.uri+"/0.jpg", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+image.uri+"/1.jpg");
+				}
+				
+				//extract texts
+				for each (var text:Object in contributions.spostits) {
+					//TODO: define text object
+				}
 			}
 			
 			/**
@@ -250,7 +289,11 @@
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<preview:Preview id="preview" width="100%" height="100%" />
-			<materials:Materials id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" />
+			<s:BorderContainer id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" borderAlpha=".3" >
+				<s:Scroller top="5" right="5" bottom="5" left="5">
+					<s:HGroup id="materialItems" />
+				</s:Scroller>
+			</s:BorderContainer>
 			<workarea:KeywordInput id="keywordInput" width="100%" height="50" includeIn="keywords" />
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />

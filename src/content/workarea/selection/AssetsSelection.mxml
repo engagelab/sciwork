@@ -3,9 +3,6 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
 	
-	<fx:Declarations>
-	</fx:Declarations>
-	
 	<fx:Script>
 		<![CDATA[
 			
@@ -14,6 +11,6 @@
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="30" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		
+		<s:VGroup id="portfolioGroup" top="5" right="5" bottom="5" left="5" />
 	</s:BorderContainer>
 </s:VGroup>
