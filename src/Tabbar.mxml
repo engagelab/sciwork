@@ -113,6 +113,8 @@
 			 * 
 			 **/
 			public function selectFirstTask(sceneNumber:Number):void {
+				taskBar.selectedItem = tabs[sceneNumber].tasks[0];
+				
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				
 				//check that the scene has tasks before fetching content
@@ -130,7 +132,7 @@
 				distance="3" alpha=".5" blurX="7" blurY="7"
 				angle="90" />
 		</s:filters>
-		<s:ButtonBar id="sceneBar" tabEnabled="false" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" skinClass="skins.buttonBarSkin" buttonMode="true">
+		<s:ButtonBar id="sceneBar" focusEnabled="false" dataProvider="{tabs}" width="100%" height="40" requireSelection="true" change="sceneBar_changeHandler(event)" skinClass="skins.buttonBarSkin" buttonMode="true">
 			<s:layout>
 				<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{(sceneBar.width)/tabs.length}" />
 			</s:layout>
@@ -146,7 +148,7 @@
 					<s:SolidColor color="#EEEEEE" />
 				</s:fill>
 			</s:Rect>
-			<s:ButtonBar id="taskBar" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
+			<s:ButtonBar id="taskBar" focusEnabled="false" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
 				<s:layout>
 					<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{sceneBar.width/tabs.length}" />
 				</s:layout>

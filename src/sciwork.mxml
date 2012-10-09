@@ -80,8 +80,6 @@
 			 * 
 			 **/
 			protected function handleSceneChange(evt:SceneChangeEvent):void {
-				tabBar.taskBar.selectedIndex = -1;
-				
 				if(evt.eventOrigin == SceneChangeEvent.FOOTER) {
 					tabBar.sceneBar.selectedItem = evt.scene;
 					tabBar.selectFirstTask(evt.sceneIndex);

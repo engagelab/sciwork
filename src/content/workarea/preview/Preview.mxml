@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" creationComplete="initPreview(event)" xmlns:components="components.*" gap="0">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" xmlns:components="components.*" gap="0">
 	
 	<fx:Declarations>
 		<fx:String id="taskType" />
@@ -9,41 +9,50 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import content.workarea.WorkArea;
+			import content.workarea.materials.MaterialsItem;
+			
 			import listeners.MaterialToPreviewEvent;
+			import listeners.SelectMaterialEvent;
 			
 			import mx.events.FlexEvent;
 			
-			private var _previewType:String;
-			private var _previewSource:String;
-			private var _fullSizeSource:String;
+			private var _currentMaterialItem:MaterialsItem;
 			
-			protected function initPreview(event:FlexEvent):void
-			{
-				// this.addEventListener(resourceManager.getString('resources', 'SERVER_URL'), handleMaterialRequest);
-			}
-			
-			public function previewMaterial(previewType:String, fullSizeSource:String, previewSource:String):void
-			{
-				_previewType = previewType;
-				_fullSizeSource = fullSizeSource;
-				_previewSource = previewSource;
+			/**
+			 * 
+			 * Creates the preview of each material, based on material type
+			 * 
+			 **/
+			public function previewMaterial(materialItem:MaterialsItem):void {
+				_currentMaterialItem = materialItem;
 				videoViewer.player.pauseVideo();
-				switch(previewType)
-				{
-					case "image":
-						imageViewer.setupPreview(previewType, fullSizeSource);
+				
+				switch(_currentMaterialItem.previewType) {
+					case WorkArea.IMAGE_TYPE:
+						imageViewer.setupPreview(_currentMaterialItem.previewType, _currentMaterialItem.fullSizeSource);
 						this.currentState = "imageState";
 						break;
-					case "video" :
-						// YouTube image thumbnail look slike this:   http://img.youtube.com/vi/xxxxxxxxxxx/1.jpg
-						// Size is 120x90
-						videoViewer.setupPreview(previewType, fullSizeSource);
+					case WorkArea.VIDEO_TYPE :
+						videoViewer.setupPreview(_currentMaterialItem.previewType, _currentMaterialItem.fullSizeSource);
 						this.currentState = "videoState";
 						break;
-					case "text":
+					case WorkArea.TEXT_TYPE:
 						this.currentState = "keywordsState";
 						break;
 				}
+			}
+			
+			/**
+			 * 
+			 * Handles click on "LEVER" button
+			 * 
+			 **/
+			protected function sendPreviewedMaterial(event:MouseEvent):void {
+				var sme:SelectMaterialEvent = new SelectMaterialEvent(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), true);
+				sme.materialItem = _currentMaterialItem;
+				sme.addToPortolio = "true";
+				dispatchEvent(sme);
 			}
 			
 		]]>
@@ -72,7 +81,6 @@
 		<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
 		<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
 		<preview:Comments id="comments"/>
-		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" skinClass="skins.addToPortfolioButtonSkin" excludeFrom="keywordsState, default" />
+		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" click="sendPreviewedMaterial(event)" skinClass="skins.addToPortfolioButtonSkin" excludeFrom="keywordsState, default" />
 	</s:BorderContainer>	
-
 </s:VGroup>

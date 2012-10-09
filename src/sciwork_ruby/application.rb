@@ -13,6 +13,10 @@ GREEN = '0x89BD46'
 BLUE = '0x4ACAF1'
 ROWN = '0x6E3F30'
 
+item0Selected = "false";
+item1Selected = "true";
+item2Selected = "false";
+
 Dir.mkdir('logs') unless File.exist?('logs')
 $log = Logger.new('logs/output.log')
 
@@ -100,14 +104,22 @@ put '/keywords' do
 end
 
 get '/contributions/:groupId/:taskId' do
-	return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => "false"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => "true"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => "false"}], "spostits" => []}.to_json;
+	return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => item2Selected}], "spostits" => []}.to_json;
 end
 
-post '/assets' do
+put '/contributions' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	return [].to_json;
+	if data['id'] == 'vid1'
+		item0Selected = data['state'];
+	elsif data['id'] == 'vid2'
+		item1Selected = data['state'];
+	elsif data['id'] == 'img1'
+		item2Selected = data['state'];
+	end
+	
+	return {"status" => 200}.to_json;
 	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end

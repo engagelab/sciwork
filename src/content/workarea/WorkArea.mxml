@@ -10,6 +10,7 @@
 			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.MaterialToPreviewEvent;
+			import listeners.SelectMaterialEvent;
 			import listeners.SubmitKeywordsEvent;
 			
 			import mx.controls.Alert;
@@ -18,6 +19,10 @@
 			import mx.rpc.events.ResultEvent;
 			
 			import spark.events.TextOperationEvent;
+			
+			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
+			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
+			public static const TEXT_TYPE:String = "TEXT_TYPE";
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
 			private var _isKeywordUpdate:Boolean = false;
@@ -32,6 +37,54 @@
 				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), handleEditKeywords);
 				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
+				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
+			}
+			
+			/**
+			 * 
+			 * Event handling method for ADD_MATERIAL_TO_PORTFOLIO
+			 * 
+			 **/
+			protected function handleAddMaterialToPortfolio(evt:SelectMaterialEvent):void {
+				//prepare the JSON object to be sent
+				var params:Object = new Object();
+				params.id = evt.materialItem.id;
+				params.state = evt.addToPortolio;
+				
+				//create urlrequest with correct headers
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/contributions");
+				urlRequest.method = URLRequestMethod.PUT;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				//load the url and define listeners
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(Event.COMPLETE, handleSelectMaterialComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handleSelectMaterialIOerror);
+				uploader.load(urlRequest);
+				
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsComplete
+			 * 
+			 **/
+			protected function handleSelectMaterialComplete(ev:Event):void {
+				//extract result as JSON
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
+				if(res.status == 200) {
+					updateCurrentState("assets");
+				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsIOerror
+			 * 
+			 **/
+			protected function handleSelectMaterialIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while adding the item to the portfolio.", "Contributions service error");
 			}
 			
 			/**
@@ -40,7 +93,7 @@
 			 * 
 			 **/
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
-				preview.previewMaterial(evt.previewType, evt.fullSizeSource, evt.previewSource);
+				preview.previewMaterial(evt.materialItem);
 			}
 			
 			/**
@@ -220,42 +273,52 @@
 				//store the returned object as JSON 
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
+				//clean current material holders
 				materialItems.removeAllElements();
+				selection.assetSelection.portfolioGroup.removeAllElements();
+				
+				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
+				parseMaterialSubArray(contributions.spostits, TEXT_TYPE);
+			}
+			
+			/**
+			 *
+			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 **/
+			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
 				var newItem:MaterialsItem;
 				
-				//extract videos
-				for each (var video:Object in contributions.svideos) {
+				//extract materials
+				for each (var material:Object in subArray) {
 					newItem = new MaterialsItem();
 					
-					if(video.isPortfolio == "false") {
+					//add it to the portfolio instead is this is true
+					if(material.isPortfolio == "false") {
 						materialItems.addElement(newItem);
 					}
 					else {
 						selection.assetSelection.portfolioGroup.addElement(newItem);
 					}
 					
-					newItem.id = video.id;
-					newItem.setupPreview("video", video.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+video.uri+"/1.jpg");
-				}
-				
-				//extract images
-				for each (var image:Object in contributions.simages) {
-					newItem = new MaterialsItem();
+					//assign id
+					newItem.id = material.id;
 					
-					if(image.isPortfolio == "false") {
-						materialItems.addElement(newItem);
-					}
-					else {
-						selection.assetSelection.portfolioGroup.addElement(newItem);
+					//pick correct preview type
+					switch(materialType) {
+						case VIDEO_TYPE:
+							newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+							break;
+						case IMAGE_TYPE:
+							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/0.jpg", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+							break;
+						case TEXT_TYPE:
+							//todo:
+							break;	
 					}
 					
-					newItem.id = image.id;
-					newItem.setupPreview("image", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+image.uri+"/0.jpg", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+image.uri+"/1.jpg");
-				}
-				
-				//extract texts
-				for each (var text:Object in contributions.spostits) {
-					//TODO: define text object
 				}
 			}
 			
