@@ -41,6 +41,13 @@
 						this.currentState = "keywordsState";
 						break;
 				}
+				
+				if(_currentMaterialItem.isPortfolio == "true") {
+					sender.visible = false;
+				}
+				else {
+					sender.visible = true;
+				}
 			}
 			
 			/**

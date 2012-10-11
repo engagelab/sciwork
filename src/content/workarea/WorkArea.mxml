@@ -49,17 +49,30 @@
 				//prepare the JSON object to be sent
 				var params:Object = new Object();
 				params.id = evt.materialItem.id;
-				params.state = evt.addToPortolio;
+				params.isPortfolio = evt.addToPortolio;
+				params.xpos = evt.materialItem.xpos;
+				params.ypos = evt.materialItem.ypos;
 				
 				//create urlrequest with correct headers
-				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/contributions");
+				var urlRequest:URLRequest;
+				switch(evt.materialItem.previewType) {
+					case VIDEO_TYPE:
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/video");
+						break;
+					case IMAGE_TYPE:
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image");
+						break;
+					case TEXT_TYPE:
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/postit");
+						break;
+				}
 				urlRequest.method = URLRequestMethod.PUT;
 				urlRequest.contentType = "application/json";
 				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
 				
 				//load the url and define listeners
 				var uploader:URLLoader = new URLLoader();
-				uploader.addEventListener(Event.COMPLETE, handleSelectMaterialComplete);
+				uploader.addEventListener(HTTPStatusEvent.HTTP_STATUS, handleSelectMaterialComplete);
 				uploader.addEventListener(IOErrorEvent.IO_ERROR, handleSelectMaterialIOerror);
 				uploader.load(urlRequest);
 				
@@ -70,11 +83,21 @@
 			 * Event handling method handlePostKeywordsComplete
 			 * 
 			 **/
-			protected function handleSelectMaterialComplete(ev:Event):void {
-				//extract result as JSON
-				var res:Object = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
-				if(res.status == 200) {
-					updateCurrentState("assets");
+			protected function handleSelectMaterialComplete(ev:HTTPStatusEvent):void {
+				//analyse returned status code
+				switch(ev.status) {
+					case 0:
+						//service not available
+						Alert.show("The add/remove to portfolio service is not available. Please contact your administrator.", "Add/remove to portfolio service error");
+						break;
+					case 200:
+						//update OK, password accepted
+						updateCurrentState("assets");
+						break;
+					case 401:
+						//update not OK, wrong password
+						Alert.show("Something went wrong when saving your item. Please contact your administrator.", "Add/remove to portfolio service error");
+						break;
 				}
 			}
 			
@@ -294,9 +317,12 @@
 				//extract materials
 				for each (var material:Object in subArray) {
 					newItem = new MaterialsItem();
+					newItem.isPortfolio = material.isPortfolio;
+					newItem.xpos = material.xpos;
+					newItem.ypos = material.ypos;
 					
 					//add it to the portfolio instead is this is true
-					if(material.isPortfolio == "false") {
+					if(newItem.isPortfolio == "false") {
 						materialItems.addElement(newItem);
 					}
 					else {
