@@ -17,8 +17,6 @@
 			
 			import mx.events.FlexEvent;
 			
-			import spark.filters.ColorMatrixFilter;
-			
 			private var _previewType:String;
 			private var _previewSource:String;
 			private var _fullSizeSource:String;
@@ -82,23 +80,10 @@
 				}
 			}
 				
-			protected function onHovered(event:FlexEvent):void {
-				;
-			}
-				
 			protected function onSelected(event:FlexEvent):void {
 				var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 				mtpe.materialItem = this;
 				dispatchEvent(mtpe);
-			}
-			
-			[Bindable] private function checkIfDisplay(evt:FlexEvent):Boolean {
-				if(isPortfolio == "true") {
-					return true;
-				}
-				else {
-					return false;
-				}
 			}
 			
 			protected function deleteItemFromPortfolio(event:MouseEvent):void {
@@ -107,21 +92,12 @@
 				sme.addToPortolio = "false";
 				dispatchEvent(sme);
 			}
-			
-			private function checkTransform(e:MouseEvent):void {
-				if(e.type == MouseEvent.MOUSE_OVER) {
-					deleter.transform.colorTransform = new ColorTransform(0.5, 0.5, 0.5); //multiplies all RGB-values by 0.5					
-				}
-				else {
-					deleter.transform.colorTransform = new ColorTransform(1, 1, 1); //restores to default image
-				}
-			}
 		]]>
 	</fx:Script>
 	
 	<s:states>
 		<s:State name="normal" />
-		<s:State name="hovered"  enterState="onHovered(event)" />
+		<s:State name="hovered"  />
 		<s:State name="selected" enterState="onSelected(event)"/>
 	</s:states>
 	

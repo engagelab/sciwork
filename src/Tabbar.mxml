@@ -113,13 +113,12 @@
 			 * 
 			 **/
 			public function selectFirstTask(sceneNumber:Number):void {
-				taskBar.selectedItem = tabs[sceneNumber].tasks[0];
-				
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				
 				//check that the scene has tasks before fetching content
 				if(tabs[sceneNumber].tasks.length > 0) {
 					tce.taskId = tabs[sceneNumber].tasks[0].taskId;
+					taskBar.selectedItem = tabs[sceneNumber].tasks[0];
 					dispatchEvent(tce);
 				}
 			}
