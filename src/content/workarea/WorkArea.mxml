@@ -26,6 +26,7 @@
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
 			private var _isKeywordUpdate:Boolean = false;
+			private var _isAssetUpdate:Boolean = false;
 			
 			/**
 			 * 
@@ -94,6 +95,7 @@
 						break;
 					case 200:
 						//update OK, password accepted
+						_isAssetUpdate = true;
 						updateCurrentState("assets");
 						break;
 					case 401:
@@ -306,6 +308,12 @@
 				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
 				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
 				parseMaterialSubArray(contributions.spostits, TEXT_TYPE);
+				
+				//test if the currentTask portfolio is empty or not and update footer navbar
+				if(_isAssetUpdate) {
+					_isAssetUpdate = false;
+					dispatchEvent(new Event(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true));
+				}
 			}
 			
 			/**
@@ -364,8 +372,8 @@
 	</fx:Script>
 	
 	<fx:Declarations>
-		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" />
-		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" />
+		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />

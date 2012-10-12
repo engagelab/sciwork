@@ -137,6 +137,7 @@
 			 **/
 			protected function initGroup(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'LOAD_WEBPAGE'), handleLoadWebpagelRequest);
+				this.addEventListener(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), handleTaskPortfolioUpdateRequest);
 			}
 			
 			/**
@@ -152,6 +153,67 @@
 			
 			protected function htmlLoded(event:Event):void {
 				htmlBI.visible = false;
+			}
+			
+			/**
+			 * 
+			 * Event handling method for TASK_PORTFOLIO_UPDATE
+			 * 
+			 **/
+			protected function handleTaskPortfolioUpdateRequest(evt:Event):void {
+				var params:Object = new Object();
+				params.taskId = _taskId;
+				
+				if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
+					params.isTaskPortfolioReady = "true";
+				}
+				else {
+					params.isTaskPortfolioReady = "false";
+				}
+				
+				//create urlrequest with correct headers
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/tasksCompleted/" + _currentGroup.id);
+				urlRequest.method = URLRequestMethod.PUT;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				//load the url and define listeners
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(HTTPStatusEvent.HTTP_STATUS, handleTaskPortfolioUpdateComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handleTaskPortfolioUpdateIOerror);
+				uploader.load(urlRequest);
+				
+			}
+			
+			/**
+			 * 
+			 * Event handling method handleTaskPortfolioUpdateComplete
+			 * 
+			 **/
+			protected function handleTaskPortfolioUpdateComplete(ev:HTTPStatusEvent):void {
+				//analyse returned status code
+				switch(ev.status) {
+					case 0:
+						//service not available
+						Alert.show("The task portfolio validation service is not available. Please contact your administrator.", "Task portfolio service error");
+						break;
+					case 200:
+						dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), true));
+						break;
+					case 401:
+						//update not OK, wrong password
+						Alert.show("Something went wrong when validating the task. Please contact your administrator.", "Task portfolio service error");
+						break;
+				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method handleTaskPortfolioUpdateIOerror
+			 * 
+			 **/
+			protected function handleTaskPortfolioUpdateIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while validating the task's portfolio.", "Task portfolio service error");
 			}
 			
 		]]>

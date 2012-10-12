@@ -1,4 +1,4 @@
-require 'rubygems'
+﻿require 'rubygems'
 require 'sinatra'
 require 'digest'
 require 'json'
@@ -14,7 +14,7 @@ BLUE = '0x4ACAF1'
 ROWN = '0x6E3F30'
 
 item0Selected = "false";
-item1Selected = "true";
+item1Selected = "false";
 item2Selected = "false";
 
 keyword1 = "";
@@ -22,6 +22,8 @@ keyword2 = "";
 keyword3 = "";
 keyword4 = "";
 keyword5 = "";
+
+task_50191e38da061f83602e8825 = [];
 
 Dir.mkdir('logs') unless File.exist?('logs')
 $log = Logger.new('logs/output.log')
@@ -40,10 +42,27 @@ end
 
 get '/tasksCompleted/:groupId' do
 	if params[:groupId] == '50191e38da061f83602e8825'
-		return ["11","21","22","31","41","42"].to_json;
+		return task_50191e38da061f83602e8825.to_json;
 	else
 		return [].to_json;
 	end
+end
+
+put '/tasksCompleted/:groupId' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	
+	if params[:groupId] == '50191e38da061f83602e8825'
+		if data['isTaskPortfolioReady'] == "true"
+			task_50191e38da061f83602e8825.push(data['taskId']);
+		else
+			task_50191e38da061f83602e8825.delete(data['taskId']);
+		end
+	end
+	
+	status 200;
 end
 
 post '/connect' do
@@ -61,26 +80,47 @@ post '/connect' do
 end
 
 get '/menu' do
-	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "Level 1", :icon => "cyclepump.png"},{:id => "12", :title => "Level 2", :icon => "vapo.png"},{:id => "13", :title => "Level 3", :icon => "seringe.png"}]}, 
-	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "task", :icon => ""},{:id => "22", :title => "task", :icon => ""},{:id => "23", :title => "task", :icon => ""}]},
-	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "task", :icon => ""},{:id => "32", :title => "task", :icon => ""},{:id => "33", :title => "task", :icon => ""}]},
-	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "task", :icon => ""},{:id => "42", :title => "task", :icon => ""},{:id => "43", :title => "task", :icon => ""}]},
-	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "task", :icon => ""},{:id => "52", :title => "task", :icon => ""},{:id => "53", :title => "task", :icon => ""}]},
-	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "task", :icon => ""},{:id => "62", :title => "task", :icon => ""},{:id => "63", :title => "task", :icon => ""}]},
-	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "task", :icon => ""},{:id => "72", :title => "task", :icon => ""},{:id => "73", :title => "task", :icon => ""}]},
-	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "task", :icon => ""},{:id => "82", :title => "task", :icon => ""},{:id => "83", :title => "task", :icon => ""}]}].to_json;
+	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "SPØRSMAL 1", :icon => "keyword.png"},{:id => "12", :title => "SPØRSMAL 2", :icon => "keyword.png"},{:id => "13", :title => "SPØRSMAL 3", :icon => "keyword.png"}]}, 
+	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "SYKKELPUMPE", :icon => "cyclepump.png"},{:id => "22", :title => "SPRAYBOKS", :icon => "vapo.png"},{:id => "23", :title => "SPRØYTE", :icon => "seringe.png"}]},
+	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "notask", :icon => ""},{:id => "32", :title => "notask", :icon => ""},{:id => "33", :title => "notask", :icon => ""}]},
+	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "notask", :icon => ""},{:id => "42", :title => "notask", :icon => ""},{:id => "43", :title => "notask", :icon => ""}]},
+	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "notask", :icon => ""},{:id => "52", :title => "notask", :icon => ""},{:id => "53", :title => "notask", :icon => ""}]},
+	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "notask", :icon => ""},{:id => "62", :title => "notask", :icon => ""},{:id => "63", :title => "notask", :icon => ""}]},
+	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "notask", :icon => ""},{:id => "72", :title => "notask", :icon => ""},{:id => "73", :title => "notask", :icon => ""}]},
+	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "notask", :icon => ""},{:id => "82", :title => "notask", :icon => ""},{:id => "83", :title => "notask", :icon => ""}]}].to_json;
 end
 
 
 get '/task/:id' do
 	if params[:id] == '11'
-		return {:description => "this is the description for task ID 11", :taskType => "keywords", :title => "Level 1" }.to_json;
+		return {:description => "Hva er energi?", :taskType => "keywords", :title => "SPØRSMAL 1" }.to_json;
 	elsif params[:id] == '12'
-		return {:description => "this is the description for task ID 12", :taskType => "assets", :title => "Level 2" }.to_json;
+		return {:description => "Hvordan henger energi sammen med fenomener du observer rundt deg?", :taskType => "keywords", :title => "SPØRSMAL 2" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "this is the description for task ID 13", :taskType => "assets", :title => "Level 3" }.to_json;
+		return {:description => "Hvordan kan energi transformeres mest mulig effektivt og miljøvennlig?", :taskType => "keywords", :title => "SPØRSMAL 3" }.to_json;
+	elsif params[:id] == '21'
+		return {:description => "1. Press ﬁngeren hardt mot ventilen og pump kraftig ﬂere ganger.
+		
+2. Beskriv hva dere gjør, opplever og kjenner.
+
+3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?
+", :taskType => "assets", :title => "SYKKELPUMPE" }.to_json;
+	elsif params[:id] == '22'
+		return {:description => "1. Trykk på ventilen.
+		
+2. Beskriv hva dere opplever og kjenner.
+
+3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?
+", :taskType => "assets", :title => "SPRAYBOKS" }.to_json;
+	elsif params[:id] == '23'
+		return {:description => "1. Fyll opp sprøyta med varmt vann til den er omtrent halvfull. Ta ut luften som er mellom vannet og åpningen. Hold ﬁngeren hardt foran åpningen og dra (ikke skyv).
+		
+2. Beskriv hva dere ser.
+
+3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?
+", :taskType => "assets", :title => "SPRØYTE" }.to_json;
 	else
-		return {:description => "", :resources => "", :title => "task" }.to_json;
+		return {:description => "", :resources => "", :title => "notask" }.to_json;
 	end
 end
 

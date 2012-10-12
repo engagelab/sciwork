@@ -39,6 +39,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
 				this.addEventListener(resourceManager.getString('resources', 'TASK_CHANGED'), handleTaskChange);
 				this.addEventListener(resourceManager.getString('resources', 'TABBAR_LOADED'), handleMenuLoaded);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), handleRefreshGroupsCompletedTasks);
 				
 				// FOR TESTING: In the case of no server connection
 				// this.currentState = "loggedIn";
@@ -61,7 +62,7 @@
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
-				refreshGroupsCompletedTasks();
+				dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), true));
 			}
 			
 			/**
@@ -69,7 +70,7 @@
 			 * Method to (re)load completed tasks by this group
 			 * 
 			 **/
-			protected function refreshGroupsCompletedTasks():void {
+			protected function handleRefreshGroupsCompletedTasks(evt:Event):void {
 				getCompletedTasks.url =  resourceManager.getString('resources', 'SERVER_URL') + "/tasksCompleted/" + _currentGroup.id;
 				getCompletedTasks.send();
 			}
