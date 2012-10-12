@@ -17,6 +17,12 @@ item0Selected = "false";
 item1Selected = "true";
 item2Selected = "false";
 
+keyword1 = "";
+keyword2 = "";
+keyword3 = "";
+keyword4 = "";
+keyword5 = "";
+
 Dir.mkdir('logs') unless File.exist?('logs')
 $log = Logger.new('logs/output.log')
 
@@ -72,7 +78,7 @@ get '/task/:id' do
 	elsif params[:id] == '12'
 		return {:description => "this is the description for task ID 12", :taskType => "assets", :title => "Level 2" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "this is the description for task ID 13", :taskType => "keywords", :title => "Level 3" }.to_json;
+		return {:description => "this is the description for task ID 13", :taskType => "assets", :title => "Level 3" }.to_json;
 	else
 		return {:description => "", :resources => "", :title => "task" }.to_json;
 	end
@@ -80,8 +86,8 @@ end
 
 
 get '/keywords/:groupId/:taskId' do
-	if params[:taskId] == '13'
-		return {"id" => "5061a1c40364f440d872358e", "keywords" => ["un","deux","trois","quatre","cinq"], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
+	if params[:taskId] == '11'
+		return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
 	else
 		return [].to_json;
 	end
@@ -92,7 +98,13 @@ post '/keywords' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
+	keyword1 = data['keywords'][0];
+	keyword2 = data['keywords'][1];
+	keyword3 = data['keywords'][2];
+	keyword4 = data['keywords'][3];
+	keyword5 = data['keywords'][4];
+	
+	return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
 put '/keywords' do
@@ -100,7 +112,13 @@ put '/keywords' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
+	keyword1 = data['keywords'][0];
+	keyword2 = data['keywords'][1];
+	keyword3 = data['keywords'][2];
+	keyword4 = data['keywords'][3];
+	keyword5 = data['keywords'][4];
+	
+	return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
 get '/contributions/:groupId/:taskId' do

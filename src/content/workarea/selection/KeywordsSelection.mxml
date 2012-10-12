@@ -21,7 +21,9 @@
 				
 				//populate the list
 				for each (var word:Object in words)  {
-					wordArray.addItem(word);
+					if(word != "") {
+						wordArray.addItem(word);
+					}
 				}
 				
 				//enable edit button for keywords
