@@ -57,6 +57,7 @@
 				var urlRequest:URLRequest;
 				switch(evt.materialItem.previewType) {
 					case VIDEO_TYPE:
+						preview.videoViewer.player.stopVideo();
 						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/video");
 						break;
 					case IMAGE_TYPE:

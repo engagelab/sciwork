@@ -76,9 +76,7 @@
 			 * 
 			 **/
 			public function stopPlayingMedia():void {
-				if(workareaContainer.currentState == "assets") {
-					workareaContainer.preview.videoViewer.player.stopVideo();
-				}
+				workareaContainer.preview.videoViewer.player.stopVideo();
 			}
 			
 			/**
