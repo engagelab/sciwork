@@ -8,6 +8,7 @@
 			import com.adobe.serialization.json.JSON;
 			
 			import listeners.ShowWebPage;
+			import listeners.TaskPortfolioUpdateEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -160,16 +161,30 @@
 			 * Event handling method for TASK_PORTFOLIO_UPDATE
 			 * 
 			 **/
-			protected function handleTaskPortfolioUpdateRequest(evt:Event):void {
+			protected function handleTaskPortfolioUpdateRequest(evt:TaskPortfolioUpdateEvent):void {
 				var params:Object = new Object();
 				params.taskId = _taskId;
 				
-				if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
-					params.isTaskPortfolioReady = "true";
+				switch(evt.eventType) {
+
+					case sciwork.ASSET_UPDATE_TYPE:
+						if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
+							params.isTaskPortfolioReady = "true";
+						}
+						else {
+							params.isTaskPortfolioReady = "false";
+						}
+						break;
+					case sciwork.KEYWORD_UPDATE_TYPE:
+						if(workareaContainer.selection.keywordSelection.wordArray.length == 5) {
+							params.isTaskPortfolioReady = "true";
+						}
+						else {
+							params.isTaskPortfolioReady = "false";
+						}
+					
 				}
-				else {
-					params.isTaskPortfolioReady = "false";
-				}
+				
 				
 				//create urlrequest with correct headers
 				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/tasksCompleted/" + _currentGroup.id);

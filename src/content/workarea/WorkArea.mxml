@@ -12,6 +12,7 @@
 			import listeners.MaterialToPreviewEvent;
 			import listeners.SelectMaterialEvent;
 			import listeners.SubmitKeywordsEvent;
+			import listeners.TaskPortfolioUpdateEvent;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -255,6 +256,12 @@
 					
 					//reset input field
 					keywordInput.wordInput.text = "";
+					
+					if(!_isKeywordUpdate) {
+						var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+						tpue.eventType = sciwork.KEYWORD_UPDATE_TYPE;
+						dispatchEvent(tpue);
+					}
 				}
 			}
 			
@@ -312,7 +319,9 @@
 				//test if the currentTask portfolio is empty or not and update footer navbar
 				if(_isAssetUpdate) {
 					_isAssetUpdate = false;
-					dispatchEvent(new Event(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true));
+					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+					tpue.eventType = sciwork.ASSET_UPDATE_TYPE;
+					dispatchEvent(tpue);
 				}
 			}
 			

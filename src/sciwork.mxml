@@ -23,6 +23,9 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			public static const KEYWORD_UPDATE_TYPE:String = "KEYWORD_UPDATE_TYPE";
+			public static const ASSET_UPDATE_TYPE:String = "ASSET_UPDATE_TYPE";
+			
 			public static const _gapBetweenContainers:Number = 15;
 			
 			[Bindable] private var _completedTaskArray:Array;
