@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="tweetSelectionArray" />
+		<s:ArrayCollection id="tweetFeedArray" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.core.NavigationUnit;
+			
+			/**
+			 *
+			 * public function to refresh the keywords list
+			 * 
+			 **/
+			public function addNewTweets(words:Array):void {
+				//clear the list
+				tweetSelectionArray.removeAll();
+				
+				//populate the list
+				for each (var word:Object in words)  {
+					if(word != "") {
+						tweetSelectionArray.addItem(word);
+					}
+				}
+				
+				//enable edit button for keywords
+				selectionheader.editButton.addEventListener(MouseEvent.CLICK, handleEditSelectionClick);
+				selectionheader.editButton.visible = true;
+			}
+			
+			public function clearWordList():void {
+				tweetSelectionArray.removeAll();
+				selectionheader.editButton.removeEventListener(MouseEvent.CLICK, handleEditSelectionClick);
+				selectionheader.editButton.visible = false;
+			}
+			
+			/**
+			 *
+			 * click handler for the button editButton in component selectionheader
+			 * 
+			 **/
+			protected function handleEditSelectionClick(evt:MouseEvent):void {
+				dispatchEvent(new Event(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), true));
+			}
+			
+			
+			public function scrollToBottom():void {
+				var delta:Number = 0;
+				var count:int = 0;
+				
+				while (count++ < 10){
+					liveFeedList.validateNow();
+					delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+					liveFeedList.layout.verticalScrollPosition += delta;
+					
+					if (delta == 0) {
+						break;						
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="liveFeed" />
+		<s:State name="selection" />
+	</s:states>
+	
+	<components:SelectionHeader id="selectionheader" width="100%" height="30" />
+	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
+		<s:List includeIn="selection" id="selectionList" top="15" left="15" right="15" bottom="15" selectionColor="#FFFFFF" dataProvider="{tweetSelectionArray}" borderVisible="false" itemRenderer="itemRenderers.SelectedKeywordItem">
+			<s:layout>
+				<s:VerticalLayout gap="15" horizontalAlign="contentJustify" variableRowHeight="false" />
+			</s:layout>
+		</s:List>
+		<s:List includeIn="liveFeed" id="liveFeedList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" dataProvider="{tweetFeedArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
+			<s:layout>
+				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" />
+			</s:layout>
+		</s:List>
+	</s:BorderContainer>
+</s:VGroup>

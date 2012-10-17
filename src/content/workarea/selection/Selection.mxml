@@ -8,8 +8,10 @@
 		<s:State name="default" />
 		<s:State name="assets" />
 		<s:State name="keywords" />
+		<s:State name="tweets" />
 	</s:states>
 	
 	<selection:AssetsSelection id="assetSelection" width="100%" height="100%" includeIn="assets"/>
 	<selection:KeywordsSelection id="keywordSelection" width="100%" height="100%" includeIn="keywords"/>
+	<selection:TweetsSelection id="tweetsSelection" width="100%" height="100%" includeIn="tweets"/>
 </s:SkinnableContainer>

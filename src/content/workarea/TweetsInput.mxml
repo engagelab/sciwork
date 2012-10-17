@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" borderAlpha=".2" borderWeight="2">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function initInput(event:FlexEvent):void {
+				wordInput.addEventListener(KeyboardEvent.KEY_DOWN, checkKey);
+			}
+						
+			protected function checkKey(event:KeyboardEvent):void {
+				if(event.charCode == 13 && wordInput.text.length > 0) {
+					sendTweet();
+				}
+			}
+			
+			protected function sendTweet():void {
+				dispatchEvent(new Event(resourceManager.getString('resources', 'TWEET_SUBMITTED'), true))
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" height="100%" gap="0">
+		<s:TextInput id="wordInput" width="100%" height="100%" borderVisible="false" maxChars="140" creationComplete="initInput(event)"/>
+		<s:Button id="sender" enabled="{wordInput.text.length > 0}" height="100%" width="100" label="LEVER" buttonMode="true" skinClass="skins.addToPortfolioButtonSkin"
+				  click="sendTweet()" />
+	</s:HGroup>
+</s:BorderContainer>

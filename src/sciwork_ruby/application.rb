@@ -24,6 +24,7 @@ keyword4 = "";
 keyword5 = "";
 
 task_50191e38da061f83602e8825 = [];
+tweets = [];
 
 Dir.mkdir('logs') unless File.exist?('logs')
 $log = Logger.new('logs/output.log')
@@ -36,10 +37,39 @@ get '/' do
   File.read(File.join('public', 'index.html'))
 end
 
+
+########## login ###############
 get '/groupInfo' do
 	return [{:id => "50505a3430041fb1c28ea433", :name => "Teacher", :colour => BLACK},{:id => "50191e38da061f83602e8825", :name => "LILLA", :colour => PURPLE},{:id => "50191e61da061f83602e882a", :name => "ROSA", :colour => PINK}].to_json;
 end
 
+post '/connect' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	if data['groupId'] == '50191e38da061f83602e8825' && data['password'] == 'lilla'
+		status 200
+	elsif data['groupId'] == '50191e61da061f83602e882a' && data['password'] == 'rosa'
+		status 200
+	else
+		status 401
+	end
+end
+
+########## menu ###############
+get '/menu' do
+	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "SPØRSMAL 1", :icon => "keyword.png"},{:id => "12", :title => "SPØRSMAL 2", :icon => "keyword.png"},{:id => "13", :title => "SPØRSMAL 3", :icon => "keyword.png"}]}, 
+	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "SYKKELPUMPE", :icon => "cyclepump.png"},{:id => "22", :title => "SPRAYBOKS", :icon => "vapo.png"},{:id => "23", :title => "SPRØYTE", :icon => "seringe.png"}]},
+	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "TWEETS", :icon => "keyword.png"}]},
+	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "DIGITAL MODELS", :icon => "diagram.png"}]},
+	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "DISCUSSION", :icon => "notask.png"}]},
+	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "notask", :icon => ""},{:id => "62", :title => "notask", :icon => ""},{:id => "63", :title => "notask", :icon => ""}]},
+	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "notask", :icon => ""},{:id => "72", :title => "notask", :icon => ""},{:id => "73", :title => "notask", :icon => ""}]},
+	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "notask", :icon => ""},{:id => "82", :title => "notask", :icon => ""},{:id => "83", :title => "notask", :icon => ""}]}].to_json;
+end
+
+########## tasks ###############
 get '/tasksCompleted/:groupId' do
 	if params[:groupId] == '50191e38da061f83602e8825'
 		return task_50191e38da061f83602e8825.to_json;
@@ -64,32 +94,6 @@ put '/tasksCompleted/:groupId' do
 	
 	status 200;
 end
-
-post '/connect' do
-	request.body.rewind  # in case someone already read it
-	content_type :json;
-	data = JSON.parse request.body.read
-	
-	if data['groupId'] == '50191e38da061f83602e8825' && data['password'] == 'lilla'
-		status 200
-	elsif data['groupId'] == '50191e61da061f83602e882a' && data['password'] == 'rosa'
-		status 200
-	else
-		status 401
-	end
-end
-
-get '/menu' do
-	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "SPØRSMAL 1", :icon => "keyword.png"},{:id => "12", :title => "SPØRSMAL 2", :icon => "keyword.png"},{:id => "13", :title => "SPØRSMAL 3", :icon => "keyword.png"}]}, 
-	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "SYKKELPUMPE", :icon => "cyclepump.png"},{:id => "22", :title => "SPRAYBOKS", :icon => "vapo.png"},{:id => "23", :title => "SPRØYTE", :icon => "seringe.png"}]},
-	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "TWEETS", :icon => "keyword.png"}]},
-	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "DIGITAL MODELS", :icon => "diagram.png"}]},
-	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "DISCUSSION", :icon => "notask.png"}]},
-	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "notask", :icon => ""},{:id => "62", :title => "notask", :icon => ""},{:id => "63", :title => "notask", :icon => ""}]},
-	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "notask", :icon => ""},{:id => "72", :title => "notask", :icon => ""},{:id => "73", :title => "notask", :icon => ""}]},
-	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "notask", :icon => ""},{:id => "82", :title => "notask", :icon => ""},{:id => "83", :title => "notask", :icon => ""}]}].to_json;
-end
-
 
 get '/task/:id' do
 	if params[:id] == '11'
@@ -117,7 +121,7 @@ get '/task/:id' do
 
 3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRØYTE" }.to_json;#
 	elsif params[:id] == '31'
-		return {:description => "!!! Description missing !!!", :taskType => "assets", :title => "TWEETS" }.to_json;
+		return {:description => "!!! Description missing !!!", :taskType => "tweets", :title => "TWEETS" }.to_json;
 	elsif params[:id] == '41'
 		return {:description => "!!! Description missing !!!", :taskType => "simulation", :title => "DIGITAL MODELS" }.to_json;
 	elsif params[:id] == '51'
@@ -131,7 +135,7 @@ get '/task/:id' do
 	end
 end
 
-
+########## keywords ###############
 get '/keywords/:groupId/:taskId' do
 	if params[:taskId] == '11'
 		return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
@@ -168,6 +172,8 @@ put '/keywords' do
 	return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
+
+########## contributions ###############
 get '/contributions/:groupId/:taskId' do
 	return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected, :xpos => "10", :ypos => "10"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected, :xpos => "20", :ypos => "20"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => item2Selected, :xpos => "30", :ypos => "30"}], "spostits" => []}.to_json;
 end
@@ -208,3 +214,21 @@ put '/group/postit' do
 	status 200;
 	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
+
+
+########## tweets ###############
+get '/tweet/:groupId' do
+	if params[:groupId] == '50191e38da061f83602e8825'
+		status 200;
+	end
+end
+
+post '/tweet' do
+	status 200;
+end
+
+put '/tweet' do
+	status 200;
+end
+
+

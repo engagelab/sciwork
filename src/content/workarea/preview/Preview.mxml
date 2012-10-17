@@ -71,6 +71,7 @@
 		<s:State name="imageState" />
 		<s:State name="keywordsState" />
 		<s:State name="articleState" />
+		<s:State name="tweetsState" />
 	</s:states>
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="30" excludeFrom="keywordsState" />
@@ -83,11 +84,12 @@
 				</s:LinearGradient>
 			</s:fill>
 		</s:Rect>
-		<preview:VideoViewer width="100%" height="100%" id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" />
-		<preview:ImageViewer width="100%" height="100%" id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" />
-		<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true"/>
-		<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false"/>
+		<preview:VideoViewer width="100%" height="100%" id="videoViewer" visible="false" visible.videoState="true" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" visible.tweetsState="false" />
+		<preview:ImageViewer width="100%" height="100%" id="imageViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="true" visible.keywordsState="false" visible.tweetsState="false" />
+		<preview:KeywordsViewer width="100%" height="100%" id="keywordsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="true" visible.tweetsState="false"/>
+		<preview:ArticleUploader width="100%" height="100%" id="articleUploader" visible="false" visible.videoState="false" visible.articleState="true" visible.imageState="false" visible.keywordsState="false" visible.tweetsState="false"/>
+		<preview:TweetsViewer width="100%" height="100%" id="tweetsViewer" visible="false" visible.videoState="false" visible.articleState="false" visible.imageState="false" visible.keywordsState="false" visible.tweetsState="true"/>
 		<preview:Comments id="comments"/>
-		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" click="sendPreviewedMaterial(event)" skinClass="skins.addToPortfolioButtonSkin" excludeFrom="keywordsState, default" />
+		<s:Button id="sender" right="0" top="0" height="40" width="100" label="LEVER" buttonMode="true" click="sendPreviewedMaterial(event)" skinClass="skins.addToPortfolioButtonSkin" excludeFrom="keywordsState, tweetsState, default" />
 	</s:BorderContainer>	
 </s:VGroup>

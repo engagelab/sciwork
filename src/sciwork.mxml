@@ -7,9 +7,24 @@
 		[ResourceBundle("resources")]
 	</fx:Metadata>
 	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace local "*";
+		
+		s|List s|VScrollBar {
+			skinClass: ClassReference("skins.animatorVerticalScrollBar");
+		}
+		
+	</fx:Style>
+	
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
+			import com.seesmic.as3.xmpp.StreamEvent;
+			import com.seesmic.as3.xmpp.XMPP;
+			import com.seesmic.as3.xmpp.XMPPEvent;
+			import com.seesmic.as3.xmpp.xep.muc.MUC;
 			
 			import flash.net.dns.AAAARecord;
 			
@@ -30,6 +45,7 @@
 			
 			[Bindable] private var _completedTaskArray:Array;
 			
+			private var _conn:XMPP = null;
 			private var _currentGroup:Object;
 			
 			/**
@@ -59,12 +75,49 @@
 			
 			/**
 			 *
+			 * Function to return the current XMPP connection
+			 * 
+			 **/
+			public function get currentXMPPConnection():XMPP {
+				return _conn;
+			}
+			
+			/**
+			 *
 			 * Event handling method when login is OK
 			 * 
 			 **/
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
+				
+				prepareXMPPConnection(new String(_currentGroup.title).toLowerCase());
+			}
+			
+			/**
+			 *
+			 * Function to instantiate a XMPP connection
+			 * 
+			 **/
+			protected function prepareXMPPConnection(grpName:String):void {
+				_conn = new XMPP();
+				_conn.auto_reconnect = true;
+				_conn.setJID(grpName+"@"+resourceManager.getString('resources', 'XMPP_SERVER')+"/sciwork");
+				_conn.setPassword(resourceManager.getString('resources', 'XMPP_CLIENT_DEFAULT_PASSWORD'));
+				_conn.setServer(resourceManager.getString('resources', 'XMPP_SERVER'));
+				_conn.addEventListener(XMPPEvent.SESSION, handleSession);
+				_conn.addPlugin(new MUC());
+				_conn.connect();
+			}
+			
+			/**
+			 *
+			 * Event handling method for XMPP session
+			 * 
+			 **/
+			protected final function handleSession(e:XMPPEvent):void {
+				_conn.sendPresence();
+				
 				dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), true));
 			}
 			
