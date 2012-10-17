@@ -31,6 +31,7 @@
 				this.currentState = "contentState";
 				//reset left panels
 				_description = "";
+				
 			}
 
 			/**
@@ -59,7 +60,13 @@
 				_description = res.description;
 				updateResources(res.title);
 				
-				workareaContainer.updateCurrentState(res.taskType);
+				if(res.taskType == "simulation") {
+					this.currentState = "simulationState";	
+				}
+				else {
+					this.currentState = "contentState";	
+					workareaContainer.updateCurrentState(res.taskType);
+				}
 			}
 			
 			/**
@@ -251,7 +258,9 @@
 		</s:VGroup>
 		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" />
 	</s:HGroup>
-	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState" />
+	<simulation:Simulation id="simulationContainer" width="100%" height="100%" includeIn="simulationState">
+		<s:BitmapImage source="@Embed('assets/IMG_0771.jpg')" left="20" top="20" right="20" bottom="20" scaleMode="letterbox" />
+	</simulation:Simulation>
 	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">
 		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:Button label="X" click="this.currentState='contentState'" />

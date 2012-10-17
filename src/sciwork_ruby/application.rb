@@ -82,9 +82,9 @@ end
 get '/menu' do
 	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "SPØRSMAL 1", :icon => "keyword.png"},{:id => "12", :title => "SPØRSMAL 2", :icon => "keyword.png"},{:id => "13", :title => "SPØRSMAL 3", :icon => "keyword.png"}]}, 
 	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "SYKKELPUMPE", :icon => "cyclepump.png"},{:id => "22", :title => "SPRAYBOKS", :icon => "vapo.png"},{:id => "23", :title => "SPRØYTE", :icon => "seringe.png"}]},
-	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "notask", :icon => ""},{:id => "32", :title => "notask", :icon => ""},{:id => "33", :title => "notask", :icon => ""}]},
-	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "notask", :icon => ""},{:id => "42", :title => "notask", :icon => ""},{:id => "43", :title => "notask", :icon => ""}]},
-	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "notask", :icon => ""},{:id => "52", :title => "notask", :icon => ""},{:id => "53", :title => "notask", :icon => ""}]},
+	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "TWEETS", :icon => "keyword.png"}]},
+	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "DIGITAL MODELS", :icon => "diagram.png"}]},
+	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "DISCUSSION", :icon => "notask.png"}]},
 	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "notask", :icon => ""},{:id => "62", :title => "notask", :icon => ""},{:id => "63", :title => "notask", :icon => ""}]},
 	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "notask", :icon => ""},{:id => "72", :title => "notask", :icon => ""},{:id => "73", :title => "notask", :icon => ""}]},
 	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "notask", :icon => ""},{:id => "82", :title => "notask", :icon => ""},{:id => "83", :title => "notask", :icon => ""}]}].to_json;
@@ -103,22 +103,29 @@ get '/task/:id' do
 		
 2. Beskriv hva dere gjør, opplever og kjenner.
 
-3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?
-", :taskType => "assets", :title => "SYKKELPUMPE" }.to_json;
+3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SYKKELPUMPE" }.to_json;
 	elsif params[:id] == '22'
 		return {:description => "1. Trykk på ventilen.
 		
 2. Beskriv hva dere opplever og kjenner.
 
-3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?
-", :taskType => "assets", :title => "SPRAYBOKS" }.to_json;
+3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRAYBOKS" }.to_json;
 	elsif params[:id] == '23'
 		return {:description => "1. Fyll opp sprøyta med varmt vann til den er omtrent halvfull. Ta ut luften som er mellom vannet og åpningen. Hold ﬁngeren hardt foran åpningen og dra (ikke skyv).
 		
 2. Beskriv hva dere ser.
 
-3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?
-", :taskType => "assets", :title => "SPRØYTE" }.to_json;
+3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRØYTE" }.to_json;#
+	elsif params[:id] == '31'
+		return {:description => "!!! Description missing !!!", :taskType => "assets", :title => "TWEETS" }.to_json;
+	elsif params[:id] == '41'
+		return {:description => "!!! Description missing !!!", :taskType => "simulation", :title => "DIGITAL MODELS" }.to_json;
+	elsif params[:id] == '51'
+		return {:description => "1. Forklar hva de fysiske prinsippene eksperimentene dere gjennomførte tidlig illustrerer. Bruk stillbildene dere tok som hjelp.
+		
+2. Hva er likhetene og forskjellene mellom de tre små eksperimentene?
+
+3. Hvordan passer de fysiske prinsippene med funksjonene i varmepumpa? Velg gjerne en illustrasjon av varmepumpen som støtte til å forklare sammenhengene.", :taskType => "assets", :title => "DISCUSSION"}.to_json;
 	else
 		return {:description => "", :resources => "", :title => "notask" }.to_json;
 	end
