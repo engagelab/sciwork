@@ -26,7 +26,7 @@ package
 			urlRequest.method = URLRequestMethod.PUT;
 			urlRequest.contentType = "application/json";
 			var params:Object = new Object();
-			params.userName = tweet.username;
+			params.userName = tweet.userName;
 			params.text = tweet.text;
 			params.xpos = tweet.xpos;
 			params.ypos = tweet.ypos;

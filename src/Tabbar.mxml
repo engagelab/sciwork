@@ -119,6 +119,7 @@
 				//check that the scene has tasks before fetching content
 				if(tabs[sceneNumber].tasks.length > 0) {
 					tce.taskId = tabs[sceneNumber].tasks[0].taskId;
+					taskBar.validateNow();
 					taskBar.selectedIndex = 0;
 					dispatchEvent(tce);
 				}

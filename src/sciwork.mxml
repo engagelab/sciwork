@@ -105,8 +105,19 @@
 				_conn.setPassword(resourceManager.getString('resources', 'XMPP_CLIENT_DEFAULT_PASSWORD'));
 				_conn.setServer(resourceManager.getString('resources', 'XMPP_SERVER'));
 				_conn.addEventListener(XMPPEvent.SESSION, handleSession);
+				_conn.socket.addEventListener(StreamEvent.CONNECT_FAILED, handleConnectFailed);
 				_conn.addPlugin(new MUC());
 				_conn.connect();
+			}
+			
+			/**
+			 *
+			 * Event handling method for StreamEvent.CONNECT_FAILED
+			 * 
+			 **/
+			protected function handleConnectFailed(e:StreamEvent):void {
+				Alert.show("The connection with the messaging server failed. The application will not load.", "XMPP Connection Error");
+				_conn.cancelReconnectionTimer();
 			}
 			
 			/**

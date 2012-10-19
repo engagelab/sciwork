@@ -14,8 +14,8 @@
 			
 			public function cleanTweets():void {
 				//clean arrays
-				tweetsInView.removeAll();
-				tweetsInTrash.removeAll();
+				tweetsInView = new ArrayCollection();
+				tweetsInTrash = new ArrayCollection();
 			}
 			
 			public function refreshContent():void {

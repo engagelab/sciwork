@@ -27,23 +27,22 @@
 				}
 				
 				//enable edit button for keywords
-				selectionheader.editButton.addEventListener(MouseEvent.CLICK, handleEditSelectionClick);
-				selectionheader.editButton.visible = true;
-			}
-			
-			public function clearWordList():void {
-				wordArray.removeAll();
-				selectionheader.editButton.removeEventListener(MouseEvent.CLICK, handleEditSelectionClick);
-				selectionheader.editButton.visible = false;
+				if(wordArray.length > 0) {
+					selectionheader.currentState = "keywords";
+				}
+				else {
+					selectionheader.currentState = "default";
+				}
 			}
 			
 			/**
 			 *
-			 * click handler for the button editButton in component selectionheader
+			 * public function to clean the keywords list
 			 * 
 			 **/
-			protected function handleEditSelectionClick(evt:MouseEvent):void {
-				dispatchEvent(new Event(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), true));
+			public function clearWordList():void {
+				wordArray.removeAll();
+				selectionheader.currentState = "default";
 			}
 		]]>
 	</fx:Script>

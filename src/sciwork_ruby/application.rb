@@ -218,6 +218,9 @@ end
 
 ########## tweets ###############
 get '/tweet/:groupId' do
+	
+	$log.debug 'GET tweet: '+tweets.to_s;
+	
 	if params[:groupId] == '50191e38da061f83602e8825'
 		return tweets.to_json;
 	end
@@ -227,6 +230,8 @@ post '/tweet' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
+	
+	$log.debug 'POST tweet: '+data.to_s;
 	
 	if data['userName'] == 'lilla'
 		twt = {"username" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']};
