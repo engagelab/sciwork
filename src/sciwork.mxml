@@ -90,7 +90,6 @@
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
-				
 				prepareXMPPConnection(new String(_currentGroup.title).toLowerCase());
 			}
 			
@@ -117,7 +116,6 @@
 			 **/
 			protected final function handleSession(e:XMPPEvent):void {
 				_conn.sendPresence();
-				
 				dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), true));
 			}
 			
@@ -180,6 +178,7 @@
 				
 				this[currentInterface].stopPlayingMedia();
 				this.currentState = "loggedOff";
+				_conn = null;
 			}
 			
 			/**
@@ -232,14 +231,13 @@
 	</s:states>
 	
 	<s:Button label="LOGG UT" click="logout(event)" right="0" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff" itemDestructionPolicy="auto" buttonMode="true" />
+	
 	<s:VGroup width="995" height="600" horizontalCenter="0" verticalCenter="0">
-		
 		<!-- Header banner component -->
 		<local:Header excludeFrom="loggedOff" itemDestructionPolicy="auto" />
 		
 		<!-- Logging component -->
 		<local:GroupLogger id="groupLogger" width="100%" height="100%" includeIn="loggedOff" itemDestructionPolicy="auto" />
-		
 		
 		<s:BorderContainer width="100%" height="100%" borderColor="#eeeeee" cornerRadius="4" borderAlpha=".3" excludeFrom="loggedOff">
 			<s:filters>

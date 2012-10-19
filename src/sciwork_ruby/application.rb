@@ -219,16 +219,34 @@ end
 ########## tweets ###############
 get '/tweet/:groupId' do
 	if params[:groupId] == '50191e38da061f83602e8825'
-		status 200;
+		return tweets.to_json;
 	end
 end
 
 post '/tweet' do
-	status 200;
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	if data['userName'] == 'lilla'
+		twt = {"username" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']};
+		tweets.push(twt);
+		return twt.to_json;
+	else
+		return [].to_json;
+	end
 end
 
 put '/tweet' do
-	status 200;
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	if data['userName'] == 'lilla'
+		return {"username" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']}.to_json;
+	else
+		return {}.to_json;
+	end
 end
 
 

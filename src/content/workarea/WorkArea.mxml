@@ -33,6 +33,7 @@
 			private var _isKeywordUpdate:Boolean = false;
 			private var _isAssetUpdate:Boolean = false;
 			private var _conn:XMPP;
+			private var hasJoinedMiracleRoom:Boolean = false;
 			
 			/**
 			 * 
@@ -70,7 +71,7 @@
 					
 				}
 								
-				selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al});
+				selection.tweetsSelection.tweetSelectionArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al});
 				selection.tweetsSelection.scrollToBottom();
 			}
 			
@@ -81,7 +82,7 @@
 			 **/
 			protected function handleTweetSubmitted(evt:Event):void {
 				//send the tweet to the groupchat
-				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), tweetInput.wordInput.text, null);
+				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), tweetInput.wordInput.text, "sciwork");
 				tweetInput.wordInput.text = "";
 			}
 			
@@ -252,17 +253,17 @@
 						
 					case 'tweets': {
 						//set correct state in subsequent components
-						this.currentState = "tweets";
 						selection.currentState = "tweets";
 						preview.currentState = "tweetsState";
+						this.currentState = "tweets";
 						
 						//XMPP init business
-						selection.tweetsSelection.tweetFeedArray.removeAll();
-						_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
-						_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
-						_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase());
-						
-						
+						if(!hasJoinedMiracleRoom) {
+							_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
+							_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase());
+							hasJoinedMiracleRoom = true;
+						}
 						
 						//get existing tweets for the current task and group
 						getTweets.url = resourceManager.getString('resources', 'SERVER_URL') + "/tweet/" + currentGroup.id;
@@ -443,8 +444,23 @@
 			 * 
 			 **/
 			protected function getTweets_resultHandler(event:ResultEvent):void {
-				// TODO Auto-generated method stub
+				var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
+				//do some cleaning before populating
+				preview.tweetsViewer.cleanTweets();
+				
+				//build the correct arrays
+				for each (var twt:Object in tweetsForGroup) {
+					if(new Boolean(twt.isVisible)) {
+						preview.tweetsViewer.tweetsInView.addItem(twt);
+					}
+					else {
+						preview.tweetsViewer.tweetsInTrash.addItem(twt);
+					}
+				}
+				
+				//refresh the view
+				preview.tweetsViewer.refreshContent();
 			}
 			
 			/**
@@ -454,6 +470,44 @@
 			 **/
 			protected function getTweets_faultHandler(event:FaultEvent):void {
 				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
+			}
+			
+			protected function updateTweetWithService(message:String, creator:String):void {
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL')+"/tweet");
+				urlRequest.method = URLRequestMethod.POST;
+				urlRequest.contentType = "application/json";
+				var params:Object = new Object();
+				params.userName = creator.toLowerCase();
+				params.text = message;
+				params.xpos = 0;
+				params.ypos = 0;
+				params.isVisible = true;
+				params.isPortfolio = false;
+				params.source = false;
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, completeHandler);
+				loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
+				loader.addEventListener(HTTPStatusEvent.HTTP_STATUS, httpStatusHandler);
+				loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				loader.load(urlRequest);
+			}
+			
+			protected function completeHandler(evt:Event):void {
+				trace("completeHandler");
+			}
+			
+			protected function securityErrorHandler(evt:SecurityErrorEvent):void {
+				trace("securityErrorHandler");
+			}
+			
+			protected function httpStatusHandler(evt:HTTPStatusEvent):void {
+				trace("httpStatusHandler");
+			}
+			
+			protected function ioErrorHandler(evt:IOErrorEvent):void {
+				trace("ioErrorHandler");
 			}
 			
 		]]>
