@@ -4,3 +4,5 @@ bin-debug/*
 sciwork.air
 
 src/locale/en_US/resources.properties
+
+*.log
