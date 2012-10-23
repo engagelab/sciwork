@@ -5,7 +5,14 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import listeners.TweetSelectionBarEvent;
 			import listeners.TweetsRefreshEvent;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable] private var BUTTON_ARRAY:ArrayCollection = new ArrayCollection([{label: "My tweets"}, {label: "Portfolio"}, {label: "Trash"}]);
 			
 			/**
 			 *
@@ -23,6 +30,27 @@
 				dispatchEvent(tre);
 			}
 			
+			/**
+			 *
+			 * click handler for the button editButton in component selectionheader
+			 * 
+			 **/
+			protected function tweetSelectionBarHandler(event:IndexChangeEvent):void {
+				var tsbe:TweetSelectionBarEvent = new TweetSelectionBarEvent(resourceManager.getString('resources', 'TWEET_SELECTION_CHANGE'), true);
+				switch(event.newIndex) {
+					case 0:
+						tsbe.newState = "tweets";			
+						break;
+					case 1:
+						tsbe.newState = "portfolio";			
+						break;
+					case 2:
+						tsbe.newState = "trash";			
+						break;
+				}
+				dispatchEvent(tsbe);
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -31,5 +59,5 @@
 		<s:State name="tweets" />
 	</s:states>
 	
-	<s:ToggleButton icon="@Embed('assets/trash.png')" color="#FFFFFF" chromeColor="#666666" right="2" top="2" bottom="2" includeIn="tweets" fontSize="10" click="clickHandler(event)" />
+	<s:ButtonBar right="2" top="2" bottom="2" chromeColor="#333333" color="#FFFFFF" includeIn="tweets" fontSize="10" dataProvider="{BUTTON_ARRAY}" requireSelection="true" change="tweetSelectionBarHandler(event)"/>
 </s:SkinnableContainer>

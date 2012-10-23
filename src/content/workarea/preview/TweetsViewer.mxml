@@ -12,21 +12,28 @@
 			
 			[Bindable] public var tweetsInView:ArrayCollection;
 			[Bindable] public var tweetsInTrash:ArrayCollection;
+			[Bindable] public var tweetsInPortfolio:ArrayCollection;
+			
 			
 			public function rebuildAllTweets():void {
-				
 				tweetsContainer.removeAllElements();
 				
 				//refresh the view
 				switch(this.currentState) {
-					case "default":
+					case "tweets":
 						for each (var tweet:Tweet in tweetsInView) {
 							tweetsContainer.addElement(tweet);
 						}
-						
 						break;
+					
 					case "trash":
 						for each (var tweet:Tweet in tweetsInTrash) {
+							tweetsContainer.addElement(tweet);
+						}
+						break;
+					
+					case "portfolio":
+						for each (var tweet:Tweet in tweetsInPortfolio) {
 							tweetsContainer.addElement(tweet);
 						}
 						break;
@@ -36,8 +43,9 @@
 	</fx:Script>
 	
 	<s:states>
-		<s:State name="default" />
-		<s:State name="trash" />
+		<s:State name="tweets" enterState="rebuildAllTweets()" />
+		<s:State name="portfolio" enterState="rebuildAllTweets()" />
+		<s:State name="trash" enterState="rebuildAllTweets()" />
 	</s:states>
 	
 	<s:Rect width="100%" height="100%" includeIn="trash">

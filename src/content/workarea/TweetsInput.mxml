@@ -2,9 +2,14 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" borderAlpha=".2" borderWeight="2">
+	
 	<fx:Script>
 		<![CDATA[
+			import listeners.SubmitTweetEvent;
+			
 			import mx.events.FlexEvent;
+			
+			[Bindable] public var tweetOwner:String = null;
 			
 			protected function initInput(event:FlexEvent):void {
 				wordInput.addEventListener(KeyboardEvent.KEY_DOWN, checkKey);
@@ -17,7 +22,20 @@
 			}
 			
 			protected function sendTweet():void {
-				dispatchEvent(new Event(resourceManager.getString('resources', 'TWEET_SUBMITTED'), true))
+				var ste:SubmitTweetEvent = new SubmitTweetEvent(resourceManager.getString('resources', 'TWEET_SUBMITTED'), true);
+				
+				if(tweetOwner != null) {
+					ste.owner = tweetOwner;
+				}
+				else {
+					ste.owner = new String(mx.core.FlexGlobals.topLevelApplication.currentGroup.title).toLowerCase();	
+				}
+				
+				ste.bdy = wordInput.text;
+				dispatchEvent(ste);
+				
+				tweetOwner = null;
+				
 			}
 		]]>
 	</fx:Script>

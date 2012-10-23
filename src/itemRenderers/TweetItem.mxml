@@ -2,13 +2,55 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="true" minHeight="30" creationComplete="initRenderer(event)">
+				autoDrawBackground="true" width="100%" minHeight="30" creationComplete="initRenderer(event)">
 	<fx:Script>
 		<![CDATA[
+			import listeners.RetweetEvent;
+			
 			import mx.events.FlexEvent;
 			
+			/**
+			 * 
+			 * function called upon init of this renderer
+			 * 
+			 * 
+			 **/
 			protected function initRenderer(event:FlexEvent):void {
-				itemBackground.color = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
+				itemBackground.color = sciwork.getColorBasedOnGroup(new String(data.from).toLowerCase());
+				var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
+				
+				if(new String(group.title).toLowerCase() != data.from) {
+					var cm:ContextMenu = new ContextMenu();
+					cm.hideBuiltInItems();
+					var retweetMI:ContextMenuItem = new ContextMenuItem("");
+					retweetMI.label = "Re-tweet";
+					retweetMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, retweetHandler);
+					cm.customItems.push(retweetMI);
+					this.contextMenu = cm;
+				}
+			}
+			
+			/**
+			 *
+			 * Called when addToPortfolioMI item is clicked
+			 * 
+			 **/
+			protected function retweetHandler(event:ContextMenuEvent):void {
+				var rte:RetweetEvent = new RetweetEvent(resourceManager.getString('resources', 'RE_TWEET'), true);
+				rte.originGroup = data.from;
+				rte.tweetContent = hideOwner(data.bdy);
+				dispatchEvent(rte);
+			}
+			
+			
+			/**
+			 *
+			 * Remove the RT_*: from the message body
+			 * 
+			 **/
+			protected function hideOwner(message:String):String {
+				var strongRegExp:RegExp = /RT_(.*?):/;
+				return message.replace(strongRegExp, "");
 			}
 		]]>
 	</fx:Script>
@@ -20,6 +62,6 @@
 	</s:Rect>
 	<s:VGroup top="10" right="10" bottom="10" left="10" >
 		<s:Label text="{data.from+':'}" width="100%" color="#FFFFFF" />
-		<s:Label text="{data.bdy}" width="100%" color="#FFFFFF" />
+		<s:Label text="{hideOwner(data.bdy)}" width="100%" height="100%" color="#FFFFFF" />
 	</s:VGroup>
 </s:ItemRenderer>

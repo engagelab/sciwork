@@ -15,8 +15,10 @@
 			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.MaterialToPreviewEvent;
+			import listeners.RetweetEvent;
 			import listeners.SelectMaterialEvent;
 			import listeners.SubmitKeywordsEvent;
+			import listeners.SubmitTweetEvent;
 			import listeners.TaskPortfolioUpdateEvent;
 			import listeners.TweetsRefreshEvent;
 			
@@ -52,6 +54,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
+				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
 			}
 			
 			/**
@@ -96,9 +99,9 @@
 			 * Event handling method for TWEET_SUBMITTED
 			 * 
 			 **/
-			protected function handleTweetSubmitted(evt:Event):void {
+			protected function handleTweetSubmitted(evt:SubmitTweetEvent):void {
 				//send the tweet to the groupchat
-				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), tweetInput.wordInput.text, "sciwork");
+				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), "RT_"+evt.owner+":"+evt.bdy, "sciwork");
 				tweetInput.wordInput.text = "";
 			}
 			
@@ -309,7 +312,7 @@
 					preview.tweetsViewer.currentState = evt.stateToSet;
 				}
 				
-				getTweets.url = resourceManager.getString('resources', 'SERVER_URL') + "/tweet/" + currentGroup.id;
+				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + currentGroup.id;
 				getTweets.send();
 			}
 			
@@ -477,37 +480,40 @@
 			 * 
 			 **/
 			protected function getTweets_resultHandler(event:ResultEvent):void {
-				var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
-				
-				
-				//do some cleaning before populating
-				preview.tweetsViewer.tweetsInView = new ArrayCollection();
-				preview.tweetsViewer.tweetsInTrash = new ArrayCollection();
-				selection.tweetsSelection.initArray();
-				
-				//build the correct arrays
-				var tweet:Tweet;
-				var tweetObject:Object;
-				for each (var twt:Object in tweetsForGroup) {
-					//need to extract the portfolio items first
-					if(twt.isPortfolio) {
-						selection.tweetsSelection.addToSelectionArray({id: twt._id, bdy: twt.text, from: twt.userName, al: 1});
-						selection.tweetsSelection.scrollToBottom();
-					}
-					else {
+				if(event.result != "") {
+					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+					
+					//do some cleaning before populating
+					preview.tweetsViewer.tweetsInView = new ArrayCollection();
+					preview.tweetsViewer.tweetsInTrash = new ArrayCollection();
+					preview.tweetsViewer.tweetsInPortfolio = new ArrayCollection();
+					
+					//build the correct arrays
+					var tweet:Tweet;
+					var tweetObject:Object;
+					for each (var twt:Object in tweetsForGroup) {
 						tweet = new Tweet();
 						tweet.data = twt;
-						//assign the remaing tweets to the correct arrays
+						
+						//need to see if tweet is visisble (or trashed)
 						if(twt.isVisible) {
-							preview.tweetsViewer.tweetsInView.addItem(tweet);
+							//need to extract the portfolio items first
+							if(twt.isPortfolio) {
+								preview.tweetsViewer.tweetsInPortfolio.addItem(tweet);
+							}
+							else {
+								//assign the remaing tweets to the correct arrays
+								preview.tweetsViewer.tweetsInView.addItem(tweet);
+							}
 						}
 						else {
 							preview.tweetsViewer.tweetsInTrash.addItem(tweet);
 						}
+	
 					}
+					
+					preview.tweetsViewer.rebuildAllTweets();
 				}
-				
-				preview.tweetsViewer.rebuildAllTweets();
 			}
 			
 			/**
@@ -517,7 +523,17 @@
 			 **/
 			protected function getTweets_faultHandler(event:FaultEvent):void {
 				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
-			}			
+			}
+			
+			/**
+			 *
+			 * Event handling method for RE_TWEET 
+			 * 
+			 **/
+			protected function handleReTweet(evt:RetweetEvent):void {
+				tweetInput.tweetOwner = evt.originGroup;
+				tweetInput.wordInput.text = evt.tweetContent;
+			}
 		]]>
 	</fx:Script>
 	

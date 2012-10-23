@@ -243,6 +243,7 @@ post '/tweet' do
 		
 		twt = MiracleTweet.create(
 		:userName => data['userName'],
+		:ownerName => data['ownerName'],
 		:text => data['text'],
 		:xpos => data['xpos'],
 		:ypos => data['ypos'],

@@ -2,6 +2,7 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" creationComplete="creationCompleteHandler(event)" width="150" minHeight="30" cornerRadius="5">
+	
 	<fx:Declarations>
 		<fx:Object id="data" />
 	</fx:Declarations>
@@ -33,13 +34,14 @@
 			
 			private var refreshTimer:Number;
 			
+			[Bindable] private var ownerColor:uint;
+			
 			/**
 			 *
 			 * Called when itemrenderer creation is complete
 			 * 
 			 **/
 			protected function creationCompleteHandler(event:FlexEvent):void {
-				
 				this.x = data.xpos;
 				this.y = data.ypos;
 				
@@ -49,20 +51,38 @@
 				var selectMI:ContextMenuItem = new ContextMenuItem("");
 				if(data.isVisible) {
 					selectMI.label = "Move to Trash";
-					
+				
 					//show a add to portfolio menu item too
-					var addToPortfolioMI:ContextMenuItem = new ContextMenuItem("Add to portfolio");
+					var addToPortfolioMI:ContextMenuItem = new ContextMenuItem("");
+					if(data.isPortfolio) {
+						addToPortfolioMI.label = "Remove from Portfolio";
+					}
+					else {
+						addToPortfolioMI.label = "Add to Portfolio";
+					}
 					addToPortfolioMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, addToPortfolioMIHandler);
 					cm.customItems.push(addToPortfolioMI);
+				
 				}
 				else {
 					selectMI.label = "Restore";
 				}
 				selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);
+				
+				//add the menu items to the right click menu
 				cm.customItems.push(selectMI);
+				
+				//enable the right click menu
 				this.contextMenu = cm;
 				
+				//make this thingy draggable
 				enableListeners(true);
+				
+				//check if current group is the owner
+				if(data.userName != data.ownerName) {
+					ownerColor = sciwork.getColorBasedOnGroup(data.ownerName);
+					this.currentState = "isNotOwner";
+				}
 			}
 			
 			/**
@@ -71,7 +91,7 @@
 			 * 
 			 **/
 			protected function addToPortfolioMIHandler(event:ContextMenuEvent):void {
-				data.isPortfolio = true;
+				data.isPortfolio = !data.isPortfolio;
 				updateTweet();
 			}
 			
@@ -129,7 +149,7 @@
 				var tu:TweetUpdater = new TweetUpdater();
 				tu.addEventListener(TweetUpdaterEvent.UPDATE_SUCCESSFUL, handleUpdateSuccessful);
 				tu.addEventListener(TweetUpdaterEvent.UPDATE_FAILED, handleUpdateFailure);
-				tu.postTweetToService(resourceManager.getString('resources', 'SERVER_URL')+"/tweet", data);
+				tu.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/tweet", data);
 			}
 			
 			/**
@@ -184,9 +204,20 @@
 				data.isVisible = !data.isVisible;
 				updateTweet();
 			}
-			
 		]]>
 	</fx:Script>
 	
-	<s:Label text="{data.text}" color="#FFFFFF" left="10" right="10" height="100%" verticalAlign="middle" textAlign="left"/>
+	<s:states>
+		<s:State name="isOwner" />
+		<s:State name="isNotOwner" />
+	</s:states>
+	
+	<s:HGroup left="10" right="10" top="10" bottom="10">
+		<s:Rect width="10" height="10" includeIn="isNotOwner">
+			<s:fill>
+				<s:SolidColor color="{ownerColor}" />
+			</s:fill>
+		</s:Rect>
+		<s:Label text="{data.text}" color="#FFFFFF" width="100%" textAlign="left" />
+	</s:HGroup>
 </s:BorderContainer>

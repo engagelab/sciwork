@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0" creationComplete="initGroup(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
 	
 	<fx:Declarations>
 		<s:ArrayCollection id="tweetFeedArray" />
@@ -16,70 +16,37 @@
 			
 			import spark.core.NavigationUnit;
 			
-			public static const SELECTION_STATE:String = "selection";
-			public static const LIVEFEED_STATE:String = "livefeed";
-			
-			[Bindable] private var tweetSelectionArray:ArrayCollection;
-						
-			public function initArray():void {
-				tweetSelectionArray = new ArrayCollection();
-			}
-			
-			public function addToSelectionArray(item:Object):void {
-				if(!tweetSelectionArray.contains(item)) {
-					tweetSelectionArray.addItem(item);
-				}
-			}
-			
+			/**
+			 * 
+			 * public function to force scroll down on the list component
+			 * 
+			 **/
 			public function scrollToBottom():void {
 					var delta:Number = 0;
 					var count:int = 0;
 					
 					while (count++ < 10){
-						if(currentState == LIVEFEED_STATE) {
-							liveFeedList.validateNow();
-							delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
-							liveFeedList.layout.verticalScrollPosition += delta;
-						}
-						else {
-							selectionList.validateNow();
-							delta = selectionList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
-							selectionList.layout.verticalScrollPosition += delta;
-						}
+						liveFeedList.validateNow();
+						delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+						liveFeedList.layout.verticalScrollPosition += delta;
 						
 						if (delta == 0) {
 							break;						
 						}
 					}
-			}
-			
-			protected function initGroup(event:FlexEvent):void {
-				this.addEventListener(resourceManager.getString('resources', 'TWEET_SELECTION_CHANGE'), tweetSelectionChangeHandler);
-			}
-			
-			protected function tweetSelectionChangeHandler(evt:TweetSelectionBarEvent):void {
-				this.currentState = evt.newState;
-				scrollToBottom()
-			}
-			
+			}			
 		]]>
 	</fx:Script>
 	
 	<s:states>
-		<s:State name="selection" />
 		<s:State name="livefeed" />
 	</s:states>
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="30" currentState="tweets"/>
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:List includeIn="selection" id="selectionList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" dataProvider="{tweetSelectionArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
-			<s:layout>
-				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" />
-			</s:layout>
-		</s:List>
 		<s:List includeIn="livefeed" id="liveFeedList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" dataProvider="{tweetFeedArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
 			<s:layout>
-				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" />
+				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="true" />
 			</s:layout>
 		</s:List>
 	</s:BorderContainer>
