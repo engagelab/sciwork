@@ -62,6 +62,7 @@
 				
 				if(res.taskType == "simulation") {
 					this.currentState = "simulationState";	
+					trace(simulationContainer.width +" - "+simulationContainer.height );
 				}
 				else {
 					this.currentState = "contentState";	

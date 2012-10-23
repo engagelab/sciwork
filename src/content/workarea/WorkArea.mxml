@@ -10,13 +10,17 @@
 			import com.seesmic.as3.xmpp.XMPP;
 			import com.seesmic.as3.xmpp.XMPPEvent;
 			
+			import components.Tweet;
+			
 			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.MaterialToPreviewEvent;
 			import listeners.SelectMaterialEvent;
 			import listeners.SubmitKeywordsEvent;
 			import listeners.TaskPortfolioUpdateEvent;
+			import listeners.TweetsRefreshEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
@@ -47,6 +51,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
 				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
 			}
 			
 			/**
@@ -79,7 +84,7 @@
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
 						var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
 						if(res.userName == new String(currentGroup.title).toLowerCase() && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')) {
-							refreshTweets();
+							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
 						
 						break;
@@ -255,6 +260,7 @@
 						this.currentState = "assets";
 						selection.currentState = "assets";
 						preview.currentState = "default";
+						preview.previewheader.currentState = "default";
 						
 						//get existing assets selection (portfolio) for the current task and group
 						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
@@ -266,6 +272,7 @@
 						//set correct state in subsequent components
 						selection.currentState = "tweets";
 						preview.currentState = "tweetsState";
+						preview.previewheader.currentState = "tweets";
 						this.currentState = "tweets";
 						
 						//XMPP init business
@@ -277,7 +284,7 @@
 							hasJoinedMiracleRoom = true;
 						}
 						
-						refreshTweets();
+						dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						break;
 					}
 						
@@ -285,6 +292,7 @@
 						this.currentState = "default";
 						selection.currentState = "default";
 						preview.currentState = "default";
+						preview.previewheader.currentState = "default";
 						break;
 					}
 				}
@@ -295,8 +303,12 @@
 			 * Calls the tweet service to get all tweets for current group
 			 * 
 			 **/
-			protected function refreshTweets():void {
+			protected function refreshTweets(evt:TweetsRefreshEvent):void {
 				//get existing tweets for the current task and group
+				if(evt.stateToSet != null) {
+					preview.tweetsViewer.currentState = evt.stateToSet;
+				}
+				
 				getTweets.url = resourceManager.getString('resources', 'SERVER_URL') + "/tweet/" + currentGroup.id;
 				getTweets.send();
 			}
@@ -467,21 +479,35 @@
 			protected function getTweets_resultHandler(event:ResultEvent):void {
 				var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
+				
 				//do some cleaning before populating
-				preview.tweetsViewer.cleanTweets();
+				preview.tweetsViewer.tweetsInView = new ArrayCollection();
+				preview.tweetsViewer.tweetsInTrash = new ArrayCollection();
+				selection.tweetsSelection.initArray();
 				
 				//build the correct arrays
+				var tweet:Tweet;
+				var tweetObject:Object;
 				for each (var twt:Object in tweetsForGroup) {
-					if(new Boolean(twt.isVisible)) {
-						preview.tweetsViewer.tweetsInView.addItem(twt);
+					//need to extract the portfolio items first
+					if(twt.isPortfolio) {
+						selection.tweetsSelection.addToSelectionArray({id: twt._id, bdy: twt.text, from: twt.userName, al: 1});
+						selection.tweetsSelection.scrollToBottom();
 					}
 					else {
-						preview.tweetsViewer.tweetsInTrash.addItem(twt);
+						tweet = new Tweet();
+						tweet.data = twt;
+						//assign the remaing tweets to the correct arrays
+						if(twt.isVisible) {
+							preview.tweetsViewer.tweetsInView.addItem(tweet);
+						}
+						else {
+							preview.tweetsViewer.tweetsInTrash.addItem(tweet);
+						}
 					}
 				}
 				
-				//refresh the view
-				preview.tweetsViewer.refreshContent();
+				preview.tweetsViewer.rebuildAllTweets();
 			}
 			
 			/**
@@ -498,7 +524,7 @@
 	<fx:Declarations>
 		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
-		<s:HTTPService method="GET" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />

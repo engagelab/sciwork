@@ -1,9 +1,11 @@
 ﻿require 'rubygems'
 require 'sinatra'
+require 'mongoid'
 require 'digest'
 require 'json'
 require 'fileutils'
 require 'logger'
+require 'securerandom'
 
 BLACK = '0x000000'
 ORANGE = '0xFF9736'
@@ -24,12 +26,17 @@ keyword4 = "";
 keyword5 = "";
 
 task_50191e38da061f83602e8825 = [];
-tweets = [];
 
 Dir.mkdir('logs') unless File.exist?('logs')
 $log = Logger.new('logs/output.log')
 
+Dir["./models/*.rb"].each {|file| require file }
 configure do
+	Mongoid.configure do |config|
+    	name = "miracleHash"
+    	host = "localhost"
+    	config.master = Mongo::Connection.new.db(name)
+	end
     $log.level = Logger::DEBUG
 end
 
@@ -218,11 +225,9 @@ end
 
 ########## tweets ###############
 get '/tweet/:groupId' do
-	
-	$log.debug 'GET tweet: '+tweets.to_s;
-	
 	if params[:groupId] == '50191e38da061f83602e8825'
-		return tweets.to_json;
+		@att = MiracleTweet.all();
+		return @att.to_json;
 	end
 end
 
@@ -234,8 +239,17 @@ post '/tweet' do
 	$log.debug 'POST tweet: '+data.to_s;
 	
 	if data['userName'] == 'lilla'
-		twt = {"username" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']};
-		tweets.push(twt);
+		#twt = {"id" => SecureRandom.uuid, "userName" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']};
+		
+		twt = MiracleTweet.create(
+		:userName => data['userName'],
+		:text => data['text'],
+		:xpos => data['xpos'],
+		:ypos => data['ypos'],
+		:isVisible => data['isVisible'],
+		:isPortfolio => data['isPortfolio'],
+		:source => data['source']);
+		
 		return twt.to_json;
 	else
 		return [].to_json;
@@ -247,11 +261,16 @@ put '/tweet' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	if data['userName'] == 'lilla'
-		return {"username" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']}.to_json;
-	else
-		return {}.to_json;
-	end
+	twt = MiracleTweet.find(data['_id']);
+	twt.update_attributes({
+	:xpos => data['xpos'],
+	:ypos => data['ypos'],
+	:isVisible => data['isVisible'],
+	:isPortfolio => data['isPortfolio']});
+	
+	$log.debug 'PUT tweet: '+twt.to_json;
+	
+	return twt.to_json;
 end
 
 

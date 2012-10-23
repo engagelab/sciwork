@@ -4,7 +4,6 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0" creationComplete="initGroup(event)">
 	
 	<fx:Declarations>
-		<s:ArrayCollection id="tweetSelectionArray" />
 		<s:ArrayCollection id="tweetFeedArray" />
 	</fx:Declarations>
 	
@@ -12,6 +11,7 @@
 		<![CDATA[
 			import listeners.TweetSelectionBarEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			
 			import spark.core.NavigationUnit;
@@ -19,21 +19,38 @@
 			public static const SELECTION_STATE:String = "selection";
 			public static const LIVEFEED_STATE:String = "livefeed";
 			
+			[Bindable] private var tweetSelectionArray:ArrayCollection;
+						
+			public function initArray():void {
+				tweetSelectionArray = new ArrayCollection();
+			}
+			
+			public function addToSelectionArray(item:Object):void {
+				if(!tweetSelectionArray.contains(item)) {
+					tweetSelectionArray.addItem(item);
+				}
+			}
+			
 			public function scrollToBottom():void {
-				if(currentState == LIVEFEED_STATE) {
 					var delta:Number = 0;
 					var count:int = 0;
 					
 					while (count++ < 10){
-						liveFeedList.validateNow();
-						delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
-						liveFeedList.layout.verticalScrollPosition += delta;
+						if(currentState == LIVEFEED_STATE) {
+							liveFeedList.validateNow();
+							delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+							liveFeedList.layout.verticalScrollPosition += delta;
+						}
+						else {
+							selectionList.validateNow();
+							delta = selectionList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+							selectionList.layout.verticalScrollPosition += delta;
+						}
 						
 						if (delta == 0) {
 							break;						
 						}
 					}
-				}
 			}
 			
 			protected function initGroup(event:FlexEvent):void {
@@ -55,9 +72,9 @@
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="30" currentState="tweets"/>
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:List includeIn="selection" id="selectionList" top="15" left="15" right="15" bottom="15" selectionColor="#FFFFFF" dataProvider="{tweetSelectionArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
+		<s:List includeIn="selection" id="selectionList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" dataProvider="{tweetSelectionArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
 			<s:layout>
-				<s:VerticalLayout horizontalAlign="contentJustify" variableRowHeight="false" />
+				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" />
 			</s:layout>
 		</s:List>
 		<s:List includeIn="livefeed" id="liveFeedList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" dataProvider="{tweetFeedArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">

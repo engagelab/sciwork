@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.TweetsRefreshEvent;
+			
+			/**
+			 *
+			 * Function to handle the toggle to view/hide the bin
+			 * 
+			 **/
+			protected function clickHandler(event:MouseEvent):void {
+				var tre:TweetsRefreshEvent = new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true);
+				if(event.target.selected) {
+					tre.stateToSet = "trash";
+				}
+				else {
+					tre.stateToSet = "default";
+				}
+				dispatchEvent(tre);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="tweets" />
+	</s:states>
+	
+	<s:ToggleButton icon="@Embed('assets/trash.png')" color="#FFFFFF" chromeColor="#666666" right="2" top="2" bottom="2" includeIn="tweets" fontSize="10" click="clickHandler(event)" />
+</s:SkinnableContainer>

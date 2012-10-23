@@ -7,6 +7,7 @@ package listeners
 	public class TabbarLoadedEvent extends Event
 	{
 		public var menu:ArrayCollection;
+		public var menuItemWidth:Number;
 		
 		public function TabbarLoadedEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

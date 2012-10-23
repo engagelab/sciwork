@@ -25,15 +25,7 @@ package
 			var urlRequest:URLRequest = new URLRequest(url);
 			urlRequest.method = URLRequestMethod.PUT;
 			urlRequest.contentType = "application/json";
-			var params:Object = new Object();
-			params.userName = tweet.userName;
-			params.text = tweet.text;
-			params.xpos = tweet.xpos;
-			params.ypos = tweet.ypos;
-			params.isVisible = tweet.isVisible;
-			params.isPortfolio = tweet.isPortfolio;
-			params.source = tweet.source;
-			urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+			urlRequest.data = com.adobe.serialization.json.JSON.encode(tweet);
 			
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE, completeHandler);

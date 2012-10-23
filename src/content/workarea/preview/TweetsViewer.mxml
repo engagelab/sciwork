@@ -3,35 +3,33 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" contentBackgroundColor="#EEEEEE" borderAlpha=".3" borderWeight="3">
 	
-	<fx:Declarations>
-		<s:ArrayCollection id="tweetsInView" />
-		<s:ArrayCollection id="tweetsInTrash" />
-	</fx:Declarations>
-	
 	<fx:Script>
 		<![CDATA[
+			import components.Tweet;
+			
+			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			
-			public function cleanTweets():void {
-				//clean arrays
-				tweetsInView = new ArrayCollection();
-				tweetsInTrash = new ArrayCollection();
-			}
+			[Bindable] public var tweetsInView:ArrayCollection;
+			[Bindable] public var tweetsInTrash:ArrayCollection;
 			
-			public function refreshContent():void {
+			public function rebuildAllTweets():void {
+				
+				tweetsContainer.removeAllElements();
+				
+				//refresh the view
 				switch(this.currentState) {
 					case "default":
-						tweetsContainer.dataProvider = tweetsInView;
+						for each (var tweet:Tweet in tweetsInView) {
+							tweetsContainer.addElement(tweet);
+						}
+						
 						break;
 					case "trash":
-						tweetsContainer.dataProvider = tweetsInTrash;
+						for each (var tweet:Tweet in tweetsInTrash) {
+							tweetsContainer.addElement(tweet);
+						}
 						break;
-				}
-				
-				
-				for each (var twt:Object in tweetsContainer.dataProvider) {
-					twt.x = twt.xpos;
-					twt.y = twt.ypos;
 				}
 			}
 		]]>
@@ -42,6 +40,10 @@
 		<s:State name="trash" />
 	</s:states>
 	
-	<s:DataGroup width="100%" height="100%" id="tweetsContainer" itemRenderer="itemRenderers.tweetItemRenderer" />
-	
+	<s:Rect width="100%" height="100%" includeIn="trash">
+		<s:fill>
+			<s:SolidColor color="#999999" />
+		</s:fill>
+	</s:Rect>
+	<s:Group width="100%" height="100%" id="tweetsContainer" />
 </s:BorderContainer>

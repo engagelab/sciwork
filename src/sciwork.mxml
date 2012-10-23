@@ -198,7 +198,7 @@
 			 * 
 			 **/
 			private function handleMenuLoaded(evt:TabbarLoadedEvent):void {
-				footer.buildTrajectory(evt.menu, evt.menu[0]);
+				footer.buildTrajectory(evt.menu, evt.menu[0], evt.menuItemWidth);
 			}
 			
 			/**
@@ -275,5 +275,5 @@
 	</s:VGroup>
 	
 	<!-- Footer navigation component -->
-	<local:Footer id="footer" bottom="0" left="0" includeIn="loggedIn,loggedInTeacher" completedTasks="{_completedTaskArray}" />
+	<local:Footer id="footer" width="100%" bottom="0" includeIn="loggedIn,loggedInTeacher" completedTasks="{_completedTaskArray}" />
 </s:WindowedApplication>

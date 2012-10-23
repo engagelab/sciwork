@@ -103,6 +103,7 @@
 					
 					var tbe:TabbarLoadedEvent = new TabbarLoadedEvent(resourceManager.getString('resources', 'TABBAR_LOADED'), true);
 					tbe.menu = tabs;
+					tbe.menuItemWidth = (sceneBar.width)/tabs.length;
 					dispatchEvent(tbe);
 				}
 				

@@ -14,7 +14,7 @@
 			 * Method to create the footer navigation bar.
 			 * 
 			 **/
-			public function buildTrajectory(menu:ArrayCollection, selectedScene:Object):void {
+			public function buildTrajectory(menu:ArrayCollection, selectedScene:Object, menuItemWidth:Number):void {
 				//clean the group before building
 				trajMenu.removeAllElements();
 				
@@ -23,6 +23,7 @@
 				//for each scene, add a scene object (scene button + tasks checkboxes)
 				for each (var scene:Object in menu) {
 					sceneContainer = new FooterSceneContainer();
+					sceneContainer.width = menuItemWidth;
 					trajMenu.addElement(sceneContainer);
 					sceneContainer.initScene(scene, completedTasks);
 				}
@@ -65,5 +66,5 @@
 	
 	<s:SkinnableContainer id="footerBar" width="100%" height="30" bottom="0" backgroundColor="#333333" skinClass="skins.footerSkin" />
 	
-	<s:HGroup id="trajMenu" bottom="20" gap="15" horizontalCenter="0"/>
+	<s:HGroup id="trajMenu" width="995" bottom="20" gap="0" horizontalCenter="0"/>
 </s:Group>

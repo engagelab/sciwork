@@ -8989,3 +8989,554 @@ D, [2012-10-19T13:46:26.087441 #32981] DEBUG -- : GET tweet: [{"username"=>"lill
 D, [2012-10-19T13:55:47.312456 #32981] DEBUG -- : GET tweet: [{"username"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"username"=>"lilla", "text"=>"45", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"username"=>"lilla", "text"=>"qwertyuiopå", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
 D, [2012-10-19T13:55:47.393298 #32981] DEBUG -- : GET tweet: [{"username"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"username"=>"lilla", "text"=>"45", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"username"=>"lilla", "text"=>"qwertyuiopå", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
 D, [2012-10-19T13:55:47.398942 #32981] DEBUG -- : GET tweet: [{"username"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"username"=>"lilla", "text"=>"45", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"username"=>"lilla", "text"=>"qwertyuiopå", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:34:55.429875 #33556] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:34:55.447090 #33556] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:34:55.448693 #33556] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:34:59.199097 #33556] DEBUG -- : POST tweet: {"source"=>false, "ypos"=>0, "userName"=>"lilla", "isVisible"=>true, "text"=>"456", "isPortfolio"=>false, "xpos"=>0}
+D, [2012-10-19T14:36:58.747625 #33556] DEBUG -- : GET tweet: [{"id"=>"bf7c8e52-f686-413f-a1f6-40d313933e1d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:36:58.790742 #33556] DEBUG -- : GET tweet: [{"id"=>"bf7c8e52-f686-413f-a1f6-40d313933e1d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:36:58.792160 #33556] DEBUG -- : GET tweet: [{"id"=>"bf7c8e52-f686-413f-a1f6-40d313933e1d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:37:13.806140 #33556] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:37:13.863501 #33556] DEBUG -- : GET tweet: [{"id"=>"bf7c8e52-f686-413f-a1f6-40d313933e1d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"8948be53-4ab1-470a-99fb-f86c2c28b6bb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:37:50.708486 #33556] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:37:50.778863 #33556] DEBUG -- : GET tweet: [{"id"=>"bf7c8e52-f686-413f-a1f6-40d313933e1d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"8948be53-4ab1-470a-99fb-f86c2c28b6bb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"dc223cbb-dac6-4417-93d3-9a4e2b1d6ddb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:37:52.085783 #33556] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:37:52.153861 #33556] DEBUG -- : GET tweet: [{"id"=>"bf7c8e52-f686-413f-a1f6-40d313933e1d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"8948be53-4ab1-470a-99fb-f86c2c28b6bb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"dc223cbb-dac6-4417-93d3-9a4e2b1d6ddb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"b20e0f51-9f04-432e-ae2b-5445b7ca6e18", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:46:43.461067 #33657] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:46:43.485446 #33657] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:46:43.486853 #33657] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:46:43.489382 #33657] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:46:43.490966 #33657] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:46:43.493056 #33657] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:46:50.279255 #33657] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:46:50.361577 #33657] DEBUG -- : GET tweet: [{"id"=>"6c748af9-0691-43e0-9b4e-be0a97b2c00d", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:47:56.465560 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:47:56.490725 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:47:56.493561 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:47:56.495261 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:47:56.497164 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:47:56.498775 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:47:56.500614 #33669] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:48:01.695237 #33669] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:48:01.784199 #33669] DEBUG -- : GET tweet: [{"id"=>"dbab2d4f-14cb-416f-9bca-72bafc56038e", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:49:03.150536 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.180584 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.183230 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.185220 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.187271 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.189266 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.190970 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:03.194837 #33682] DEBUG -- : GET tweet: []
+D, [2012-10-19T14:49:06.902681 #33682] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"789", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:49:06.969821 #33682] DEBUG -- : GET tweet: [{"id"=>"1d21414e-6b19-46a3-953e-78951170bbb0", "userName"=>"lilla", "text"=>"789", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:50:07.865858 #33702] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T14:50:07.928346 #33702] DEBUG -- : GET tweet: [{"id"=>"c6e7ebf6-0a19-4e2a-91f0-6f4c93e144eb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T14:50:14.385536 #33702] DEBUG -- : loop tweets: {"id"=>"c6e7ebf6-0a19-4e2a-91f0-6f4c93e144eb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}
+D, [2012-10-19T14:50:20.050925 #33702] DEBUG -- : loop tweets: {"id"=>"c6e7ebf6-0a19-4e2a-91f0-6f4c93e144eb", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}
+D, [2012-10-19T15:02:00.794273 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.813170 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.820186 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.822125 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.824017 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.827760 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.829773 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.831277 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.834246 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:00.836209 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:04.550491 #33807] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"123", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:02:07.899744 #33807] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.860650 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.890092 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.891322 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.892733 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.894463 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.895712 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.897862 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.901008 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.904099 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:36.905670 #33812] DEBUG -- : GET tweet: 
+D, [2012-10-19T15:02:39.304792 #33812] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:03:29.319472 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.350594 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.353213 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.354957 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.357270 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.360188 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.361725 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.363607 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.366476 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:29.368032 #33820] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:03:31.341225 #33820] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:03:31.423883 #33820] DEBUG -- : GET tweet: [{"id"=>"08cc0188-176a-4fd1-a207-95b9a2d1f35a", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:05:19.570667 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.604361 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.608169 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.610267 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.612509 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.614030 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.616493 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.617696 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.621995 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.623847 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:19.631254 #33842] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:05:21.471342 #33842] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"789", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:05:21.552944 #33842] DEBUG -- : GET tweet: [{"id"=>"3b6b0845-07d0-4c8a-8831-605fcc3d49aa", "userName"=>"lilla", "text"=>"789", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:05:36.611866 #33842] DEBUG -- : GET tweet: [{"id"=>"3b6b0845-07d0-4c8a-8831-605fcc3d49aa", "userName"=>"lilla", "text"=>"789", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:05:41.673059 #33842] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:05:41.760228 #33842] DEBUG -- : GET tweet: [{"id"=>"3b6b0845-07d0-4c8a-8831-605fcc3d49aa", "userName"=>"lilla", "text"=>"789", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"cc5f3e0f-cdef-4dac-9d31-00124d474f98", "userName"=>"lilla", "text"=>"456", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:06:48.081177 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.116315 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.117708 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.118902 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.122222 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.125304 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.127250 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.130086 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.132946 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.139937 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.142540 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.144661 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:48.146602 #33868] DEBUG -- : GET tweet: []
+D, [2012-10-19T15:06:50.255082 #33868] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"48561", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:06:50.311578 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:06:51.586681 #33868] DEBUG -- : POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"6512", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+D, [2012-10-19T15:06:51.644210 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:06:53.769646 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>193, "text"=>"6512", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>284}
+D, [2012-10-19T15:06:54.935700 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>205, "text"=>"48561", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>80}
+D, [2012-10-19T15:06:59.643723 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>106, "text"=>"48561", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>86}
+D, [2012-10-19T15:07:01.727407 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>223, "text"=>"6512", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>34}
+D, [2012-10-19T15:07:03.521813 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>223, "text"=>"6512", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>355}
+D, [2012-10-19T15:07:15.310350 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>0, "text"=>"48561", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>0}
+D, [2012-10-19T15:07:18.644601 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>9, "text"=>"6512", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>375}
+D, [2012-10-19T15:07:19.391342 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>0, "text"=>"6512", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>375}
+D, [2012-10-19T15:07:20.018823 #33868] DEBUG -- : PU tweet: {"source"=>false, "ypos"=>0, "text"=>"6512", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>375}
+D, [2012-10-19T15:18:55.531095 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.583186 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.585117 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.587122 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.589709 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.591887 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.598888 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.601096 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.603861 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.605910 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.607376 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.609478 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.611388 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.613104 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:18:55.614314 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.722535 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.774765 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.776738 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.778180 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.779793 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.781930 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.784682 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.788482 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.791210 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.796051 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.797504 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.800509 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.801930 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.803692 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:18.804899 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.304381 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.356753 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.358273 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.359437 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.360803 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.362703 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.364660 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.368384 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.370901 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.372866 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.374862 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.376555 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.378020 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.383047 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+D, [2012-10-19T15:19:51.385783 #33868] DEBUG -- : GET tweet: [{"id"=>"4a9ed162-8251-4f40-b7e7-28447ea26111", "userName"=>"lilla", "text"=>"48561", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}, {"id"=>"338fa41d-1fdf-417c-9229-ae08e51bda5c", "userName"=>"lilla", "text"=>"6512", "xpos"=>0, "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "source"=>false}]
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"456", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PU tweet: {"source"=>"false", "ypos"=>134, "text"=>"456", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>96}
+PU tweet: {"source"=>"false", "ypos"=>160, "x"=>"0", "text"=>"456", "y"=>"0", "isVisible"=>true, "userName"=>"lilla", "isPortfolio"=>false, "_id"=>"5081610c9c9505b2a8000001", "xpos"=>181}
+PU tweet: {"source"=>"false", "ypos"=>142, "isVisible"=>true, "_id"=>"5081610c9c9505b2a8000001", "x"=>"0", "text"=>"456", "y"=>"0", "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>201}
+PU tweet: {"source"=>"false", "isVisible"=>true, "_id"=>"5081610c9c9505b2a8000001", "x"=>"0", "text"=>"456", "y"=>"0", "ypos"=>167, "userName"=>"lilla", "isPortfolio"=>false, "xpos"=>194}
+PU tweet: #<MiracleTweet:0x007f986b225e60>
+PU tweet: #<MiracleTweet:0x007f986b0fbf80>
+PU tweet: #<MiracleTweet:0x007f986b0082b8>
+PU tweet: #<MiracleTweet:0x007f986c20a088>
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"yui", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"hkj", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"184","ypos":"115"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"65","ypos":"257"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"320","ypos":"242"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"hum", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"148","ypos":"98"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"ok", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"hey", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"330","ypos":"77"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"330","ypos":"77"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"330","ypos":"77"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"102","ypos":"83"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"75","ypos":"15"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"75","ypos":"15"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"75","ypos":"15"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"75","ypos":"15"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"330","ypos":"77"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"330","ypos":"77"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"156","ypos":"27"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"112","ypos":"126"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"283","ypos":"162"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"79","ypos":"80"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"231","ypos":"29"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"kl", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"110","ypos":"58"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"301","ypos":"112"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"322","ypos":"41"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"322","ypos":"41"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"77","ypos":"117"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"57","ypos":"137"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":false,"source":"false","text":"kl","userName":"lilla","xpos":"57","ypos":"137"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":false,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"322","ypos":"41"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"ok", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"322","ypos":"41"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":false,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"yh", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"114","ypos":"116"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"334","ypos":"67"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"344","ypos":"4"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"yh","userName":"lilla","xpos":"344","ypos":"4"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"322","ypos":"41"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"344","ypos":"4"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"45","ypos":"142"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":false,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"318","ypos":"101"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"162","ypos":"142"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"193","ypos":"55"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hum","userName":"lilla","xpos":"162","ypos":"142"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"yh","userName":"lilla","xpos":"344","ypos":"4"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"193","ypos":"55"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"344","ypos":"4"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"162","ypos":"142"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"193","ypos":"55"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"354","ypos":"141"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"346","ypos":"201"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"354","ypos":"98"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"yh","userName":"lilla","xpos":"354","ypos":"98"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hum","userName":"lilla","xpos":"162","ypos":"142"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"193","ypos":"55"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":false,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hum","userName":"lilla","xpos":"162","ypos":"142"}
+PUT tweet: {"_id":"5081c3e70ac19cb66f000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081d55e0ac19cb66f000003","isPortfolio":false,"isVisible":true,"source":"false","text":"kl","userName":"lilla","xpos":"146","ypos":"216"}
+PUT tweet: {"_id":"5081901a0ac19cb60c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hkj","userName":"lilla","xpos":"111","ypos":"78"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":true,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"5081d9d10ac19cb88c000002","isPortfolio":false,"isVisible":true,"source":"false","text":"yh","userName":"lilla","xpos":"354","ypos":"98"}
+PUT tweet: {"_id":"5081c4e00ac19cb66f000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"193","ypos":"55"}
+PUT tweet: {"_id":"508190780ac19cb60c000002","isPortfolio":false,"isVisible":false,"source":"false","text":"hum","userName":"lilla","xpos":"162","ypos":"142"}
+PUT tweet: {"_id":"5081d9390ac19cb88c000001","isPortfolio":false,"isVisible":false,"source":"false","text":"ok","userName":"lilla","xpos":"0","ypos":"0"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"hey", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"nice", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":true,"source":"false","text":"nice","userName":"lilla","xpos":"150","ypos":"130"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"331","ypos":"25"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"cool", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"58","ypos":"228"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":false,"source":"false","text":"nice","userName":"lilla","xpos":"150","ypos":"130"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"331","ypos":"25"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"331","ypos":"40"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":false,"source":"false","text":"cool","userName":"lilla","xpos":"331","ypos":"40"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":false,"source":"false","text":"cool","userName":"lilla","xpos":"111","ypos":"47"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":true,"source":"false","text":"nice","userName":"lilla","xpos":"150","ypos":"130"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"331","ypos":"25"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"111","ypos":"47"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":false,"source":"false","text":"hey","userName":"lilla","xpos":"331","ypos":"25"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":false,"source":"false","text":"nice","userName":"lilla","xpos":"150","ypos":"130"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":false,"source":"false","text":"cool","userName":"lilla","xpos":"111","ypos":"47"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"111","ypos":"47"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"331","ypos":"25"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"6","ypos":"9"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"3","ypos":"298"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"33","ypos":"53"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"194","ypos":"141"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"134","ypos":"55"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"fahied", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":true,"source":"false","text":"fahied","userName":"lilla","xpos":"23","ypos":"134"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"270","ypos":"104"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":false,"source":"false","text":"fahied","userName":"lilla","xpos":"23","ypos":"134"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":false,"source":"false","text":"nice","userName":"lilla","xpos":"272","ypos":"38"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"9","ypos":"11"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"0","ypos":"121"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"61","ypos":"84"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"140","ypos":"115"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"10","ypos":"45"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"215","ypos":"202"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"63","ypos":"104"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"239","ypos":"78"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"46","ypos":"36"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"219","ypos":"84"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":false,"source":"false","text":"cool","userName":"lilla","xpos":"46","ypos":"36"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"46","ypos":"36"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":true,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"46","ypos":"36"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"54","ypos":"23"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":false,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"107","ypos":"223"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":false,"source":"false","text":"nice","userName":"lilla","xpos":"290","ypos":"54"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":false,"source":"false","text":"nice","userName":"lilla","xpos":"43","ypos":"23"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":false,"source":"false","text":"fahied","userName":"lilla","xpos":"191","ypos":"91"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":true,"source":"false","text":"nice","userName":"lilla","xpos":"43","ypos":"23"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":true,"source":"false","text":"fahied","userName":"lilla","xpos":"191","ypos":"91"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":true,"isVisible":true,"source":"false","text":"fahied","userName":"lilla","xpos":"191","ypos":"91"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":false,"source":"false","text":"nice","userName":"lilla","xpos":"43","ypos":"23"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":true,"source":"false","text":"nice","userName":"lilla","xpos":"43","ypos":"23"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":true,"isVisible":true,"source":"false","text":"nice","userName":"lilla","xpos":"43","ypos":"23"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":true,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"107","ypos":"223"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"jeremy", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"73","ypos":"115"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"73","ypos":"115"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"118","ypos":"115"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"175","ypos":"66"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"253","ypos":"12"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"112","ypos":"111"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"69","ypos":"175"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"191","ypos":"73"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"309","ypos":"307"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"249","ypos":"63"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":true,"isVisible":true,"source":"false","text":"jeremy","userName":"lilla","xpos":"249","ypos":"63"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"4","ypos":"120"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":true,"source":"false","text":"fahied","userName":"lilla","xpos":"196","ypos":"91"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":true,"source":"false","text":"fahied","userName":"lilla","xpos":"262","ypos":"160"}
+PUT tweet: {"_id":"508422940ac19c01d5000001","isPortfolio":true,"isVisible":true,"source":"false","text":"hey","userName":"lilla","xpos":"107","ypos":"223"}
+PUT tweet: {"_id":"5085282f9c950504da000002","isPortfolio":false,"isVisible":false,"source":"false","text":"jeremy","userName":"lilla","xpos":"249","ypos":"63"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"boinjour", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"hello tweet", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"508548cd2d4de701c0000002","isPortfolio":false,"isVisible":true,"source":"false","text":"hello tweet","userName":"lilla","xpos":"214","ypos":"70"}
+PUT tweet: {"_id":"5084229f0ac19c01d5000002","isPortfolio":false,"isVisible":true,"source":"false","text":"nice","userName":"lilla","xpos":"0","ypos":"167"}
+PUT tweet: {"_id":"508501c69c950504da000001","isPortfolio":false,"isVisible":false,"source":"false","text":"fahied","userName":"lilla","xpos":"262","ypos":"160"}
+PUT tweet: {"_id":"508548cd2d4de701c0000002","isPortfolio":true,"isVisible":true,"source":"false","text":"hello tweet","userName":"lilla","xpos":"214","ypos":"70"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"151","ypos":"0"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"tyhufsnedhunjtergdfyhnuijsfdyuijnsdfguijsfnduijmtrdgnijmesfdhjnu8isedfhjnu8imterdghju8i9tersghjduim9terdghju8im9terdgfhju8im9terdgf8unjim9et", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"508549462d4de701c0000003","isPortfolio":false,"isVisible":true,"source":"false","text":"tyhufsnedhunjtergdfyhnuijsfdyuijnsdfguijsfnduijmtrdgnijmesfdhjnu8isedfhjnu8imterdghju8i9tersghjduim9terdghju8im9terdgfhju8im9terdgf8unjim9et","userName":"lilla","xpos":"280","ypos":"28"}
+PUT tweet: {"_id":"508549462d4de701c0000003","isPortfolio":false,"isVisible":true,"source":"false","text":"tyhufsnedhunjtergdfyhnuijsfdyuijnsdfguijsfnduijmtrdgnijmesfdhjnu8isedfhjnu8imterdghju8i9tersghjduim9terdghju8im9terdgfhju8im9terdgf8unjim9et","userName":"lilla","xpos":"304","ypos":"0"}
+PUT tweet: {"_id":"508549462d4de701c0000003","isPortfolio":false,"isVisible":true,"source":"false","text":"tyhufsnedhunjtergdfyhnuijsfdyuijnsdfguijsfnduijmtrdgnijmesfdhjnu8isedfhjnu8imterdghju8i9tersghjduim9terdghju8im9terdgfhju8im9terdgf8unjim9et","userName":"lilla","xpos":"181","ypos":"13"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"289","ypos":"138"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"289","ypos":"138"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"cool", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"50854c742d4de701c0000004","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"250","ypos":"182"}
+PUT tweet: {"_id":"508549462d4de701c0000003","isPortfolio":false,"isVisible":true,"source":"false","text":"tyhufsnedhunjtergdfyhnuijsfdyuijnsdfguijsfnduijmtrdgnijmesfdhjnu8isedfhjnu8imterdghju8i9tersghjduim9terdghju8im9terdgfhju8im9terdgf8unjim9et","userName":"lilla","xpos":"0","ypos":"41"}
+PUT tweet: {"_id":"50854c742d4de701c0000004","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"157","ypos":"36"}
+PUT tweet: {"_id":"508422ac0ac19c01d5000003","isPortfolio":false,"isVisible":true,"source":"false","text":"cool","userName":"lilla","xpos":"154","ypos":"74"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"5ty6u", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"tryhjuk", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"50854c742d4de701c0000004","isPortfolio":false,"isVisible":false,"source":"false","text":"cool","userName":"lilla","xpos":"157","ypos":"36"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"my swecond tweet", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+POST tweet: {"source"=>false, "isVisible"=>true, "isPortfolio"=>false, "text"=>"my third one", "xpos"=>0, "ypos"=>0, "userName"=>"lilla"}
+PUT tweet: {"_id":"50855e182d4de701c0000008","isPortfolio":false,"isVisible":true,"source":"false","text":"my third one","userName":"lilla","xpos":"0","ypos":"70"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"50855e182d4de701c0000008","isPortfolio":false,"isVisible":true,"source":"false","text":"my third one","userName":"lilla","xpos":"0","ypos":"14"}
+PUT tweet: {"_id":"50855e182d4de701c0000008","isPortfolio":false,"isVisible":true,"source":"false","text":"my third one","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"50855e182d4de701c0000008","isPortfolio":true,"isVisible":true,"source":"false","text":"my third one","userName":"lilla","xpos":"0","ypos":"0"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"99","ypos":"116"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"99","ypos":"116"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"249","ypos":"35"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"66","ypos":"41"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"180","ypos":"145"}
+PUT tweet: {"_id":"50855dfa2d4de701c0000007","isPortfolio":false,"isVisible":true,"source":"false","text":"my swecond tweet","userName":"lilla","xpos":"121","ypos":"52"}
