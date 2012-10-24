@@ -17,6 +17,8 @@
 			
 			import spark.core.NavigationUnit;
 			
+			[Bindable] private var drawerHandleColor:uint = 0x999999;
+			
 			/**
 			 * 
 			 * public function to force scroll down on the list component
@@ -88,6 +90,14 @@
 				liveFeedList.dataProvider = tweetsToDisplay;
 			}
 			
+			protected function drawerHandleMouseOver(event:MouseEvent):void {
+				drawerHandleColor = 0x777777;
+			}
+			
+			protected function drawerHandleMouseOut(event:MouseEvent):void {
+				drawerHandleColor = 0x999999;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -107,7 +117,7 @@
 				<s:CheckBox label="{sciwork.HASH_TAGS_ARRAY[4]}" color="#FFFFFF" change="handleHashTag(event)" />
 				<s:CheckBox label="{sciwork.HASH_TAGS_ARRAY[5]}" color="#FFFFFF" change="handleHashTag(event)" />
 			</s:VGroup>
-			<s:BorderContainer width="100%" color="#888888" skinClass="skins.hashPanelHeaderSkin" click="toggleHashDrawer(event)" buttonMode="true" minHeight="30">
+			<s:BorderContainer width="100%" backgroundColor="{drawerHandleColor}" skinClass="skins.hashPanelHeaderSkin" click="toggleHashDrawer(event)" buttonMode="true" minHeight="30" mouseOver="drawerHandleMouseOver(event)" mouseOut="drawerHandleMouseOut(event)">
 				<s:Image source="@Embed('assets/arrowd.png')" rotation.opened="180" horizontalCenter="0" verticalCenter="0" />
 			</s:BorderContainer>
 		</s:VGroup>
