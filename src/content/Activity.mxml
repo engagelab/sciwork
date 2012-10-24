@@ -2,6 +2,11 @@
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
+	<fx:Script>
+		<![CDATA[
+			import flashx.textLayout.conversion.TextConverter;
+		]]>
+	</fx:Script>
 	
 	<fx:Declarations>
 		<fx:String id="content" />
@@ -9,7 +14,7 @@
 	
 	<components:SectionHeader width="100%" height="20" titleString="OPPGAVETEKST" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:Label text="{content}" left="5" right="5" top="5" />
+		<s:RichText left="5" right="5" top="5" textFlow="{TextConverter.importToFlow(content, TextConverter.TEXT_FIELD_HTML_FORMAT)}" />
 	</s:BorderContainer>
-	
+
 </s:VGroup>
