@@ -80,7 +80,7 @@
 							
 						}
 										
-						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al});
+						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
 						selection.tweetsSelection.scrollToBottom();
 						break;
 						
@@ -92,6 +92,18 @@
 						
 						break;
 				}
+			}
+			
+			protected function getTagsForContent(message:String):Array {
+				var tags:Array = new Array();
+				
+				for each (var tag:String in sciwork.HASH_TAGS_ARRAY) {
+					if(message.indexOf(tag) > -1) {
+						tags.push(tag);
+					}
+				}
+				
+				return tags;
 			}
 			
 			/**
