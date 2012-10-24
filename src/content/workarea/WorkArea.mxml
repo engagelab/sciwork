@@ -136,13 +136,13 @@
 					case VIDEO_TYPE:
 						//make sure the video stops when adding/removing
 						preview.videoViewer.player.stopVideo();
-						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/video");
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/video/");
 						break;
 					case IMAGE_TYPE:
-						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image");
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image/");
 						break;
 					case TEXT_TYPE:
-						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/postit");
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/postit/");
 						break;
 				}
 				urlRequest.method = URLRequestMethod.PUT;
@@ -324,7 +324,7 @@
 					preview.tweetsViewer.currentState = evt.stateToSet;
 				}
 				
-				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + currentGroup.id;
+				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + new String(currentGroup.title).toLowerCase();
 				getTweets.send();
 			}
 			
@@ -372,6 +372,9 @@
 						tpue.eventType = sciwork.KEYWORD_UPDATE_TYPE;
 						dispatchEvent(tpue);
 					}
+				}
+				else {
+					Alert.show("The keyword array for this task is not equal to 5", "Keyword service error");
 				}
 			}
 			
@@ -467,7 +470,7 @@
 							newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
 							break;
 						case IMAGE_TYPE:
-							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/0.jpg", resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
 							break;
 						case TEXT_TYPE:
 							//todo:
@@ -534,7 +537,7 @@
 			 * 
 			 **/
 			protected function getTweets_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
+				Alert.show("An error occured while retrieving the tweets from the server.", "Tweets service error");
 			}
 			
 			/**

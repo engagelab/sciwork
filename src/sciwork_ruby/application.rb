@@ -85,14 +85,14 @@ get '/tasksCompleted/:groupId' do
 	end
 end
 
-put '/tasksCompleted/:groupId' do
+put '/tasksCompleted/' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
 	
 	
-	if params[:groupId] == '50191e38da061f83602e8825'
-		if data['isTaskPortfolioReady'] == "true"
+	if data['groupId'] == '50191e38da061f83602e8825'
+		if data['isTaskCompleted'] == true
 			task_50191e38da061f83602e8825.push(data['taskId']);
 		else
 			task_50191e38da061f83602e8825.delete(data['taskId']);
@@ -185,7 +185,7 @@ get '/contributions/:groupId/:taskId' do
 	return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected, :xpos => "10", :ypos => "10"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected, :xpos => "20", :ypos => "20"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => item2Selected, :xpos => "30", :ypos => "30"}], "spostits" => []}.to_json;
 end
 
-put '/group/video' do
+put '/group/video/' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
@@ -200,7 +200,7 @@ put '/group/video' do
 	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
-put '/group/image' do
+put '/group/image/' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
@@ -213,7 +213,7 @@ put '/group/image' do
 	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
 
-put '/group/postit' do
+put '/group/postit/' do
 	request.body.rewind  # in case someone already read it
 	content_type :json;
 	data = JSON.parse request.body.read
