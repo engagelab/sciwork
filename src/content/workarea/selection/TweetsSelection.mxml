@@ -24,7 +24,7 @@
 			 * public function to force scroll down on the list component
 			 * 
 			 **/
-			public function scrollToBottom():void {
+			protected function scrollToBottom():void {
 					var delta:Number = 0;
 					var count:int = 0;
 					
@@ -68,16 +68,16 @@
 					hashTags.removeItemAt(hashTags.getItemIndex(tag));
 				}
 				
-				refreshLiveFeed(hashTags);
+				refreshLiveFeed();
 			}
 			
-			protected function refreshLiveFeed(tagsArray:ArrayCollection):void {
+			public function refreshLiveFeed():void {
 				var tweetsToDisplay:ArrayCollection = new ArrayCollection();
 				
 				for each (var tweet:Object in tweetFeedArray) {
-					if(tagsArray.length > 0) {
-						for each (var tag:String in tagsArray) {
-							if((tweet.tags as Array).indexOf(tag) > -1) {
+					if(hashTags.length > 0) {
+						for each (var tag:String in hashTags) {
+							if((tweet.tags as Array).indexOf(tag) > -1 && !tweetsToDisplay.contains(tweet)) {
 								tweetsToDisplay.addItem(tweet);
 							}
 						}	
@@ -88,6 +88,7 @@
 				}
 				
 				liveFeedList.dataProvider = tweetsToDisplay;
+				scrollToBottom();
 			}
 			
 			protected function drawerHandleMouseOver(event:MouseEvent):void {

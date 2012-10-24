@@ -201,6 +201,7 @@
 				
 				this[currentInterface].stopPlayingMedia();
 				this.currentState = "loggedOff";
+				_conn.disconnect();
 				_conn = null;
 			}
 			

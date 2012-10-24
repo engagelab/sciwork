@@ -225,7 +225,7 @@ end
 
 ########## tweets ###############
 get '/tweet/:groupId' do
-	if params[:groupId] == '50191e38da061f83602e8825'
+	if params[:groupId] == 'lilla'
 		@att = MiracleTweet.all();
 		return @att.to_json;
 	end

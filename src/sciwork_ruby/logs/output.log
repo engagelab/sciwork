@@ -9662,3 +9662,27 @@ PUT tweet: {"_id":"5086b2279c95051394000002","isPortfolio":true,"isVisible":true
 PUT tweet: {"_id":"5086b2279c95051394000002","isPortfolio":false,"isVisible":true,"ownerName":"rosa","source":"false","text":"this is a rosa tweet edited by lilla","userName":"lilla","xpos":"9","ypos":"135"}
 PUT tweet: {"_id":"5086b1949c95051394000001","isPortfolio":false,"isVisible":false,"ownerName":"lilla","source":"false","text":"this is a lilla tweet","userName":"lilla","xpos":"101","ypos":"75"}
 PUT tweet: {"_id":"5086b1949c95051394000001","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"this is a lilla tweet","userName":"lilla","xpos":"101","ypos":"75"}
+POST tweet: {"isPortfolio"=>false, "ownerName"=>"rosa", "userName"=>"lilla", "text"=>"this is a rosa tweet", "xpos"=>0, "source"=>false, "ypos"=>0, "isVisible"=>true}
+POST tweet: {"isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla", "text"=>"bhnjukl", "xpos"=>0, "source"=>false, "ypos"=>0, "isVisible"=>true}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"hello", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+PUT tweet: {"_id":"508845560ac19c0c71000001","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"hello","userName":"lilla","xpos":"72","ypos":"91"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"heyhey", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+PUT tweet: {"_id":"508845b10ac19c0c8d000001","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"heyhey","userName":"lilla","xpos":"45","ypos":"11"}
+PUT tweet: {"_id":"508845b10ac19c0c8d000001","isPortfolio":true,"isVisible":true,"ownerName":"lilla","source":"false","text":"heyhey","userName":"lilla","xpos":"45","ypos":"11"}
+PUT tweet: {"_id":"508845b10ac19c0c8d000001","isPortfolio":true,"isVisible":false,"ownerName":"lilla","source":"false","text":"heyhey","userName":"lilla","xpos":"45","ypos":"11"}
+PUT tweet: {"_id":"508845b10ac19c0c8d000001","isPortfolio":true,"isVisible":true,"ownerName":"lilla","source":"false","text":"heyhey","userName":"lilla","xpos":"45","ypos":"11"}
+PUT tweet: {"_id":"508845b10ac19c0c8d000001","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"heyhey","userName":"lilla","xpos":"45","ypos":"11"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"#wind is a cool technology", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"#wind and #solar are promising", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+PUT tweet: {"_id":"508845eb0ac19c0c8d000003","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"#wind and #solar are promising","userName":"lilla","xpos":"114","ypos":"177"}
+PUT tweet: {"_id":"508845eb0ac19c0c8d000003","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"#wind and #solar are promising","userName":"lilla","xpos":"21","ypos":"218"}
+PUT tweet: {"_id":"508845d20ac19c0c8d000002","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"#wind is a cool technology","userName":"lilla","xpos":"272","ypos":"24"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"hun", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+PUT tweet: {"_id":"508846150ac19c0c8d000004","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"hun","userName":"lilla","xpos":"267","ypos":"146"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"#nuclear is dangerous", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"hoi", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"lilla", "userName"=>"lilla"}
+PUT tweet: {"_id":"508847f80ac19c0c8d000006","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"hoi","userName":"lilla","xpos":"218","ypos":"216"}
+PUT tweet: {"_id":"508847c70ac19c0c8d000005","isPortfolio":false,"isVisible":true,"ownerName":"lilla","source":"false","text":"#nuclear is dangerous","userName":"lilla","xpos":"306","ypos":"91"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"#nuclear is cheap", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"rosa", "userName"=>"rosa"}
+POST tweet: {"source"=>false, "xpos"=>0, "text"=>"#nuclear is cheap and dangerous", "ypos"=>0, "isVisible"=>true, "isPortfolio"=>false, "ownerName"=>"rosa", "userName"=>"lilla"}
+PUT tweet: {"_id":"508848740ac19c0c8d000007","isPortfolio":false,"isVisible":true,"ownerName":"rosa","source":"false","text":"#nuclear is cheap and dangerous","userName":"lilla","xpos":"344","ypos":"268"}

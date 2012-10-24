@@ -12,7 +12,7 @@
 			
 			import spark.events.IndexChangeEvent;
 			
-			[Bindable] private var BUTTON_ARRAY:ArrayCollection = new ArrayCollection([{label: "My tweets"}, {label: "Portfolio"}, {label: "Trash"}]);
+			[Bindable] private var BUTTON_ARRAY:ArrayCollection = new ArrayCollection([{label: "Tweets"}, {label: "Portfolio"}, {label: "Trash"}]);
 			
 			/**
 			 *

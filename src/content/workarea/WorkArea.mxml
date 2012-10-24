@@ -81,7 +81,7 @@
 						}
 										
 						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
-						selection.tweetsSelection.scrollToBottom();
+						selection.tweetsSelection.refreshLiveFeed();
 						break;
 						
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
