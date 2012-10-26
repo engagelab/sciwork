@@ -1,139 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0" xmlns:selection="content.workarea.selection.*" creationComplete="initGroup(event)">
 	
 	<fx:Declarations>
 		<s:ArrayCollection id="tweetFeedArray" />
-		<s:ArrayCollection id="hashTags" />
+		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import content.workarea.WorkArea;
+			import content.workarea.materials.MaterialsItem;
+			
 			import listeners.TweetSelectionBarEvent;
 			
-			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
-			import spark.components.CheckBox;
-			import spark.core.NavigationUnit;
+			public static const SELECTION_STATE:String = "selection";
+			public static const LIVEFEED_STATE:String = "livefeed";
 			
-			[Bindable] private var drawerHandleColor:uint = 0x999999;
+			protected function initGroup(event:FlexEvent):void {
+				this.addEventListener(resourceManager.getString('resources', 'TWEET_SELECTION_CHANGE'), tweetSelectionChangeHandler);
+				
+			}
+			
+			public function retrieveAssets(groupId:String, taskId:String):void {
+				getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + groupId + "/" + taskId;
+				getAssetsPortfolio.send();
+			}
+			
+			protected function tweetSelectionChangeHandler(evt:TweetSelectionBarEvent):void {
+				this.currentState = evt.newState;
+			}
+			
+			public function refreshFeed():void {
+				if(this.currentState == LIVEFEED_STATE) {
+					liveFeedComponent.refreshLiveFeed();
+				}
+			}
 			
 			/**
 			 * 
-			 * public function to force scroll down on the list component
+			 * Error handling method for getAssets service
 			 * 
 			 **/
-			protected function scrollToBottom():void {
-					var delta:Number = 0;
-					var count:int = 0;
+			protected function getAssets_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getAssets service 
+			 * 
+			 **/
+			protected function getAssets_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//clean current material holders
+				tweetsPortfolio.portfolioGroup.removeAllElements();
+				
+				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
+				parseMaterialSubArray(contributions.simages, WorkArea.IMAGE_TYPE);
+			}
+			
+			/**
+			 *
+			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 **/
+			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
+				var newItem:MaterialsItem;
+				
+				//extract materials
+				for each (var material:Object in subArray) {
+					newItem = new MaterialsItem();
+					newItem.isPortfolio = material.isPortfolio;
+					newItem.xpos = material.xpos;
+					newItem.ypos = material.ypos;
+					newItem.deleter.visible = false;
 					
-					while (count++ < 10){
-						liveFeedList.validateNow();
-						delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
-						liveFeedList.layout.verticalScrollPosition += delta;
-						
-						if (delta == 0) {
-							break;						
-						}
+					//add it to the portfolio instead is this is true
+					if(newItem.isPortfolio == "true") {
+						tweetsPortfolio.portfolioGroup.addElement(newItem);
 					}
-			}			
-			
-			/**
-			 * 
-			 * handles opening and closing the hash drawer
-			 * 
-			 **/
-			protected function toggleHashDrawer(event:MouseEvent):void {
-				if(this.currentState == "closed") {
-					this.currentState = "opened";
-				}
-				else {
-					this.currentState = "closed";
+					
+					//assign id
+					newItem.id = material.id;
+					
+					//pick correct preview type
+					newItem.setupPreview(WorkArea.IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
 				}
 			}
-			
-			/**
-			 * 
-			 * handles opening and closing the hash drawer
-			 * 
-			 **/
-			protected function handleHashTag(event:Event):void {
-				var tag:String = event.currentTarget.content;
-
-				if(event.currentTarget.selected) {
-					hashTags.addItem(tag);
-				}
-				else {
-					hashTags.removeItemAt(hashTags.getItemIndex(tag));
-				}
-				
-				refreshLiveFeed();
-			}
-			
-			public function refreshLiveFeed():void {
-				var tweetsToDisplay:ArrayCollection = new ArrayCollection();
-				
-				for each (var tweet:Object in tweetFeedArray) {
-					if(hashTags.length > 0) {
-						for each (var tag:String in hashTags) {
-							if((tweet.tags as Array).indexOf(tag) > -1 && !tweetsToDisplay.contains(tweet)) {
-								tweetsToDisplay.addItem(tweet);
-							}
-						}	
-					}
-					else {
-						tweetsToDisplay.addItem(tweet);
-					}
-				}
-				
-				liveFeedList.dataProvider = tweetsToDisplay;
-				scrollToBottom();
-			}
-			
-			protected function drawerHandleMouseOver(event:MouseEvent):void {
-				drawerHandleColor = 0x777777;
-			}
-			
-			protected function drawerHandleMouseOut(event:MouseEvent):void {
-				drawerHandleColor = 0x999999;
-			}
-			
-			protected function buildFilters(event:FlexEvent):void {
-				var cb:CheckBox;
-				for each (var referenceHash:String in sciwork.HASH_TAGS_ARRAY) {
-					cb = new CheckBox();
-					filterGroup.addElement(cb);
-					cb.label = referenceHash;
-					cb.setStyle("color", 0xFFFFFF);
-					cb.addEventListener(Event.CHANGE, handleHashTag);
-				}
-				
-			}
-			
 		]]>
 	</fx:Script>
 	
 	<s:states>
-		<s:State name="closed" />
-		<s:State name="opened" />
+		<s:State name="selection" />
+		<s:State name="livefeed" enterState="refreshFeed()" />
 	</s:states>
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="30" currentState="tweets"/>
-	<s:BorderContainer id="arrowDown" width="100%" backgroundColor="#999999" minHeight="30" skinClass="skins.hashPanelHeaderSkin">
-		<s:VGroup width="100%" gap="0">
-			<s:VGroup id="filterGroup" width="100%" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" includeIn="opened" creationComplete="buildFilters(event)"/>
-			<s:BorderContainer width="100%" backgroundColor="{drawerHandleColor}" skinClass="skins.hashPanelHeaderSkin" click="toggleHashDrawer(event)" buttonMode="true" minHeight="30" mouseOver="drawerHandleMouseOver(event)" mouseOut="drawerHandleMouseOut(event)">
-				<s:Image source="@Embed('assets/arrowd.png')" rotation.opened="180" horizontalCenter="0" verticalCenter="0" />
-			</s:BorderContainer>
-		</s:VGroup>
-	</s:BorderContainer>
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:List id="liveFeedList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" horizontalScrollPolicy="off" dataProvider="{tweetFeedArray}" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
-			<s:layout>
-				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="true" />
-			</s:layout>
-		</s:List>
+		<selection:AssetsSelection id="tweetsPortfolio" width="100%" height="100%" includeIn="selection" currentState="tweets" />
+		<selection:LiveFeedComponent id="liveFeedComponent" width="100%" height="100%" tweetFeedArray="{tweetFeedArray}" includeIn="livefeed" />
 	</s:BorderContainer>
+	
 </s:VGroup>

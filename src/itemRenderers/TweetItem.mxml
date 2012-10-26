@@ -2,21 +2,25 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="true" width="100%" minHeight="30" creationComplete="initRenderer(event)">
+				autoDrawBackground="true" width="100%" minHeight="30">
 	<fx:Script>
 		<![CDATA[
 			import listeners.RetweetEvent;
 			
 			import mx.events.FlexEvent;
 			
+			[Bindable] private var groupColor:uint = 0xCCCCCC;
+			
 			/**
 			 * 
-			 * function called upon init of this renderer
+			 * function to enable or not retweet and gives correct background color to the whole element
 			 * 
 			 * 
 			 **/
-			protected function initRenderer(event:FlexEvent):void {
-				itemBackground.color = sciwork.getColorBasedOnGroup(new String(data.from).toLowerCase());
+			protected function initRenderer():void {
+				var groupName:String = new String(data.from).toLowerCase();
+				groupColor = sciwork.getColorBasedOnGroup(groupName);
+				
 				var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
 				
 				if(new String(group.title).toLowerCase() != data.from) {
@@ -38,7 +42,7 @@
 			protected function retweetHandler(event:ContextMenuEvent):void {
 				var rte:RetweetEvent = new RetweetEvent(resourceManager.getString('resources', 'RE_TWEET'), true);
 				rte.originGroup = data.from;
-				rte.tweetContent = hideOwner(data.bdy);
+				rte.tweetContent = cleanedContent;
 				dispatchEvent(rte);
 			}
 			
@@ -49,15 +53,23 @@
 			 * 
 			 **/
 			protected function hideOwner(message:String):String {
+				//moved here, as it was buggy with creationComplete
+				initRenderer();
+				
 				var strongRegExp:RegExp = /RT_(.*?):/;
-				return message.replace(strongRegExp, "");
+				cleanedContent = message.replace(strongRegExp, "");
+				return cleanedContent;
 			}
 		]]>
 	</fx:Script>
 	
+	<fx:Declarations>
+		<fx:String id="cleanedContent" />
+	</fx:Declarations>
+	
 	<s:Rect left="5" right="5" top="5" bottom="5" radiusX="5" radiusY="5">
 		<s:fill>
-			<s:SolidColor id="itemBackground" alpha="{data.al}" />
+			<s:SolidColor id="itemBackground" alpha="{data.al}" color="{groupColor}" />
 		</s:fill>
 	</s:Rect>
 	<s:VGroup top="10" right="10" bottom="10" left="10" >

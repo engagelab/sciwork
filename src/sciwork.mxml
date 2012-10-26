@@ -37,6 +37,7 @@
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
+			import mx.utils.UIDUtil;
 			
 			public static const KEYWORD_UPDATE_TYPE:String = "KEYWORD_UPDATE_TYPE";
 			public static const ASSET_UPDATE_TYPE:String = "ASSET_UPDATE_TYPE";
@@ -113,7 +114,7 @@
 			protected function prepareXMPPConnection(grpName:String):void {
 				_conn = new XMPP();
 				_conn.auto_reconnect = true;
-				_conn.setJID(grpName+"@"+resourceManager.getString('resources', 'XMPP_SERVER')+"/sciwork");
+				_conn.setJID(grpName+"@"+resourceManager.getString('resources', 'XMPP_SERVER')+"/"+UIDUtil.createUID());
 				_conn.setPassword(resourceManager.getString('resources', 'XMPP_CLIENT_DEFAULT_PASSWORD'));
 				_conn.setServer(resourceManager.getString('resources', 'XMPP_SERVER'));
 				_conn.addEventListener(XMPPEvent.SESSION, handleSession);

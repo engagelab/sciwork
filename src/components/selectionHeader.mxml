@@ -5,6 +5,16 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import content.workarea.selection.TweetsSelection;
+			
+			import listeners.TweetSelectionBarEvent;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable] private var BUTTON_ARRAY:ArrayCollection = new ArrayCollection([{label: "Portfolio"}, {label: "Livefeed"}]);
+			
 			/**
 			 *
 			 * click handler for the button editButton in component selectionheader
@@ -14,6 +24,23 @@
 				dispatchEvent(new Event(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), true));
 			}
 			
+			/**
+			 *
+			 * click handler for the button editButton in component selectionheader
+			 * 
+			 **/
+			protected function tweetSelectionBarHandler(event:IndexChangeEvent):void {
+				var tsbe:TweetSelectionBarEvent = new TweetSelectionBarEvent(resourceManager.getString('resources', 'TWEET_SELECTION_CHANGE'), true);
+				switch(event.newIndex) {
+					case 0:
+						tsbe.newState = TweetsSelection.SELECTION_STATE;			
+						break;
+					case 1:
+						tsbe.newState = TweetsSelection.LIVEFEED_STATE;			
+						break;
+				}
+				dispatchEvent(tsbe);
+			}
 		]]>
 	</fx:Script>
 	
@@ -24,5 +51,6 @@
 	</s:states>
 	
 	<s:Button label="edit" right="2" top="2" bottom="2" chromeColor="#333333" color="#FFFFFF" includeIn="keywords" fontSize="10" skinClass="skins.editKeywordListButton" click="bubbleUpKeywords(event)" />
-	<s:Label right="5" top="2" bottom="2" verticalAlign="middle" color="#FFFFFF" includeIn="tweets" fontSize="10" text="LiveFeed" />
+	<s:ButtonBar width="100%" right="2" top="2" bottom="2" chromeColor="#333333" color="#FFFFFF" includeIn="tweets" fontSize="10" dataProvider="{BUTTON_ARRAY}" requireSelection="true" change="tweetSelectionBarHandler(event)"/>
+
 </s:SkinnableContainer>

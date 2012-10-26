@@ -3,7 +3,12 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
 	
-	<components:SelectionHeader id="selectionheader" width="100%" height="30" currentState="default" />
+	<s:states>
+		<s:State name="default" />
+		<s:State name="tweets" />
+	</s:states>
+	
+	<components:SelectionHeader id="selectionheader" width="100%" height="30" excludeFrom="tweets" currentState="default" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
 		<s:VGroup id="portfolioGroup" top="5" right="5" bottom="5" left="5" />
 	</s:BorderContainer>

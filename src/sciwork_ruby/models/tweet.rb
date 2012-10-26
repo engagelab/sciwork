@@ -9,7 +9,6 @@ class MiracleTweet
   field :text, :type => String
   field :xpos, :type => String
   field :ypos, :type => String
-  field :isPortfolio, :type => Boolean
   field :isVisible, :type => Boolean
   field :source, :type => String
 end

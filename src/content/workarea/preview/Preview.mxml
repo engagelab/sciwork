@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" xmlns:components="components.*" gap="0" creationComplete="initGroup(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" xmlns:components="components.*" gap="0">
 	
 	<fx:Declarations>
 		<fx:String id="taskType" />
@@ -12,11 +12,7 @@
 			import content.workarea.WorkArea;
 			import content.workarea.materials.MaterialsItem;
 			
-			import listeners.MaterialToPreviewEvent;
 			import listeners.SelectMaterialEvent;
-			import listeners.TweetSelectionBarEvent;
-			
-			import mx.events.FlexEvent;
 			
 			private var _currentMaterialItem:MaterialsItem;
 			
@@ -61,26 +57,7 @@
 				sme.materialItem = _currentMaterialItem;
 				sme.addToPortolio = "true";
 				dispatchEvent(sme);
-			}
-			
-			/**
-			 * 
-			 * Init method for this group
-			 * 
-			 **/
-			protected function initGroup(event:FlexEvent):void {
-				this.addEventListener(resourceManager.getString('resources', 'TWEET_SELECTION_CHANGE'), tweetSelectionChangeHandler);
-			}
-			
-			/**
-			 * 
-			 * handler for tweetSelectionChangeHandler event
-			 * 
-			 **/
-			protected function tweetSelectionChangeHandler(evt:TweetSelectionBarEvent):void {
-				tweetsViewer.currentState = evt.newState;
-			}
-			
+			}			
 		]]>
 	</fx:Script>
 	

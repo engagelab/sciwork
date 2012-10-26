@@ -81,7 +81,7 @@
 						}
 										
 						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
-						selection.tweetsSelection.refreshLiveFeed();
+						selection.tweetsSelection.refreshFeed();
 						break;
 						
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
@@ -94,6 +94,11 @@
 				}
 			}
 			
+			/**
+			 * 
+			 * extract the tags from the tweet content
+			 * 
+			 **/
 			protected function getTagsForContent(message:String):Array {
 				var tags:Array = new Array();
 				
@@ -275,7 +280,6 @@
 						this.currentState = "assets";
 						selection.currentState = "assets";
 						preview.currentState = "default";
-						preview.previewheader.currentState = "default";
 						
 						//get existing assets selection (portfolio) for the current task and group
 						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
@@ -287,7 +291,6 @@
 						//set correct state in subsequent components
 						selection.currentState = "tweets";
 						preview.currentState = "tweetsState";
-						preview.previewheader.currentState = "tweets";
 						this.currentState = "tweets";
 						
 						//XMPP init business
@@ -300,6 +303,7 @@
 						}
 						
 						dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+						selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
 						break;
 					}
 						
@@ -320,10 +324,6 @@
 			 **/
 			protected function refreshTweets(evt:TweetsRefreshEvent):void {
 				//get existing tweets for the current task and group
-				if(evt.stateToSet != null) {
-					preview.tweetsViewer.currentState = evt.stateToSet;
-				}
-				
 				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + new String(currentGroup.title).toLowerCase();
 				getTweets.send();
 			}
@@ -500,8 +500,9 @@
 					
 					//do some cleaning before populating
 					preview.tweetsViewer.tweetsInView = new ArrayCollection();
-					preview.tweetsViewer.tweetsInTrash = new ArrayCollection();
-					preview.tweetsViewer.tweetsInPortfolio = new ArrayCollection();
+					
+					preview.tweetsViewer.groupId = currentGroup.id;
+					preview.tweetsViewer.taskId = taskId;
 					
 					//build the correct arrays
 					var tweet:Tweet;
@@ -510,21 +511,11 @@
 						tweet = new Tweet();
 						tweet.data = twt;
 						
-						//need to see if tweet is visisble (or trashed)
+						//need to see if tweet is visisble
 						if(twt.isVisible) {
-							//need to extract the portfolio items first
-							if(twt.isPortfolio) {
-								preview.tweetsViewer.tweetsInPortfolio.addItem(tweet);
-							}
-							else {
-								//assign the remaing tweets to the correct arrays
-								preview.tweetsViewer.tweetsInView.addItem(tweet);
-							}
+							//place the tweets in the view
+							preview.tweetsViewer.tweetsInView.addItem(tweet);
 						}
-						else {
-							preview.tweetsViewer.tweetsInTrash.addItem(tweet);
-						}
-	
 					}
 					
 					preview.tweetsViewer.rebuildAllTweets();

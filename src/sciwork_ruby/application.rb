@@ -110,23 +110,11 @@ get '/task/:id' do
 	elsif params[:id] == '13'
 		return {:description => "Hvordan kan energi transformeres mest mulig effektivt og miljøvennlig?", :taskType => "keywords", :title => "SPØRSMAL 3" }.to_json;
 	elsif params[:id] == '21'
-		return {:description => "1. Press ﬁngeren hardt mot ventilen og pump kraftig ﬂere ganger.
-		
-2. Beskriv hva dere gjør, opplever og kjenner.
-
-3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SYKKELPUMPE" }.to_json;
+		return {:description => "1. Press ﬁngeren hardt mot ventilen og pump kraftig ﬂere ganger.<br /><br />2. Beskriv hva dere gjør, opplever og kjenner.<br /><br />3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SYKKELPUMPE" }.to_json;
 	elsif params[:id] == '22'
-		return {:description => "1. Trykk på ventilen.
-		
-2. Beskriv hva dere opplever og kjenner.
-
-3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRAYBOKS" }.to_json;
+		return {:description => "1. Trykk på ventilen.<br /><br />2. Beskriv hva dere opplever og kjenner.<br /><br />3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRAYBOKS" }.to_json;
 	elsif params[:id] == '23'
-		return {:description => "1. Fyll opp sprøyta med varmt vann til den er omtrent halvfull. Ta ut luften som er mellom vannet og åpningen. Hold ﬁngeren hardt foran åpningen og dra (ikke skyv).
-		
-2. Beskriv hva dere ser.
-
-3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRØYTE" }.to_json;#
+		return {:description => "1. Fyll opp sprøyta med varmt vann til den er omtrent halvfull. Ta ut luften som er mellom vannet og åpningen. Hold ﬁngeren hardt foran åpningen og dra (ikke skyv).<br /><br />2. Beskriv hva dere ser.<br /><br />3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SPRØYTE" }.to_json;#
 	elsif params[:id] == '31'
 		return {:description => "!!! Description missing !!!", :taskType => "tweets", :title => "TWEETS" }.to_json;
 	elsif params[:id] == '41'
@@ -182,7 +170,11 @@ end
 
 ########## contributions ###############
 get '/contributions/:groupId/:taskId' do
-	return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected, :xpos => "10", :ypos => "10"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected, :xpos => "20", :ypos => "20"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => item2Selected, :xpos => "30", :ypos => "30"}], "spostits" => []}.to_json;
+	if params[:taskId] == '31'
+		return {"simages" => [{:id => "img1", :filePath => "/assets/cool.jpg", :title => "my first image", :isPortfolio => "true", :xpos => "30", :ypos => "30"}]}.to_json;
+	else
+		return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected, :xpos => "10", :ypos => "10"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected, :xpos => "20", :ypos => "20"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => item2Selected, :xpos => "30", :ypos => "30"}], "spostits" => []}.to_json;
+	end
 end
 
 put '/group/video/' do
@@ -224,11 +216,9 @@ end
 
 
 ########## tweets ###############
-get '/tweet/:groupId' do
-	if params[:groupId] == 'lilla'
-		@att = MiracleTweet.all();
-		return @att.to_json;
-	end
+get '/tweet/:groupName' do
+	@att = MiracleTweet.where(userName: params[:groupName]).all();
+	return @att.to_json;
 end
 
 post '/tweet' do
@@ -236,25 +226,19 @@ post '/tweet' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	$log.debug 'POST tweet: '+data.to_s;
+	posttwt = MiracleTweet.create(
+	:userName => data['userName'],
+	:ownerName => data['ownerName'],
+	:text => data['text'],
+	:xpos => data['xpos'],
+	:ypos => data['ypos'],
+	:isVisible => data['isVisible'],
+	:isPortfolio => data['isPortfolio'],
+	:source => data['source']);
 	
-	if data['userName'] == 'lilla'
-		#twt = {"id" => SecureRandom.uuid, "userName" => data['userName'], "text" => data['text'], "xpos" => data['xpos'], "ypos" => data['ypos'], "isVisible" => data['isVisible'], "isPortfolio" => data['isPortfolio'], "source" => data['source']};
+	$log.debug 'POST tweet: '+posttwt.to_json;
 		
-		twt = MiracleTweet.create(
-		:userName => data['userName'],
-		:ownerName => data['ownerName'],
-		:text => data['text'],
-		:xpos => data['xpos'],
-		:ypos => data['ypos'],
-		:isVisible => data['isVisible'],
-		:isPortfolio => data['isPortfolio'],
-		:source => data['source']);
-		
-		return twt.to_json;
-	else
-		return [].to_json;
-	end
+	return posttwt.to_json;
 end
 
 put '/tweet' do
@@ -262,16 +246,20 @@ put '/tweet' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	twt = MiracleTweet.find(data['_id']);
-	twt.update_attributes({
+	puttwt = MiracleTweet.find(data['_id']);
+	puttwt.update_attributes({
 	:xpos => data['xpos'],
 	:ypos => data['ypos'],
 	:isVisible => data['isVisible'],
 	:isPortfolio => data['isPortfolio']});
 	
-	$log.debug 'PUT tweet: '+twt.to_json;
+	$log.debug 'PUT tweet: '+puttwt.to_json;
 	
-	return twt.to_json;
+	return puttwt.to_json;
 end
 
+########## image ###############
+post '/image/:groupId/:taskId/:runId' do
+	status 200;
+end
 
