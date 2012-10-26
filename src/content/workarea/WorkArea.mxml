@@ -54,6 +54,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
 			}
 			
@@ -326,6 +327,15 @@
 				//get existing tweets for the current task and group
 				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + new String(currentGroup.title).toLowerCase();
 				getTweets.send();
+			}
+			
+			/**
+			 * 
+			 * Calls the assets service for tweets
+			 * 
+			 **/
+			protected function refreshTweetsPortfolio(evt:Event):void {
+				selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
 			}
 			
 			/**
