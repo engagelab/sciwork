@@ -25,12 +25,37 @@
 			
 			private var asyncEncoder:JPEGAsyncEncoder;
 			
+			public function populateTweets(tweetsForGroup:Array, groupId:String, taskId:String):void {
+				//do some cleaning before populating
+				tweetsInView = new ArrayCollection();
+				
+				this.groupId = groupId;
+				this.taskId = taskId;
+				
+				//build the correct arrays
+				var tweet:Tweet;
+				var tweetObject:Object;
+				for each (var twt:Object in tweetsForGroup) {
+					tweet = new Tweet();
+					tweet.data = twt;
+					
+					//need to see if tweet is visisble
+					if(twt.isVisible) {
+						//place the tweets in the view
+						tweetsInView.addItem(tweet);
+					}
+				}
+				
+				rebuildAllTweets();
+			}
+			
+			
 			/**
 			 * 
 			 * function to display all tweets
 			 * 
 			 **/
-			public function rebuildAllTweets():void {
+			protected function rebuildAllTweets():void {
 				//refresh the view
 				tweetsContainer.removeAllElements();
 				

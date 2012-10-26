@@ -507,28 +507,7 @@
 			protected function getTweets_resultHandler(event:ResultEvent):void {
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
-					
-					//do some cleaning before populating
-					preview.tweetsViewer.tweetsInView = new ArrayCollection();
-					
-					preview.tweetsViewer.groupId = currentGroup.id;
-					preview.tweetsViewer.taskId = taskId;
-					
-					//build the correct arrays
-					var tweet:Tweet;
-					var tweetObject:Object;
-					for each (var twt:Object in tweetsForGroup) {
-						tweet = new Tweet();
-						tweet.data = twt;
-						
-						//need to see if tweet is visisble
-						if(twt.isVisible) {
-							//place the tweets in the view
-							preview.tweetsViewer.tweetsInView.addItem(tweet);
-						}
-					}
-					
-					preview.tweetsViewer.rebuildAllTweets();
+					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId);
 				}
 			}
 			
