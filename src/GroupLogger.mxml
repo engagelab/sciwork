@@ -99,7 +99,7 @@
 						//login OK, password accepted
 						this.removeEventListener(KeyboardEvent.KEY_DOWN, checkKey);
 						
-						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'SERVER_URL'), true);
+						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), true);
 						lae.selectedGroup = groupCombo.selectedItem as Object;
 						dispatchEvent(lae);
 						break;

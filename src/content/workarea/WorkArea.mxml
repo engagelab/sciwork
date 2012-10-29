@@ -27,6 +27,7 @@
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
+			import mx.utils.UIDUtil;
 			
 			import spark.events.TextOperationEvent;
 			
@@ -81,7 +82,7 @@
 							
 						}
 										
-						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: roomjid.getResource(), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
+						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
 						selection.tweetsSelection.refreshFeed();
 						break;
 						
@@ -93,6 +94,17 @@
 						
 						break;
 				}
+			}
+			
+			
+			/**
+			 * 
+			 * Function to return a clean "from" user (without '-pad')
+			 * 
+			 **/
+			protected function cleanResource(initialFrom:String):String {
+				initialFrom = initialFrom.split("-")[0];
+				return initialFrom;
 			}
 			
 			/**
@@ -298,8 +310,8 @@
 						if(!hasJoinedMiracleRoom) {
 							_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
 							_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
-							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase());
-							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase());
+							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
 							hasJoinedMiracleRoom = true;
 						}
 						

@@ -32,6 +32,9 @@
 				this.groupId = groupId;
 				this.taskId = taskId;
 				
+				//refresh the view
+				tweetsContainer.removeAllElements();
+				
 				//build the correct arrays
 				var tweet:Tweet;
 				var tweetObject:Object;
@@ -42,27 +45,11 @@
 					//need to see if tweet is visisble
 					if(twt.isVisible) {
 						//place the tweets in the view
-						tweetsInView.addItem(tweet);
+						tweetsContainer.addElement(tweet);
 					}
 				}
-				
-				rebuildAllTweets();
 			}
 			
-			
-			/**
-			 * 
-			 * function to display all tweets
-			 * 
-			 **/
-			protected function rebuildAllTweets():void {
-				//refresh the view
-				tweetsContainer.removeAllElements();
-				
-				for each (var tweet:Tweet in tweetsInView) {
-					tweetsContainer.addElement(tweet);
-				}
-			}
 			
 			/**
 			 * 
