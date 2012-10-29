@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" creationComplete="creationCompleteHandler(event)" width="150" minHeight="30" cornerRadius="5">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" creationComplete="creationCompleteHandler(event)" minHeight="30" cornerRadius="5">
 	
 	<fx:Declarations>
 		<fx:Object id="data" />
@@ -15,6 +15,8 @@
 			
 			import mx.events.FlexEvent;
 			import mx.managers.CursorManager;
+			
+			import spark.components.Group;
 			
 			private var oldX:Number;
 			private var oldY:Number;
@@ -37,8 +39,13 @@
 			 * 
 			 **/
 			protected function creationCompleteHandler(event:FlexEvent):void {
-				this.x = data.xpos;
-				this.y = data.ypos;
+				//this.x = data.xpos;
+				//this.y = data.ypos;
+				
+				this.width = this.parent.width*.2;
+				
+				this.x = (data.xpos*this.parent.width) / 100;
+				this.y = (data.ypos*this.parent.height) / 100;
 				
 				//build context menu to trash/restore tweets
 				var cm:ContextMenu = new ContextMenu();
@@ -116,6 +123,9 @@
 			 * 
 			 **/
 			protected function mouseDownHandler(event:MouseEvent):void {
+				//bump to top
+				(this.parent as Group).setElementIndex(this, (this.parent as Group).numElements-1);
+				
 				//we log the old X and Y, in case the service cannot accept the move
 				oldX = this.x;
 				oldY = this.y;
@@ -133,8 +143,11 @@
 				//stop dragging
 				this.stopDrag();
 				//update the new position with the server
-				data.xpos = this.x;
-				data.ypos = this.y;
+				//data.xpos = this.x;
+				//data.ypos = this.y;
+				
+				data.xpos = Math.floor((this.x * 100) / this.parent.width);
+				data.ypos = Math.floor((this.y * 100) / this.parent.height);
 				
 				updateTweet();
 			}
