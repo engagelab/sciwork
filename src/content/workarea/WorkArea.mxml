@@ -10,8 +10,6 @@
 			import com.seesmic.as3.xmpp.XMPP;
 			import com.seesmic.as3.xmpp.XMPPEvent;
 			
-			import components.Tweet;
-			
 			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.MaterialToPreviewEvent;
@@ -22,7 +20,6 @@
 			import listeners.TaskPortfolioUpdateEvent;
 			import listeners.TweetsRefreshEvent;
 			
-			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
@@ -56,7 +53,12 @@
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
+				this.addEventListener(resourceManager.getString('resources', 'DISPATCH_REFRESH_TWEETS'), dispatchRefreshTweetHandler);
 				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
+			}
+			
+			protected function dispatchRefreshTweetHandler(evt:Event):void {
+				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"userName":"'+new String(currentGroup.title).toLowerCase()+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
 			}
 			
 			/**

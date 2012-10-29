@@ -9,14 +9,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.adobe.serialization.json.JSON;
 			import com.seesmic.as3.xmpp.XMPP;
 			
-			import flash.utils.clearInterval;
-			import flash.utils.setInterval;
-			
 			import listeners.TweetUpdaterEvent;
-			import listeners.TweetsRefreshEvent;
 			
 			import mx.events.FlexEvent;
 			import mx.managers.CursorManager;
@@ -159,7 +154,7 @@
 			 **/
 			protected function handleUpdateSuccessful(evt:TweetUpdaterEvent):void {
 				//it's all good
-				dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+				dispatchEvent(new Event(resourceManager.getString('resources', 'DISPATCH_REFRESH_TWEETS'), true));
 				enableListeners(true);	
 				CursorManager.removeAllCursors();
 			}
