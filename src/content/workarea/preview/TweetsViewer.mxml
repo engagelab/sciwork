@@ -19,6 +19,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.controls.ProgressBar;
+			import mx.utils.UIDUtil;
 			
 			
 			[Bindable] public var tweetsInView:ArrayCollection;
@@ -84,7 +85,7 @@
 			 **/
 			private function asyncComplete(event:JPEGAsyncCompleteEvent):void {
 				var form:Multipart = new Multipart(resourceManager.getString('resources', 'SERVER_URL')+"/image/"+groupId+"/"+taskId+"/3");
-				form.addFile("picture", event.ImageData, "application/octet-stream", "test.jpg", true);
+				form.addFile("picture", event.ImageData, "application/octet-stream", UIDUtil.createUID()+".jpg", true);
 				
 				var loader:URLLoader = new URLLoader();
 				loader.addEventListener(Event.COMPLETE, onComplete);

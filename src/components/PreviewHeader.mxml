@@ -3,5 +3,11 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
 					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
 	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="tweets" />
+	</s:states>
 	
+	<s:Button label="X" right="3" verticalCenter="0" includeIn="tweets" chromeColor="#333333" color="#FFFFFF" skinClass="skins.editKeywordListButton" 
+			  click="dispatchEvent(new Event(resourceManager.getString('resources', 'CLOSE_TWEET_PORTFOLIO_PREVIEW'), true))"/>
 </s:SkinnableContainer>

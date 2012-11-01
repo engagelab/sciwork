@@ -6,6 +6,7 @@
 	<fx:Declarations>
 		<fx:String id="xpos" />
 		<fx:String id="ypos" />
+		<fx:String id="sourceType" />
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -83,6 +84,7 @@
 			protected function onSelected(event:FlexEvent):void {
 				var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 				mtpe.materialItem = this;
+				mtpe.sourceType = sourceType;
 				dispatchEvent(mtpe);
 			}
 			

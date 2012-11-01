@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" xmlns:components="components.*" gap="0">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*" xmlns:components="components.*" gap="0" creationComplete="initGroup(event)">
 	
 	<fx:Declarations>
 		<fx:String id="taskType" />
@@ -14,6 +14,8 @@
 			
 			import listeners.SelectMaterialEvent;
 			
+			import mx.events.FlexEvent;
+			
 			private var _currentMaterialItem:MaterialsItem;
 			
 			/**
@@ -21,7 +23,7 @@
 			 * Creates the preview of each material, based on material type
 			 * 
 			 **/
-			public function previewMaterial(materialItem:MaterialsItem):void {
+			public function previewMaterial(materialItem:MaterialsItem, sourceType:String):void {
 				_currentMaterialItem = materialItem;
 				videoViewer.player.pauseVideo();
 				
@@ -39,11 +41,18 @@
 						break;
 				}
 				
-				if(_currentMaterialItem.isPortfolio == "true") {
+				if(sourceType == "TWEETS") {
+					previewheader.currentState = "tweets";
 					sender.visible = false;
 				}
 				else {
-					sender.visible = true;
+					previewheader.currentState = "default";
+					if(_currentMaterialItem.isPortfolio == "true") {
+						sender.visible = false;
+					}
+					else {
+						sender.visible = true;
+					}
 				}
 			}
 			
@@ -58,6 +67,26 @@
 				sme.addToPortolio = "true";
 				dispatchEvent(sme);
 			}			
+			
+			/**
+			 * 
+			 * Handles CREATION_COMPLETE event for this container
+			 * 
+			 **/
+			protected function initGroup(event:FlexEvent):void {
+				this.addEventListener(resourceManager.getString('resources', 'CLOSE_TWEET_PORTFOLIO_PREVIEW'), handleCloseTweetPortfolioPreview);
+			}
+			
+			/**
+			 * 
+			 * Handles CLOSE_TWEET_PORTFOLIO_PREVIEW event
+			 * 
+			 **/
+			protected function handleCloseTweetPortfolioPreview(evt:Event):void {
+				this.currentState = "tweetsState";
+				previewheader.currentState = "default";
+			}
+			
 		]]>
 	</fx:Script>
 	

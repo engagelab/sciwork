@@ -23,15 +23,13 @@
 				
 				var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
 				
-				if(new String(group.title).toLowerCase() != data.from) {
-					var cm:ContextMenu = new ContextMenu();
-					cm.hideBuiltInItems();
-					var retweetMI:ContextMenuItem = new ContextMenuItem("");
-					retweetMI.label = "Re-tweet";
-					retweetMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, retweetHandler);
-					cm.customItems.push(retweetMI);
-					this.contextMenu = cm;
-				}
+				var cm:ContextMenu = new ContextMenu();
+				cm.hideBuiltInItems();
+				var retweetMI:ContextMenuItem = new ContextMenuItem("");
+				retweetMI.label = "Re-tweet";
+				retweetMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, retweetHandler);
+				cm.customItems.push(retweetMI);
+				this.contextMenu = cm;
 			}
 			
 			/**

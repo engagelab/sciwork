@@ -84,11 +84,10 @@
 					newItem.xpos = material.xpos;
 					newItem.ypos = material.ypos;
 					newItem.deleter.visible = false;
+					newItem.sourceType = "TWEETS";
 					
-					//add it to the portfolio instead is this is true
-					if(newItem.isPortfolio == "true") {
-						tweetsPortfolio.portfolioGroup.addElement(newItem);
-					}
+					//add it to the portfolio
+					tweetsPortfolio.portfolioGroup.addElement(newItem);
 					
 					//assign id
 					newItem.id = material.id;

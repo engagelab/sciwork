@@ -216,7 +216,7 @@
 			 * 
 			 **/
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
-				preview.previewMaterial(evt.materialItem);
+				preview.previewMaterial(evt.materialItem, evt.sourceType);
 			}
 			
 			/**
@@ -476,6 +476,7 @@
 					newItem.isPortfolio = material.isPortfolio;
 					newItem.xpos = material.xpos;
 					newItem.ypos = material.ypos;
+					newItem.sourceType = "ASSETS";
 					
 					//add it to the portfolio instead is this is true
 					if(newItem.isPortfolio == "false") {

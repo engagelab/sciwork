@@ -43,12 +43,12 @@
 			public static const ASSET_UPDATE_TYPE:String = "ASSET_UPDATE_TYPE";
 			
 			public static const SVART:uint = 0x000000;
+			public static const GRONN:uint = 0x89BD46;
 			public static const ORANGSJE:uint = 0xFF9736;
+			public static const BLA:uint = 0x4ACAF1;
 			public static const ROSA:uint = 0xFF3288;
+			public static const GUL:uint = 0x6E3F30;
 			public static const LILLA:uint = 0x811D78;
-			public static const GRØNN:uint = 0x89BD46;
-			public static const BLÅ:uint = 0x4ACAF1;
-			public static const BRUN:uint = 0x6E3F30;
 			
 			public static const _gapBetweenContainers:Number = 15;
 			
@@ -242,22 +242,40 @@
 				}
 			}
 			
+			/**
+			 *
+			 * Static function to return color codes
+			 * 
+			 **/
 			public static function getColorBasedOnGroup(groupName:String):uint {
 				switch(groupName) {
-					case "lilla": {
-						return LILLA;
+					case "gronn":
+						return GRONN;
 						break;
-					}
-						
-					case "rosa": {
+					
+					case "orangsje": 
+						return ORANGSJE;
+						break;
+					
+					case "bla": 
+						return BLA;
+						break;
+					
+					case "rosa": 
 						return ROSA;
 						break;
-					}
-						
-					default: {
+					
+					case "gul": 
+						return GUL;
+						break;
+					
+					case "lilla": 
+						return LILLA;
+						break;
+					
+					default: 
 						return 0;
 						break;
-					}
 				}
 			}
 			

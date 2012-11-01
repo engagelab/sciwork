@@ -101,6 +101,7 @@
 						
 						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), true);
 						lae.selectedGroup = groupCombo.selectedItem as Object;
+						lae.selectedGroup.title = cleanGroupName(lae.selectedGroup.title);
 						dispatchEvent(lae);
 						break;
 					case 401:
@@ -109,6 +110,10 @@
 						groupPass.text = "";
 						break;
 				}
+			}
+			
+			protected function cleanGroupName(name:String):String {
+				return name.replace("Å","A").replace("Ø", "O").replace("Æ", "AE");
 			}
 			
 			/**
@@ -130,6 +135,11 @@
 				getAllGroups.send();
 			}
 			
+			/**
+			 * 
+			 * Function to handle keyboard events
+			 *  
+			 **/
 			protected function checkKey(event:KeyboardEvent):void {
 				if(event.charCode == 13) {
 					validateBeforeLoggingIn();
@@ -157,7 +167,7 @@
 		</s:HGroup>
 		<s:HGroup verticalAlign="middle" width="100%">
 			<s:Label text="Password:" width="70"/>
-			<s:TextInput id="groupPass" text="lilla" displayAsPassword="true" width="100%"/>
+			<s:TextInput id="groupPass" text="password" displayAsPassword="true" width="100%"/>
 		</s:HGroup>
 		<s:Spacer height="20" />
 		<s:Button label="LOG IN" click="validateBeforeLoggingIn()" />
