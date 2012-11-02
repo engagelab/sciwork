@@ -13,6 +13,7 @@
 			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.SelectMaterialEvent;
+			import listeners.ShowTweetsFullscreenEvent;
 			
 			import mx.events.FlexEvent;
 			
@@ -75,6 +76,7 @@
 			 **/
 			protected function initGroup(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'CLOSE_TWEET_PORTFOLIO_PREVIEW'), handleCloseTweetPortfolioPreview);
+				this.addEventListener(resourceManager.getString('resources', 'SHOW_TWEETS_BUTTON_EVENT'), handleShowTweetsFullscreen);
 			}
 			
 			/**
@@ -84,9 +86,20 @@
 			 **/
 			protected function handleCloseTweetPortfolioPreview(evt:Event):void {
 				this.currentState = "tweetsState";
-				previewheader.currentState = "default";
+				previewheader.currentState = "fullscreen";
 			}
 			
+			/**
+			 * 
+			 * Handles SHOW_TWEETS_FULLSCREEN event
+			 * 
+			 **/
+			protected function handleShowTweetsFullscreen(evt:Event):void {
+				var stfe:ShowTweetsFullscreenEvent = new ShowTweetsFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
+				stfe.shouldShow = true;
+				stfe.tweetsInView = tweetsViewer.tweetsForGroup;
+				dispatchEvent(stfe);
+			}
 		]]>
 	</fx:Script>
 	
@@ -96,7 +109,7 @@
 		<s:State name="imageState" />
 		<s:State name="keywordsState" />
 		<s:State name="articleState" />
-		<s:State name="tweetsState" />
+		<s:State name="tweetsState" enterState="previewheader.currentState='fullscreen'" />
 	</s:states>
 	
 	<components:PreviewHeader id="previewheader" width="100%" height="30" excludeFrom="keywordsState" />

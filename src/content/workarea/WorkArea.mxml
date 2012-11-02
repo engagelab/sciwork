@@ -15,6 +15,7 @@
 			import listeners.MaterialToPreviewEvent;
 			import listeners.RetweetEvent;
 			import listeners.SelectMaterialEvent;
+			import listeners.ShowTweetsFullscreenEvent;
 			import listeners.SubmitKeywordsEvent;
 			import listeners.SubmitTweetEvent;
 			import listeners.TaskPortfolioUpdateEvent;
@@ -58,6 +59,7 @@
 			}
 			
 			protected function dispatchRefreshTweetHandler(evt:Event):void {
+				//TODO: move this inside the tweet
 				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"userName":"'+new String(currentGroup.title).toLowerCase()+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
 			}
 			
@@ -132,8 +134,12 @@
 			 * 
 			 **/
 			protected function handleTweetSubmitted(evt:SubmitTweetEvent):void {
-				//send the tweet to the groupchat
-				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), "RT_"+evt.owner+":"+evt.bdy, "sciwork");
+				//send the tweet to the groupchat with the body as a JSON object
+				var params:Object = new Object();
+				params.ownerName = evt.owner;
+				params.text = evt.bdy;
+				
+				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), com.adobe.serialization.json.JSON.encode(params), "sciwork");
 				tweetInput.wordInput.text = "";
 			}
 			
@@ -523,6 +529,10 @@
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId);
+					
+					var stfe:ShowTweetsFullscreenEvent = new ShowTweetsFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
+					stfe.tweetsInView = tweetsForGroup;
+					dispatchEvent(stfe);
 				}
 			}
 			

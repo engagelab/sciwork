@@ -21,15 +21,17 @@
 			import mx.controls.ProgressBar;
 			import mx.utils.UIDUtil;
 			
-			
-			[Bindable] public var tweetsInView:ArrayCollection;
-			
 			private var asyncEncoder:JPEGAsyncEncoder;
 			
+			private var _tweetsForGroup:Array;
+			
+			public function get tweetsForGroup():Array
+			{
+				return _tweetsForGroup;
+			}
+
 			public function populateTweets(tweetsForGroup:Array, groupId:String, taskId:String):void {
-				//do some cleaning before populating
-				tweetsInView = new ArrayCollection();
-				
+				this._tweetsForGroup = tweetsForGroup;
 				this.groupId = groupId;
 				this.taskId = taskId;
 				

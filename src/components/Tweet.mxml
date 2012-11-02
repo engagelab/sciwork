@@ -9,6 +9,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
 			import com.seesmic.as3.xmpp.XMPP;
 			
 			import listeners.TweetUpdaterEvent;
@@ -32,7 +33,6 @@
 			private var refreshTimer:Number;
 			
 			[Bindable] private var ownerColor:uint;
-			
 			[Bindable] private var calculatedWidth:Number = 150;
 			
 			/**
@@ -43,9 +43,6 @@
 			protected function creationCompleteHandler(event:FlexEvent):void {
 				//this.x = data.xpos;
 				//this.y = data.ypos;
-				
-				this.x = (data.xpos*this.parent.width) / 100;
-				this.y = (data.ypos*this.parent.height) / 100;
 				
 				//build context menu to trash/restore tweets
 				var cm:ContextMenu = new ContextMenu();
@@ -87,6 +84,8 @@
 				}
 				
 				calculatedWidth = this.parent.width*.2;
+				this.x = (data.xpos*this.parent.width) / 100;
+				this.y = (data.ypos*this.parent.height) / 100;
 			}
 			
 			/**
@@ -214,6 +213,24 @@
 				data.isVisible = !data.isVisible;
 				updateTweet();
 			}
+			
+			/**
+			 *
+			 * Function to extract the text from the JSON body
+			 * 
+			 **/
+			protected function extractText(bdy:String):String {
+				var txt:String = "";
+				
+				try {
+					var res:Object = com.adobe.serialization.json.JSON.decode(bdy);
+					txt = new String(res.text);
+				}
+				catch(error:Error) {
+				}
+				
+				return txt;
+			}
 		]]>
 	</fx:Script>
 	
@@ -228,6 +245,6 @@
 				<s:SolidColor color="{ownerColor}" />
 			</s:fill>
 		</s:Rect>
-		<s:Label text="{data.text}" color="#FFFFFF" width="100%" textAlign="left" />
+		<s:Label text="{extractText(data.text)}" color="#FFFFFF" width="100%" textAlign="left" />
 	</s:HGroup>
 </s:BorderContainer>
