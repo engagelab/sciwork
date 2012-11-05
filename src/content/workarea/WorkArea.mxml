@@ -54,13 +54,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
-				this.addEventListener(resourceManager.getString('resources', 'DISPATCH_REFRESH_TWEETS'), dispatchRefreshTweetHandler);
 				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
-			}
-			
-			protected function dispatchRefreshTweetHandler(evt:Event):void {
-				//TODO: move this inside the tweet
-				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"userName":"'+new String(currentGroup.title).toLowerCase()+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
 			}
 			
 			/**
@@ -528,7 +522,7 @@
 			protected function getTweets_resultHandler(event:ResultEvent):void {
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
-					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId);
+					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn);
 					
 					var stfe:ShowTweetsFullscreenEvent = new ShowTweetsFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
 					stfe.tweetsInView = tweetsForGroup;

@@ -302,6 +302,7 @@
 					for each (var twt:Object in evt.tweetsInView) {
 						tweet = new Tweet();
 						tweet.data = twt;
+						tweet.conn = _conn;
 						
 						//need to see if tweet is visisble
 						if(twt.isVisible) {

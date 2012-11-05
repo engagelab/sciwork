@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" cornerRadius="5">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
 	
 	<fx:Declarations>
 		<fx:Object id="data" />
+		<xmpp:XMPP id="conn" />
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -22,8 +23,6 @@
 			private var oldX:Number;
 			private var oldY:Number;
 			
-			private var _conn:XMPP;
-			
 			[Bindable]
 			[Embed(source="assets/drag.png")]
 			private var DragIcon:Class;
@@ -33,7 +32,7 @@
 			private var refreshTimer:Number;
 			
 			[Bindable] private var ownerColor:uint;
-			[Bindable] private var calculatedWidth:Number = 150;
+			[Bindable] private var calculatedWidth:Number;
 			
 			/**
 			 *
@@ -41,30 +40,13 @@
 			 * 
 			 **/
 			protected function creationCompleteHandler(event:FlexEvent):void {
-				//this.x = data.xpos;
-				//this.y = data.ypos;
-				
 				//build context menu to trash/restore tweets
 				var cm:ContextMenu = new ContextMenu();
 				cm.hideBuiltInItems();
+				
 				var selectMI:ContextMenuItem = new ContextMenuItem("");
 				if(data.isVisible) {
-					selectMI.label = "Move to Trash";
-				
-					//show a add to portfolio menu item too
-					var addToPortfolioMI:ContextMenuItem = new ContextMenuItem("");
-					if(data.isPortfolio) {
-						addToPortfolioMI.label = "Remove from Portfolio";
-					}
-					else {
-						addToPortfolioMI.label = "Add to Portfolio";
-					}
-					addToPortfolioMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, addToPortfolioMIHandler);
-					cm.customItems.push(addToPortfolioMI);
-				
-				}
-				else {
-					selectMI.label = "Restore";
+					selectMI.label = "Delete";
 				}
 				selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);
 				
@@ -143,9 +125,6 @@
 			protected function mouseUpHandler(event:MouseEvent):void {
 				//stop dragging
 				this.stopDrag();
-				//update the new position with the server
-				//data.xpos = this.x;
-				//data.ypos = this.y;
 				
 				data.xpos = Math.floor((this.x * 100) / this.parent.width);
 				data.ypos = Math.floor((this.y * 100) / this.parent.height);
@@ -153,8 +132,14 @@
 				updateTweet();
 			}
 			
+			/**
+			 *
+			 * Function to handle the tweet update. stop the listeners and calls the static update class
+			 * 
+			 **/
 			protected function updateTweet():void {
 				enableListeners(false);
+				
 				var tu:TweetUpdater = new TweetUpdater();
 				tu.addEventListener(TweetUpdaterEvent.UPDATE_SUCCESSFUL, handleUpdateSuccessful);
 				tu.addEventListener(TweetUpdaterEvent.UPDATE_FAILED, handleUpdateFailure);
@@ -167,8 +152,7 @@
 			 * 
 			 **/
 			protected function handleUpdateSuccessful(evt:TweetUpdaterEvent):void {
-				//it's all good
-				dispatchEvent(new Event(resourceManager.getString('resources', 'DISPATCH_REFRESH_TWEETS'), true));
+				conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"userName":"'+new String(data.userName).toLowerCase()+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
 				enableListeners(true);	
 				CursorManager.removeAllCursors();
 			}
@@ -222,11 +206,13 @@
 			protected function extractText(bdy:String):String {
 				var txt:String = "";
 				
+				//need a try/catch as it is expected to receive a JSON formatted object
 				try {
 					var res:Object = com.adobe.serialization.json.JSON.decode(bdy);
 					txt = new String(res.text);
 				}
 				catch(error:Error) {
+					//there is no need to handle the error as of now
 				}
 				
 				return txt;

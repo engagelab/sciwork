@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" contentBackgroundColor="#EEEEEE" borderAlpha=".3" borderWeight="3">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" contentBackgroundColor="#EEEEEE" borderAlpha=".3" borderWeight="3" creationPolicy="all">
 	
 	<fx:Declarations>
 		<fx:String id="groupId" />
@@ -13,6 +13,7 @@
 			import com.jonas.net.Multipart;
 			import com.pfp.events.JPEGAsyncCompleteEvent;
 			import com.pfp.utils.JPEGAsyncEncoder;
+			import com.seesmic.as3.xmpp.XMPP;
 			
 			import components.Tweet;
 			
@@ -30,7 +31,7 @@
 				return _tweetsForGroup;
 			}
 
-			public function populateTweets(tweetsForGroup:Array, groupId:String, taskId:String):void {
+			public function populateTweets(tweetsForGroup:Array, groupId:String, taskId:String, conn:XMPP):void {
 				this._tweetsForGroup = tweetsForGroup;
 				this.groupId = groupId;
 				this.taskId = taskId;
@@ -44,6 +45,7 @@
 				for each (var twt:Object in tweetsForGroup) {
 					tweet = new Tweet();
 					tweet.data = twt;
+					tweet.conn = conn;
 					
 					//need to see if tweet is visisble
 					if(twt.isVisible) {
