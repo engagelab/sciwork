@@ -31,7 +31,6 @@
 				this.currentState = "contentState";
 				//reset left panels
 				_description = "";
-				
 			}
 
 			/**
@@ -62,7 +61,7 @@
 				
 				if(res.taskType == "simulation") {
 					this.currentState = "simulationState";
-		//			simulationContainer.setSimulationLevel(res.taskType);
+					simulationContainer.setSimulationLevel("stage2");
 					trace(simulationContainer.width +" - "+simulationContainer.height );
 				}
 				else {

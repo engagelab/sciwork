@@ -1,5 +1,6 @@
 import com.greensock.TweenLite;
 import com.greensock.easing.Linear;
+import com.greensock.BlitMask;
 
 import fl.motion.AdjustColor;
 
@@ -37,6 +38,7 @@ private const INDOOR_TRANSITION_DURATION:uint = 10;
 
 private var indoorTweener1:TweenLite;
 private var indoorTweener2:TweenLite;
+
 private var rotator:simulation.Rotator;
 private var TARGET_HOUSE_TEMP:uint = 18;
 private var crossSpeed:Number = -10;
@@ -110,8 +112,8 @@ protected function initApp(event:Event):void {
 	setStartStopEvents();
 	setHeatPumpOverlayEvents();
 	
-	// Should be called externally to control which simulation is being displayed
-	setSimulationLevel("stage1");
+	// This should be called externally to control which simulation is being displayed
+	//setSimulationLevel("stage2");
 }
 
 private function mouseOverButton(event:MouseEvent):void {
@@ -248,11 +250,11 @@ private function getPressure(tank:String):String {
 		if(currentOutdoorTemp == -5)
 			return "23.78";
 		else if(currentOutdoorTemp == 0)
-			return "6.97";
+			return "20.94";
 		else if(currentOutdoorTemp == 8)
-			return "9.22";
+			return "16.91";
 		else if(currentOutdoorTemp == 15)
-			return "11.56";
+			return "13.85";
 	}
 	return "";
 }

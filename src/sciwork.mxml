@@ -345,11 +345,11 @@
 		<local:GroupLogger id="groupLogger" width="100%" height="100%" includeIn="loggedOff" itemDestructionPolicy="auto" />
 		
 		<s:BorderContainer width="100%" height="100%" borderColor="#eeeeee" cornerRadius="4" borderAlpha=".3" excludeFrom="loggedOff">
-			<s:filters>
+			<!--s:filters>
 				<s:DropShadowFilter 
 					distance="3" alpha=".3" blurX="7" blurY="7"
-					angle="90" />
-			</s:filters>
+					angle="90" id="sciWorkDropFilter" />
+			</s:filters-->
 			
 			<s:VGroup width="100%" height="100%">
 				<!-- Tabbar component -->
