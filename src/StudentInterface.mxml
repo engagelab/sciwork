@@ -64,7 +64,7 @@
 				
 				if(res.taskType == "simulation") {
 					this.currentState = "simulationState";
-					simulationContainer.setSimulationLevel("stage2");
+		//			simulate.setSimulationLevel("stage2");
 					trace(simulationContainer.width +" - "+simulationContainer.height );
 				}
 				else {
@@ -269,14 +269,18 @@
 		<s:State name="webState" />
 	</s:states>
 	
-	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState" gap="{sciwork._gapBetweenContainers}">
+	<s:HGroup id="contentContainer" width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
 			<content:Resources id="resourceContainer" width="100%" height="150" />
 		</s:VGroup>
-		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" />
+		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" includeIn="contentState" />
+		<s:VGroup id="simulationContainer" width="100%" height="100%" includeIn="simulationState" gap="{sciwork._gapBetweenContainers}" horizontalAlign="center" >
+			<simulation:Sim id="simulate" width="90%" height="90%" scaleX="0.65" scaleY="0.65" clipAndEnableScrolling="true"/>
+			<workarea:TweetsInput id="tweetInput" width="100%" height="50"/>
+		</s:VGroup>
 	</s:HGroup>
-	<simulation:Simulation id="simulationContainer"  includeIn="simulationState" />
+
 	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">
 		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:Button label="X" click="this.currentState='contentState'" />
