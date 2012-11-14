@@ -64,6 +64,8 @@ post '/connect' do
 	end
 end
 
+
+
 ########## menu ###############
 get '/menu' do
 	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "SPØRSMAL 1", :icon => "keyword.png"},{:id => "12", :title => "SPØRSMAL 2", :icon => "keyword.png"},{:id => "13", :title => "SPØRSMAL 3", :icon => "keyword.png"}]}, 
@@ -216,8 +218,8 @@ end
 
 
 ########## tweets ###############
-get '/tweet/:groupName' do
-	@att = MiracleTweet.where(userName: params[:groupName]).all();
+get '/tweet/:tagName' do
+	@att = MiracleTweet.where(tag: params[:tagName]).all();
 	return @att.to_json;
 end
 
@@ -234,7 +236,8 @@ post '/tweet' do
 	:ypos => data['ypos'],
 	:isVisible => data['isVisible'],
 	:isPortfolio => data['isPortfolio'],
-	:source => data['source']);
+	:source => data['source'],
+	:tag => data['tag']);
 	
 	$log.debug 'POST tweet: '+posttwt.to_json;
 		
@@ -263,3 +266,38 @@ post '/image/:groupId/:taskId/:runId' do
 	status 200;
 end
 
+
+########## sources ###############
+get '/energySources' do
+	content_type :json;
+	@es = EnergySource.all();
+	return @es.to_json;
+end
+
+post '/energySources' do
+  content_type :json;
+  request_body = JSON.parse(request.body.read.to_s);
+  
+  es = EnergySource.create(
+  :energy => request_body["energy"], 
+  :inuse => "false");
+  
+  return es.to_json;
+end
+
+put '/energySources' do
+    content_type :json
+    put_request_body = JSON.parse(request.body.read.to_s)
+    
+	es = EnergySource.find( put_request_body["_id"] );
+    
+    if es.inuse.include?("false") && put_request_body["stat"].include?("pick")
+		es.update_attributes({:inuse => "true", :token => put_request_body["token"].to_s});
+		return es.to_json;
+    elsif es.inuse.include?("true") && put_request_body["stat"].include?("reset")
+		es.update_attributes({:inuse => "false", :token => ""});
+		return es.to_json;
+    else
+		return {:status => "inuse"}.to_json;
+    end
+end 

@@ -27,10 +27,11 @@
 			 * called when a new scene is selected 
 			 * 
 			 **/
-			public function changeScene(sceneId:uint):void {
+			public function changeScene():void {
 				this.currentState = "contentState";
 				//reset left panels
 				_description = "";
+				workareaContainer.resetEnergySource();
 			}
 
 			/**
@@ -54,8 +55,10 @@
 			 * 
 			 **/
 			protected function getTask_resultHandler(event:ResultEvent):void {
+
 				//store the returned object as JSON 
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+
 				_description = res.description;
 				updateResources(res.title);
 				
@@ -68,6 +71,7 @@
 					this.currentState = "contentState";	
 					workareaContainer.updateCurrentState(res.taskType);
 				}
+
 			}
 			
 			/**
@@ -76,7 +80,9 @@
 			 * 
 			 **/
 			protected function getTask_faultHandler(event:FaultEvent):void {
+
 				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
+
 			}
 			
 			/**
@@ -123,7 +129,9 @@
 				
 				var resourceArray:ArrayCollection = new ArrayCollection();
 				for each (var resource:Object in res) {
+
 					resourceArray.addItem(resource);
+
 				}
 				
 				resourceContainer.content = resourceArray;
@@ -145,8 +153,10 @@
 			 * 
 			 **/
 			protected function initGroup(event:FlexEvent):void {
+
 				this.addEventListener(resourceManager.getString('resources', 'LOAD_WEBPAGE'), handleLoadWebpagelRequest);
 				this.addEventListener(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), handleTaskPortfolioUpdateRequest);
+
 			}
 			
 			/**
@@ -161,7 +171,9 @@
 			}
 			
 			protected function htmlLoded(event:Event):void {
+
 				htmlBI.visible = false;
+
 			}
 			
 			/**
@@ -176,13 +188,16 @@
 				
 				switch(evt.eventType) {
 
+
 					case sciwork.ASSET_UPDATE_TYPE:
+
 						if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
 							params.isTaskCompleted = true;
 						}
 						else {
 							params.isTaskCompleted = false;
 						}
+
 						break;
 					case sciwork.KEYWORD_UPDATE_TYPE:
 						if(workareaContainer.selection.keywordSelection.wordArray.length == 5) {
@@ -191,6 +206,7 @@
 						else {
 							params.isTaskCompleted = false;
 						}
+
 					
 				}
 				

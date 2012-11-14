@@ -4,11 +4,17 @@
 				   xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Declarations>
 		<s:ArrayCollection id="hashTags" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			import spark.components.CheckBox;
 			import spark.core.NavigationUnit;
@@ -116,14 +122,25 @@
 			 * 
 			 **/
 			protected function buildFilters(event:FlexEvent):void {
+				getEnergies.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/energySources";
+				getEnergies.send();
+			}
+			
+			protected function getEnergies_resultHandler(event:ResultEvent):void {
+				var energyArray:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
 				var cb:CheckBox;
-				for each (var referenceHash:String in sciwork.HASH_TAGS_ARRAY) {
+				for each (var nrj:Object in energyArray) {
 					cb = new CheckBox();
 					filterGroup.addElement(cb);
-					cb.label = referenceHash;
+					cb.label = nrj.energy;
 					cb.setStyle("color", 0xFFFFFF);
 					cb.addEventListener(Event.CHANGE, handleHashTag);
 				}
+			}
+			
+			protected function getEnergies_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
 			}
 		]]>
 	</fx:Script>

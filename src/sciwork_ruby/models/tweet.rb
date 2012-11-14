@@ -11,4 +11,5 @@ class MiracleTweet
   field :ypos, :type => String
   field :isVisible, :type => Boolean
   field :source, :type => String
+  field :tag, :tag => String
 end

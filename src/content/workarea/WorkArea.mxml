@@ -12,6 +12,7 @@
 			
 			import content.workarea.materials.MaterialsItem;
 			
+			import listeners.EnergyChosenEvent;
 			import listeners.MaterialToPreviewEvent;
 			import listeners.RetweetEvent;
 			import listeners.SelectMaterialEvent;
@@ -34,10 +35,31 @@
 			public static const TEXT_TYPE:String = "TEXT_TYPE";
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
+			[Bindable] private var _chosenEnergySource:String = null;
+			[Bindable] private var _chosenEnergyID:String = null;
 			private var _isKeywordUpdate:Boolean = false;
 			private var _isAssetUpdate:Boolean = false;
 			private var _conn:XMPP;
 			private var hasJoinedMiracleRoom:Boolean = false;
+			
+			public function resetEnergySource():void {
+				if(_chosenEnergyID != null) {
+					var upurlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/energySources");
+					upurlRequest.method = URLRequestMethod.PUT;
+					upurlRequest.contentType = "application/json";
+						
+					var statusObject:Object = new Object();
+					statusObject.stat = "reset";
+					statusObject._id = _chosenEnergyID;
+						
+					upurlRequest.data = com.adobe.serialization.json.JSON.encode(statusObject);
+					var uploader:URLLoader = new URLLoader();
+					uploader.load(upurlRequest);
+					
+					_chosenEnergyID = null;
+					_chosenEnergySource = null;
+				}
+			}
 			
 			/**
 			 * 
@@ -45,16 +67,14 @@
 			 * 
 			 **/
 			protected function initWorkArea(event:FlexEvent):void {
-				//various event listeners
-				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
-				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
-				this.addEventListener(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), handleEditKeywords);
-				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
-				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
-				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
-				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
-				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
-				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
+				getEnergies.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/energySources";
+				getEnergies.send();
+			}
+			
+			protected function handleEnergyChosen(evt:EnergyChosenEvent):void {
+				_chosenEnergySource = evt.energyTitle;
+				_chosenEnergyID = evt.energyId;
+				updateCurrentState("tweets");
 			}
 			
 			/**
@@ -86,7 +106,7 @@
 						
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
 						var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
-						if(res.userName == new String(currentGroup.title).toLowerCase() && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')) {
+						if(res.tag == _chosenEnergySource && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')) {
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
 						
@@ -113,9 +133,9 @@
 			protected function getTagsForContent(message:String):Array {
 				var tags:Array = new Array();
 				
-				for each (var tag:String in sciwork.HASH_TAGS_ARRAY) {
+				for each (var tag:String in hashTagArray) {
 					if(message.indexOf(tag) > -1) {
-						tags.push(tag);
+						tags.push(tag.substr(1));
 					}
 				}
 				
@@ -304,21 +324,30 @@
 						
 					case 'tweets': {
 						//set correct state in subsequent components
-						selection.currentState = "tweets";
-						preview.currentState = "tweetsState";
-						this.currentState = "tweets";
 						
-						//XMPP init business
-						if(!hasJoinedMiracleRoom) {
-							_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
-							_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
-							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
-							_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
-							hasJoinedMiracleRoom = true;
+						if(_chosenEnergySource != null) {
+							selection.currentState = "tweets";
+							preview.currentState = "tweetsState";
+							this.currentState = "tweets";
+							
+							//XMPP init business
+							if(!hasJoinedMiracleRoom) {
+								_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
+								_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+								_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+								_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+								hasJoinedMiracleRoom = true;
+							}
+							
+							selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+						}
+						else {
+							selection.currentState = "default";
+							this.currentState = "default";
+							preview.currentState = "tweetLoggerState";
 						}
 						
-						dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
-						selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
 						break;
 					}
 						
@@ -339,7 +368,7 @@
 			 **/
 			protected function refreshTweets(evt:TweetsRefreshEvent):void {
 				//get existing tweets for the current task and group
-				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + new String(currentGroup.title).toLowerCase();
+				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + _chosenEnergySource;
 				getTweets.send();
 			}
 			
@@ -522,8 +551,9 @@
 			protected function getTweets_resultHandler(event:ResultEvent):void {
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
-					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn);
+					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn, _chosenEnergyID);
 					
+					//will refresh the fullscreen container if enabled
 					var stfe:ShowTweetsFullscreenEvent = new ShowTweetsFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
 					stfe.tweetsInView = tweetsForGroup;
 					dispatchEvent(stfe);
@@ -548,6 +578,33 @@
 				tweetInput.tweetOwner = evt.originGroup;
 				tweetInput.wordInput.text = evt.tweetContent;
 			}
+			
+			protected function getEnergies_resultHandler(event:ResultEvent):void {
+				var energyArray:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				hashTagArray = new Array();
+				for each (var nrj:Object in energyArray) {
+					hashTagArray.push("#"+nrj.energy);
+				}
+				
+				
+				//various event listeners
+				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
+				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
+				this.addEventListener(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), handleEditKeywords);
+				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
+				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
+				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
+				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
+				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
+			}
+			
+			protected function getEnergies_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -555,9 +612,11 @@
 		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />
+		<fx:Array id="hashTagArray" />
 	</fx:Declarations>
 	
 	<s:states>

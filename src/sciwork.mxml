@@ -12,7 +12,7 @@
 		@namespace mx "library://ns.adobe.com/flex/mx";
 		@namespace local "*";
 		
-		s|List s|VScrollBar s|Scroller {
+		s|List s|VScrollBar {
 			skinClass: ClassReference("skins.animatorVerticalScrollBar");
 		}
 		
@@ -53,8 +53,6 @@
 			public static const LILLA:uint = 0x811D78;
 			
 			public static const _gapBetweenContainers:Number = 15;
-			
-			public static const HASH_TAGS_ARRAY:Array = new Array("#wind", "#solar", "#nuclear", "#hydro-electric", "#geothermal", "#fossil");
 			
 			[Bindable] private var _completedTaskArray:Array;
 			
@@ -175,7 +173,7 @@
 					currentInterface = "teacherInterface";					
 				}
 				
-				this[currentInterface].changeScene(evt.scene.label);
+				this[currentInterface].changeScene();
 			}
 			
 			/**
