@@ -40,7 +40,7 @@
 			 * 
 			 **/
 			public function changeTask(taskId:String, currentGroup:Object):void {
-				this.currentState = "contentState";
+				//this.currentState = "contentState";
 				_taskId = taskId;
 				_currentGroup = currentGroup;
 				
@@ -63,8 +63,9 @@
 				updateResources(res.title);
 				
 				if(res.taskType == "simulation") {
-					this.currentState = "simulationState";
-		//			simulate.setSimulationLevel("stage2");
+					if(this.currentState != "simulationState")
+						this.currentState = "simulationState";
+					simulate.setSimulationLevel(res.title);
 					trace(simulationContainer.width +" - "+simulationContainer.height );
 				}
 				else {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*"  width="100%" height="100%" addedToStage="initApp(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*"  width="100%" height="100%" creationComplete="initApp(event)">
 
 	<fx:Script>
 		<![CDATA[
+			import com.greensock.BlitMask;
 			import com.greensock.TweenLite;
 			import com.greensock.easing.Linear;
-			import com.greensock.BlitMask;
 			
 			import fl.motion.AdjustColor;
 			
@@ -76,9 +76,6 @@
 			
 			protected function initApp(event:Event):void {
 				//	this.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				sim.TEMPERATURE.left_temp_mc.leftMarks.y = tempMarks_Y - 18*LARGE_PIXELS_PER_DEGREE;
-				sim.TEMPERATURE.left_temp_mc.leftMarksBG.y = tempMarksBG_Y - 17.3*PIXELS_PER_DEGREE;
-				
 				var ventLoader:Loader = new Loader();
 				ventLoader.load(new URLRequest("assets/simu/pics/vent.png"));
 				
@@ -118,9 +115,11 @@
 				
 				setStartStopEvents();
 				setHeatPumpOverlayEvents();
-				
-				// This should be called externally to control which simulation is being displayed
-				//setSimulationLevel("stage2");
+			}
+			
+			private function setInitialTempOnAddedToStage(event:Event):void {
+				sim.TEMPERATURE.left_temp_mc.leftMarks.y = tempMarks_Y - 18*LARGE_PIXELS_PER_DEGREE;
+				sim.TEMPERATURE.left_temp_mc.leftMarksBG.y = tempMarksBG_Y - 17.3*PIXELS_PER_DEGREE;
 			}
 			
 			private function mouseOverButton(event:MouseEvent):void {
@@ -274,7 +273,12 @@
 			
 			public function setSimulationLevel(simLevel:String):void {
 				_simLevel = simLevel;
-				if(_simLevel == "stage1") {
+
+				// Reset if running already
+				clickUpStop(new MouseEvent(MouseEvent.MOUSE_UP));
+
+				afterBoilDown();
+				if(_simLevel == "SIMU1") {
 					sim.hp.alpha = 0.1;
 					spriteGroup.alpha = 0.1;
 					startStopButton.visible = false;
@@ -282,7 +286,16 @@
 					arrowPlayer.source="assets/simu/flash/ARROW_n1.swf";
 					hpOverlay.visible = false;
 				}
-				else if(_simLevel == "stage2") {
+				else if(_simLevel == "SIMU2") {
+					sim.hp.alpha = 1;
+					spriteGroup.visible = true;
+					spriteGroup.alpha = 1;
+					startStopButton.visible = false;
+					arrowPlayer.source="assets/simu/flash/ARROW_n2.swf";
+					hpOverlay.visible = false;
+					operatePump();
+				}
+				else if(_simLevel == "SIMU3") {
 					sim.hp.alpha = 1;
 					spriteGroup.visible = true;
 					spriteGroup.alpha = 1;
@@ -360,6 +373,11 @@
 			
 			// When Start or Stop is clicked, set up the state to begin heating up or cooling down
 			private function clickStartStop(event:MouseEvent):void {
+				operatePump();
+			}
+			
+			// Operate the pump depending on it's present state
+			private function operatePump():void {
 				if(!heatpumpRunning) {
 					arrowPlayer.source="assets/simu/flash/ARROW_n3.swf";
 					heatpumpRunning=true;
@@ -387,6 +405,7 @@
 			
 			// At present, switches from the boil up movie to the loop movie
 			private function afterBoilUp():void {
+				clearInterval(afterBoilDownInterval);
 				clearInterval(afterBoilUpInterval);
 				videoPlayer2.visible=true;
 				videoPlayer2.play();
@@ -396,6 +415,7 @@
 			
 			// After allowing enough time for the boil down movie to play, reset the states ready to start over again
 			private function afterBoilDown():void {
+				clearInterval(afterBoilUpInterval);
 				clearInterval(afterBoilDownInterval);
 				arrowPlayer.source="assets/simu/flash/ARROW_n2.swf";
 				videoPlayer.stop();
@@ -446,7 +466,7 @@
 	</fx:Declarations>
 	
 	<!--s:Group width="995" height="600" y="-150"-->
-		<local:simulation id="sim"/>
+		<local:simulation id="sim" addedToStage="setInitialTempOnAddedToStage(event)"/>
 		<s:Group id="arrowGroup">
 			<s:SWFLoader id="arrowPlayer"/>
 		</s:Group>

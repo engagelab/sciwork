@@ -32,7 +32,7 @@
 				
 				for each (var nrj:Object in res) {
 					b = new Button();
-					b.name = nrj._id;
+					b.name = nrj.id;
 					b.label = nrj.energy;
 					b.width = 100;
 					b.height = 30;
@@ -59,7 +59,7 @@
 				statusObject.stat = "pick";
 				token = UIDUtil.createUID();
 				statusObject.token = token;
-				statusObject._id = new String(evt.currentTarget.name);
+				statusObject.id = new String(evt.currentTarget.name);
 				
 				upurlRequest.data = com.adobe.serialization.json.JSON.encode(statusObject);
 				var uploader:URLLoader = new URLLoader();
@@ -73,7 +73,7 @@
 				
 				if(res.inuse == "true" && this.token == res.token) {
 					var ece:EnergyChosenEvent = new EnergyChosenEvent(resourceManager.getString('resources', 'ENERGY_CHOSEN'), true);
-					ece.energyId = res._id;
+					ece.energyId = res.id;
 					ece.energyTitle = res.energy;
 					dispatchEvent(ece);
 				}
