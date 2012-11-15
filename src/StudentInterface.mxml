@@ -92,7 +92,9 @@
 			 * 
 			 **/
 			public function stopPlayingMedia():void {
-				workareaContainer.preview.videoViewer.player.stopVideo();
+				if(workareaContainer.preview.videoViewer.player != null) {
+					workareaContainer.preview.videoViewer.player.stopVideo();
+				}
 			}
 			
 			/**

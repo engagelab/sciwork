@@ -18,6 +18,8 @@
 			
 			[Bindable] private var _groupList:ArrayCollection;
 			
+			private var colorDico:Dictionary;
+			
 			/**
 			 *
 			 * Error handling method for getAllGroups service 
@@ -38,13 +40,11 @@
 				
 				//instantiate and build group array
 				_groupList = new ArrayCollection();
+				colorDico = new Dictionary();
 				for each (var act:Object in res) {
 					_groupList.addItem({title: act.name, id: act.id, colour: act.colour});
+					colorDico[new String(act.name).toLowerCase()] = act.colour;
 				}
-			}
-			public function get groupList():ArrayCollection
-			{
-				return _groupList;
 			}
 			
 			/**
@@ -102,6 +102,7 @@
 						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), true);
 						lae.selectedGroup = groupCombo.selectedItem as Object;
 						lae.selectedGroup.title = cleanGroupName(lae.selectedGroup.title);
+						lae.colorDico = colorDico;
 						dispatchEvent(lae);
 						break;
 					case 401:
