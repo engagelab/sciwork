@@ -55,9 +55,9 @@ post '/connect' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	if data['groupId'] == '50191e38da061f83602e8825' && data['password'] == 'lilla'
+	if data['groupId'] == '50191e38da061f83602e8825' && data['password'] == 'password'
 		status 200
-	elsif data['groupId'] == '50191e61da061f83602e882a' && data['password'] == 'rosa'
+	elsif data['groupId'] == '50191e61da061f83602e882a' && data['password'] == 'password'
 		status 200
 	else
 		status 401
@@ -71,7 +71,7 @@ get '/menu' do
 	return [{:id => "1q", :title => "Stikkord", :icon => "keyword.png", :stasks => [{:id => "11", :title => "SPØRSMAL 1", :icon => "keyword.png"},{:id => "12", :title => "SPØRSMAL 2", :icon => "keyword.png"},{:id => "13", :title => "SPØRSMAL 3", :icon => "keyword.png"}]}, 
 	{:id => "1w", :title => "Eksperiment", :icon => "experiment.png", :stasks => [{:id => "21", :title => "SYKKELPUMPE", :icon => "cyclepump.png"},{:id => "22", :title => "SPRAYBOKS", :icon => "vapo.png"},{:id => "23", :title => "SPRØYTE", :icon => "seringe.png"}]},
 	{:id => "1e", :title => "Museum", :icon => "museum.png", :stasks => [{:id => "31", :title => "TWEETS", :icon => "keyword.png"}]},
-	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "DIGITAL MODELS", :icon => "diagram.png"}]},
+	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "SIMU1", :icon => "diagram.png"},{:id => "42", :title => "SIMU2", :icon => "diagram.png"},{:id => "43", :title => "SIMU3", :icon => "diagram.png"}]},
 	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "DISCUSSION", :icon => "notask.png"}]},
 	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "notask", :icon => ""},{:id => "62", :title => "notask", :icon => ""},{:id => "63", :title => "notask", :icon => ""}]},
 	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "notask", :icon => ""},{:id => "72", :title => "notask", :icon => ""},{:id => "73", :title => "notask", :icon => ""}]},
@@ -120,7 +120,11 @@ get '/task/:id' do
 	elsif params[:id] == '31'
 		return {:description => "!!! Description missing !!!", :taskType => "tweets", :title => "TWEETS" }.to_json;
 	elsif params[:id] == '41'
-		return {:description => "!!! Description missing !!!", :taskType => "simulation", :title => "DIGITAL MODELS" }.to_json;
+		return {:description => "!!! Description missing !!!", :taskType => "simulation", :title => "SIMU1" }.to_json;
+	elsif params[:id] == '42'
+		return {:description => "!!! Description missing !!!", :taskType => "simulation", :title => "SIMU2" }.to_json;
+	elsif params[:id] == '43'
+		return {:description => "!!! Description missing !!!", :taskType => "simulation", :title => "SIMU3" }.to_json;
 	elsif params[:id] == '51'
 		return {:description => "1. Forklar hva de fysiske prinsippene eksperimentene dere gjennomførte tidlig illustrerer. Bruk stillbildene dere tok som hjelp.
 		

@@ -44,20 +44,9 @@
 			
 			public function resetEnergySource():void {
 				if(_chosenEnergyID != null) {
-					var upurlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/energySources");
-					upurlRequest.method = URLRequestMethod.PUT;
-					upurlRequest.contentType = "application/json";
-						
-					var statusObject:Object = new Object();
-					statusObject.stat = "reset";
-					statusObject.id = _chosenEnergyID;
-						
-					upurlRequest.data = com.adobe.serialization.json.JSON.encode(statusObject);
-					var uploader:URLLoader = new URLLoader();
-					uploader.load(upurlRequest);
-					
 					_chosenEnergyID = null;
 					_chosenEnergySource = null;
+					dispatchEvent(new Event(resourceManager.getString('resources', 'RESET_ENERGY'), true));
 				}
 			}
 			

@@ -28,6 +28,7 @@
 			
 			import components.Tweet;
 			
+			import listeners.EnergyChosenEvent;
 			import listeners.LoginAcceptedEvent;
 			import listeners.SceneChangeEvent;
 			import listeners.ShowTweetsFullscreenEvent;
@@ -56,6 +57,9 @@
 			
 			[Bindable] private var _completedTaskArray:Array;
 			
+			private var _chosenEnergyID:String = null;
+			private var _shouldExit:Boolean = false;
+			
 			private var _conn:XMPP = null;
 			private var _currentGroup:Object;
 			
@@ -73,6 +77,9 @@
 				this.addEventListener(resourceManager.getString('resources', 'TABBAR_LOADED'), handleMenuLoaded);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), handleRefreshGroupsCompletedTasks);
 				this.addEventListener(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), handleShowTweetsFullscreen);
+				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
+				this.addEventListener(resourceManager.getString('resources', 'RESET_ENERGY'), handleResetEnergy);
+				this.addEventListener(Event.CLOSING, onApplicationQuit);
 				
 				// FOR TESTING: In the case of no server connection
 				// this.currentState = "loggedIn";
@@ -318,6 +325,42 @@
 				}
 				
 				this[currentInterface].workareaContainer.dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+			}
+			
+			protected function onApplicationQuit(event:Event):void {
+				if(_chosenEnergyID != null) {
+					event.preventDefault();
+					_shouldExit = true;
+					this.removeEventListener(Event.CLOSING, onApplicationQuit);
+					dispatchEvent(new Event(resourceManager.getString('resources', 'RESET_ENERGY'), true));
+				}
+			}
+			
+			protected function handleResetEnergy(evt:Event):void {
+				if(_chosenEnergyID != null) {
+					var upurlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/energySources");
+					upurlRequest.method = URLRequestMethod.PUT;
+					upurlRequest.contentType = "application/json";
+					
+					var statusObject:Object = new Object();
+					statusObject.stat = "reset";
+					statusObject.id = _chosenEnergyID;
+					
+					upurlRequest.data = com.adobe.serialization.json.JSON.encode(statusObject);
+					var uploader:URLLoader = new URLLoader();
+					uploader.addEventListener(HTTPStatusEvent.HTTP_STATUS, handleEnergyResetComplete);
+					uploader.load(upurlRequest);
+				}
+			}
+			
+			protected function handleEnergyChosen(evt:EnergyChosenEvent):void {
+				_chosenEnergyID = evt.energyId;
+			}
+			
+			protected function handleEnergyResetComplete(evt:HTTPStatusEvent):void {
+				if(_shouldExit) {
+					this.exit();
+				}
 			}
 			
 		]]>
