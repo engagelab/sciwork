@@ -49,7 +49,7 @@
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="30" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:List top="15" left="15" right="15" bottom="15" selectionColor="#FFFFFF" dataProvider="{wordArray}" borderVisible="false" itemRenderer="itemRenderers.selectedKeywordItem">
+		<s:List top="15" left="15" right="15" bottom="15" selectionColor="#FFFFFF" dataProvider="{wordArray}" borderVisible="false" itemRenderer="itemRenderers.SelectedKeywordItem">
 			<s:layout>
 				<s:VerticalLayout gap="15" horizontalAlign="contentJustify" variableRowHeight="false" />
 			</s:layout>

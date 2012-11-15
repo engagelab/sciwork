@@ -39,7 +39,7 @@
 					b.addEventListener(MouseEvent.CLICK, pickEnergy);
 					energies.addElement(b);
 					
-					if(nrj.inuse == "true") {
+					if(nrj.inuse) {
 						b.enabled = false;
 					}
 					else {
@@ -71,7 +71,7 @@
 				bi.visible = false;
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
 				
-				if(res.inuse == "true" && this.token == res.token) {
+				if(res.inuse && this.token == res.token) {
 					var ece:EnergyChosenEvent = new EnergyChosenEvent(resourceManager.getString('resources', 'ENERGY_CHOSEN'), true);
 					ece.energyId = res.id;
 					ece.energyTitle = res.energy;

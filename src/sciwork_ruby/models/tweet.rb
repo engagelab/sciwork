@@ -12,4 +12,5 @@ class MiracleTweet
   field :isVisible, :type => Boolean
   field :source, :type => String
   field :tag, :tag => String
+  field :id, :type => String
 end

@@ -50,7 +50,7 @@
 						
 					var statusObject:Object = new Object();
 					statusObject.stat = "reset";
-					statusObject._id = _chosenEnergyID;
+					statusObject.id = _chosenEnergyID;
 						
 					upurlRequest.data = com.adobe.serialization.json.JSON.encode(statusObject);
 					var uploader:URLLoader = new URLLoader();

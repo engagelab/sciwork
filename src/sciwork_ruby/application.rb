@@ -235,7 +235,6 @@ post '/tweet' do
 	:xpos => data['xpos'],
 	:ypos => data['ypos'],
 	:isVisible => data['isVisible'],
-	:isPortfolio => data['isPortfolio'],
 	:source => data['source'],
 	:tag => data['tag']);
 	
@@ -253,8 +252,7 @@ put '/tweet' do
 	puttwt.update_attributes({
 	:xpos => data['xpos'],
 	:ypos => data['ypos'],
-	:isVisible => data['isVisible'],
-	:isPortfolio => data['isPortfolio']});
+	:isVisible => data['isVisible']});
 	
 	$log.debug 'PUT tweet: '+puttwt.to_json;
 	
@@ -280,8 +278,8 @@ post '/energySources' do
   
   es = EnergySource.create(
   :energy => request_body["energy"], 
-  :inuse => "false");
-  
+  :inuse => false);
+    
   return es.to_json;
 end
 
@@ -289,13 +287,13 @@ put '/energySources' do
     content_type :json
     put_request_body = JSON.parse(request.body.read.to_s)
     
-	es = EnergySource.find( put_request_body["_id"] );
+	es = EnergySource.find( put_request_body["id"] );
     
-    if es.inuse.include?("false") && put_request_body["stat"].include?("pick")
-		es.update_attributes({:inuse => "true", :token => put_request_body["token"].to_s});
+    if es.inuse == false && put_request_body["stat"].include?("pick")
+		es.update_attributes({:inuse => true, :token => put_request_body["token"].to_s});
 		return es.to_json;
-    elsif es.inuse.include?("true") && put_request_body["stat"].include?("reset")
-		es.update_attributes({:inuse => "false", :token => ""});
+    elsif es.inuse == true && put_request_body["stat"].include?("reset")
+		es.update_attributes({:inuse => false, :token => ""});
 		return es.to_json;
     else
 		return {:status => "inuse"}.to_json;
