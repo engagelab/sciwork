@@ -17,7 +17,6 @@
 			import listeners.RetweetEvent;
 			import listeners.SelectMaterialEvent;
 			import listeners.ShowTweetsFullscreenEvent;
-			import listeners.SubmitKeywordsEvent;
 			import listeners.SubmitTweetEvent;
 			import listeners.TaskPortfolioUpdateEvent;
 			import listeners.TweetsRefreshEvent;
@@ -230,58 +229,7 @@
 				preview.previewMaterial(evt.materialItem, evt.sourceType);
 			}
 			
-			/**
-			 * 
-			 * Event handling method for KEYWORD_LIST_SUBMITTED
-			 * 
-			 **/
-			protected function handleKeywordsSubmitted(evt:SubmitKeywordsEvent):void {
-				//build the object to post
-				var params:Object = new Object();
-				params.groupId = currentGroup.id;
-				params.taskId = taskId;
-				params.keywords = evt.keywords;
-				
-				//create urlrequest with correct headers
-				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/keywords");
-				if(_isKeywordUpdate) {
-					urlRequest.method = URLRequestMethod.PUT;
-				}
-				else {
-					urlRequest.method = URLRequestMethod.POST;
-				}
-				urlRequest.contentType = "application/json";
-				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
-				
-				//load the url and define listeners
-				var uploader:URLLoader = new URLLoader();
-				uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
-				uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
-				uploader.load(urlRequest);
-			}
-			
-			/**
-			 * 
-			 * Event handling method handlePostKeywordsComplete
-			 * 
-			 **/
-			protected function handlePostKeywordsComplete(ev:Event):void {
-				//extract result as JSON
-				var res:Object = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
-				updateKeywordsList(res.keywords);
-			}
-			
-			/**
-			 * 
-			 * Event handling method handlePostKeywordsIOerror
-			 * 
-			 **/
-			protected function handlePostKeywordsIOerror(ev:IOErrorEvent):void {
-				Alert.show("An error occured while posting the keywords from the server.", "Keyword service error");
-			}
-			
-			
-			
+						
 			/**
 			 * 
 			 * Switch layout to correct state based on task type
@@ -289,15 +237,8 @@
 			 **/
 			public function updateCurrentState(type:String):void {
 				switch(type) {
-					case 'keywords': {
+					case '': {
 						//set correct state in subsequent components
-						this.currentState = "keywords";
-						selection.currentState = "keywords";
-						preview.currentState = "keywordsState";
-						
-						//get existing keywords for the current task and group
-						getKeywordsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/keywords/" + currentGroup.id + "/" + taskId;
-						getKeywordsPortfolio.send();
 						break;
 					}
 						
@@ -370,80 +311,6 @@
 			 **/
 			protected function refreshTweetsPortfolio(evt:Event):void {
 				selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
-			}
-			
-			/**
-			 * 
-			 * Error handling method for getKeywords service
-			 * 
-			 **/
-			protected function getKeywords_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the keywords from the server.", "Keyword service error");
-			}
-			
-			/**
-			 *
-			 * Result handling method for getKeywords service 
-			 * 
-			 **/
-			protected function getKeywords_resultHandler(event:ResultEvent):void {
-				//store the returned object as JSON 
-				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				
-				if(res.keywords != null) {
-					updateKeywordsList(res.keywords);
-				}
-				else {
-					selection.keywordSelection.clearWordList();
-				}
-			}
-			
-			/**
-			 *
-			 * Update UI with keywords list 
-			 * 
-			 **/
-			protected function updateKeywordsList(kWords:Array):void {
-				if(kWords.length == 5) {
-					//update keywords list
-					selection.keywordSelection.addNewWords(kWords);
-					
-					//reset input field
-					keywordInput.wordInput.text = "";
-					
-					if(!_isKeywordUpdate) {
-						var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
-						tpue.eventType = sciwork.KEYWORD_UPDATE_TYPE;
-						dispatchEvent(tpue);
-					}
-				}
-				else {
-					Alert.show("The keyword array for this task is not equal to 5", "Keyword service error");
-				}
-			}
-			
-			/**
-			 * 
-			 * Event handling method for EDIT_KEYWORD_LIST
-			 * 
-			 **/
-			protected function handleEditKeywords(evt:Event):void {
-				//rebuild the keywords string
-				var wordString:String = "";
-				for each (var word:Object in selection.keywordSelection.wordArray) {
-					wordString = wordString + word + " ";
-				}
-				
-				//clear the selection
-				selection.keywordSelection.clearWordList();
-				
-				//append the keywords in the text input
-				keywordInput.wordInput.text = wordString.substr(0, wordString.length-1);
-				//enable button again via dispatchevent
-				keywordInput.wordInput.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
-				
-				_isKeywordUpdate = true;
-				
 			}
 			
 			/**
@@ -581,8 +448,6 @@
 				
 				//various event listeners
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
-				this.addEventListener(resourceManager.getString('resources', 'KEYWORD_LIST_SUBMITTED'), handleKeywordsSubmitted);
-				this.addEventListener(resourceManager.getString('resources', 'EDIT_KEYWORD_LIST'), handleEditKeywords);
 				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
 				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
@@ -600,7 +465,6 @@
 	</fx:Script>
 	
 	<fx:Declarations>
-		<s:HTTPService method="GET" result="getKeywords_resultHandler(event)" fault="getKeywords_faultHandler(event)" resultFormat="text" id="getKeywordsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
@@ -613,7 +477,6 @@
 	<s:states>
 		<s:State name="default" />
 		<s:State name="assets" />
-		<s:State name="keywords" />
 		<s:State name="tweets" />
 	</s:states>
 	
@@ -625,7 +488,6 @@
 					<s:HGroup id="materialItems" />
 				</s:Scroller>
 			</s:BorderContainer>
-			<workarea:KeywordInput id="keywordInput" width="100%" height="50" includeIn="keywords" />
 			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" />
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />

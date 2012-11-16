@@ -202,15 +202,6 @@
 						}
 
 						break;
-					case sciwork.KEYWORD_UPDATE_TYPE:
-						if(workareaContainer.selection.keywordSelection.wordArray.length == 5) {
-							params.isTaskCompleted = true;
-						}
-						else {
-							params.isTaskCompleted = false;
-						}
-
-					
 				}
 				
 				
