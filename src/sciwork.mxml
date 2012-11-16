@@ -251,38 +251,7 @@
 			 * 
 			 **/
 			public static function getColorBasedOnGroup(groupName:String):uint {
-				
 				return colorDico[groupName];
-				
-				/*switch(groupName) {
-					case "gronn":
-						return GRONN;
-						break;
-					
-					case "orangsje": 
-						return ORANGSJE;
-						break;
-					
-					case "bla": 
-						return BLA;
-						break;
-					
-					case "rosa": 
-						return ROSA;
-						break;
-					
-					case "gul": 
-						return GUL;
-						break;
-					
-					case "lilla": 
-						return LILLA;
-						break;
-					
-					default: 
-						return 0;
-						break;
-				}*/
 			}
 			
 			/**
