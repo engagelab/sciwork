@@ -6,3 +6,5 @@ sciwork.air
 src/locale/en_US/resources.properties
 
 *.log
+
+src/sciwork_ruby/logs/output.log
