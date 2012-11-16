@@ -76,18 +76,20 @@
 					return;
 				}
 				
+				//find out if this is an 'old' tweet
+				var al:Number = 1;
+				var xm:XML = evt.stanza.xml as XML;
+				for each (var i:XML in xm.elements()) {
+					if(i.name() == "urn:xmpp:delay::delay") {
+						al = .5;
+					}
+					
+				}
+				
+				//based on room origin, make necessary call
 				switch(new String(evt.stanza.from.user)) {
 					case resourceManager.getString('resources', 'TWEETS_ROOM_NAME'):
 						var roomjid:JID = JID(evt.stanza.from);
-						var al:Number = 1;
-						
-						var xm:XML = evt.stanza.xml as XML;
-						for each (var i:XML in xm.elements()) {
-							if(i.name() == "urn:xmpp:delay::delay") {
-								al = .5;
-							}
-							
-						}
 										
 						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
 						selection.tweetsSelection.refreshFeed();
@@ -95,7 +97,7 @@
 						
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
 						var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
-						if(res.tag == _chosenEnergySource && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')) {
+						if(res.tag == _chosenEnergySource && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL') && al == 1) {
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
 						
