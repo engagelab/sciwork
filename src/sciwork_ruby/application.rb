@@ -19,12 +19,6 @@ item0Selected = "false";
 item1Selected = "false";
 item2Selected = "false";
 
-keyword1 = "";
-keyword2 = "";
-keyword3 = "";
-keyword4 = "";
-keyword5 = "";
-
 task_50191e38da061f83602e8825 = [];
 
 Dir.mkdir('logs') unless File.exist?('logs')
@@ -106,11 +100,11 @@ end
 
 get '/task/:id' do
 	if params[:id] == '11'
-		return {:description => "Hva er energi?", :taskType => "keywords", :title => "SPØRSMAL 1" }.to_json;
+		return {:description => "Hva er energi?", :taskType => "questions", :title => "SPØRSMAL 1" }.to_json;
 	elsif params[:id] == '12'
-		return {:description => "Hvordan henger energi sammen med fenomener du observer rundt deg?", :taskType => "keywords", :title => "SPØRSMAL 2" }.to_json;
+		return {:description => "Hvordan henger energi sammen med fenomener du observer rundt deg?", :taskType => "questions", :title => "SPØRSMAL 2" }.to_json;
 	elsif params[:id] == '13'
-		return {:description => "Hvordan kan energi transformeres mest mulig effektivt og miljøvennlig?", :taskType => "keywords", :title => "SPØRSMAL 3" }.to_json;
+		return {:description => "Hvordan kan energi transformeres mest mulig effektivt og miljøvennlig?", :taskType => "questions", :title => "SPØRSMAL 3" }.to_json;
 	elsif params[:id] == '21'
 		return {:description => "1. Press ﬁngeren hardt mot ventilen og pump kraftig ﬂere ganger.<br /><br />2. Beskriv hva dere gjør, opplever og kjenner.<br /><br />3. Hvilke sammenhenger er det mellom det dere gjør, opplever eller kjenner? Hvordan vil dere forklare det?", :taskType => "assets", :title => "SYKKELPUMPE" }.to_json;
 	elsif params[:id] == '22'
@@ -136,50 +130,13 @@ get '/task/:id' do
 	end
 end
 
-########## keywords ###############
-get '/keywords/:groupId/:taskId' do
-	if params[:taskId] == '11'
-		return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => params[:taskId], "groupId" => params[:groupId]}.to_json;
-	else
-		return [].to_json;
-	end
-end
-
-post '/keywords' do
-	request.body.rewind  # in case someone already read it
-	content_type :json;
-	data = JSON.parse request.body.read
-	
-	keyword1 = data['keywords'][0];
-	keyword2 = data['keywords'][1];
-	keyword3 = data['keywords'][2];
-	keyword4 = data['keywords'][3];
-	keyword5 = data['keywords'][4];
-	
-	return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
-end
-
-put '/keywords' do
-	request.body.rewind  # in case someone already read it
-	content_type :json;
-	data = JSON.parse request.body.read
-	
-	keyword1 = data['keywords'][0];
-	keyword2 = data['keywords'][1];
-	keyword3 = data['keywords'][2];
-	keyword4 = data['keywords'][3];
-	keyword5 = data['keywords'][4];
-	
-	return {"id" => "5061a1c40364f440d872358e", "keywords" => [keyword1,keyword2,keyword3,keyword4,keyword5], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
-end
-
 
 ########## contributions ###############
 get '/contributions/:groupId/:taskId' do
 	if params[:taskId] == '31'
 		return {"simages" => [{:id => "img1", :filePath => "/assets/cool.jpg", :title => "my first image", :isPortfolio => "true", :xpos => "30", :ypos => "30"}]}.to_json;
 	else
-		return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected, :xpos => "10", :ypos => "10"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected, :xpos => "20", :ypos => "20"}], "simages" => [{:id => "img1", :uri => "agY1PPsq6oA", :title => "my first image", :isPortfolio => item2Selected, :xpos => "30", :ypos => "30"}], "spostits" => []}.to_json;
+		return {"svideos" => [{:id => "vid1", :uri => "hCSPf5Viwd0", :title => "my first video", :isPortfolio => item0Selected, :xpos => "10", :ypos => "10"}, {:id => "vid2", :uri => "_b2F-XX0Ol0", :title => "the bottle", :isPortfolio => item1Selected, :xpos => "20", :ypos => "20"}], "simages" => []}.to_json;
 	end
 end
 
@@ -210,16 +167,6 @@ put '/group/image/' do
 	status 200;
 	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
 end
-
-put '/group/postit/' do
-	request.body.rewind  # in case someone already read it
-	content_type :json;
-	data = JSON.parse request.body.read
-	
-	status 200;
-	#return {"id" => "5061a1c40364f440d872358e", "keywords" => ["one","two","three","four","five"], "taskId" => data['taskId'], "groupId" => data['groupId']}.to_json;
-end
-
 
 ########## tweets ###############
 get '/tweet/:tagName' do
@@ -252,13 +199,51 @@ put '/tweet' do
 	content_type :json;
 	data = JSON.parse request.body.read
 	
-	puttwt = MiracleTweet.find(data['_id']);
+	puttwt = MiracleTweet.find(data['id']);
 	puttwt.update_attributes({
 	:xpos => data['xpos'],
 	:ypos => data['ypos'],
 	:isVisible => data['isVisible']});
 	
 	$log.debug 'PUT tweet: '+puttwt.to_json;
+	
+	return puttwt.to_json;
+end
+
+########## questions ###############
+get '/question/:taskId' do
+	@att = MiracleQuestion.where(taskId: params[:taskId]).all();
+	return @att.to_json;
+end
+
+post '/question' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	posttwt = MiracleQuestion.create(
+	:ownerName => data['ownerName'],
+	:text => data['text'],
+	:xpos => data['xpos'],
+	:ypos => data['ypos'],
+	:taskId => data['taskId']);
+	
+	$log.debug 'POST question: '+posttwt.to_json;
+		
+	return posttwt.to_json;
+end
+
+put '/question' do
+	request.body.rewind  # in case someone already read it
+	content_type :json;
+	data = JSON.parse request.body.read
+	
+	puttwt = MiracleTweet.find(data['id']);
+	puttwt.update_attributes({
+	:xpos => data['xpos'],
+	:ypos => data['ypos']});
+	
+	$log.debug 'PUT question: '+puttwt.to_json;
 	
 	return puttwt.to_json;
 end

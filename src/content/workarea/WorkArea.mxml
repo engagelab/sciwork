@@ -21,6 +21,7 @@
 			import listeners.TaskPortfolioUpdateEvent;
 			import listeners.TweetsRefreshEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
@@ -40,6 +41,9 @@
 			private var _isAssetUpdate:Boolean = false;
 			private var _conn:XMPP;
 			private var hasJoinedMiracleRoom:Boolean = false;
+			
+			[Bindable] private var _tArray:ArrayCollection = new ArrayCollection();
+			[Bindable] private var _qArray:ArrayCollection = new ArrayCollection();
 			
 			public function resetEnergySource():void {
 				if(_chosenEnergyID != null) {
@@ -90,8 +94,11 @@
 					case resourceManager.getString('resources', 'TWEETS_ROOM_NAME'):
 						var roomjid:JID = JID(evt.stanza.from);
 										
-						selection.tweetsSelection.tweetFeedArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
-						selection.tweetsSelection.refreshFeed();
+						_tArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
+						if(this.currentState == "tweets") {
+							selection.tweetsSelection.tweetFeedArray = _tArray;
+							selection.tweetsSelection.refreshFeed();
+						}
 						break;
 						
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
@@ -99,7 +106,15 @@
 						if(res.tag == _chosenEnergySource && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL') && al == 1) {
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
+						break;
+					
+					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
+						var roomjid:JID = JID(evt.stanza.from);
 						
+						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
+						if(this.currentState == "questions") {
+							selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+						}
 						break;
 				}
 			}
@@ -130,6 +145,26 @@
 				}
 				
 				return tags;
+			}
+			
+			/**
+			 * 
+			 * extract the taskId from the tweet content
+			 * 
+			 **/
+			protected function getTaskIdForContent(message:String):String {
+				var question:Object = com.adobe.serialization.json.JSON.decode(message);
+				return question.taskId;
+			}
+			
+			/**
+			 * 
+			 * extract the ownerName from the tweet content
+			 * 
+			 **/
+			protected function getOwnerForContent(message:String):String {
+				var question:Object = com.adobe.serialization.json.JSON.decode(message);
+				return question.ownerName;
 			}
 			
 			/**
@@ -235,10 +270,26 @@
 			 * Switch layout to correct state based on task type
 			 * 
 			 **/
-			public function updateCurrentState(type:String):void {
+			public function updateCurrentState(type:String):void {//XMPP init business
+				
+				if(!hasJoinedMiracleRoom) {
+					_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
+					_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+					_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+					_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+					_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+					hasJoinedMiracleRoom = true;
+				}
+				
 				switch(type) {
-					case '': {
+					case 'questions': {
 						//set correct state in subsequent components
+						this.currentState = "questions";
+						selection.currentState = "questions";
+						preview.currentState = "questionsState";
+						
+						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+						
 						break;
 					}
 						
@@ -247,7 +298,6 @@
 						this.currentState = "assets";
 						selection.currentState = "assets";
 						preview.currentState = "default";
-						
 						//get existing assets selection (portfolio) for the current task and group
 						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
 						getAssetsPortfolio.send();
@@ -262,14 +312,8 @@
 							preview.currentState = "tweetsState";
 							this.currentState = "tweets";
 							
-							//XMPP init business
-							if(!hasJoinedMiracleRoom) {
-								_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
-								_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
-								_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
-								_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
-								hasJoinedMiracleRoom = true;
-							}
+							selection.tweetsSelection.tweetFeedArray = _tArray;
+							selection.tweetsSelection.refreshFeed();
 							
 							selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
@@ -478,6 +522,7 @@
 		<s:State name="default" />
 		<s:State name="assets" />
 		<s:State name="tweets" />
+		<s:State name="questions" />
 	</s:states>
 	
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">

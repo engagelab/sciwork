@@ -1,16 +1,13 @@
 require 'rubygems'
 require 'mongoid'
 
-class MiracleTweet
+class MiracleQuestion
   include Mongoid::Document
-  store_in :miracletweets
-  field :userName, :type => String
+  store_in :miraclequestions
   field :ownerName, :type => String
   field :text, :type => String
   field :xpos, :type => String
   field :ypos, :type => String
-  field :isVisible, :type => Boolean
-  field :source, :type => String
-  field :tag, :type => String
+  field :taskId, :type => String
   field :id, :type => String
 end
