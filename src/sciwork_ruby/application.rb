@@ -53,6 +53,8 @@ post '/connect' do
 		status 200
 	elsif data['groupId'] == '50191e61da061f83602e882a' && data['password'] == 'password'
 		status 200
+	elsif data['groupId'] == '50505a3430041fb1c28ea433' && data['password'] == 'password'
+		status 200
 	else
 		status 401
 	end
@@ -287,4 +289,4 @@ put '/energySources' do
     else
 		return {:status => "inuse"}.to_json;
     end
-end 
+end

@@ -152,7 +152,8 @@
 			 * 
 			 **/
 			protected function handleUpdateSuccessful(evt:TweetUpdaterEvent):void {
-				conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"userName":"'+new String(data.userName).toLowerCase()+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
+				var res:Object = com.adobe.serialization.json.JSON.decode(new String(evt.result));
+				conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"tag":"'+new String(res.tag)+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
 				enableListeners(true);	
 				CursorManager.removeAllCursors();
 			}
