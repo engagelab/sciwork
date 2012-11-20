@@ -70,7 +70,7 @@ get '/menu' do
 	{:id => "1r", :title => "Simulering", :icon => "simulation.png", :stasks => [{:id => "41", :title => "SIMU1", :icon => "diagram.png"},{:id => "42", :title => "SIMU2", :icon => "diagram.png"},{:id => "43", :title => "SIMU3", :icon => "diagram.png"}]},
 	{:id => "1t", :title => "Presentasjon", :icon => "presentation.png", :stasks => [{:id => "51", :title => "DISCUSSION", :icon => "notask.png"}]},
 	{:id => "1y", :title => "Diagram", :icon => "diagram.png", :stasks => [{:id => "61", :title => "notask", :icon => ""},{:id => "62", :title => "notask", :icon => ""},{:id => "63", :title => "notask", :icon => ""}]},
-	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "notask", :icon => ""},{:id => "72", :title => "notask", :icon => ""},{:id => "73", :title => "notask", :icon => ""}]},
+	{:id => "1u", :title => "Artikkel", :icon => "article.png", :stasks => [{:id => "71", :title => "ARTIKLER", :icon => "article.png"}]},
 	{:id => "1i", :title => "Portfolio", :icon => "portfolio.png", :stasks => [{:id => "81", :title => "notask", :icon => ""},{:id => "82", :title => "notask", :icon => ""},{:id => "83", :title => "notask", :icon => ""}]}].to_json;
 end
 
@@ -127,6 +127,8 @@ get '/task/:id' do
 2. Hva er likhetene og forskjellene mellom de tre små eksperimentene?
 
 3. Hvordan passer de fysiske prinsippene med funksjonene i varmepumpa? Velg gjerne en illustrasjon av varmepumpen som støtte til å forklare sammenhengene.", :taskType => "assets", :title => "DISCUSSION"}.to_json;
+	elsif params[:id] == '71'
+		return {:description => "!!! Write an article !!!", :taskType => "article" }.to_json;
 	else
 		return {:description => "", :resources => "", :title => "notask" }.to_json;
 	end
@@ -289,4 +291,16 @@ put '/energySources' do
     else
 		return {:status => "inuse"}.to_json;
     end
+end
+
+
+########## articles ###############
+get '/article/:groupId' do
+	if params[:groupId] == '50191e38da061f83602e8825'
+		return {:uri => "https://docs.google.com/document/d/1XvlRaW9X0RYZz1q2mGYLkL9hbChProHpRSQXdc3CPKg/edit"}.to_json;
+	elsif params[:groupId] == '50191e61da061f83602e882a'
+		return {:uri => "https://docs.google.com/document/d/1cTb5G-TF58l10yZMJB3WnxP7Oq7x3GOSI_kqixeo3cU/edit"}.to_json;
+	else
+		status 401
+	end
 end

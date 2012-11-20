@@ -103,22 +103,28 @@
 			 * 
 			 **/
 			protected function updateResources(taskName:String):void {
-				resourceContainer.currentState = "loading";
-				
-				var params:Object = new Object();
-				params.folderName = taskName;
-				
-				//create urlrequest with correct headers
-				var urlRequest:URLRequest = new URLRequest("http://scihub.uio.no:4568/gdriveFiles");
-				urlRequest.method = URLRequestMethod.POST;
-				urlRequest.contentType = "application/json";
-				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
-				
-				//load the url and define listeners
-				var uploader:URLLoader = new URLLoader();
-				uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
-				uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
-				uploader.load(urlRequest);
+				if(taskName != null) {
+					resourceContainer.visible = true;
+					resourceContainer.currentState = "loading";
+					
+					var params:Object = new Object();
+					params.folderName = taskName;
+					
+					//create urlrequest with correct headers
+					var urlRequest:URLRequest = new URLRequest("http://scihub.uio.no:4568/gdriveFiles");
+					urlRequest.method = URLRequestMethod.POST;
+					urlRequest.contentType = "application/json";
+					urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+					
+					//load the url and define listeners
+					var uploader:URLLoader = new URLLoader();
+					uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
+					uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
+					uploader.load(urlRequest);
+				}
+				else {
+					resourceContainer.visible = false;
+				}
 			}
 			
 			/**

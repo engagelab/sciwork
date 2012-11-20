@@ -32,7 +32,6 @@
 			
 			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
 			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
-			public static const TEXT_TYPE:String = "TEXT_TYPE";
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
 			[Bindable] private var _chosenEnergySource:String = null;
@@ -44,6 +43,8 @@
 			
 			[Bindable] private var _tArray:ArrayCollection = new ArrayCollection();
 			[Bindable] private var _qArray:ArrayCollection = new ArrayCollection();
+			
+			[Bindable] private var _htmlLocation:String = "";
 			
 			public function resetEnergySource():void {
 				if(_chosenEnergyID != null) {
@@ -206,9 +207,6 @@
 					case IMAGE_TYPE:
 						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image/");
 						break;
-					case TEXT_TYPE:
-						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/postit/");
-						break;
 				}
 				urlRequest.method = URLRequestMethod.PUT;
 				urlRequest.contentType = "application/json";
@@ -327,6 +325,15 @@
 						break;
 					}
 						
+					case 'article': {
+						//set correct state in subsequent components
+						this.currentState = "article";
+						htmlBI.visible = true;
+						getArticleUrl.url = resourceManager.getString('resources', 'SERVER_URL') + "/article/" + currentGroup.id;
+						getArticleUrl.send();
+						break;
+					}
+						
 					default: {
 						this.currentState = "default";
 						selection.currentState = "default";
@@ -382,7 +389,6 @@
 				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
 				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
 				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
-				parseMaterialSubArray(contributions.spostits, TEXT_TYPE);
 				
 				//test if the currentTask portfolio is empty or not and update footer navbar
 				if(_isAssetUpdate) {
@@ -428,9 +434,6 @@
 						case IMAGE_TYPE:
 							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
 							break;
-						case TEXT_TYPE:
-							//todo:
-							break;	
 					}
 					
 				}
@@ -505,6 +508,19 @@
 				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
 			}
 			
+			protected function htmlLoded(event:Event):void {
+				htmlBI.visible = false;
+			}
+			
+			protected function getArticleUrl_resultHandler(event:ResultEvent):void {
+				var articleResult:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				_htmlLocation = articleResult.uri;
+			}
+			
+			protected function getArticleUrl_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the article URL from the server.", "Energies service error");
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -512,6 +528,7 @@
 		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />
@@ -523,9 +540,10 @@
 		<s:State name="assets" />
 		<s:State name="tweets" />
 		<s:State name="questions" />
+		<s:State name="article" />
 	</s:states>
 	
-	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
+	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<preview:Preview id="preview" width="100%" height="100%" />
 			<s:BorderContainer id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" borderAlpha=".3" >
@@ -537,4 +555,8 @@
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>
+	<s:Group width="100%" height="100%" includeIn="article" itemDestructionPolicy="auto">
+		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+	</s:Group>
 </s:Group>
