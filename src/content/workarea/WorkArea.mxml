@@ -80,21 +80,21 @@
 					return;
 				}
 				
+				var roomjid:JID = JID(evt.stanza.from);
+				
 				//find out if this is an 'old' tweet
 				var al:Number = 1;
 				var xm:XML = evt.stanza.xml as XML;
+				
 				for each (var i:XML in xm.elements()) {
 					if(i.name() == "urn:xmpp:delay::delay") {
 						al = .5;
 					}
-					
 				}
 				
 				//based on room origin, make necessary call
 				switch(new String(evt.stanza.from.user)) {
 					case resourceManager.getString('resources', 'TWEETS_ROOM_NAME'):
-						var roomjid:JID = JID(evt.stanza.from);
-										
 						_tArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
 						if(this.currentState == "tweets") {
 							selection.tweetsSelection.tweetFeedArray = _tArray;
@@ -110,8 +110,6 @@
 						break;
 					
 					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
-						var roomjid:JID = JID(evt.stanza.from);
-						
 						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
 						if(this.currentState == "questions") {
 							selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);

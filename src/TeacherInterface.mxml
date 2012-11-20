@@ -1,18 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*" xmlns:workarea="content.workarea.*" creationComplete="initGroup(event)">
+	
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:HTTPService method="GET" result="getTask_resultHandler(event)" fault="getTask_faultHandler(event)" resultFormat="text" id="getTask" />
 	</fx:Declarations>
+	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import listeners.ShowWebPage;
+			import listeners.TaskPortfolioUpdateEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable] private var _description:String = "";
+			[Bindable] private var _currentGroup:Object;
+			[Bindable] private var _taskId:String;
+			[Bindable] private var _htmlLocation:String = "";
+			
+			/**
+			 *
+			 * called when a new scene is selected 
+			 * 
+			 **/
 			public function changeScene(sceneId:uint):void {
-				;
+				this.currentState = "contentState";
+				//reset left panels
+				_description = "";
 			}
-			public function changeTask(taskId:uint):void {
-				;
+			
+			/**
+			 *
+			 * called when a new task is selected 
+			 * 
+			 **/
+			public function changeTask(taskId:String, currentGroup:Object):void {
+				_taskId = taskId;
+				_currentGroup = currentGroup;
+				
+				//fetch the inherent tasks for the selected taskid
+				getTask.url = resourceManager.getString('resources', 'SERVER_URL') + "/task/" + taskId;
+				getTask.send();
 			}
+			
+			/**
+			 *
+			 * Result handling method for getTask service 
+			 * 
+			 **/
+			protected function getTask_resultHandler(event:ResultEvent):void {
+				
+				//store the returned object as JSON 
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				_description = res.description;
+				updateResources(res.title);
+				
+				if(res.taskType == "simulation") {
+					if(this.currentState != "simulationState")
+						this.currentState = "simulationState";
+			//		simulate.setSimulationLevel(res.title);
+			//		trace(simulationContainer.width +" - "+simulationContainer.height );
+				}
+				else {
+					this.currentState = "contentState";
+					workareaContainer.updateCurrentState(res.taskType);
+				}
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getTask service
+			 * 
+			 **/
+			protected function getTask_faultHandler(event:FaultEvent):void {
+				
+				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
+				
+			}
+			
+			/**
+			 * 
+			 * Function to call the GDrive service and obtain a listing of resources
+			 * 
+			 **/
+			protected function updateResources(taskName:String):void {
+				resourceContainer.currentState = "loading";
+				
+				var params:Object = new Object();
+				params.folderName = taskName;
+				
+				//create urlrequest with correct headers
+				var urlRequest:URLRequest = new URLRequest("http://scihub.uio.no:4568/gdriveFiles");
+				urlRequest.method = URLRequestMethod.POST;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				//load the url and define listeners
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(Event.COMPLETE, handlePostKeywordsComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handlePostKeywordsIOerror);
+				uploader.load(urlRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsComplete
+			 * 
+			 **/
+			protected function handlePostKeywordsComplete(ev:Event):void {
+				//extract result as JSON
+				var res:Array = com.adobe.serialization.json.JSON.decode(String(ev.target.data));
+				
+				var resourceArray:ArrayCollection = new ArrayCollection();
+				for each (var resource:Object in res) {
+					
+					resourceArray.addItem(resource);
+					
+				}
+				
+				resourceContainer.content = resourceArray;
+				resourceContainer.currentState = "loaded";
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsIOerror
+			 * 
+			 **/
+			protected function handlePostKeywordsIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while retrieving the list of resources from the server.", "GDrive service error");
+			}
+			
+			/**
+			 * 
+			 * Init function for this component 
+			 * 
+			 **/
+			protected function initGroup(event:FlexEvent):void {
+				
+				this.addEventListener(resourceManager.getString('resources', 'LOAD_WEBPAGE'), handleLoadWebpagelRequest);
+				this.addEventListener(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), handleTaskPortfolioUpdateRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handling method for LOAD_WEBPAGE
+			 * 
+			 **/
+			protected function handleLoadWebpagelRequest(evt:ShowWebPage):void {
+				this.currentState = "webState";				
+				_htmlLocation = evt.url;
+				htmlBI.visible = true;
+			}
+			
+			protected function htmlLoded(event:Event):void {
+				
+				htmlBI.visible = false;
+				
+			}
+			
+			/**
+			 * 
+			 * Event handling method for TASK_PORTFOLIO_UPDATE
+			 * 
+			 **/
+			protected function handleTaskPortfolioUpdateRequest(evt:TaskPortfolioUpdateEvent):void {
+				var params:Object = new Object();
+				params.taskId = _taskId;
+				params.groupId = _currentGroup.id;
+				
+				switch(evt.eventType) {
+					
+					
+					case sciwork.ASSET_UPDATE_TYPE:
+						
+						if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
+							params.isTaskCompleted = true;
+						}
+						else {
+							params.isTaskCompleted = false;
+						}
+						
+						break;
+				}
+				
+				
+				//create urlrequest with correct headers
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/tasksCompleted/");
+				urlRequest.method = URLRequestMethod.PUT;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				//load the url and define listeners
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(HTTPStatusEvent.HTTP_STATUS, handleTaskPortfolioUpdateComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handleTaskPortfolioUpdateIOerror);
+				uploader.load(urlRequest);
+				
+			}
+			
+			/**
+			 * 
+			 * Event handling method handleTaskPortfolioUpdateComplete
+			 * 
+			 **/
+			protected function handleTaskPortfolioUpdateComplete(ev:HTTPStatusEvent):void {
+				//analyse returned status code
+				switch(ev.status) {
+					case 0:
+						//service not available
+						Alert.show("The task portfolio validation service is not available. Please contact your administrator.", "Task portfolio service error");
+						break;
+					case 200:
+						dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), true));
+						break;
+					case 401:
+						//update not OK, wrong password
+						Alert.show("Something went wrong when validating the task. Please contact your administrator.", "Task portfolio service error");
+						break;
+				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method handleTaskPortfolioUpdateIOerror
+			 * 
+			 **/
+			protected function handleTaskPortfolioUpdateIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while validating the task's portfolio.", "Task portfolio service error");
+			}
+			
 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="contentState" />
+		<s:State name="webState" />
+	</s:states>
+	
+	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState" gap="{sciwork._gapBetweenContainers}">
+		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
+			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
+			<content:Resources id="resourceContainer" width="100%" height="150" />
+		</s:VGroup>
+		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}"/>
+	</s:HGroup>
+	
+	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">
+		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+		<s:Button label="X" click="this.currentState='contentState'" />
+		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+	</s:Group>
+	
 </s:Group>

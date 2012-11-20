@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" creationPolicy="all" backgroundColor="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationPolicy="all" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
 	
 	<fx:Declarations>
 		<fx:Object id="data" />
@@ -15,6 +15,7 @@
 			
 			import listeners.TweetUpdaterEvent;
 			
+			import mx.core.Application;
 			import mx.events.FlexEvent;
 			import mx.managers.CursorManager;
 			
@@ -43,7 +44,7 @@
 				//build context menu to trash/restore tweets
 				var cm:ContextMenu = new ContextMenu();
 				cm.hideBuiltInItems();
-				
+				this.setStyle("backgroundColor", uint((mx.core.FlexGlobals.topLevelApplication).currentGroup.colour));
 				var selectMI:ContextMenuItem = new ContextMenuItem("");
 				if(data.isVisible) {
 					selectMI.label = "Delete";

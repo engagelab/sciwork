@@ -5,6 +5,9 @@
 	<fx:Script>
 		<![CDATA[
 			import utils.ColorUtil;
+			
+			[Bindable]
+			private var selectedColor:uint = uint((mx.core.FlexGlobals.topLevelApplication).currentGroup.colour);
 		]]>
 	</fx:Script>
 	
@@ -19,9 +22,9 @@
 		<s:State name="over" />
 	</s:states>
 
-	<s:Rect width="100%" height="100%" radiusX="4" radiusY="4">
+	<s:Rect width="100%" height="100%" radiusX="4" radiusY="4" id="rect">
 		<s:fill>
-			<s:SolidColor color.selected="{uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour)}" color.default="#333333" color.over="{ColorUtil.brightenColor(uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour), 20)}" />
+			<s:SolidColor color.selected="{selectedColor}" color.default="#333333" color.over="{selectedColor, 20}" />
 		</s:fill>
 	</s:Rect>
 	<s:Image width="20" height="20" source="{imgUrl}" horizontalCenter="0" verticalCenter="0" />
