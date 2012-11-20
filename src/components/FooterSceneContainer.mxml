@@ -71,7 +71,7 @@
 				sce.sceneIndex = sceneIndex;
 				dispatchEvent(sce);
 			}
-			
+
 			/**
 			 *
 			 * Method to refresh the completed tasks of this scene object
