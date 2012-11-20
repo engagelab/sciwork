@@ -19,8 +19,7 @@
 			[Bindable] private var _description:String = "";
 			[Bindable] private var _currentGroup:Object;
 			[Bindable] private var _taskId:String;
-			[Bindable] private var _htmlLocation:String = "";
-			
+						
 			
 			/**
 			 *
@@ -162,28 +161,7 @@
 			 * 
 			 **/
 			protected function initGroup(event:FlexEvent):void {
-
-				this.addEventListener(resourceManager.getString('resources', 'LOAD_WEBPAGE'), handleLoadWebpagelRequest);
 				this.addEventListener(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), handleTaskPortfolioUpdateRequest);
-
-			}
-			
-			/**
-			 * 
-			 * Event handling method for LOAD_WEBPAGE
-			 * 
-			 **/
-			protected function handleLoadWebpagelRequest(evt:ShowWebPage):void {
-				this.currentState = "webState";		
-				URLRequestDefaults.userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8";
-				_htmlLocation = evt.url;
-				htmlBI.visible = true;
-			}
-			
-			protected function htmlLoded(event:Event):void {
-
-				htmlBI.visible = false;
-
 			}
 			
 			/**
@@ -267,7 +245,6 @@
 	<s:states>
 		<s:State name="contentState" />
 		<s:State name="simulationState" />
-		<s:State name="webState" />
 	</s:states>
 	
 	<s:HGroup id="contentContainer" width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
@@ -281,10 +258,4 @@
 			<workarea:TweetsInput id="tweetInput" width="100%" height="50"/>
 		</s:VGroup>
 	</s:HGroup>
-
-	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">
-		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
-		<s:Button label="X" click="this.currentState='contentState'" />
-		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
-	</s:Group>
 </s:Group>
