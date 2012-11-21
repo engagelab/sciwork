@@ -18,7 +18,6 @@
 				//clean the group before building
 				trajMenu.removeAllElements();
 				
-				
 				var sceneContainer:FooterSceneContainer;
 				//for each scene, add a scene object (scene button + tasks checkboxes)
 				for each (var scene:Object in menu) {
@@ -31,7 +30,11 @@
 				updateSelectedFooterScene(selectedScene);				
 			}
 			
-			
+			/**
+			 *
+			 * Method to update the status of each scene button.
+			 * 
+			 **/
 			public function updateSelectedFooterScene(selectedScene:Object):void {
 				var sceneC:FooterSceneContainer;
 				for (var i:int = 0; i < trajMenu.numElements; i++) {
@@ -48,6 +51,11 @@
 				}
 			}
 			
+			/**
+			 *
+			 * Method to update the status of all tasks.
+			 * 
+			 **/
 			public function updateCompletedTasks():void {
 				var sceneC:FooterSceneContainer;
 				for (var i:int = 0; i < trajMenu.numElements; i++) {

@@ -113,6 +113,11 @@
 				}
 			}
 			
+			/**
+			 *
+			 * Method to return to 'clean' groupname (replace norwegian charac) 
+			 * 
+			 **/
 			protected function cleanGroupName(name:String):String {
 				return name.replace("Å","A").replace("Ø", "O").replace("Æ", "AE");
 			}
