@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:Move id="closeDrawer" 
+				target="{this}"
+				xBy="245"
+				duration="1000"
+				easer="{powerEasing}"/>
+		<s:Move id="openDrawer" 
+				target="{this}"
+				xBy="-245"
+				duration="1000"
+				easer="{powerEasing}"/>
+		<s:Power id="powerEasing"
+				 exponent="4"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var drawerOut:Boolean = false;
+			
+			private function init(evt:Event):void {
+				
+				this.width = 245;
+				
+				dragger.addEventListener(MouseEvent.MOUSE_DOWN, draggerDown);
+				parent.addEventListener(MouseEvent.MOUSE_UP, draggerUp);
+			}
+			
+			private function draggerDown(evt:MouseEvent):void {
+				this.startDrag(false,new Rectangle(1280-245,0,245,0));
+			}
+			private function draggerUp(evt:MouseEvent):void {
+				this.stopDrag();
+				if(this.x != 1280-245 && this.x != 1280) {
+					if(drawerOut) {
+						closeDrawer.play();
+						drawerOut = false;
+					}
+					else {
+						openDrawer.play();
+						drawerOut = true;
+					}
+				}
+				else
+					drawerOut ? drawerOut = false : drawerOut = true;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:Button id="dragger" x="-40" width="40" height="40" y="-1" icon="@Embed('assets/pullOutArrows.png')"/>
+	
+	
+</s:BorderContainer>
