@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="initGroup(event)">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			
 			[Bindable] public var imageWidth:uint;
@@ -29,6 +30,41 @@
 				imageWidth = sourceImage.width;
 				imageHeight = sourceImage.height;
 			}
+			
+			protected function initGroup(event:FlexEvent):void
+			{
+				var cm:ContextMenu = new ContextMenu();
+				cm.hideBuiltInItems();
+				/*var selectMI:ContextMenuItem = new ContextMenuItem("");
+				selectMI.label = "Copy image to clipboard";
+				selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);*/
+				var copyMI:ContextMenuItem = new ContextMenuItem("");
+				copyMI.label = "Copy image URL to clipboard";
+				copyMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectCopyMIHandler);
+				
+				//add the menu items to the right click menu
+				//cm.customItems.push(selectMI);
+				cm.customItems.push(copyMI);
+				
+				//enable the right click menu
+				sourceImage.contextMenu = cm;
+			}
+			
+			protected function selectMIHandler(event:ContextMenuEvent):void {
+				Clipboard.generalClipboard.clearData(ClipboardFormats.BITMAP_FORMAT);
+				var data:BitmapData = new BitmapData(sourceImage.width, sourceImage.height);
+				data.draw(sourceImage); // this copies the content in the clipboard
+				Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, data);
+				Alert.show("Your image is now copied. Use 'cmd+v' to paste it in the Google Doc document.", "Image successfully copied");
+			}
+			
+			protected function selectCopyMIHandler(event:ContextMenuEvent):void {
+				Clipboard.generalClipboard.clearData(ClipboardFormats.TEXT_FORMAT);
+				var data:String = new String(sourceImage.source);
+				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, data);
+				Alert.show("Your image URL is now copied. Use 'cmd+v' to paste it in the Google Doc document.", "Image URL successfully copied");
+			}
+			
 		]]>
 	</fx:Script>
 	

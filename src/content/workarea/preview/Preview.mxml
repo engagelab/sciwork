@@ -26,7 +26,6 @@
 			 **/
 			public function previewMaterial(materialItem:MaterialsItem, sourceType:String):void {
 				_currentMaterialItem = materialItem;
-				videoViewer.player.pauseVideo();
 				
 				switch(_currentMaterialItem.previewType) {
 					case WorkArea.IMAGE_TYPE:
@@ -34,6 +33,7 @@
 						this.currentState = "imageState";
 						break;
 					case WorkArea.VIDEO_TYPE :
+						videoViewer.player.pauseVideo();
 						videoViewer.setupPreview(_currentMaterialItem.previewType, _currentMaterialItem.fullSizeSource);
 						this.currentState = "videoState";
 						break;
@@ -41,6 +41,10 @@
 				
 				if(sourceType == "TWEETS") {
 					previewheader.currentState = "tweets";
+					sender.visible = false;
+				}
+				else if(sourceType == "QUESTIONS") {
+					previewheader.currentState = "default";
 					sender.visible = false;
 				}
 				else {

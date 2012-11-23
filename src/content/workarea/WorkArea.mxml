@@ -286,6 +286,8 @@
 						
 						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
 						
+						getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
+						getQuestionPicture.send();
 						break;
 					}
 						
@@ -318,6 +320,7 @@
 							selection.currentState = "default";
 							this.currentState = "default";
 							preview.currentState = "tweetLoggerState";
+							preview.tweetsLogger.dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_NRJS'), true));
 						}
 						
 						break;
@@ -327,7 +330,7 @@
 						//set correct state in subsequent components
 						this.currentState = "article";
 						htmlBI.visible = true;
-						getArticleUrl.url = resourceManager.getString('resources', 'SERVER_URL') + "/article/" + currentGroup.id;
+						getArticleUrl.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/articleUrl/" + currentGroup.id;
 						getArticleUrl.send();
 						break;
 					}
@@ -482,6 +485,11 @@
 				tweetInput.wordInput.text = evt.tweetContent;
 			}
 			
+			/**
+			 *
+			 * Result handling method for getEnergies service 
+			 * 
+			 **/
 			protected function getEnergies_resultHandler(event:ResultEvent):void {
 				var energyArray:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
@@ -502,21 +510,81 @@
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
 			}
 			
+			/**
+			 * 
+			 * Error handling method for getEnergies service
+			 * 
+			 **/
 			protected function getEnergies_faultHandler(event:FaultEvent):void {
 				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
 			}
 			
+			/**
+			 *
+			 * Function called when the HTML loader is done loading 
+			 * 
+			 **/
 			protected function htmlLoded(event:Event):void {
 				htmlBI.visible = false;
 			}
 			
+			/**
+			 *
+			 * Result handling method for getArticleUrl service 
+			 * 
+			 **/
 			protected function getArticleUrl_resultHandler(event:ResultEvent):void {
-				var articleResult:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				_htmlLocation = articleResult.uri;
+				var articleResult:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				URLRequestDefaults.userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8";
+				if(articleResult.length > 0) {
+					_htmlLocation = articleResult[0].articleUrl;
+				}
 			}
 			
+			/**
+			 * 
+			 * Error handling method for getArticleUrl service
+			 * 
+			 **/
 			protected function getArticleUrl_faultHandler(event:FaultEvent):void {
 				Alert.show("An error occured while retrieving the article URL from the server.", "Energies service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getQuestionPicture service 
+			 * 
+			 **/
+			protected function getQuestionPicture_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				var questionPicsArray:Array = contributions.simages as Array;
+				
+				if(questionPicsArray.length > 0) {
+					var lastPic:Object = questionPicsArray.pop();
+					var newItem:MaterialsItem = new MaterialsItem();
+					newItem.xpos = lastPic.xpos;
+					newItem.ypos = lastPic.ypos;
+					newItem.sourceType = "QUESTIONS";
+					newItem.id = lastPic.id;
+					newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+lastPic.filePath, resourceManager.getString('resources', 'SERVER_URL')+lastPic.filePath);
+					
+					var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+					mtpe.materialItem = newItem;
+					mtpe.sourceType = newItem.sourceType;
+					dispatchEvent(mtpe);
+				}
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getQuestionPicture service
+			 * 
+			 **/
+			protected function getQuestionPicture_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
 			}
 			
 		]]>
@@ -527,6 +595,7 @@
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />

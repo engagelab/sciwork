@@ -295,7 +295,7 @@ end
 
 
 ########## articles ###############
-get '/article/:groupId' do
+get '/articleUrl/:groupId' do
 	if params[:groupId] == '50191e38da061f83602e8825'
 		return {:uri => "https://docs.google.com/document/d/1XvlRaW9X0RYZz1q2mGYLkL9hbChProHpRSQXdc3CPKg/edit"}.to_json;
 	elsif params[:groupId] == '50191e61da061f83602e882a'

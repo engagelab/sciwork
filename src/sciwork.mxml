@@ -65,8 +65,7 @@
 			 **/
 			protected function initApp(event:FlexEvent):void {
 				//stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				
-				this.maximize();
+				//this.maximize();
 				
 				this.addEventListener(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), handleLoginAccepted);
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
@@ -202,6 +201,7 @@
 			 * 
 			 **/
 			private function logout(event:MouseEvent):void {
+				_conn.auto_reconnect = false;
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
 					currentInterface = "teacherInterface";					
@@ -338,6 +338,7 @@
 					var statusObject:Object = new Object();
 					statusObject.stat = "reset";
 					statusObject.id = _chosenEnergyID;
+					statusObject.token = "";
 					
 					upurlRequest.data = com.adobe.serialization.json.JSON.encode(statusObject);
 					var uploader:URLLoader = new URLLoader();
