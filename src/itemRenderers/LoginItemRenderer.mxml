@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" minHeight="25">
+	
+	<s:HGroup top="2" right="2" bottom="2" left="10" gap="15" verticalAlign="middle">
+		<s:Rect width="11" height="11">
+			<s:fill>
+				<s:SolidColor color="{new uint(data.colour)}" />
+			</s:fill>
+		</s:Rect>
+		<s:Label text="{data.title}" />
+	</s:HGroup>
+	
+</s:ItemRenderer>

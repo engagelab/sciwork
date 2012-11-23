@@ -16,6 +16,9 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			
 			[Bindable] private var _groupList:ArrayCollection;
 			
 			private var colorDico:Dictionary;
@@ -45,6 +48,17 @@
 					_groupList.addItem({title: act.name, id: act.id, colour: act.colour});
 					colorDico[new String(act.name).toLowerCase()] = act.colour;
 				}
+				
+				//ordering the list alphabetically
+				var sortfield:SortField = new SortField();
+				sortfield.name = "title";
+				sortfield.descending = false;
+				
+				var sort:Sort = new Sort();
+				sort.fields = [sortfield];
+				
+				_groupList.sort = sort;
+				_groupList.refresh();
 			}
 			
 			/**
@@ -166,16 +180,13 @@
 		<mx:StringValidator id="passwordValidator" source="{groupPass}" property="text" minLength="1" tooShortError="Provide a password" />
 	</fx:Declarations>
 	
-	<s:VGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0">
-		<s:HGroup verticalAlign="middle" width="100%">
-			<s:Label text="Group:" width="70"/>
-			<s:DropDownList id="groupCombo" dataProvider="{_groupList}" labelField="title" prompt="Choose a group from the list" width="200" />
-		</s:HGroup>
-		<s:HGroup verticalAlign="middle" width="100%">
-			<s:Label text="Password:" width="70"/>
-			<s:TextInput id="groupPass" text="password" displayAsPassword="true" width="100%"/>
-		</s:HGroup>
-		<s:Spacer height="20" />
-		<s:Button label="LOG IN" click="validateBeforeLoggingIn()" />
-	</s:VGroup>
+	<s:Group horizontalCenter="0" verticalCenter="0">
+		<s:Image source="@Embed('assets/loginbck.jpg')" cacheAsBitmap="true" />
+		<s:Group horizontalCenter="0" y="70">
+			<s:Image source="@Embed('assets/loginlogo.png')" cacheAsBitmap="true" smooth="true" smoothingQuality="high" horizontalCenter="0"/>
+			<s:DropDownList cornerRadius="3" y="70" id="groupCombo" dataProvider="{_groupList}" labelField="title" prompt="Velg gruppe" width="200" itemRenderer="itemRenderers.LoginItemRenderer" horizontalCenter="0" />
+			<s:TextInput y="110" id="groupPass" text="password" displayAsPassword="true" width="100%" horizontalCenter="0" skinClass="skins.LoginInput"/>
+			<s:Button y="145" width="60" height="23" cornerRadius="3" label="LOGIN" click="validateBeforeLoggingIn()" right="0" chromeColor="#4668B0" color="#FFFFFF"/>
+		</s:Group>
+	</s:Group>
 </s:Group>
