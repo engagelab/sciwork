@@ -41,6 +41,7 @@
 				dispatchEvent(sce);
 				
 				selectFirstTask(event.newIndex);
+				
 			}
 			
 					
@@ -103,7 +104,7 @@
 					
 					var tbe:TabbarLoadedEvent = new TabbarLoadedEvent(resourceManager.getString('resources', 'TABBAR_LOADED'), true);
 					tbe.menu = tabs;
-					tbe.menuItemWidth = (sceneBar.width)/tabs.length;
+					tbe.menuItemWidth = 1002/tabs.length;
 					dispatchEvent(tbe);
 				}
 				
@@ -115,6 +116,7 @@
 			 * 
 			 **/
 			public function selectFirstTask(sceneNumber:Number):void {
+				taskBar.dataProvider = (tabs.getItemAt(sceneNumber)).tasks as ArrayCollection;
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				
 				//check that the scene has tasks before fetching content
@@ -150,7 +152,7 @@
 					<s:SolidColor color="#EEEEEE" />
 				</s:fill>
 			</s:Rect>
-			<s:ButtonBar width="1000" id="taskBar" focusEnabled="false" requireSelection="true" dataProvider="{(tabs.getItemAt(sceneBar.selectedIndex)).tasks as ArrayCollection}" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
+			<s:ButtonBar width="1000" id="taskBar" focusEnabled="false" requireSelection="true" change="taskBar_changeHandler(event)" skinClass="skins.taskButtonBarSkin" buttonMode="true">
 				<s:layout>
 					<s:HorizontalLayout gap="-1" variableColumnWidth="false" columnWidth="{sceneBar.width/tabs.length}" />
 				</s:layout>

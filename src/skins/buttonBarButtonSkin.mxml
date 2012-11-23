@@ -128,13 +128,13 @@
                                alpha="0.85"
                                alpha.overAndSelected="1" />
 				-->
-				<s:GradientEntry color="0x333333" 
+				<s:GradientEntry color="0x4F4C4D" 
 								 color.selectedUpStates="{groupColour}"
 								 color.overStates="{groupColour}" 
 								 color.downStates="0xAAAAAA"
 								 alpha="1" 
 								 alpha.overAndSelected="1" />
-				<s:GradientEntry color="0x333333" 
+				<s:GradientEntry color="0x4F4C4D" 
 								 color.selectedUpStates="{groupColour}"
 								 color.over="{groupColour}" 
 								 color.overAndSelected="{groupColour}"
@@ -149,13 +149,13 @@
 	<s:Rect id="dividerHider" left="-1" top="0" bottom="0" width="1" radiusX="0" excludeFrom="up">
 		<s:fill>
 			<s:LinearGradient rotation="90">
-				<s:GradientEntry color="0x333333" 
+				<s:GradientEntry color="0x4F4C4D" 
 								 color.selectedUpStates="{groupColour}"
 								 color.overStates="{groupColour}" 
 								 color.downStates="0xAAAAAA"
 								 alpha="1" 
 								 alpha.overAndSelected="1" />
-				<s:GradientEntry color="0x333333" 
+				<s:GradientEntry color="0x4F4C4D" 
 								 color.selectedUpStates="{groupColour}"
 								 color.over="{groupColour}" 
 								 color.overAndSelected="{groupColour}"
