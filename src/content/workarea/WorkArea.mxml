@@ -16,7 +16,7 @@
 			import listeners.MaterialToPreviewEvent;
 			import listeners.RetweetEvent;
 			import listeners.SelectMaterialEvent;
-			import listeners.ShowTweetsFullscreenEvent;
+			import listeners.ShowFullscreenEvent;
 			import listeners.SubmitTweetEvent;
 			import listeners.TaskPortfolioUpdateEvent;
 			import listeners.TweetsRefreshEvent;
@@ -460,8 +460,9 @@
 					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn, _chosenEnergyID);
 					
 					//will refresh the fullscreen container if enabled
-					var stfe:ShowTweetsFullscreenEvent = new ShowTweetsFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
+					var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
 					stfe.tweetsInView = tweetsForGroup;
+					stfe.mode = "tweets";
 					dispatchEvent(stfe);
 				}
 			}
