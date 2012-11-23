@@ -3,12 +3,5 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx">
 	
-	<fx:Script>
-		<![CDATA[
-			
-
-		]]>
-	</fx:Script>
-	
-	<s:Label text="SCIWORK" />
+	<s:Image source="@Embed('assets/loginlogo.png')" cacheAsBitmap="true" smooth="true" smoothingQuality="high" horizontalCenter="0"/>
 </s:HGroup>
