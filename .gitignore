@@ -8,3 +8,7 @@ src/locale/en_US/resources.properties
 *.log
 
 src/sciwork_ruby/logs/output.log
+
+./.DS_Store
+
+src/.DS_Store

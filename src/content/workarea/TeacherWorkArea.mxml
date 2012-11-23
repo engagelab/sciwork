@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*" creationComplete="initWorkArea(event)" xmlns:selection="content.workarea.selection.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			import com.seesmic.as3.xmpp.JID;
+			import com.seesmic.as3.xmpp.XMPP;
+			import com.seesmic.as3.xmpp.XMPPEvent;
+			
+			import content.workarea.materials.MaterialsItem;
+			
+			import listeners.EnergyChosenEvent;
+			import listeners.MaterialToPreviewEvent;
+			import listeners.RetweetEvent;
+			import listeners.SelectMaterialEvent;
+			import listeners.ShowFullscreenEvent;
+			import listeners.SubmitTweetEvent;
+			import listeners.TaskPortfolioUpdateEvent;
+			import listeners.TweetsRefreshEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.UIDUtil;
+			
+			import spark.events.TextOperationEvent;
+			
+			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
+			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
+			
+			[Bindable] private var _enableMaterials:Boolean = false;
+			[Bindable] private var _chosenEnergySource:String = null;
+			[Bindable] private var _chosenEnergyID:String = null;
+			private var _isKeywordUpdate:Boolean = false;
+			private var _isAssetUpdate:Boolean = false;
+			private var _conn:XMPP;
+			private var hasJoinedMiracleRoom:Boolean = false;
+			
+			[Bindable] private var _tArray:ArrayCollection = new ArrayCollection();
+			[Bindable] private var _qArray:ArrayCollection = new ArrayCollection();
+			
+			[Bindable] private var _htmlLocation:String = "";
+			
+			public function resetEnergySource():void {
+				if(_chosenEnergyID != null) {
+					_chosenEnergyID = null;
+					_chosenEnergySource = null;
+					dispatchEvent(new Event(resourceManager.getString('resources', 'RESET_ENERGY'), true));
+				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method for creationComplete
+			 * 
+			 **/
+			protected function initWorkArea(event:FlexEvent):void {
+				getEnergies.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/energySources";
+				getEnergies.send();
+			}
+			
+			protected function handleEnergyChosen(evt:EnergyChosenEvent):void {
+				_chosenEnergySource = evt.energyTitle;
+				_chosenEnergyID = evt.energyId;
+				updateCurrentState("tweets");
+			}
+			
+			/**
+			 * 
+			 * Event handling method for MUCMessages
+			 * 
+			 **/
+			protected function handleMUCMessage(evt:XMPPEvent):void {
+				if(!evt.stanza.body) {
+					return;
+				}
+				
+				var roomjid:JID = JID(evt.stanza.from);
+				
+				//find out if this is an 'old' tweet
+				var al:Number = 1;
+				var xm:XML = evt.stanza.xml as XML;
+				
+				for each (var i:XML in xm.elements()) {
+					if(i.name() == "urn:xmpp:delay::delay") {
+						al = .5;
+					}
+				}
+				
+				//based on room origin, make necessary call
+				switch(new String(evt.stanza.from.user)) {
+					case resourceManager.getString('resources', 'TWEETS_ROOM_NAME'):
+						_tArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
+						if(this.currentState == "tweets") {
+							selection.tweetsSelection.tweetFeedArray = _tArray;
+							selection.tweetsSelection.refreshFeed();
+						}
+						break;
+						
+					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
+						var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
+						if(res.tag == _chosenEnergySource && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL') && al == 1) {
+							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+						}
+						break;
+					
+					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
+						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
+						if(this.currentState == "questions") {
+							selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+						}
+						break;
+				}
+			}
+			
+			
+			/**
+			 * 
+			 * Function to return a clean "from" user (without '-pad')
+			 * 
+			 **/
+			protected function cleanResource(initialFrom:String):String {
+				initialFrom = initialFrom.split("-")[0];
+				return initialFrom;
+			}
+			
+			/**
+			 * 
+			 * extract the tags from the tweet content
+			 * 
+			 **/
+			protected function getTagsForContent(message:String):Array {
+				var tags:Array = new Array();
+				
+				for each (var tag:String in hashTagArray) {
+					if(message.indexOf(tag) > -1) {
+						tags.push(tag.substr(1));
+					}
+				}
+				
+				return tags;
+			}
+			
+			/**
+			 * 
+			 * extract the taskId from the tweet content
+			 * 
+			 **/
+			protected function getTaskIdForContent(message:String):String {
+				var question:Object = com.adobe.serialization.json.JSON.decode(message);
+				return question.taskId;
+			}
+			
+			/**
+			 * 
+			 * extract the ownerName from the tweet content
+			 * 
+			 **/
+			protected function getOwnerForContent(message:String):String {
+				var question:Object = com.adobe.serialization.json.JSON.decode(message);
+				return question.ownerName;
+			}
+			
+			/**
+			 * 
+			 * Event handling method for TWEET_SUBMITTED
+			 * 
+			 **/
+			protected function handleTweetSubmitted(evt:SubmitTweetEvent):void {
+				//send the tweet to the groupchat with the body as a JSON object
+				var params:Object = new Object();
+				params.ownerName = evt.owner;
+				params.text = evt.bdy;
+				
+				_conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), com.adobe.serialization.json.JSON.encode(params), "sciwork");
+				tweetInput.wordInput.text = "";
+			}
+			
+			/**
+			 * 
+			 * Event handling method for ADD_MATERIAL_TO_PORTFOLIO
+			 * 
+			 **/
+			protected function handleAddMaterialToPortfolio(evt:SelectMaterialEvent):void {
+				//prepare the JSON object to be sent
+				var params:Object = new Object();
+				params.id = evt.materialItem.id;
+				params.isPortfolio = evt.addToPortolio;
+				params.xpos = evt.materialItem.xpos;
+				params.ypos = evt.materialItem.ypos;
+				
+				//create urlrequest with correct headers
+				var urlRequest:URLRequest;
+				switch(evt.materialItem.previewType) {
+					case VIDEO_TYPE:
+						//make sure the video stops when adding/removing
+						preview.videoViewer.player.stopVideo();
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/video/");
+						break;
+					case IMAGE_TYPE:
+						urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image/");
+						break;
+				}
+				urlRequest.method = URLRequestMethod.PUT;
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				//load the url and define listeners
+				var uploader:URLLoader = new URLLoader();
+				uploader.addEventListener(HTTPStatusEvent.HTTP_STATUS, handleSelectMaterialComplete);
+				uploader.addEventListener(IOErrorEvent.IO_ERROR, handleSelectMaterialIOerror);
+				uploader.load(urlRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsComplete
+			 * 
+			 **/
+			protected function handleSelectMaterialComplete(ev:HTTPStatusEvent):void {
+				//analyse returned status code
+				switch(ev.status) {
+					case 0:
+						//service not available
+						Alert.show("The add/remove to portfolio service is not available. Please contact your administrator.", "Add/remove to portfolio service error");
+						break;
+					case 200:
+						//update OK, password accepted
+						_isAssetUpdate = true;
+						updateCurrentState("assets");
+						break;
+					case 401:
+						//update not OK, wrong password
+						Alert.show("Something went wrong when saving your item. Please contact your administrator.", "Add/remove to portfolio service error");
+						break;
+				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method handlePostKeywordsIOerror
+			 * 
+			 **/
+			protected function handleSelectMaterialIOerror(ev:IOErrorEvent):void {
+				Alert.show("An error occured while adding the item to the portfolio.", "Contributions service error");
+			}
+			
+			/**
+			 * 
+			 * Event handling method for MATERIAL_TO_PREVIEW
+			 * 
+			 **/
+			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
+				preview.previewMaterial(evt.materialItem, evt.sourceType);
+			}
+			
+						
+			/**
+			 * 
+			 * Switch layout to correct state based on task type
+			 * 
+			 **/
+			public function updateCurrentState(type:String):void {//XMPP init business
+				
+				if(!hasJoinedMiracleRoom) {
+					_conn = XMPP(mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection);
+					_conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+					_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+					_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+					_conn.plugin['muc'].joinRoom('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), new String(currentGroup.title).toLowerCase()+"-"+UIDUtil.createUID());
+					hasJoinedMiracleRoom = true;
+				}
+				
+				switch(type) {
+					case 'questions': {
+						//set correct state in subsequent components
+						this.currentState = "questions";
+						selection.currentState = "questions";
+						preview.currentState = "questionsState";
+						
+						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+						
+						break;
+					}
+						
+					case 'assets': {
+						//set correct state in subsequent components
+						this.currentState = "assets";
+						selection.currentState = "assets";
+						preview.currentState = "default";
+						//get existing assets selection (portfolio) for the current task and group
+						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
+						getAssetsPortfolio.send();
+						break;
+					}
+						
+					case 'tweets': {
+						//set correct state in subsequent components
+						
+						if(_chosenEnergySource != null) {
+							selection.currentState = "tweets";
+							preview.currentState = "tweetsState";
+							this.currentState = "tweets";
+							
+							selection.tweetsSelection.tweetFeedArray = _tArray;
+							selection.tweetsSelection.refreshFeed();
+							
+							selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+						}
+						else {
+							selection.currentState = "default";
+							this.currentState = "default";
+							preview.currentState = "tweetLoggerState";
+						}
+						
+						break;
+					}
+						
+					case 'article': {
+						//set correct state in subsequent components
+						this.currentState = "article";
+						htmlBI.visible = true;
+						getArticleUrl.url = resourceManager.getString('resources', 'SERVER_URL') + "/article/" + currentGroup.id;
+						getArticleUrl.send();
+						break;
+					}
+					
+					case 'simulation': {
+						this.currentState = "simulation";
+						break;
+					}
+						
+					default: {
+						this.currentState = "default";
+						selection.currentState = "default";
+						preview.currentState = "default";
+						preview.previewheader.currentState = "default";
+						break;
+					}
+				}
+			}
+			
+			/**
+			 * 
+			 * Calls the tweet service to get all tweets for current group
+			 * 
+			 **/
+			protected function refreshTweets(evt:TweetsRefreshEvent):void {
+				//get existing tweets for the current task and group
+				getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + _chosenEnergySource;
+				getTweets.send();
+			}
+			
+			/**
+			 * 
+			 * Calls the assets service for tweets
+			 * 
+			 **/
+			protected function refreshTweetsPortfolio(evt:Event):void {
+				selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getAssets service
+			 * 
+			 **/
+			protected function getAssets_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getAssets service 
+			 * 
+			 **/
+			protected function getAssets_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//clean current material holders
+				materialItems.removeAllElements();
+				selection.assetSelection.portfolioGroup.removeAllElements();
+				
+				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
+				
+				//test if the currentTask portfolio is empty or not and update footer navbar
+				if(_isAssetUpdate) {
+					_isAssetUpdate = false;
+					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+					tpue.eventType = sciwork.ASSET_UPDATE_TYPE;
+					dispatchEvent(tpue);
+				}
+			}
+			
+			/**
+			 *
+			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 **/
+			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
+				var newItem:MaterialsItem;
+				
+				//extract materials
+				for each (var material:Object in subArray) {
+					newItem = new MaterialsItem();
+					newItem.isPortfolio = material.isPortfolio;
+					newItem.xpos = material.xpos;
+					newItem.ypos = material.ypos;
+					newItem.sourceType = "ASSETS";
+					
+					//add it to the portfolio instead is this is true
+					if(newItem.isPortfolio == "false") {
+						materialItems.addElement(newItem);
+					}
+					else {
+						selection.assetSelection.portfolioGroup.addElement(newItem);
+					}
+					
+					//assign id
+					newItem.id = material.id;
+					
+					//pick correct preview type
+					switch(materialType) {
+						case VIDEO_TYPE:
+							newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+							break;
+						case IMAGE_TYPE:
+							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
+							break;
+					}
+					
+				}
+			}
+			
+			/**
+			 *
+			 * Event handling method for VIDEO_PLAYER_READY 
+			 * 
+			 **/
+			protected function handleVideoPlayerReady(evt:Event):void {
+				_enableMaterials = true;
+			}
+			
+			/**
+			 *
+			 * Result handling method for getTweets service 
+			 * 
+			 **/
+			protected function getTweets_resultHandler(event:ResultEvent):void {
+				if(event.result != "") {
+					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn, _chosenEnergyID);
+					
+					//will refresh the fullscreen container if enabled
+					var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
+					stfe.tweetsInView = tweetsForGroup;
+					stfe.mode = "tweets";
+					dispatchEvent(stfe);
+				}
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getTweets service
+			 * 
+			 **/
+			protected function getTweets_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the tweets from the server.", "Tweets service error");
+			}
+			
+			/**
+			 *
+			 * Event handling method for RE_TWEET 
+			 * 
+			 **/
+			protected function handleReTweet(evt:RetweetEvent):void {
+				tweetInput.tweetOwner = evt.originGroup;
+				tweetInput.wordInput.text = evt.tweetContent;
+			}
+			
+			protected function getEnergies_resultHandler(event:ResultEvent):void {
+				var energyArray:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				hashTagArray = new Array();
+				for each (var nrj:Object in energyArray) {
+					hashTagArray.push("#"+nrj.energy);
+				}
+				
+				
+				//various event listeners
+				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
+				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
+				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
+				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
+				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
+				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
+			}
+			
+			protected function getEnergies_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
+			}
+			
+			protected function htmlLoded(event:Event):void {
+				htmlBI.visible = false;
+			}
+			
+			protected function getArticleUrl_resultHandler(event:ResultEvent):void {
+				var articleResult:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				_htmlLocation = articleResult.uri;
+			}
+			
+			protected function getArticleUrl_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the article URL from the server.", "Energies service error");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
+		
+		<fx:Object id="currentGroup" />
+		<fx:String id="taskId" />
+		<fx:Array id="hashTagArray" />
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="assets" />
+		<s:State name="tweets" />
+		<s:State name="questions" />
+		<s:State name="article" />
+		<s:State name="simulation" />
+	</s:states>
+	
+	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article">
+		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
+			<s:Image id="simStartLogo" width="100%" height="100%" includeIn="simulation" source="assets/house.png" />
+			<preview:Preview id="preview" width="100%" height="100%" excludeFrom="article" />
+			<s:BorderContainer id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" borderAlpha=".3" >
+				<s:Scroller top="5" right="5" bottom="5" left="5">
+					<s:HGroup id="materialItems" />
+				</s:Scroller>
+			</s:BorderContainer>
+			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" />
+		</s:VGroup>
+		<selection:Selection id="selection" width="200" height="100%" />
+	</s:HGroup>
+	<s:Group width="100%" height="100%" includeIn="article" itemDestructionPolicy="auto">
+		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+	</s:Group>
+</s:Group>

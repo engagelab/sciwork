@@ -30,10 +30,11 @@
 			 * called when a new scene is selected 
 			 * 
 			 **/
-			public function changeScene(sceneId:uint):void {
+			public function changeScene():void {
 				this.currentState = "contentState";
 				//reset left panels
 				_description = "";
+				workareaContainer.resetEnergySource();
 			}
 			
 			/**
@@ -62,17 +63,9 @@
 				
 				_description = res.description;
 				updateResources(res.title);
-				
-				if(res.taskType == "simulation") {
-					if(this.currentState != "simulationState")
-						this.currentState = "simulationState";
-			//		simulate.setSimulationLevel(res.title);
-			//		trace(simulationContainer.width +" - "+simulationContainer.height );
-				}
-				else {
-					this.currentState = "contentState";
-					workareaContainer.updateCurrentState(res.taskType);
-				}
+			
+				this.currentState = "contentState";
+				workareaContainer.updateCurrentState(res.taskType);
 			}
 			
 			/**
@@ -251,7 +244,7 @@
 			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
 			<content:Resources id="resourceContainer" width="100%" height="150" />
 		</s:VGroup>
-		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}"/>
+		<workarea:TeacherWorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}"/>
 	</s:HGroup>
 	
 	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">

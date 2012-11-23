@@ -13,7 +13,7 @@
 			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.SelectMaterialEvent;
-			import listeners.ShowTweetsFullscreenEvent;
+			import listeners.ShowFullscreenEvent;
 			
 			import mx.events.FlexEvent;
 			
@@ -77,7 +77,7 @@
 			 **/
 			protected function initGroup(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'CLOSE_TWEET_PORTFOLIO_PREVIEW'), handleCloseTweetPortfolioPreview);
-				this.addEventListener(resourceManager.getString('resources', 'SHOW_TWEETS_BUTTON_EVENT'), handleShowTweetsFullscreen);
+				this.addEventListener(resourceManager.getString('resources', 'SHOW_FULLSCREEN_BUTTON_EVENT'), handleShowFullscreen);
 			}
 			
 			/**
@@ -92,13 +92,19 @@
 			
 			/**
 			 * 
-			 * Handles SHOW_TWEETS_FULLSCREEN event
+			 * Handles SHOW_FULLSCREEN event
 			 * 
 			 **/
-			protected function handleShowTweetsFullscreen(evt:Event):void {
-				var stfe:ShowTweetsFullscreenEvent = new ShowTweetsFullscreenEvent(resourceManager.getString('resources', 'SHOW_TWEETS_FULLSCREEN'), true);
+			protected function handleShowFullscreen(evt:Event):void {
+				var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
 				stfe.shouldShow = true;
-				stfe.tweetsInView = tweetsViewer.tweetsForGroup;
+				if(this.currentState == "tweetsState") {
+					stfe.mode = "tweets";
+					stfe.tweetsInView = tweetsViewer.tweetsForGroup;
+				}
+				else if(this.currentState == "simulation") {
+					stfe.mode = "simulation";
+				}
 				dispatchEvent(stfe);
 			}
 		]]>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300" xmlns:listeners="listeners.*" xmlns:simulation="simulation.*" >
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import com.seesmic.as3.xmpp.XMPP;
+			
+			import content.workarea.WorkArea;
+			import content.workarea.TeacherWorkArea;
+			
+			import listeners.ShowFullscreenEvent;
+			import listeners.ShowWebPage;
+			import listeners.TweetsRefreshEvent;
+			
+			private var sciApp:sciwork = mx.core.FlexGlobals.topLevelApplication as sciwork;
+			[Bindable] private var _htmlLocation:String = "";
+			private var _conn:XMPP = null;
+			
+			
+			/**
+			 *
+			 * Event handling method to display tweets fullscreen 
+			 * 
+			 **/
+			public function handleShowFullscreen(evt:ShowFullscreenEvent):void {
+				if(evt.mode == "tweets" && (evt.shouldShow || this.currentState == "tweets")) {
+					this.currentState = "tweets";
+					this.visible = true;
+					//refresh the view
+					presentationGroupArea.removeAllElements();
+					
+					//build the correct arrays
+					var tweet:Tweet;
+					var tweetObject:Object;
+					for each (var twt:Object in evt.tweetsInView) {
+						tweet = new Tweet();
+						tweet.data = twt;
+						tweet.conn = _conn;
+						
+						//need to see if tweet is visisble
+						if(twt.isVisible) {
+							//place the tweets in the view
+							presentationGroupArea.addElement(tweet);
+						}
+					}
+				}
+				else if(evt.mode == "simulation") {
+					this.currentState = "simulation";
+				}
+			}
+			
+			/**
+			 * 
+			 * Event handling method for LOAD_WEBPAGE
+			 * 
+			 **/
+			public function handleLoadWebpageRequest(evt:ShowWebPage):void {
+				this.currentState = "html";
+				this.visible = true;
+				URLRequestDefaults.userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8";
+				_htmlLocation = evt.url;
+				htmlBI.visible = true;
+			}
+			/**
+			 *
+			 * Event handling method to close tweets fullscreen 
+			 * 
+			 **/
+			
+			protected function handeFullScreenClose(event:MouseEvent):void {
+				var currentInterface:String = "studentInterface";
+				if(this.currentState == "loggedInTeacher") {
+					currentInterface = "teacherInterface";					
+				}
+				if(this.currentState == "html")
+					_htmlLocation='';
+				else if(this.currentState == "tweets")
+					sciApp.dispatchEventToWorkArea(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+				this.visible=false;
+				this.currentState = "disabled";
+			}
+			/**
+			 * 
+			 * Function to hide the busyindicator after html page has loaded
+			 * 
+			 **/
+			protected function htmlLoded(event:Event):void {
+				htmlBI.visible = false;
+			}
+	
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="tweets" />
+		<s:State name="html" />
+		<s:State name="simulation" />
+		<s:State name="picsvids" />
+	</s:states>
+	
+	<s:Group includeIn="tweets" width="100%" height="100%">
+		<s:Group width="100%" height="100%" id="presentationGroupArea" />
+	</s:Group>
+	<s:Group includeIn="html" width="100%" height="100%">
+		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+	</s:Group>
+	<s:Group includeIn="simulation" width="100%" height="100%">
+		<simulation:Sim id="simulate" width="90%" height="90%" scaleX="0.65" scaleY="0.65" clipAndEnableScrolling="true"/>
+	</s:Group>
+	<s:Group includeIn="picsvids" width="100%" height="100%">
+	</s:Group>
+	<s:Button label="X" click="handeFullScreenClose(event)" right="0" width ="30"/>
+</s:BorderContainer>
