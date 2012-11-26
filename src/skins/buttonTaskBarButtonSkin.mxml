@@ -23,7 +23,7 @@
 <s:SparkButtonSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
                    xmlns:s="library://ns.adobe.com/flex/spark" 
                    xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
-                   minWidth="21" minHeight="50" 
+                   minWidth="21" minHeight="60" 
                    alpha.disabledStates="0.5">
 	<fx:Metadata>[HostComponent("spark.components.ButtonBarButton")]</fx:Metadata>
     
@@ -109,7 +109,7 @@
 	-->
     <!-- layer 2: fill -->
     <!--- @private -->
-    <s:Rect id="fill" left="4" right="4" top="4" bottom="4" radiusX="4" radiusY="4">
+    <s:Rect id="fill" left="6" right="6" top="4" bottom="4" radiusX="4" radiusY="4">
         <s:fill>
             <s:LinearGradient rotation="90">
 				<!-- original
@@ -127,18 +127,18 @@
                                alpha="0.85"
                                alpha.overAndSelected="1" />
 				-->
-				<s:GradientEntry color="0x666666" 
-								 color.over="0x666666" 
-								 color.selectedStates="0x666666"
-								 alpha="0" 
-								 alpha.over="1"
-								 alpha.selectedStates="1"/>
 				<s:GradientEntry color="0xFFFFFF" 
 								 color.over="0xFFFFFF" 
 								 color.selectedStates="0xFFFFFF"
 								 alpha="0" 
 								 alpha.over="0"
 								 alpha.selectedStates="0"/>
+				<s:GradientEntry color="0x999999" 
+								 color.over="0x999999" 
+								 color.selectedStates="0x999999"
+								 alpha="0" 
+								 alpha.over="1"
+								 alpha.selectedStates="1"/>
             </s:LinearGradient>
         </s:fill>
     </s:Rect>

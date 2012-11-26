@@ -12,7 +12,7 @@
 		<fx:String id="content" />
 	</fx:Declarations>
 	
-	<components:SectionHeader width="100%" height="20" titleString="OPPGAVETEKST" />
+	<components:SectionHeader width="100%" height="23" titleString="OPPGAVETEKST" />
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
 		<s:RichText left="5" right="5" top="5" textFlow="{TextConverter.importToFlow(content, TextConverter.TEXT_FIELD_HTML_FORMAT)}" />
 	</s:BorderContainer>
