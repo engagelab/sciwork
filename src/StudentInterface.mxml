@@ -249,8 +249,8 @@
 	
 	<s:HGroup id="contentContainer" width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
-			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
-			<content:Resources id="resourceContainer" width="100%" height="150" />
+			<content:Activity id="activityContainer" width="100%" height="324" content="{_description}" />
+			<content:Resources id="resourceContainer" width="100%" height="100%" />
 		</s:VGroup>
 		<workarea:WorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}" includeIn="contentState" />
 		<s:VGroup id="simulationContainer" width="100%" height="100%" includeIn="simulationState" gap="{sciwork._gapBetweenContainers}" horizontalAlign="center" >

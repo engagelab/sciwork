@@ -48,7 +48,7 @@
 		]]>
 	</fx:Script>
 	
-	<components:SelectionHeader id="selectionheader" width="100%" height="30"/>
+	<components:SelectionHeader id="selectionheader" width="100%" height="30" currentState="tweets"/>
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
 		<s:List id="questionsFeedList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" horizontalScrollPolicy="off" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
 			<s:layout>

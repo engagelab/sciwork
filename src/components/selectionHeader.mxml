@@ -3,8 +3,19 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
 					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
 	
-	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline">
+	
+	<s:states>
+		<s:State name="assets" />
+		<s:State name="tweets" />
+	</s:states>
+	
+	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="tweets">
 		<s:Image source="@Embed('assets/11-tweets.png')" verticalCenter="0"/>
-		<s:Label width="100%" id="title" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="TWEETFEED" />
+		<s:Label width="100%" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="TWEETFEED" />
+	</s:HGroup>
+
+	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="assets">
+		<s:Image source="@Embed('assets/12-assets.png')" verticalCenter="0"/>
+		<s:Label width="100%" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="BESVAELSER" />
 	</s:HGroup>
 </s:SkinnableContainer>
