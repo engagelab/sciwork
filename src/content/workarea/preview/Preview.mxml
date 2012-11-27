@@ -40,15 +40,12 @@
 				}
 				
 				if(sourceType == "TWEETS") {
-					previewheader.currentState = "tweets";
 					sender.visible = false;
 				}
 				else if(sourceType == "QUESTIONS") {
-					previewheader.currentState = "default";
 					sender.visible = false;
 				}
 				else {
-					previewheader.currentState = "default";
 					if(_currentMaterialItem.isPortfolio == "true") {
 						sender.visible = false;
 					}
@@ -87,7 +84,6 @@
 			 **/
 			protected function handleCloseTweetPortfolioPreview(evt:Event):void {
 				this.currentState = "tweetsState";
-				previewheader.currentState = "fullscreen";
 			}
 			
 			/**
@@ -117,10 +113,10 @@
 		<s:State name="imageState" />
 		<s:State name="articleState" />
 		<s:State name="tweetLoggerState" />
-		<s:State name="tweetsState" enterState="previewheader.currentState='fullscreen'" />
+		<s:State name="tweetsState" />
 	</s:states>
 	
-	<components:PreviewHeader id="previewheader" width="100%" height="23" />
+	<components:PreviewHeader width="100%" height="23" />
 	<s:BorderContainer width="100%" height="100%" borderWeight="1" borderAlpha=".3">
 		<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0" excludeFrom="default">
 			<s:fill>

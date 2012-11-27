@@ -339,7 +339,6 @@
 						this.currentState = "default";
 						selection.currentState = "default";
 						preview.currentState = "default";
-						preview.previewheader.currentState = "default";
 						break;
 					}
 				}
@@ -563,6 +562,9 @@
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
 				var questionPicsArray:Array = contributions.simages as Array;
+				
+				//make sure to empty the previewer
+				preview.imageViewer.sourceImage.source = null;
 				
 				if(questionPicsArray.length > 0) {
 					var lastPic:Object = questionPicsArray.pop();

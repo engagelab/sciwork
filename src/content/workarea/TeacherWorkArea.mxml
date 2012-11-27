@@ -340,7 +340,6 @@
 						this.currentState = "default";
 						selection.currentState = "default";
 						preview.currentState = "default";
-						preview.previewheader.currentState = "default";
 						break;
 					}
 				}
