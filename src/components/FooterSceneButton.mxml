@@ -27,5 +27,5 @@
 			<s:SolidColor color.selected="{selectedColor}" color.default="#333333" color.over="{selectedColor, 20}" />
 		</s:fill>
 	</s:Rect>
-	<s:Image width="20" height="20" source="{imgUrl}" horizontalCenter="0" verticalCenter="0" />
+	<s:Image source="{imgUrl}" horizontalCenter="0" verticalCenter="0" />
 </s:BorderContainer>

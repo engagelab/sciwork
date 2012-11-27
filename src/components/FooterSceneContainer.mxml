@@ -105,7 +105,7 @@
 		<s:State name="selected" />
 	</s:states>
 	
-	<components:FooterSceneButton imgUrl="{resourceManager.getString('resources', 'SERVER_URL')+'/assets/toolbars/'+_currentScene.icon}" currentState="{this.currentState}" click="handleSceneClick(event)" buttonMode.default="true" buttonMode.selected="false" />
+	<components:FooterSceneButton imgUrl="{'assets/'+_currentScene.icon}" currentState="{this.currentState}" click="handleSceneClick(event)" buttonMode.default="true" buttonMode.selected="false" />
 	<s:Spacer width="5" />
 	<s:HGroup id="sceneGroup" gap="0"/>
 </s:HGroup>

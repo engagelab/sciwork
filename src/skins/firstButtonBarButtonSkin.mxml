@@ -71,7 +71,7 @@
             //if (hldownstroke1) hldownstroke1.radiusX = cornerRadius;
             //if (hldownstroke2) hldownstroke2.radiusX = cornerRadius;
             */
-			iconImage.source = resourceManager.getString('resources', 'SERVER_URL')+'/assets/toolbars/'+(this as Object).hostComponent.data.icon;  
+			iconImage.source = 'assets/'+(this as Object).hostComponent.data.icon;  
 			lab.text = (this as Object).hostComponent.data.label;
             super.updateDisplayList(unscaledWidth, unscaledHeight);
 			
@@ -258,8 +258,8 @@
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
 	
-	<s:HGroup verticalAlign="bottom" horizontalCenter="0" verticalCenter="0" gap="3">
-		<s:Image id="iconImage" width="16" height="16" scaleMode="letterbox"/>
+	<s:HGroup verticalAlign="baseline" horizontalCenter="0" verticalCenter="0" gap="3">
+		<s:Image id="iconImage" scaleMode="letterbox"/>
 		<s:Label id="lab" color="#FFFFFF" maxDisplayedLines="1" />
 	    <!-- <s:Label id="labelDisplay" color="#FFFFFF" maxDisplayedLines="1" /> -->
 	</s:HGroup>

@@ -526,7 +526,9 @@
 			 * 
 			 **/
 			protected function htmlLoded(event:Event):void {
-				htmlBI.visible = false;
+				if(htmlBI.visible && htmlBI != null) {
+					htmlBI.visible = false;
+				}
 			}
 			
 			/**

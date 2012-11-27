@@ -7,5 +7,13 @@
 		<fx:String id="titleString" />
 	</fx:Declarations>
 	
-	<s:Label width="100%" height="100%" id="title" color="#333333" fontSize="11" verticalAlign="middle" text="{titleString}" left="5" right="5" top="2" bottom="2" />
+	<s:states>
+		<s:State name="activity" />
+		<s:State name="resources" />
+	</s:states>
+	
+	<s:HGroup left="10" right="10" height="100%" verticalAlign="middle">
+		<s:Image source="@Embed('assets/resources.png')" verticalCenter="0" excludeFrom="activity"/>
+		<s:Label width="100%" id="title" color="#333333" fontSize="10" verticalCenter="-2" text="{titleString}" />
+	</s:HGroup>
 </s:SkinnableContainer>
