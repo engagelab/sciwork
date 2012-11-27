@@ -526,9 +526,7 @@
 			 * 
 			 **/
 			protected function htmlLoded(event:Event):void {
-				if(htmlBI.visible && htmlBI != null) {
-					htmlBI.visible = false;
-				}
+				htmlBI.visible = false;
 			}
 			
 			/**
@@ -537,6 +535,8 @@
 			 * 
 			 **/
 			protected function getArticleUrl_resultHandler(event:ResultEvent):void {
+				//needed to force a reload
+				_htmlLocation = "";
 				var articleResult:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 				URLRequestDefaults.userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8";
 				if(articleResult.length > 0) {
@@ -625,7 +625,7 @@
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>
-	<s:Group width="100%" height="100%" includeIn="article" itemDestructionPolicy="auto">
+	<s:Group width="100%" height="100%" includeIn="article">
 		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
 	</s:Group>
