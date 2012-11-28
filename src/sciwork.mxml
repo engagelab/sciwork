@@ -281,6 +281,39 @@
 			
 			/**
 			 *
+			 * Static function to return color codes
+			 * 
+			 **/
+			public static function getIndexBasedOnGroup(groupName:String):Boolean {
+				var finalPosition:int = 0;
+				var i:int = 0;
+				for (var k in colorDico) {
+					if(new String(k) == groupName) {
+						finalPosition = i;
+					}
+					i++;
+				}
+				
+				return getNumType(finalPosition);
+			}
+			
+			/**
+			 * 
+			 * Function to return true if odd number and false oherwise
+			 * 
+			 **/
+			protected static function getNumType(numero:int):Boolean {
+				//check if the number is odd or even
+				if (numero % 2 == 0) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+			
+			/**
+			 *
 			 * Event handling method to display tweets fullscreen 
 			 * 
 			 **/

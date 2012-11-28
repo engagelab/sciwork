@@ -12,6 +12,7 @@
 			import mx.events.FlexEvent;
 			
 			[Bindable] private var groupColor:uint = 0xCCCCCC;
+			[Bindable] private var callOut:Boolean = true;
 			
 			/**
 			 * 
@@ -22,6 +23,8 @@
 			protected function initRenderer():void {
 				var groupName:String = new String(data.from).toLowerCase();
 				groupColor = sciwork.getColorBasedOnGroup(groupName);
+				
+				callOut = sciwork.getIndexBasedOnGroup(groupName);
 				
 				var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
 				
@@ -69,12 +72,31 @@
 		]]>
 	</fx:Script>
 	
-	<s:Rect left="5" right="5" top="5" bottom="5" radiusX="5" radiusY="5">
+	<s:filters>
+		<s:DropShadowFilter 
+			distance="3" alpha=".6" blurX="4" blurY="4"
+			angle="90" />
+	</s:filters>
+	
+	<s:Rect left="5" right="5" top="5" bottom="10" radiusX="3" radiusY="3">
 		<s:fill>
 			<s:SolidColor id="itemBackground" alpha="{data.al}" color="{groupColor}" />
 		</s:fill>
 	</s:Rect>
-	<s:VGroup top="10" right="10" bottom="10" left="10" >
+	<s:Path bottom="0" left="20" data="M 0 0 L 0 10 L 10 0 L 0 0" visible="{!callOut}">
+		<s:fill>
+			<s:SolidColor color="{groupColor}"/>
+		</s:fill>
+	</s:Path>
+	<s:Path bottom="0" right="25" data="M 0 0 L 10 10 L 10 0 L 0 0" visible="{callOut}">
+		<s:fill>
+			<s:SolidColor color="{groupColor}"/>
+		</s:fill>
+	</s:Path>
+	
+	
+	
+	<s:VGroup top="10" right="10" bottom="20" left="10" >
 		<s:Label text="{data.from+':'}" width="100%" color="#FFFFFF" />
 		<s:Label id="bdy" text="{extractText(data.bdy)}" width="100%" height="100%" color="#FFFFFF" />
 	</s:VGroup>

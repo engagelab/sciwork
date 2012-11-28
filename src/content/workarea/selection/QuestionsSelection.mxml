@@ -35,12 +35,13 @@
 			 **/
 			public function refreshQuestionFeed(qId:String, qArray:ArrayCollection):void {
 				var questionsToDisplay:ArrayCollection = new ArrayCollection();
+				
 				for each (var tweet:Object in qArray) {
 					if(new String(tweet.qId) == qId) {
-						questionsToDisplay.addItem(tweet)
+						questionsToDisplay.addItem(tweet);
 					}
 				}
-				
+								
 				questionsFeedList.dataProvider = questionsToDisplay;
 				scrollToBottom();
 			}

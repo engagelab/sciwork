@@ -28,8 +28,6 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
 			
-			import spark.events.TextOperationEvent;
-			
 			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
 			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
 			
@@ -64,6 +62,11 @@
 				getEnergies.send();
 			}
 			
+			/**
+			 * 
+			 * Event handling method for ENERGY_CHOSEN
+			 * 
+			 **/
 			protected function handleEnergyChosen(evt:EnergyChosenEvent):void {
 				_chosenEnergySource = evt.energyTitle;
 				_chosenEnergyID = evt.energyId;
