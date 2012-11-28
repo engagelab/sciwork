@@ -187,24 +187,38 @@
 	
 
 	<s:SpriteVisualElement id="container" width="100%" height="100%"/>
-	<s:HGroup width="100%" height="25" bottom="0" gap="0" verticalAlign="middle">
-		<s:Button id="playButton" buttonMode="true" height="100%" width="{playButton.height}" skinClass="skins.VideoPlayButtonSmall" excludeFrom="playing" click="player.playVideo();" />
-		<s:Button id="pauseButton" buttonMode="true" height="100%" width="{pauseButton.height}" skinClass="skins.VideoPauseButtonSmall" includeIn="playing"  click="player.pauseVideo();"/>
-		<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="paused"  click="stopVideo(event)"/>
-		<s:Group width="100%" height="100%">
-			<mx:HSlider id="slider" bottom="10"
-						thumbSkin="skins.VideoThumb" 
-						trackSkin="skins.VideoTrack" 
-						trackHighlightSkin="skins.VideoTrackSkin" 
-						showTrackHighlight="true" 
-						enabled="false" 
-						width="100%" 
-						visible="true" 
-						allowTrackClick="true" 
-						change="sliderChanged(event)" />
-		</s:Group>
-		<s:Label id="elaspsedTime" color="#FFFFFF" />
-		<s:Label id="totalTime" color="#333333" />
-		<s:Spacer width="10" />
-	</s:HGroup>
+	
+	<s:Group width="100%" bottom="0">
+		<s:Rect width="100%" height="100%">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="#000000" />
+					<s:GradientEntry color="#333333" />
+					<s:GradientEntry color="#999999" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:HGroup width="100%" height="25" gap="0" verticalAlign="middle">
+			<s:Button id="playButton" buttonMode="true" height="100%" width="{playButton.height}" skinClass="skins.VideoPlayButtonSmall" excludeFrom="playing" click="player.playVideo();" />
+			<s:Button id="pauseButton" buttonMode="true" height="100%" width="{pauseButton.height}" skinClass="skins.VideoPauseButtonSmall" includeIn="playing"  click="player.pauseVideo();"/>
+			<s:Button id="stopButton" buttonMode="true" height="100%" width="{stopButton.height}" skinClass="skins.VideoStopButtonSmall" excludeFrom="paused"  click="stopVideo(event)"/>
+			<s:Spacer width="10" />
+			<s:Group width="100%" height="100%">
+				<mx:HSlider id="slider" bottom="10"
+							thumbSkin="skins.VideoThumb" 
+							trackSkin="skins.VideoTrack" 
+							trackHighlightSkin="skins.VideoTrackSkin" 
+							showTrackHighlight="true" 
+							enabled="false" 
+							width="100%" 
+							visible="true" 
+							allowTrackClick="true" 
+							change="sliderChanged(event)" />
+			</s:Group>
+			<s:Label id="elaspsedTime" color="#FFFFFF" />
+			<s:Label id="totalTime" color="#CCCCCC" />
+			<s:Spacer width="10" />
+		</s:HGroup>
+	</s:Group>
+	
 </s:Group>

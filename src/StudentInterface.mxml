@@ -71,10 +71,10 @@
 				updateResources(res.title);
 				
 				if(res.taskType == "simulation") {
-					if(this.currentState != "simulationState")
-						this.currentState = "simulationState";
+					if(this.currentState != "simulationState") {
+						this.currentState = "simulationState";						
+					}
 					simulate.setSimulationLevel(res.title);
-					trace(simulationContainer.width +" - "+simulationContainer.height );
 				}
 				else {
 					this.currentState = "contentState";	

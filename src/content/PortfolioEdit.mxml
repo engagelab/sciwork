@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
+	
+	<components:sectionHeader width="100%" height="23" titleString="COMMENTAR" currentState="portfolio"/>
+	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
+		<s:TextArea left="5" right="5" top="5" bottom="5"/>
+	</s:BorderContainer>
+</s:VGroup>

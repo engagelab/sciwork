@@ -76,7 +76,7 @@
 	
 	<s:Rect id="fill" left="0" right="0" top="0" bottom="0">
 		<s:fill>
-			<s:SolidColor color="#000000" alpha=".7" alpha.over="1" color.over="#666666" alpha.down="1" color.down="#666666"  alpha.overAndSelected="1" color.overAndSelected="#666666"/>
+			<s:SolidColor color="#000000" alpha="0" alpha.over=".7" color.over="#333333" alpha.down=".7" color.down="#333333"  alpha.overAndSelected=".7" color.overAndSelected="#333333"/>
 		</s:fill>
 	</s:Rect>
 	

@@ -9,9 +9,11 @@
 		<s:State name="assets" />
 		<s:State name="tweets" />
 		<s:State name="questions" />
+		<s:State name="portfolio" />
 	</s:states>
 	
 	<selection:AssetsSelection id="assetSelection" width="100%" height="100%" includeIn="assets" />
 	<selection:TweetsSelection id="tweetsSelection" width="100%" height="100%" includeIn="tweets"/>
 	<selection:QuestionsSelection id="questionsSelection" width="100%" height="100%" includeIn="questions"/>
+	<selection:PortfolioSelection id="portfolioSelection" width="100%" height="100%" includeIn="portfolio" />
 </s:SkinnableContainer>
