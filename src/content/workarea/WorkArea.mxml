@@ -567,6 +567,7 @@
 				preview.imageViewer.sourceImage.source = null;
 				
 				if(questionPicsArray.length > 0) {
+					//get the latest object by 'popping'
 					var lastPic:Object = questionPicsArray.pop();
 					var newItem:MaterialsItem = new MaterialsItem();
 					newItem.xpos = lastPic.xpos;
