@@ -30,6 +30,15 @@
 				this.currentState = "contentState";
 				//reset left panels
 				_description = "";
+				resetNRJ();
+			}
+			
+			/**
+			 *
+			 * called to reset NRJ if necessary 
+			 * 
+			 **/
+			public function resetNRJ():void {
 				workareaContainer.resetEnergySource();
 			}
 

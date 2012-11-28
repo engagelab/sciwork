@@ -98,7 +98,7 @@
 						_tArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
 						if(this.currentState == "tweets") {
 							selection.tweetsSelection.tweetFeedArray = _tArray;
-							selection.tweetsSelection.refreshFeed();
+							//selection.tweetsSelection.refreshFeed();
 						}
 						break;
 						
@@ -308,7 +308,7 @@
 							this.currentState = "tweets";
 							
 							selection.tweetsSelection.tweetFeedArray = _tArray;
-							selection.tweetsSelection.refreshFeed();
+							//selection.tweetsSelection.refreshFeed();
 							
 							selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));

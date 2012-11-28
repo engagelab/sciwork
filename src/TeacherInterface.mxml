@@ -39,6 +39,15 @@
 			
 			/**
 			 *
+			 * called to reset NRJ if necessary 
+			 * 
+			 **/
+			public function resetNRJ():void {
+				workareaContainer.resetEnergySource();
+			}
+			
+			/**
+			 *
 			 * called when a new task is selected 
 			 * 
 			 **/

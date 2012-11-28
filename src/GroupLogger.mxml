@@ -46,7 +46,7 @@
 				colorDico = new Dictionary();
 				for each (var act:Object in res) {
 					_groupList.addItem({title: act.name, id: act.id, colour: act.colour});
-					colorDico[new String(act.name).toLowerCase()] = act.colour;
+					colorDico[sciwork.cleanGroupName((act.name as String).toUpperCase()).toLowerCase()] = act.colour;
 				}
 				
 				//ordering the list alphabetically
@@ -115,7 +115,7 @@
 						
 						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), true);
 						lae.selectedGroup = groupCombo.selectedItem as Object;
-						lae.selectedGroup.title = cleanGroupName(lae.selectedGroup.title);
+						lae.selectedGroup.title = sciwork.cleanGroupName(lae.selectedGroup.title);
 						lae.colorDico = colorDico;
 						dispatchEvent(lae);
 						break;
@@ -125,15 +125,6 @@
 						groupPass.text = "";
 						break;
 				}
-			}
-			
-			/**
-			 *
-			 * Method to return to 'clean' groupname (replace norwegian charac) 
-			 * 
-			 **/
-			protected function cleanGroupName(name:String):String {
-				return name.replace("Å","A").replace("Ø", "O").replace("Æ", "AE");
 			}
 			
 			/**

@@ -227,6 +227,8 @@
 				}
 				
 				this[currentInterface].stopPlayingMedia();
+				this[currentInterface].resetNRJ();
+				
 				this.currentState = "loggedOff";
 				_conn.disconnect();
 				_conn = null;
@@ -429,6 +431,15 @@
 				htmlBI.visible = false;
 			}
 			*/
+			
+			/**
+			 *
+			 * Method to return to 'clean' groupname (replace norwegian charac) 
+			 * 
+			 **/
+			public static function cleanGroupName(name:String):String {
+				return name.replace("Å","A").replace("Ø", "O").replace("Æ", "AE");
+			}
 		]]>
 	</fx:Script>
 	

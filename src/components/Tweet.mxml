@@ -44,7 +44,7 @@
 				//build context menu to trash/restore tweets
 				var cm:ContextMenu = new ContextMenu();
 				cm.hideBuiltInItems();
-				this.setStyle("backgroundColor", uint((mx.core.FlexGlobals.topLevelApplication).currentGroup.colour));
+				this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
 				var selectMI:ContextMenuItem = new ContextMenuItem("");
 				if(data.isVisible) {
 					selectMI.label = "Delete";
@@ -59,12 +59,6 @@
 				
 				//make this thingy draggable
 				enableListeners(true);
-				
-				//check if current group is the owner
-				if(data.userName != data.ownerName) {
-					ownerColor = sciwork.getColorBasedOnGroup(data.ownerName);
-					this.currentState = "isNotOwner";
-				}
 				
 				calculatedWidth = this.parent.width*.2;
 				this.x = (data.xpos*this.parent.width) / 100;
@@ -222,17 +216,7 @@
 		]]>
 	</fx:Script>
 	
-	<s:states>
-		<s:State name="isOwner" />
-		<s:State name="isNotOwner" />
-	</s:states>
-	
 	<s:HGroup left="10" right="10" top="10" bottom="10">
-		<s:Rect width="10" height="10" includeIn="isNotOwner">
-			<s:fill>
-				<s:SolidColor color="{ownerColor}" />
-			</s:fill>
-		</s:Rect>
 		<s:Label text="{extractText(data.text)}" color="#FFFFFF" width="100%" textAlign="left" />
 	</s:HGroup>
 </s:BorderContainer>

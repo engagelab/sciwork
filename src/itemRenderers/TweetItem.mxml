@@ -22,7 +22,7 @@
 			 **/
 			protected function initRenderer():void {
 				var groupName:String = new String(data.from).toLowerCase();
-				groupColor = sciwork.getColorBasedOnGroup(groupName);
+				groupColor = sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
 				
 				callOut = sciwork.getIndexBasedOnGroup(groupName);
 				
