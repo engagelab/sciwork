@@ -23,8 +23,7 @@
 			protected function initRenderer():void {
 				var groupName:String = new String(data.from).toLowerCase();
 				groupColor = sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
-				
-				callOut = sciwork.getIndexBasedOnGroup(groupName);
+				callOut = sciwork.getIndexBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
 				
 				var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
 				

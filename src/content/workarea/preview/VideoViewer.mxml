@@ -41,7 +41,6 @@
 		//			context.securityDomain = SecurityDomain.currentDomain;
 				loader.contentLoaderInfo.addEventListener(Event.INIT, onLoaderInit);
 				loader.load(new URLRequest("http://www.youtube.com/apiplayer?version=3"));
-
 			}
 			
 			private function onLoaderInit(event:Event):void {
@@ -65,9 +64,9 @@
 				dispatchEvent(new Event(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), true));
 			}
 			
-			private function onPlayerError(event:Event):void {
+			private function onPlayerError(event:ErrorEvent):void {
 				// Event.data contains the event parameter, which is the error code
-				trace("player error:", Object(event).data);
+				trace("player error:", event.errorID);
 			}
 			
 			private function onPlayerStateChange(event:Event):void {

@@ -100,9 +100,9 @@
 			 * 
 			 **/
 			public function stopPlayingMedia():void {
-				if(workareaContainer.preview.videoViewer.player != null) {
+				/*if(workareaContainer.preview.videoViewer.player != null) {
 					workareaContainer.preview.videoViewer.player.stopVideo();
-				}
+				}*/
 			}
 			
 			/**

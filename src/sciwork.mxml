@@ -290,7 +290,7 @@
 				var finalPosition:int = 0;
 				var i:int = 0;
 				for (var k in colorDico) {
-					if(new String(k) == groupName) {
+					if(k as String == groupName) {
 						finalPosition = i;
 					}
 					i++;
