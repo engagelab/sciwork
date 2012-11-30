@@ -104,6 +104,9 @@
 				else if(this.currentState == "simulationState") {
 					stfe.mode = "simulation";
 				}
+				else if(this.currentState == "questionsState") {
+					stfe.mode = "questions";
+				}
 				dispatchEvent(stfe);
 			}
 		]]>

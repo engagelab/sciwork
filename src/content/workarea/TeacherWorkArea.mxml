@@ -541,9 +541,11 @@
 		<s:State name="default" />
 		<s:State name="assets" />
 		<s:State name="tweets" />
+		<s:State name="tweetLoggerState" />
 		<s:State name="questions" />
-		<s:State name="article" />
 		<s:State name="simulation" />
+		<s:State name="article" />
+		<s:State name="portfolio" />
 	</s:states>
 	
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article">

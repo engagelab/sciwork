@@ -3,7 +3,14 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:selection="content.workarea.selection.*">
 	
-	
+	<fx:Script>
+		<![CDATA[
+			public function enableTeacherMode(mode:String):void {
+				this.currentState = mode;
+				
+			}
+		]]>
+	</fx:Script>
 	<s:states>
 		<s:State name="default" />
 		<s:State name="assets" />
