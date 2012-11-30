@@ -6,6 +6,7 @@ package listeners
 	{
 		public var tweetsInView:Array;
 		public var shouldShow:Boolean = false;
+		public var url:String = "";
 		public var mode:String;
 		
 		public function ShowFullscreenEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
