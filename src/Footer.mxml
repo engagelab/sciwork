@@ -56,11 +56,6 @@
 			 * Method to update the status of all tasks.
 			 * 
 			 **/
-			public function updateCompletedTasks():void {
-				var sceneC:FooterSceneContainer;
-				for (var i:int = 0; i < trajMenu.numElements; i++) {
-					sceneC = trajMenu.getElementAt(i) as FooterSceneContainer;
-					sceneC.updateCompletedTasks(completedTasks);
 			public function updateCompletedTasks(state:String):void {
 				if(state == "loggedIn") {
 					trajMenu.visible = true;
