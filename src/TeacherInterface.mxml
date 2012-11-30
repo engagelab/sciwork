@@ -34,7 +34,7 @@
 				this.currentState = "contentState";
 				//reset left panels
 				_description = "";
-				workareaContainer.resetEnergySource();
+				resetNRJ();
 			}
 			
 			/**
@@ -86,6 +86,17 @@
 				
 				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
 				
+			}
+			
+			/**
+			 * 
+			 * public method to stop the videoPlayer
+			 * 
+			 **/
+			public function stopPlayingMedia():void {
+				if(workareaContainer.preview.videoViewer.player != null) {
+					workareaContainer.preview.videoViewer.player.stopVideo();
+				}
 			}
 			
 			/**
