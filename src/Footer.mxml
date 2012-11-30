@@ -61,7 +61,19 @@
 				for (var i:int = 0; i < trajMenu.numElements; i++) {
 					sceneC = trajMenu.getElementAt(i) as FooterSceneContainer;
 					sceneC.updateCompletedTasks(completedTasks);
+			public function updateCompletedTasks(state:String):void {
+				if(state == "loggedIn") {
+					trajMenu.visible = true;
+					var sceneC:FooterSceneContainer;
+					for (var i:int = 0; i < trajMenu.numElements; i++) {
+						sceneC = trajMenu.getElementAt(i) as FooterSceneContainer;
+						sceneC.updateCompletedTasks(completedTasks);
+					}
 				}
+				else {
+					trajMenu.visible = false;
+				}
+				
 			}
 			
 			
