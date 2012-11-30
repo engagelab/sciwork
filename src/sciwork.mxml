@@ -74,10 +74,9 @@
 				this.addEventListener(resourceManager.getString('resources', 'TASK_CHANGED'), handleTaskChange);
 				this.addEventListener(resourceManager.getString('resources', 'TABBAR_LOADED'), handleMenuLoaded);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), handleRefreshGroupsCompletedTasks);
-				this.addEventListener(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), fullScreenPresentation.handleShowFullscreen);
+				this.addEventListener(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), handleShowFullscreen);
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
 				this.addEventListener(resourceManager.getString('resources', 'RESET_ENERGY'), handleResetEnergy);
-				this.addEventListener(resourceManager.getString('resources', 'LOAD_WEBPAGE'), fullScreenPresentation.handleLoadWebpageRequest);
 				this.addEventListener(Event.CLOSING, onApplicationQuit);
 				
 				// FOR TESTING: In the case of no server connection
@@ -189,8 +188,10 @@
 					tabBar.selectFirstTask(evt.sceneIndex);
 				}
 				
-				//update footer bar
-				footer.updateSelectedFooterScene(evt.scene);
+				if(this.currentState == "loggedIn") {
+					//update footer bar
+					footer.updateSelectedFooterScene(evt.scene);
+				}
 								
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
@@ -220,6 +221,8 @@
 			 * 
 			 **/
 			private function logout(event:MouseEvent):void {
+				this.fullScreenPresentation.visible = false;
+				this.fullScreenPresentation.includeInLayout = false;
 				_conn.auto_reconnect = false;
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
@@ -240,7 +243,9 @@
 			 * 
 			 **/
 			private function handleMenuLoaded(evt:TabbarLoadedEvent):void {
-				footer.buildTrajectory(evt.menu, evt.menu[0], evt.menuItemWidth);
+				if(this.currentState == "loggedIn") {
+					footer.buildTrajectory(evt.menu, evt.menu[0], evt.menuItemWidth);
+				}
 			}
 			
 			/**
@@ -266,9 +271,9 @@
 				}
 				else {
 					this.currentState = "loggedIn";
-					footer.updateCompletedTasks();
 				}
 				
+				footer.updateCompletedTasks(this.currentState);
 					
 			}
 			
@@ -311,6 +316,24 @@
 				}
 				else {
 					return true;
+				}
+			}
+			
+			/**
+			 *
+			 * Event handling method for hiding full screen
+			 * 
+			 **/
+			private function handleShowFullscreen(event:ShowFullscreenEvent):void {
+				if(event.shouldShow) {
+					this.mainScreen.includeInLayout = false;
+					this.mainScreen.visible = false;
+					fullScreenPresentation.handleShowFullscreen(event);
+				}
+				else {
+					this.mainScreen.includeInLayout = true;
+					this.mainScreen.visible = true;
+					fullScreenPresentation.handeHideFullScreen(event);
 				}
 			}
 			
@@ -470,11 +493,12 @@
 		<local:Header excludeFrom="loggedOff" itemDestructionPolicy="auto" />
 		<s:Spacer height="3" />
 		
-		<s:BorderContainer width="100%" height="600" borderColor="#eeeeee" cornerRadius="4" borderAlpha=".3" excludeFrom="loggedOff">
+		<components:FullScreenPresentation id="fullScreenPresentation" width="100%" height="560" visible="false" backgroundColor="#FFFFFF" includeInLayout="false" horizontalCenter="0" excludeFrom="loggedOff" />
+		<s:BorderContainer id="mainScreen" width="100%" height="600" borderColor="#eeeeee" cornerRadius="4" borderAlpha=".3" excludeFrom="loggedOff">
 			<s:filters>
 				<s:DropShadowFilter 
 					distance="3" alpha=".3" blurX="7" blurY="7"
-					angle="90" id="sciWorkDropFilter" />
+					angle="90" />
 			</s:filters>
 			
 			<s:VGroup width="100%" height="100%">
@@ -486,9 +510,7 @@
 					<local:StudentInterface id="studentInterface" includeIn="loggedIn" top="{_gapBetweenContainers}" right="{_gapBetweenContainers}" bottom="{_gapBetweenContainers}" left="{_gapBetweenContainers}" itemDestructionPolicy="auto"></local:StudentInterface>
 				
 					<!-- Teacher space -->
-					<local:TeacherInterface id="teacherInterface" includeIn="loggedInTeacher" top="{_gapBetweenContainers}" right="{_gapBetweenContainers}" bottom="{_gapBetweenContainers}" left="{_gapBetweenContainers}" itemDestructionPolicy="auto">
-						<s:Label text="welcome teacher" horizontalCenter="0" verticalCenter="0" />
-					</local:TeacherInterface>
+					<local:TeacherInterface id="teacherInterface" includeIn="loggedInTeacher" top="{_gapBetweenContainers}" right="{_gapBetweenContainers}" bottom="{_gapBetweenContainers}" left="{_gapBetweenContainers}" itemDestructionPolicy="auto"></local:TeacherInterface>
 				</s:Group>
 			</s:VGroup>
 		</s:BorderContainer>
@@ -507,9 +529,4 @@
 		<s:Button label="X" click="_htmlLocation='';htmlPresentationGroup.visible=false" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
 	</s:BorderContainer-->
-	
-	<components:FullScreenPresentation id="fullScreenPresentation" width="100%" height="100%" visible="false" backgroundColor="#FFFFFF">
-		
-	</components:FullScreenPresentation>
-	
 </s:WindowedApplication>
