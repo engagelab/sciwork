@@ -294,7 +294,7 @@
 			public static function getIndexBasedOnGroup(groupName:String):Boolean {
 				var finalPosition:int = 0;
 				var i:int = 0;
-				for (var k in colorDico) {
+				for (var k:Object in colorDico) {
 					if(k as String == groupName) {
 						finalPosition = i;
 					}
@@ -328,7 +328,7 @@
 				if(event.shouldShow) {
 					this.mainScreen.includeInLayout = false;
 					this.mainScreen.visible = false;
-					fullScreenPresentation.handleShowFullscreen(event);
+					fullScreenPresentation.handleShowFullscreen(event, (tabBar.sceneBar.selectedItem as Object), (tabBar.taskBar.selectedItem as Object));
 				}
 				else {
 					this.mainScreen.includeInLayout = true;

@@ -17,6 +17,9 @@
 			import listeners.ShowFullscreenEvent;
 			import listeners.TweetsRefreshEvent;
 			
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			
 			private var sciApp:sciwork = mx.core.FlexGlobals.topLevelApplication as sciwork;
 			[Bindable] private var _htmlLocation:String = "";
 			private var _conn:XMPP = null;
@@ -26,7 +29,7 @@
 			 * Event handling method to display various fullscreen information 
 			 * 
 			 **/
-			public function handleShowFullscreen(evt:ShowFullscreenEvent):void {
+			public function handleShowFullscreen(evt:ShowFullscreenEvent, scene:Object, task:Object):void {
 				if(evt.shouldShow) {
 					this.visible = true;
 					this.includeInLayout = true;
@@ -51,7 +54,8 @@
 						}
 					}
 					else if(evt.mode == "simulation") {
-						this.currentState = "simulation";
+						this.currentState = "simulation";				
+						simulate.setSimulationLevel(task.label);
 					}
 					else if(evt.mode == "html") {
 						pullOutMenu.visible = false;
