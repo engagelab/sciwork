@@ -346,6 +346,14 @@
 						break;
 					}
 						
+					case 'simulation': {
+						//set correct state in subsequent components
+						this.currentState = "simulation";
+						selection.currentState = "simulation";
+						preview.currentState = "simulationState";
+						break;
+					}
+						
 					default: {
 						this.currentState = "default";
 						selection.currentState = "default";
@@ -625,6 +633,7 @@
 		<s:State name="tweets" />
 		<s:State name="tweetLoggerState" />
 		<s:State name="questions" />
+		<s:State name="simulation" />
 		<s:State name="article" />
 		<s:State name="portfolio" />
 	</s:states>
