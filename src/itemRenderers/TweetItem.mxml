@@ -2,7 +2,7 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="true" width="100%" minHeight="30">
+				autoDrawBackground="false" width="100%" minHeight="30">
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
@@ -25,15 +25,14 @@
 				groupColor = sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
 				callOut = sciwork.getIndexBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
 				
-				var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
-				
+				/*var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
 				var cm:ContextMenu = new ContextMenu();
 				cm.hideBuiltInItems();
 				var retweetMI:ContextMenuItem = new ContextMenuItem("");
 				retweetMI.label = "Re-tweet";
 				retweetMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, retweetHandler);
 				cm.customItems.push(retweetMI);
-				this.contextMenu = cm;
+				this.contextMenu = cm;*/
 			}
 			
 			/**

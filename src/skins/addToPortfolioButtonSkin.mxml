@@ -44,7 +44,7 @@
             For button, the graphics are colorized but the label is not. */
             static private const exclusions:Array = ["labelDisplay"];
 			
-			[Bindable] private var groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
+			//[Bindable] private var groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
             
             /** 
              * @private
@@ -84,7 +84,8 @@
     <!--- @private -->
     <s:Rect id="fill" left="0" right="0" top="0" bottom="0" bottomLeftRadiusX="10" bottomLeftRadiusY="10">
         <s:fill>
-            <s:SolidColor color="{groupColour}" color.over="{ColorUtil.brightenColor(groupColour, 20)}" color.down="#CCCCCC" />
+            <!-- s:SolidColor color="{groupColour}" color.over="{ColorUtil.brightenColor(groupColour, 20)}" color.down="#CCCCCC" /-->
+			<s:SolidColor color="0x000000" color.over="#666666" color.down="#CCCCCC" />
         </s:fill>
     </s:Rect>
 
@@ -113,12 +114,14 @@
 	-->
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay  -->
-    <s:Label id="labelDisplay"
+    <!--s:Label id="labelDisplay"
 			 color="#FFFFFF"
              textAlign="center"
              maxDisplayedLines="1"
              horizontalCenter="0" verticalCenter="1" verticalAlign="middle"
              left="10" right="10" top="2" bottom="2">
-    </s:Label>
+    </s:Label-->
+	
+	<s:Image source="@Embed('assets/14-rightarrows.png')" horizontalCenter="0" verticalCenter="0" />
     
 </s:SparkButtonSkin>
