@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				   xmlns:s="library://ns.adobe.com/flex/spark" 
-				   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init(event)" backgroundColor="0x808080">
+				   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="init(event)" backgroundColor="0xE6E6E6" borderColor="black" xmlns:selection="content.workarea.selection.*" xmlns:workarea="content.workarea.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<s:Move id="closeDrawer" 
 				target="{this}"
-				xTo="1280"
-				duration="1000"
+				xTo="1000"
+				duration="500"
 				easer="{sineEasing}"/>
 		<s:Move id="openDrawer" 
 				target="{this}"
-				xTo="1035"
-				duration="1000"
+				xTo="755"
+				duration="500"
 				easer="{sineEasing}"/>
 		<s:Power id="powerEasing"
 				 exponent="2"/>
 		<s:Sine id="sineEasing"
 				easeInFraction="0.6"/>
+		
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -31,14 +32,15 @@
 				
 				dragger.addEventListener(MouseEvent.MOUSE_DOWN, draggerDown);
 				parent.addEventListener(MouseEvent.MOUSE_UP, draggerUp);
+			//	dragger.setStyle("borderThicknessRight", "0");
 			}
 			
 			private function draggerDown(evt:MouseEvent):void {
-				this.startDrag(false,new Rectangle(1280-245,0,245,0));
+				this.startDrag(false,new Rectangle(1000-245,37,245,0));
 			}
 			private function draggerUp(evt:MouseEvent):void {
 				this.stopDrag();
-				if(this.x != 1280-245 && this.x != 1280) {
+				if(this.x != 1000-245 && this.x != 1000) {
 					if(drawerOut) {
 						closeDrawer.play();
 						drawerOut = false;
@@ -51,11 +53,18 @@
 				else
 					drawerOut ? drawerOut = false : drawerOut = true;
 			}
-			
+			public function closeTheDrawer():void {
+				closeDrawer.play();
+			}
 			
 		]]>
 	</fx:Script>
-	<s:Button id="dragger" x="-40" width="40" height="40" y="-1" icon="@Embed('assets/pullOutArrows.png')" color="0x808080"/>
-	
-	
+	<s:Image source="assets/pullOutTab.png" x="-37" y="2" id="dragger" />
+	<selection:TweetsSelection id="tweetsSelection" width="80%" height="100%"/>
+	<!--workarea:TweetsInput id="tweetInput" width="80%" height="50" /-->
+	<s:filters>
+		<s:DropShadowFilter 
+			distance="3" alpha=".3" blurX="7" blurY="7"
+			angle="90" />
+	</s:filters>
 </s:BorderContainer>
