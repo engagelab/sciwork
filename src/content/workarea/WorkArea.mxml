@@ -351,6 +351,9 @@
 						this.currentState = "simulation";
 						selection.currentState = "simulation";
 						preview.currentState = "simulationState";
+						
+						getSimQuestions.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/simQuestion/" + taskId + "/" + currentGroup.id;
+						getSimQuestions.send();
 						break;
 					}
 						
@@ -612,6 +615,27 @@
 				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
 			}
 			
+			
+			/**
+			 *
+			 * Result handling method for getSimQuestions service 
+			 * 
+			 **/
+			protected function getSimQuestions_resultHandler(event:ResultEvent):void {
+				var simQuestions:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				selection.simQuestionSelection.populateQuestions(simQuestions);
+				
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getSimQuestions service
+			 * 
+			 **/
+			protected function getSimQuestions_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -621,6 +645,7 @@
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getSimQuestions_resultHandler(event)" fault="getSimQuestions_faultHandler(event)" resultFormat="text" id="getSimQuestions" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />

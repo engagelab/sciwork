@@ -21,7 +21,8 @@
 			
 			[Bindable] private var _groupList:ArrayCollection;
 			
-			private var colorDico:Dictionary;
+			private var groupColorDico:Dictionary;
+			private var groupIdDico:Dictionary;
 			
 			/**
 			 *
@@ -43,10 +44,12 @@
 				
 				//instantiate and build group array
 				_groupList = new ArrayCollection();
-				colorDico = new Dictionary();
+				groupColorDico = new Dictionary();
+				groupIdDico = new Dictionary();
 				for each (var act:Object in res) {
 					_groupList.addItem({title: act.name, id: act.id, colour: act.colour});
-					colorDico[sciwork.cleanGroupName((act.name as String).toUpperCase()).toLowerCase()] = act.colour;
+					groupColorDico[sciwork.cleanGroupName((act.name as String).toUpperCase()).toLowerCase()] = act.colour;
+					groupIdDico[act.id] = sciwork.cleanGroupName((act.name as String).toUpperCase()).toLowerCase()
 				}
 				
 				//ordering the list alphabetically
@@ -116,7 +119,8 @@
 						var lae:LoginAcceptedEvent = new LoginAcceptedEvent(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), true);
 						lae.selectedGroup = groupCombo.selectedItem as Object;
 						lae.selectedGroup.title = sciwork.cleanGroupName(lae.selectedGroup.title);
-						lae.colorDico = colorDico;
+						lae.groupColorDico = groupColorDico;
+						lae.groupIdDico = groupIdDico;
 						dispatchEvent(lae);
 						break;
 					case 401:

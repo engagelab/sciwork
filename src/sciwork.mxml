@@ -52,7 +52,8 @@
 			[Bindable] private var _completedTaskArray:Array;
 			[Bindable] private var _htmlLocation:String = "";
 			
-			protected static var colorDico:Dictionary;
+			protected static var groupColorDico:Dictionary;
+			protected static var groupIdDico:Dictionary;
 			
 			private var _chosenEnergyID:String = null;
 			private var _shouldExit:Boolean = false;
@@ -121,7 +122,8 @@
 			protected function handleLoginAccepted(evt:LoginAcceptedEvent):void {
 				//this needs to be assigned before we change the application's state
 				_currentGroup = evt.selectedGroup;
-				colorDico = evt.colorDico;
+				groupColorDico = evt.groupColorDico;
+				groupIdDico = evt.groupIdDico;
 /*				if(evt.selectedGroup.title == "Teacher")
 					this.fullScreenPresentation.workArea = teacherInterface.workareaContainer as WorkArea;
 				else
@@ -283,7 +285,16 @@
 			 * 
 			 **/
 			public static function getColorBasedOnGroup(groupName:String):uint {
-				return colorDico[groupName];
+				return groupColorDico[groupName];
+			}
+			
+			/**
+			 *
+			 * Static function to return group name based on id
+			 * 
+			 **/
+			public static function getGroupNameById(id:String):String {
+				return groupIdDico[id];
 			}
 			
 			/**
@@ -294,7 +305,7 @@
 			public static function getIndexBasedOnGroup(groupName:String):Boolean {
 				var finalPosition:int = 0;
 				var i:int = 0;
-				for (var k:Object in colorDico) {
+				for (var k:Object in groupColorDico) {
 					if(k as String == groupName) {
 						finalPosition = i;
 					}

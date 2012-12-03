@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0" xmlns:selection="content.workarea.selection.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			
+			public function populateQuestions(questions:Array):void {
+				if(questionsFeedList.dataProvider != null) {
+					questionsFeedList.dataProvider.removeAll();
+				}
+				
+				var questionsToDisplay:ArrayCollection = new ArrayCollection();
+				
+				for each (var question:Object in questions) {
+					questionsToDisplay.addItem({order: question.order, taskId: question.taskId, groupId: question.groupId, questionId: question.id, question: question.question, answer: question.answer});
+				}
+				
+				var sortfield:SortField = new SortField();
+				sortfield.name = "order";
+				sortfield.descending = false;
+				
+				var sort:Sort = new Sort();
+				sort.fields = [sortfield];
+				
+				questionsToDisplay.sort = sort;
+				questionsToDisplay.refresh();
+				
+				questionsFeedList.dataProvider = questionsToDisplay;
+			}
+		]]>
+	</fx:Script>
+	
+	<components:SelectionHeader id="selectionheader" width="100%" height="23" currentState="assets"/>
+	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
+		<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="#DDDDDD" />
+					<s:GradientEntry color="#FFFFFF" />
+					<s:GradientEntry color="#FFFFFF" />
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:List id="questionsFeedList" top="10" left="10" right="10" bottom="10" contentBackgroundAlpha="0" horizontalScrollPolicy="off" borderVisible="false" itemRenderer="itemRenderers.SimQuestionItem">
+			<s:layout>
+				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" rowHeight="{(questionsFeedList.height-4)/3}" />
+			</s:layout>
+		</s:List>
+	</s:BorderContainer>
+	
+</s:VGroup>

@@ -6,7 +6,8 @@ package listeners
 	public class LoginAcceptedEvent extends Event {
 		
 		public var selectedGroup:Object;
-		public var colorDico:Dictionary;
+		public var groupColorDico:Dictionary;
+		public var groupIdDico:Dictionary;
 		
 		public function LoginAcceptedEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

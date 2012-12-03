@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="false" width="100%" minHeight="30">
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import listeners.RetweetEvent;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			import spark.events.TextOperationEvent;
+			
+			[Bindable] private var groupColor:uint = 0x333333;
+			[Bindable] private var canSave:Boolean = false;
+			
+			/**
+			 * 
+			 * function to enable or not retweet and gives correct background color to the whole element
+			 * 
+			 * 
+			 **/
+			protected function initRenderer():void {
+				var groupName:String = sciwork.getGroupNameById(data.groupId);
+				//groupColor = sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(groupName).toLowerCase());
+				
+			}
+			
+			/**
+			 *
+			 * Function to extract the text from the JSON body
+			 * 
+			 **/
+			protected function extractText(quest:String):String {
+				answerArea.text = data.answer;
+				initRenderer();
+				return quest;
+			}
+			
+			protected function handleTextChange(event:TextOperationEvent):void {
+				if(data.answer != answerArea.text) {
+					canSave = true;
+				}
+				else {
+					canSave = false;
+				}
+			}
+			
+			protected function saveAnswerBtn_clickHandler(event:MouseEvent):void {
+				canSave = false;
+				this.currentState = "saving";
+				
+				var urlRequest:URLRequest = new URLRequest("http://scihub.uio.no:9003/simQuestion");
+				urlRequest.method = URLRequestMethod.PUT;
+				urlRequest.contentType = "application/json";
+				var params:Object = new Object();
+				params.id = data.questionId;
+				params.answer = answerArea.text;
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, questionCompleteHandler);
+				loader.addEventListener(HTTPStatusEvent.HTTP_STATUS, httpStatusHandler);
+				loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				loader.load(urlRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handler for Event.COMPLETE
+			 * 
+			 **/
+			protected function questionCompleteHandler(evt:Event):void {
+				this.currentState = "default";
+			}
+			
+			/**
+			 * 
+			 * Event handler for HTTPStatusEvent.HTTP_STATUS
+			 * 
+			 **/
+			protected function httpStatusHandler(evt:HTTPStatusEvent):void {
+				trace("SimQuestion PUT httpStatusHandler: "+evt.status);
+			}
+			
+			/**
+			 * 
+			 * Event handler for IOErrorEvent.IO_ERROR
+			 * 
+			 **/
+			protected function ioErrorHandler(evt:IOErrorEvent):void {
+				Alert.show("An error occured while saving the simQuestion answer on the server.", "SimQuestion service error");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="saving" />
+	</s:states>
+	
+	<s:filters>
+		<s:DropShadowFilter 
+			distance="3" alpha=".6" blurX="4" blurY="4"
+			angle="90" />
+	</s:filters>
+	
+	<s:Rect left="5" right="5" top="5" bottom="5" radiusX="3" radiusY="3">
+		<s:fill>
+			<s:SolidColor id="itemBackground" color="{groupColor}" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup top="10" right="10" bottom="10" left="10" >
+		<s:Label text="{extractText(data.question)}" width="100%" color="#CCCCCC" />
+		<s:TextArea width="100%" height="100%" color="#FFFFFF" id="answerArea" change="handleTextChange(event)" />
+		<s:Button width="100%" chromeColor="{groupColor}" label="SAVE" id="saveAnswerBtn" color="#CCCCCC" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
+	</s:VGroup>
+	
+	<s:SkinnableContainer width="100%" height="100%" backgroundAlpha=".8" backgroundColor="#333333" includeIn="saving">
+		<s:BusyIndicator horizontalCenter="0" verticalCenter="0" />
+	</s:SkinnableContainer>
+</s:ItemRenderer>
