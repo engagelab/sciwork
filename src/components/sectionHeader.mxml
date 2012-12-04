@@ -15,7 +15,7 @@
 	
 	<s:HGroup left="10" right="10" height="100%" verticalAlign="middle">
 		<s:Image source="@Embed('assets/resources.png')" verticalCenter="0" includeIn="resources"/>
-		<s:Image source="@Embed('assets/1.png')" verticalCenter="0" includeIn="portfolio"/>
+		<s:Image source="assets/1.png" verticalCenter="0" includeIn="portfolio"/>
 		<s:Label width="100%" id="title" color="#333333" fontSize="10" verticalCenter="-2" text="{titleString}" />
 	</s:HGroup>
 </s:SkinnableContainer>
