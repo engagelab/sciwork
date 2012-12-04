@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:xmpp="com.seesmic.as3.xmpp.*" creationComplete="initContainer(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.seesmic.as3.xmpp.JID;
+			import com.seesmic.as3.xmpp.XMPPEvent;
+			
+			import mx.events.FlexEvent;
+			
+			
+			/**
+			 * 
+			 * Event handling method for creationComplete
+			 * 
+			 **/
+			protected function initContainer(event:FlexEvent):void {
+				conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+			}
+			
+			/**
+			 * 
+			 * Event handling method for MUCMessages
+			 * 
+			 **/
+			protected function handleMUCMessage(evt:XMPPEvent):void {
+				if(!evt.stanza.body) {
+					return;
+				}
+				
+				var roomjid:JID = JID(evt.stanza.from);
+				
+				//listen only to miracle communication room
+				if(new String(evt.stanza.from.user) == resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME')) {
+					var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
+					trace(res.messageType);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<xmpp:XMPP id="conn" />
+	</fx:Declarations>
+	
+	
+</s:Group>
