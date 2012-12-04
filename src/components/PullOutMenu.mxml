@@ -100,6 +100,7 @@
 	</s:states>
 	
 	<s:Image source="assets/pullOutTab.png" x="-37" y="2" id="dragger" />
+	<s:Image source="assets/taBilde.png" x="10" y="10" id="captureScreen" />
 	<!--selection:TweetsSelection id="tweetsSelection" width="80%" height="100%"/-->
 	<!--workarea:TweetsInput id="tweetInput" width="80%" height="50" /-->
 	<selection:Selection id="selection" width="100%" height="100%" excludeFrom="html" />
