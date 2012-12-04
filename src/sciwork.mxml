@@ -39,6 +39,7 @@
 			import listeners.TaskChangeEvent;
 			import listeners.TweetsRefreshEvent;
 			
+			import mx.collections.XMLListCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
@@ -339,7 +340,7 @@
 				if(event.shouldShow) {
 					this.mainScreen.includeInLayout = false;
 					this.mainScreen.visible = false;
-					fullScreenPresentation.handleShowFullscreen(event, (tabBar.sceneBar.selectedItem as Object), (tabBar.taskBar.selectedItem as Object));
+					fullScreenPresentation.handleShowFullscreen(event, (tabBar.sceneBar.selectedItem as Object), (tabBar.taskBar.selectedItem as Object), _conn);
 				}
 				else {
 					this.mainScreen.includeInLayout = true;

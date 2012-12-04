@@ -7,7 +7,14 @@
 		<![CDATA[
 			public function enableTeacherMode(mode:String):void {
 				this.currentState = mode;
-				
+				switch(mode) {
+					case "questions" :
+						questionsSelection.enableTeacherMode();
+						break;
+					case "tweets" :
+						tweetsSelection.enableTeacherMode();
+						break;
+				}
 			}
 		]]>
 	</fx:Script>

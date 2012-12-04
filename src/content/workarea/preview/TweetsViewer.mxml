@@ -84,61 +84,6 @@
 				}
 			}
 			
-			
-			/**
-			 * 
-			 * function to save the groupcontainer as a picture
-			 * 
-			 **/
-//			protected function saveTweetAreaPicture(event:MouseEvent):void {
-//				this.currentState = "encoding";
-//				var compositionBitmapData:BitmapData = new BitmapData(tweetsContainer.width,tweetsContainer.height);
-//				compositionBitmapData.draw(tweetsContainer);
-//				
-//				asyncEncoder = new JPEGAsyncEncoder(100);
-//				asyncEncoder.PixelsPerIteration = 128;
-//				asyncEncoder.addEventListener(ProgressEvent.PROGRESS, updateProgress);
-//				asyncEncoder.addEventListener(JPEGAsyncCompleteEvent.JPEGASYNC_COMPLETE, asyncComplete);
-//				asyncEncoder.encode(compositionBitmapData);
-//			}
-			
-			/**
-			 * 
-			 * function to handle encoding progress event
-			 * 
-			 **/
-//			private function updateProgress(event:ProgressEvent):void {
-//				pbar.setProgress(event.bytesLoaded, event.bytesTotal);
-//			}
-			
-			/**
-			 * 
-			 * function to handle image posting when encoding progress is complete
-			 * 
-			 **/
-//			private function asyncComplete(event:JPEGAsyncCompleteEvent):void {
-//				var form:Multipart = new Multipart(resourceManager.getString('resources', 'SERVER_URL')+"/image/"+groupId+"/"+taskId+"/3");
-//				form.addFile("picture", event.ImageData, "application/octet-stream", UIDUtil.createUID()+".jpg", true);
-//				
-//				var loader:URLLoader = new URLLoader();
-//				loader.addEventListener(Event.COMPLETE, onComplete);
-//				try {
-//					loader.load(form.request);
-//				} catch (error: Error) {
-//					Alert.show("Unable to load requested document", "image upload error");
-//				}
-//			}
-			
-			/**
-			 * 
-			 * function called when image posting is complete
-			 * 
-			 **/
-//			protected function onComplete (e: Event):void {
-//				this.currentState = "default";
-//				dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), true));
-//			}
-			
 			/**
 			 * 
 			 * function called when group container for tweets is ready. Needed in order to create tweets based on parent' size.

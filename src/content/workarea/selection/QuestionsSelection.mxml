@@ -8,6 +8,12 @@
 			import mx.collections.ArrayCollection;
 			
 			import spark.core.NavigationUnit;
+			
+			public function enableTeacherMode():void {
+				
+			}
+			
+			
 			/**
 			 * 
 			 * public function to force scroll down on the list component

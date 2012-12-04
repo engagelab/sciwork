@@ -30,6 +30,10 @@
 				
 			}
 			
+			public function enableTeacherMode():void {
+				
+			}
+			
 			public function retrieveAssets(groupId:String, taskId:String):void {
 				getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + groupId + "/" + taskId;
 				getAssetsPortfolio.send();
