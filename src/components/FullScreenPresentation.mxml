@@ -94,6 +94,11 @@
 						this.currentState = "ipad";
 						ipadPresentation.initContainer();
 					}
+					else if(evt.mode == "picsvids") {
+						pullOutMenu.visible = evt.showPullOutMenu;
+						this.currentState = "picsvids";
+						videoPicturePresentationContainer.previewMaterial(evt.material);
+					}
 					if(pullOutMenu != null)
 						pullOutMenu.setupDrawer(evt.mode, scene, task);
 				}
@@ -233,12 +238,9 @@
 			<s:Group includeIn="simulation" width="100%" height="100%" >
 				<simulation:Sim id="simulate" x="2" y="-30" />
 			</s:Group>
-			<s:Group includeIn="picsvids" width="100%" height="100%">
-				
-			</s:Group>
-			
+		
+			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" includeIn="picsvids" width="100%" height="100%" />
 			<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
-				
 			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />
 		</s:Group>
 	</s:VGroup>

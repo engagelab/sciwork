@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:preview="content.workarea.preview.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import content.workarea.WorkArea;
+			import content.workarea.materials.MaterialsItem;
+			
+			private var _currentMaterialItem:MaterialsItem;
+			/**
+			 * 
+			 * Creates the preview of each material, based on material type
+			 * 
+			 **/
+			public function previewMaterial(materialItem:MaterialsItem):void {
+				_currentMaterialItem = materialItem;
+				
+				switch(_currentMaterialItem.previewType) {
+					case WorkArea.IMAGE_TYPE:
+						imageViewer.setupPreview(_currentMaterialItem.previewType, _currentMaterialItem.fullSizeSource);
+						this.currentState = "imageState";
+						break;
+					case WorkArea.VIDEO_TYPE :
+						videoViewer.player.pauseVideo();
+						videoViewer.setupPreview(_currentMaterialItem.previewType, _currentMaterialItem.fullSizeSource);
+						this.currentState = "videoState";
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="videoState" />
+		<s:State name="imageState" />
+	</s:states>
+	
+	<preview:VideoViewer width="100%" height="100%" id="videoViewer" visible.default="false" visible.videoState="true" visible.imageState="false" />
+	<preview:ImageViewer width="100%" height="100%" id="imageViewer" visible.default="false" visible.videoState="false" visible.imageState="true" />
+</s:Group>

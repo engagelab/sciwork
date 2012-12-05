@@ -260,7 +260,18 @@
 			 * 
 			 **/
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
-				preview.previewMaterial(evt.materialItem, evt.sourceType);
+				if(evt.sourceType == "TWEETS") {
+					//show this full screen
+					var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
+					stfe.shouldShow = true;
+					stfe.material = evt.materialItem;
+					stfe.mode = "picsvids";
+					stfe.showPullOutMenu = false;
+					dispatchEvent(stfe);
+				}
+				else {
+					preview.previewMaterial(evt.materialItem, evt.sourceType);
+				}
 			}
 			
 						
