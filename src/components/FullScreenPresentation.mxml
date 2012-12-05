@@ -29,7 +29,7 @@
 			
 			private var sciApp:sciwork = mx.core.FlexGlobals.topLevelApplication as sciwork;
 			[Bindable] private var _htmlLocation:String = "";
-			private var _conn:XMPP = null;
+			[Bindable] private var _conn:XMPP = null;
 			private var asyncEncoder:JPEGAsyncEncoder;
 			
 			private var groupId:String;
@@ -89,11 +89,21 @@
 						_htmlLocation = evt.url;
 						htmlBI.visible = true;
 					}
+					else if(evt.mode == "ipad") {
+						pullOutMenu.visible = false;
+						this.currentState = "ipad";
+						ipadPresentation.initContainer();
+					}
 					if(pullOutMenu != null)
 						pullOutMenu.setupDrawer(evt.mode, scene, task);
 				}
 			}
 			public function callHideFullscreen(evt:MouseEvent):void {
+				//need to quit ipad session if any
+				if(this.currentState == "ipad") {
+					ipadPresentation.disconnectCurrentSource(true);
+				}
+				
 				var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
 				stfe.shouldShow = false;
 				dispatchEvent(stfe);
@@ -225,9 +235,9 @@
 		<s:Group includeIn="picsvids" width="100%" height="100%">
 			
 		</s:Group>
-		<s:Group includeIn="ipad" width="100%" height="100%">
+		
+		<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			
-		</s:Group>
 		<components:PullOutMenu id="pullOutMenu" height="518" x="1000" y="37" excludeFrom="html" />
 	</s:Group>
 	<s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/>

@@ -3,5 +3,14 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
 					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#FFFFFF" skinClass="skins.sectionHeaderSkin">
 	
-	<s:Button right="3" verticalCenter="0" width="25" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="dispatchEvent(new Event(resourceManager.getString('resources', 'SHOW_FULLSCREEN_BUTTON_EVENT'), true));" />
+	<fx:Script>
+		<![CDATA[
+			protected function button1_clickHandler(event:MouseEvent):void {
+				dispatchEvent(new Event(resourceManager.getString('resources', 'SHOW_FULLSCREEN_BUTTON_EVENT'), true));
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<s:Button right="3" verticalCenter="0" width="25" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
 </s:SkinnableContainer>

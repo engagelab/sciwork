@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:xmpp="com.seesmic.as3.xmpp.*" creationComplete="initContainer(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:xmpp="com.seesmic.as3.xmpp.*">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
 			import com.seesmic.as3.xmpp.JID;
 			import com.seesmic.as3.xmpp.XMPPEvent;
 			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			
 			/**
@@ -16,8 +20,21 @@
 			 * Event handling method for creationComplete
 			 * 
 			 **/
-			protected function initContainer(event:FlexEvent):void {
+			public function initContainer():void {
+				trace("IPadPresentationContainer init");
 				conn.addEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+				
+				//clear previous view
+				tweetsContainer.removeAllElements();
+			}
+			
+			public function disconnectCurrentSource(closeComponent:Boolean = false):void {
+				conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"tag":"'+chosenTag+'", "messageType":"'+resourceManager.getString('resources', 'IPAD_SESSION_DISCONNECT')+'"}', null);
+				chosenTag = null;
+				
+				if(closeComponent) {
+					conn.removeEventListener(XMPPEvent.MESSAGE_MUC, handleMUCMessage);
+				}
 			}
 			
 			/**
@@ -32,10 +49,95 @@
 				
 				var roomjid:JID = JID(evt.stanza.from);
 				
+				//little test to find out if the message is new
+				var al:Number = 1;
+				var xm:XML = evt.stanza.xml as XML;
+				for each (var i:XML in xm.elements()) {
+					if(i.name() == "urn:xmpp:delay::delay") {
+						al = .5;
+					}
+				}
+				
 				//listen only to miracle communication room
 				if(new String(evt.stanza.from.user) == resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME')) {
 					var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
-					trace(res.messageType);
+					
+					switch(res.messageType)	{
+						case resourceManager.getString('resources', 'IPAD_SESSION_REQUEST'):
+						{
+							if(new String(res.tag) != chosenTag && al == 1) {
+								//diconnect the previously connected source
+								disconnectCurrentSource();
+								
+								//connect the source
+								chosenTag = new String(res.tag);
+								conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"tag":"'+chosenTag+'", "messageType":"'+resourceManager.getString('resources', 'IPAD_SESSION_ACCEPTED')+'"}', null);
+								
+								//retrieve the 
+								getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + chosenTag;
+								getTweets.send();
+							}
+							break;
+						}
+							
+						case resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL'):
+						{
+							if(new String(res.tag) == chosenTag && al == 1) {
+								getTweets.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/tweet/" + chosenTag;
+								getTweets.send();
+							}
+							break;
+						}
+							
+						case resourceManager.getString('resources', 'IPAD_SESSION_DISCONNECT'):
+						{
+							if(new String(res.tag) == chosenTag && al == 1) {
+								chosenTag = null;
+								tweetsContainer.removeAllElements();
+							}
+							break;
+						}
+					}
+					
+					
+				}
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getTweets service
+			 * 
+			 **/
+			protected function getTweets_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the tweets from the server.", "Tweets service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getTweets service 
+			 * 
+			 **/
+			protected function getTweets_resultHandler(event:ResultEvent):void {
+				if(event.result != "") {
+					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+					
+					//refresh the view
+					tweetsContainer.removeAllElements();
+					
+					//build the correct arrays
+					var tweet:Tweet;
+					var tweetObject:Object;
+					for each (var twt:Object in tweetsForGroup) {
+						tweet = new Tweet();
+						tweet.data = twt;
+						tweet.conn = conn;
+						
+						//need to see if tweet is visisble
+						if(twt.isVisible) {
+							//place the tweets in the view
+							tweetsContainer.addElement(tweet);
+						}
+					}
 				}
 			}
 			
@@ -44,7 +146,9 @@
 	
 	<fx:Declarations>
 		<xmpp:XMPP id="conn" />
+		<fx:String id="chosenTag" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 	</fx:Declarations>
 	
-	
+	<s:Group top="40" bottom="0" width="100%" id="tweetsContainer" />
 </s:Group>

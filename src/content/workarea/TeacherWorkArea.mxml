@@ -102,13 +102,15 @@
 						}
 						break;
 						
+					/*
+					* THIS IS NOT NEEDED HERE, AS THIS HAPPENS IN FULLSCREEN MODE
 					case resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'):
 						var res:Object = com.adobe.serialization.json.JSON.decode(String(evt.stanza.body));
 						if(res.tag == _chosenEnergySource && res.messageType == resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL') && al == 1) {
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
 						break;
-					
+					*/
 					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
 						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
 						if(this.currentState == "questions") {
@@ -301,24 +303,9 @@
 						
 					case 'tweets': {
 						//set correct state in subsequent components
-						
-						if(_chosenEnergySource != null) {
-							selection.currentState = "tweets";
-							preview.currentState = "tweetsState";
-							this.currentState = "tweets";
-							
-							selection.tweetsSelection.tweetFeedArray = _tArray;
-							//selection.tweetsSelection.refreshFeed();
-							
-							selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
-							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
-						}
-						else {
-							selection.currentState = "default";
-							this.currentState = "default";
-							preview.currentState = "tweetLoggerState";
-						}
-						
+						selection.currentState = "default";
+						this.currentState = "default";
+						preview.currentState = "ipadState";
 						break;
 					}
 						
