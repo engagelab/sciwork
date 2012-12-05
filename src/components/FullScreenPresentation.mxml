@@ -220,25 +220,27 @@
 	</s:filters>
 	
 	<!--s:Image source="assets/topBar.png" x="0" y="0" id="topBar" /-->
-	<s:SkinnableContainer width="100%" height="40" skinClass="skins.sectionHeaderSkin" excludeFrom="simulation" />
-	<s:Group height="100%" width="1000" clipAndEnableScrolling="true">
-		<s:Group includeIn="tweets" width="100%" height="100%">
-			<s:Group width="100%" height="100%" id="presentationGroupArea" />
-		</s:Group>
-		<s:Group includeIn="html" width="100%" height="100%">
-			<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
-			<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
-		</s:Group>
-		<s:Group includeIn="simulation" width="100%" height="100%" >
-			<simulation:Sim id="simulate" x="2" y="-30" />
-		</s:Group>
-		<s:Group includeIn="picsvids" width="100%" height="100%">
+	<s:VGroup width="100%" height="100%" gap="0">
+		<s:SkinnableContainer width="100%" height="40" skinClass="skins.sectionHeaderSkin" excludeFrom="simulation" />
+		<s:Group height="100%" width="1000" clipAndEnableScrolling="true">
+			<s:Group includeIn="tweets" width="100%" height="100%">
+				<s:Group width="100%" height="100%" id="presentationGroupArea" />
+			</s:Group>
+			<s:Group includeIn="html" width="100%" height="100%">
+				<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+				<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+			</s:Group>
+			<s:Group includeIn="simulation" width="100%" height="100%" >
+				<simulation:Sim id="simulate" x="2" y="-30" />
+			</s:Group>
+			<s:Group includeIn="picsvids" width="100%" height="100%">
+				
+			</s:Group>
 			
+			<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
+				
+			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />
 		</s:Group>
-		
-		<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
-			
-		<components:PullOutMenu id="pullOutMenu" height="518" x="1000" y="37" excludeFrom="html" />
-	</s:Group>
+	</s:VGroup>
 	<s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/>
 </s:BorderContainer>

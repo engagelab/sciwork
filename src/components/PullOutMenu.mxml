@@ -40,7 +40,7 @@
 			}
 			
 			private function draggerDown(evt:MouseEvent):void {
-				this.startDrag(false,new Rectangle(1000-245,37,245,0));
+				this.startDrag(false,new Rectangle(1000-245,0,245,0));
 			}
 			private function draggerUp(evt:MouseEvent):void {
 				this.stopDrag();
