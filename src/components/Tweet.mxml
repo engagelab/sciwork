@@ -42,24 +42,11 @@
 			 **/
 			protected function creationCompleteHandler(event:FlexEvent):void {
 				if(_teacherMode) {
-					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
+					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.from));
+					bodyText.text = extractText(data.bdy);
 				}
 				else {
-					//build context menu to trash/restore tweets
-					var cm:ContextMenu = new ContextMenu();
-					cm.hideBuiltInItems();
 					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
-					var selectMI:ContextMenuItem = new ContextMenuItem("");
-					if(data.isVisible) {
-						selectMI.label = "Delete";
-					}
-					selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);
-					
-					//add the menu items to the right click menu
-					cm.customItems.push(selectMI);
-					
-					//enable the right click menu
-					this.contextMenu = cm;
 					
 					//make this thingy draggable
 					enableListeners(true);
@@ -68,6 +55,21 @@
 					this.x = (data.xpos*this.parent.width) / 100;
 					this.y = (data.ypos*this.parent.height) / 100;
 				}
+				//build context menu to trash/restore tweets
+				var cm:ContextMenu = new ContextMenu();
+				cm.hideBuiltInItems();
+				var selectMI:ContextMenuItem = new ContextMenuItem("");
+				if(data.isVisible) {
+					selectMI.label = "Delete";
+				}
+				selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);
+				
+				//add the menu items to the right click menu
+				cm.customItems.push(selectMI);
+				
+				//enable the right click menu
+				this.contextMenu = cm;
+				
 			}
 			public function set teacherMode(m:Boolean):void {
 				_teacherMode = m;
@@ -110,7 +112,7 @@
 				enableListeners(!b);
 				if(b) {
 					this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandlerTeacherDrag);
-					this.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandlerTeacherDrag, false, 0, false);
+					this.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandlerTeacherDrag);
 				}
 				else {
 					this.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandlerTeacherDrag);
@@ -131,8 +133,15 @@
 			 * 
 			 **/
 			protected function mouseUpHandlerTeacherDrag(event:MouseEvent):void {
-				teacherDrag(false);
+				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.removeElement(this);
+				var p:Point = new Point(this.x, this.y);
+				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.localToGlobal(p);
+				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.presentationGroupArea.globalToLocal(p);
+				this.x = p.x;
+				this.y = p.y;
+				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.presentationGroupArea.addElement(this);
 				this.stopDrag();
+				teacherDrag(false);
 			}
 			/**
 			 *
@@ -256,6 +265,6 @@
 	</fx:Script>
 	
 	<s:HGroup left="10" right="10" top="10" bottom="10">
-		<s:Label text="{extractText(data.text)}" color="#FFFFFF" width="100%" textAlign="left" />
+		<s:Label id="bodyText" text="{extractText(data.text)}" color="#FFFFFF" width="100%" textAlign="left" />
 	</s:HGroup>
 </s:BorderContainer>

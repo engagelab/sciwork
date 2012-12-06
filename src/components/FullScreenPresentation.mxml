@@ -59,6 +59,7 @@
 					this.visible = true;
 					this.includeInLayout = true;
 					if(evt.mode == "tweets" && (evt.shouldShow || this.currentState == "tweets")) {
+						pullOutMenu.visible = true;
 						this.currentState = "tweets";
 						//refresh the view
 						presentationGroupArea.removeAllElements();
@@ -80,9 +81,13 @@
 					}
 					else if(evt.mode == "questions") {
 						this.currentState = "questions";
+						presentationGroupArea.removeAllElements();
+						pullOutMenu.visible = true;
+						
 					}
 					else if(evt.mode == "simulation") {
-						this.currentState = "simulation";				
+						this.currentState = "simulation";
+						pullOutMenu.visible = false;
 						simulate.setSimulationLevel(task.label);
 						
 					}
@@ -232,7 +237,7 @@
 	<s:VGroup width="100%" height="100%" gap="0">
 		<s:SkinnableContainer width="100%" height="40" skinClass="skins.sectionHeaderSkin" excludeFrom="simulation" />
 		<s:Group height="100%" width="1000" clipAndEnableScrolling="true">
-			<s:Group includeIn="tweets" width="100%" height="100%">
+			<s:Group includeIn="tweets, questions" width="100%" height="100%">
 				<s:Group width="100%" height="100%" id="presentationGroupArea" />
 			</s:Group>
 			<s:Group includeIn="html" width="100%" height="100%">
@@ -242,7 +247,6 @@
 			<s:Group includeIn="simulation" width="100%" height="100%" >
 				<simulation:Sim id="simulate" x="2" y="-30" />
 			</s:Group>
-		
 			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" includeIn="picsvids" width="100%" height="100%" />
 			<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />

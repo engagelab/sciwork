@@ -279,6 +279,9 @@
 					hasJoinedMiracleRoom = true;
 				}
 				
+				// Configure the drawer layout shown in fullscreen mode
+				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.setupDrawer(type);
+				
 				switch(type) {
 					case 'questions': {
 						//set correct state in subsequent components
@@ -286,10 +289,10 @@
 						selection.currentState = "questions";
 						preview.currentState = "questionsState";
 						
-				//		selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
-						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.setupDrawer("questions");
+						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
 						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
-						
+						getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
+						getQuestionPicture.send();
 						break;
 					}
 						
@@ -338,9 +341,18 @@
 						getArticleUrl.send();
 						break;
 					}
+					case 'portfolio': {
+						//set correct state in subsequent components
+						this.currentState = "portfolio";
+						selection.currentState = "portfolio";
+						preview.imageViewer.sourceImage.source = null;
+						break;
+					}
 					
 					case 'simulation': {
 						this.currentState = "simulation";
+						selection.currentState = "simulation";
+						preview.currentState = "simulationState";
 						break;
 					}
 						
@@ -530,7 +542,45 @@
 			protected function getArticleUrl_faultHandler(event:FaultEvent):void {
 				Alert.show("An error occured while retrieving the article URL from the server.", "Energies service error");
 			}
-			
+			/**
+			 *
+			 * Result handling method for getQuestionPicture service 
+			 * 
+			 **/
+			protected function getQuestionPicture_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				var questionPicsArray:Array = contributions.simages as Array;
+				
+				//make sure to empty the previewer
+				preview.imageViewer.sourceImage.source = null;
+				
+				if(questionPicsArray.length > 0) {
+					//get the latest object by 'popping'
+					var lastPic:Object = questionPicsArray.pop();
+					var newItem:MaterialsItem = new MaterialsItem();
+					newItem.xpos = lastPic.xpos;
+					newItem.ypos = lastPic.ypos;
+					newItem.sourceType = "QUESTIONS";
+					newItem.id = lastPic.id;
+					newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+lastPic.filePath, resourceManager.getString('resources', 'SERVER_URL')+lastPic.filePath);
+					
+					var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+					mtpe.materialItem = newItem;
+					mtpe.sourceType = newItem.sourceType;
+					dispatchEvent(mtpe);
+				}
+			}
+			/**
+			 * 
+			 * Error handling method for getQuestionPicture service
+			 * 
+			 **/
+			protected function getQuestionPicture_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
+			}
 		]]>
 	</fx:Script>
 	
@@ -539,6 +589,7 @@
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:String id="taskId" />

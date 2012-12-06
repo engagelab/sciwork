@@ -97,9 +97,13 @@
 			protected function handleShowFullscreen(evt:Event):void {
 				var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
 				stfe.shouldShow = true;
+				
 				if(this.currentState == "tweetsState") {
 					stfe.mode = "tweets";
 					stfe.tweetsInView = tweetsViewer.tweetsForGroup;
+				}
+				else if(this.currentState == "default") {
+					return;
 				}
 				else if(this.currentState == "simulationState") {
 					stfe.mode = "simulation";

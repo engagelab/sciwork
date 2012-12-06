@@ -82,7 +82,7 @@
 						this.currentState = "simulation";
 						selection.enableTeacherMode("simulation");
 						break;
-					case "html" :
+					case "article" :
 						break;
 					case "portfolio" :
 						break;

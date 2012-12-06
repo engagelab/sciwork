@@ -42,6 +42,7 @@
 			}
 			private function mouseDown(evt:MouseEvent):void {
 				var twt:Tweet = new Tweet();
+				twt.data = this.data;
 				twt.teacherMode = true;
 				twt.teacherDrag(true);
 				evt.stopPropagation();
@@ -49,10 +50,12 @@
 				
 				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.globalToLocal(p);
 				var newEvent:MouseEvent = new MouseEvent(evt.type, evt.bubbles, evt.cancelable, p.x, p.y);
-				twt.x = p.x;
-				twt.y = p.y;
+				twt.x = p.x - 20;
+				twt.y = p.y - 20;
 				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.addElement(twt);
 				twt.dispatchEvent(newEvent);
+				this.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+				this.alpha = 0.5;
 			}
 			/**
 			 *
