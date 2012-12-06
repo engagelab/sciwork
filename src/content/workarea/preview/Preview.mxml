@@ -110,6 +110,10 @@
 				else if(this.currentState == "ipadState") {
 					stfe.mode = "ipad";
 				}
+				else if(this.currentState == "imageState" || this.currentState == "videoState") {
+					stfe.mode = "picsvids";
+					stfe.material = _currentMaterialItem;
+				}
 				dispatchEvent(stfe);
 			}
 		]]>
