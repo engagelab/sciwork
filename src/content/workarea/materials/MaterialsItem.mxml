@@ -14,6 +14,7 @@
 			import content.workarea.WorkArea;
 			
 			import listeners.MaterialToPreviewEvent;
+			import listeners.ObjectDropEvent;
 			import listeners.SelectMaterialEvent;
 			
 			import mx.events.FlexEvent;
@@ -30,7 +31,7 @@
 			{
 				return _isPortfolio;
 			}
-
+			
 			public function set isPortfolio(value:String):void
 			{
 				_isPortfolio = value;

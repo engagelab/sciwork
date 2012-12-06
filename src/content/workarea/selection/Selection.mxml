@@ -9,10 +9,10 @@
 				this.currentState = mode;
 				switch(mode) {
 					case "questions" :
-						questionsSelection.enableTeacherMode();
+						questionsSelection.teacherMode = true;
 						break;
 					case "tweets" :
-						tweetsSelection.enableTeacherMode();
+			//			tweetsSelection.enableTeacherMode();
 						break;
 				}
 			}

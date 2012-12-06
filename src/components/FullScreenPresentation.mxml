@@ -18,6 +18,7 @@
 			import content.workarea.WorkArea;
 			
 			import listeners.CaptureFullscreenEvent;
+			import listeners.ObjectDropEvent;
 			import listeners.ShowFullscreenEvent;
 			import listeners.TweetsRefreshEvent;
 			
@@ -77,6 +78,9 @@
 							}
 						}
 					}
+					else if(evt.mode == "questions") {
+						this.currentState = "questions";
+					}
 					else if(evt.mode == "simulation") {
 						this.currentState = "simulation";				
 						simulate.setSimulationLevel(task.label);
@@ -99,10 +103,9 @@
 						this.currentState = "picsvids";
 						videoPicturePresentationContainer.previewMaterial(evt.material);
 					}
-					if(pullOutMenu != null)
-						pullOutMenu.setupDrawer(evt.mode, scene, task);
 				}
 			}
+
 			public function callHideFullscreen(evt:MouseEvent):void {
 				//need to quit ipad session if any
 				if(this.currentState == "ipad") {
@@ -212,6 +215,7 @@
 	<s:states>
 		<s:State name="disabled" />
 		<s:State name="tweets" />
+		<s:State name="questions" />
 		<s:State name="html" />
 		<s:State name="simulation" />
 		<s:State name="picsvids" />

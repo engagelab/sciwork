@@ -29,7 +29,7 @@
 			private var DragIcon:Class;
 			
 			private var cursorId:int;
-			
+			private var _teacherMode:Boolean = false;
 			private var refreshTimer:Number;
 			
 			[Bindable] private var ownerColor:uint;
@@ -41,30 +41,41 @@
 			 * 
 			 **/
 			protected function creationCompleteHandler(event:FlexEvent):void {
-				//build context menu to trash/restore tweets
-				var cm:ContextMenu = new ContextMenu();
-				cm.hideBuiltInItems();
-				this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
-				var selectMI:ContextMenuItem = new ContextMenuItem("");
-				if(data.isVisible) {
-					selectMI.label = "Delete";
+				if(_teacherMode) {
+					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
 				}
-				selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);
-				
-				//add the menu items to the right click menu
-				cm.customItems.push(selectMI);
-				
-				//enable the right click menu
-				this.contextMenu = cm;
-				
-				//make this thingy draggable
-				enableListeners(true);
-				
-				calculatedWidth = this.parent.width*.2;
-				this.x = (data.xpos*this.parent.width) / 100;
-				this.y = (data.ypos*this.parent.height) / 100;
+				else {
+					//build context menu to trash/restore tweets
+					var cm:ContextMenu = new ContextMenu();
+					cm.hideBuiltInItems();
+					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
+					var selectMI:ContextMenuItem = new ContextMenuItem("");
+					if(data.isVisible) {
+						selectMI.label = "Delete";
+					}
+					selectMI.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, selectMIHandler);
+					
+					//add the menu items to the right click menu
+					cm.customItems.push(selectMI);
+					
+					//enable the right click menu
+					this.contextMenu = cm;
+					
+					//make this thingy draggable
+					enableListeners(true);
+					
+					calculatedWidth = this.parent.width*.2;
+					this.x = (data.xpos*this.parent.width) / 100;
+					this.y = (data.ypos*this.parent.height) / 100;
+				}
 			}
-			
+			public function set teacherMode(m:Boolean):void {
+				_teacherMode = m;
+				
+			}
+			public function get teacherMode():Boolean {
+				return _teacherMode;
+			}
 			/**
 			 *
 			 * Called when addToPortfolioMI item is clicked
@@ -95,6 +106,34 @@
 				}
 			}
 			
+			public function teacherDrag(b:Boolean):void {
+				enableListeners(!b);
+				if(b) {
+					this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandlerTeacherDrag);
+					this.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandlerTeacherDrag, false, 0, false);
+				}
+				else {
+					this.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandlerTeacherDrag);
+					this.removeEventListener(MouseEvent.MOUSE_UP, mouseUpHandlerTeacherDrag);
+				}
+			}
+			/**
+			 *
+			 * Called when mouse is pressed on this item as teacher begins a drag
+			 * 
+			 **/
+			protected function mouseDownHandlerTeacherDrag(event:MouseEvent):void {
+				this.startDrag();
+			}
+			/**
+			 *
+			 * Called when mouse is released on this item as teacher begins a drag
+			 * 
+			 **/
+			protected function mouseUpHandlerTeacherDrag(event:MouseEvent):void {
+				teacherDrag(false);
+				this.stopDrag();
+			}
 			/**
 			 *
 			 * Called when mouse is pressed on this item

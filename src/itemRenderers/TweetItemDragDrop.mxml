@@ -27,7 +27,10 @@
 				var groupName:String = new String(data.from).toLowerCase();
 				groupColor = sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
 				callOut = sciwork.getIndexBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
-
+				
+				if(mx.core.FlexGlobals.topLevelApplication.currentState == "loggedInTeacher") {
+						this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+				}
 				/*var group:Object = mx.core.FlexGlobals.topLevelApplication.currentGroup;
 				var cm:ContextMenu = new ContextMenu();
 				cm.hideBuiltInItems();
@@ -37,7 +40,20 @@
 				cm.customItems.push(retweetMI);
 				this.contextMenu = cm;*/
 			}
-
+			private function mouseDown(evt:MouseEvent):void {
+				var twt:Tweet = new Tweet();
+				twt.teacherMode = true;
+				twt.teacherDrag(true);
+				evt.stopPropagation();
+				var p:Point = new Point(evt.stageX, evt.stageY);
+				
+				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.globalToLocal(p);
+				var newEvent:MouseEvent = new MouseEvent(evt.type, evt.bubbles, evt.cancelable, p.x, p.y);
+				twt.x = p.x;
+				twt.y = p.y;
+				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.addElement(twt);
+				twt.dispatchEvent(newEvent);
+			}
 			/**
 			 *
 			 * Called when addToPortfolioMI item is clicked

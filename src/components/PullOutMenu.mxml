@@ -61,9 +61,8 @@
 				closeDrawer.play();
 			}
 			
-			public function setupDrawer(mode:String, scene:Object, task:Object):void {
-				_scene = scene;
-				_task = task;
+			public function setupDrawer(mode:String):void {
+
 				_mode = mode;
 				
 				switch(_mode) {

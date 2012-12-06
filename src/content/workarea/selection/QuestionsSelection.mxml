@@ -5,14 +5,15 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import itemRenderers.TweetItemDragDrop;
+			
+			import listeners.ObjectDropEvent;
+			
 			import mx.collections.ArrayCollection;
 			
 			import spark.core.NavigationUnit;
 			
-			public function enableTeacherMode():void {
-				
-			}
-			
+			private var _teacherMode:Boolean = false;
 			
 			/**
 			 * 
@@ -51,6 +52,18 @@
 				questionsFeedList.dataProvider = questionsToDisplay;
 				scrollToBottom();
 			}
+			
+			public function set teacherMode(m:Boolean):void {
+				_teacherMode = m;
+				if(m)
+					questionsFeedList.itemRenderer = new ClassFactory( itemRenderers.TweetItemDragDrop );
+			}
+			public function get teacherMode():Boolean {
+				return _teacherMode;
+			}
+			
+
+
 			
 		]]>
 	</fx:Script>
