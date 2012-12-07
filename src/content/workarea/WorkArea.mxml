@@ -353,7 +353,7 @@
 						//set correct state in subsequent components
 						this.currentState = "portfolio";
 						selection.currentState = "portfolio";
-						preview.imageViewer.sourceImage.source = null;
+						preview.currentState = "default";
 						break;
 					}
 						

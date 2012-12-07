@@ -53,7 +53,7 @@
 				canSave = false;
 				this.currentState = "saving";
 				
-				var urlRequest:URLRequest = new URLRequest("http://scihub.uio.no:9003/simQuestion");
+				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/simQuestion");
 				urlRequest.method = URLRequestMethod.PUT;
 				urlRequest.contentType = "application/json";
 				var params:Object = new Object();

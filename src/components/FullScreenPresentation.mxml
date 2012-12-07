@@ -247,7 +247,7 @@
 			<s:Group includeIn="simulation" width="100%" height="100%" >
 				<simulation:Sim id="simulate" x="2" y="-30" />
 			</s:Group>
-			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" includeIn="picsvids" width="100%" height="100%" />
+			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.questions="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
 			<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />
 		</s:Group>
