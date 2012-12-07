@@ -9,12 +9,15 @@
 			
 			import listeners.EnergyChosenEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
 			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
 			import spark.components.Button;
 			
 			protected function initComponent(event:FlexEvent):void {
@@ -28,7 +31,7 @@
 			
 			protected function getEnergySources_resultHandler(event:ResultEvent):void {
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				
+				var nrjs:ArrayCollection = new ArrayCollection();
 				var b:Button;
 				
 				for each (var nrj:Object in res) {
@@ -38,7 +41,7 @@
 					b.width = 100;
 					b.height = 30;
 					b.addEventListener(MouseEvent.CLICK, pickEnergy);
-					energies.addElement(b);
+					nrjs.addItem(b);
 					
 					if(nrj.inuse) {
 						b.enabled = false;
@@ -46,6 +49,20 @@
 					else {
 						b.enabled = true;
 					}
+				}
+				
+				var sortfield:SortField = new SortField();
+				sortfield.name = "label";
+				sortfield.descending = false;
+				
+				var sort:Sort = new Sort();
+				sort.fields = [sortfield];
+				
+				nrjs.sort = sort;
+				nrjs.refresh();
+				
+				for each (var sortedNrj:Button in nrjs) {
+					energies.addElement(sortedNrj);
 				}
 			}
 			
