@@ -229,7 +229,7 @@
 				_conn.auto_reconnect = false;
 				var currentInterface:String = "studentInterface";
 				if(this.currentState == "loggedInTeacher") {
-					currentInterface = "teacherInterface";					
+					currentInterface = "teacherInterface";
 				}
 				
 				this[currentInterface].stopPlayingMedia();

@@ -61,10 +61,7 @@
 			public function get teacherMode():Boolean {
 				return _teacherMode;
 			}
-			
 
-
-			
 		]]>
 	</fx:Script>
 	

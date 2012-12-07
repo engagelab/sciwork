@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*" xmlns:workarea="content.workarea.*" creationComplete="initGroup(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:content="content.*" xmlns:simulation="simulation.*" xmlns:workarea="content.workarea.*" creationComplete="initGroup(event)" xmlns:components="components.*">
 	
 	<fx:Declarations>
 		<s:HTTPService method="GET" result="getTask_resultHandler(event)" fault="getTask_faultHandler(event)" resultFormat="text" id="getTask" />
@@ -74,7 +74,12 @@
 				updateResources(res.title);
 			
 				this.currentState = "contentState";
-				workareaContainer.updateCurrentState(res.taskType);
+				if(res.taskType == "portfolio") {
+					this.currentState = "portfolioState";
+					taskOverview.refreshData();
+				}
+				else
+					workareaContainer.updateCurrentState(res.taskType);
 			}
 			
 			/**
@@ -257,6 +262,7 @@
 	<s:states>
 		<s:State name="contentState" />
 		<s:State name="webState" />
+		<s:State name="portfolioState" />
 	</s:states>
 	
 	<s:HGroup id="contentContainer" width="100%" height="100%" includeIn="contentState" gap="{sciwork._gapBetweenContainers}">
@@ -271,6 +277,11 @@
 		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:Button label="X" click="this.currentState='contentState'" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+	</s:Group>
+	
+	<s:Group width="100%" height="100%" itemDestructionPolicy="auto" includeIn="portfolioState" >
+		<components:TaskOverview id="taskOverview" />
+		<s:Button label="X" click="this.currentState='contentState'" />
 	</s:Group>
 	
 </s:Group>

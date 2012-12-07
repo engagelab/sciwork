@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*" creationComplete="initWorkArea(event)" xmlns:selection="content.workarea.selection.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*" creationComplete="initWorkArea(event)" xmlns:selection="content.workarea.selection.*" xmlns:components="components.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -609,7 +609,7 @@
 	
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
-			<preview:Preview id="preview" width="100%" height="100%" excludeFrom="article" />
+			<preview:Preview id="preview" width="100%" height="100%" />
 			<s:BorderContainer id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" borderAlpha=".3" >
 				<s:Scroller top="5" right="5" bottom="5" left="5">
 					<s:HGroup id="materialItems" />
