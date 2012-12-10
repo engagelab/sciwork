@@ -309,11 +309,18 @@
 					case 'assets': {
 						//set correct state in subsequent components
 						this.currentState = "assets";
-						selection.currentState = "assets";
+						if(taskId == "50c5c602b760a8ae9a3bcb37") {
+							selection.currentState = "default";
+						}
+						else {
+							selection.currentState = "assets";
+						}
+						
 						preview.currentState = "default";
 						//get existing assets selection (portfolio) for the current task and group
 						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
 						getAssetsPortfolio.send();
+						
 						break;
 					}
 						
