@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<s:ArrayCollection id="hashTags" />
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.CheckBox;
+			import spark.core.NavigationUnit;
+			
+			[Bindable] private var drawerHandleColor:uint = 0x999999;
+			[Bindable] public var tweetFeedArray:ArrayCollection;
+			
+			/**
+			 * 
+			 * public function to force scroll down on the list component
+			 * 
+			 **/
+			protected function scrollToBottom():void {
+				var delta:Number = 0;
+				var count:int = 0;
+				
+				while (count++ < 10){
+					liveFeedList.validateNow();
+					delta = liveFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+					liveFeedList.layout.verticalScrollPosition += delta;
+					
+					if (delta == 0) {
+						break;						
+					}
+				}
+			}			
+			
+			/**
+			 * 
+			 * handles opening and closing the hash drawer
+			 * 
+			 **/
+			protected function toggleHashDrawer(event:MouseEvent):void {
+				if(this.currentState == "closed") {
+					this.currentState = "opened";
+				}
+				else {
+					this.currentState = "closed";
+				}
+			}
+			
+			/**
+			 * 
+			 * handles opening and closing the hash drawer
+			 * 
+			 **/
+			protected function handleHashTag(event:Event):void {
+				var tag:String = event.currentTarget.content;
+				
+				if(event.currentTarget.selected) {
+					hashTags.addItem(tag);
+				}
+				else {
+					hashTags.removeItemAt(hashTags.getItemIndex(tag));
+				}
+				
+				refreshLiveFeed();
+			}
+			
+			/**
+			 * 
+			 * update the list of displayed tweets in the livefeed based on hash filters
+			 * 
+			 **/
+			public function refreshLiveFeed():void {
+				var tweetsToDisplay:ArrayCollection = new ArrayCollection();
+				for each (var tweet:Object in tweetFeedArray) {
+					tweet.isRetweetable = true;
+					if(hashTags.length > 0) {
+						for each (var tag:String in hashTags) {
+							if((tweet.tags as Array).indexOf(tag) > -1 && !tweetsToDisplay.contains(tweet)) {
+								tweetsToDisplay.addItem(tweet);
+							}
+						}	
+					}
+					else {
+						tweetsToDisplay.addItem(tweet);
+					}
+				}
+				
+				liveFeedList.dataProvider = tweetsToDisplay;
+				scrollToBottom();
+			}
+			
+			/**
+			 * 
+			 * handles mouse over color change
+			 * 
+			 **/
+			protected function drawerHandleMouseOver(event:MouseEvent):void {
+				drawerHandleColor = 0x777777;
+			}
+			
+			/**
+			 * 
+			 * handles mouse out color change
+			 * 
+			 **/
+			protected function drawerHandleMouseOut(event:MouseEvent):void {
+				drawerHandleColor = 0x999999;
+			}
+			
+			/**
+			 * 
+			 * build dynamically the filters on creation complete
+			 * 
+			 **/
+			protected function buildFilters(event:FlexEvent):void {
+				getEnergies.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/energySources";
+				getEnergies.send();
+			}
+			
+			protected function getEnergies_resultHandler(event:ResultEvent):void {
+				var energyArray:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				var cb:CheckBox;
+				for each (var nrj:Object in energyArray) {
+					cb = new CheckBox();
+					filterGroup.addElement(cb);
+					cb.label = nrj.energy;
+					cb.setStyle("color", 0xFFFFFF);
+					cb.addEventListener(Event.CHANGE, handleHashTag);
+				}
+			}
+			
+			protected function getEnergies_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="closed" />
+		<s:State name="opened" />
+	</s:states>
+	
+	<s:BorderContainer id="arrowDown" width="100%" backgroundColor="#999999" minHeight="30" skinClass="skins.hashPanelHeaderSkin">
+		<s:VGroup width="100%" gap="0">
+			<s:VGroup id="filterGroup" width="100%" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" includeIn="opened" creationComplete="buildFilters(event)"/>
+			<s:BorderContainer width="100%" backgroundColor="{drawerHandleColor}" skinClass="skins.hashPanelHeaderSkin" click="toggleHashDrawer(event)" buttonMode="true" minHeight="30" mouseOver="drawerHandleMouseOver(event)" mouseOut="drawerHandleMouseOut(event)">
+				<s:Image source="@Embed('assets/arrowd.png')" rotation.opened="180" horizontalCenter="0" verticalCenter="0" />
+			</s:BorderContainer>
+		</s:VGroup>
+	</s:BorderContainer>
+	
+	<s:Group width="100%" height="100%">
+		<s:List id="liveFeedList" top="10" left="10" right="10" bottom="10" selectionColor="#FFFFFF" horizontalScrollPolicy="off" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
+			<s:layout>
+				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="true" />
+			</s:layout>
+		</s:List>
+	</s:Group>
+</s:VGroup>

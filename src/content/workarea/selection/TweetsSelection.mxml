@@ -48,6 +48,10 @@
 				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
 			}
 			
+			public function refreshFeed():void {
+				liveFeedComponent.refreshLiveFeed();
+			}
+			
 			/**
 			 *
 			 * Result handling method for getAssets service 
@@ -58,7 +62,7 @@
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
 				//clean current material holders
-				portfolioGroup.removeAllElements();
+				//portfolioGroup.removeAllElements();
 				
 				parseMaterialSubArray(contributions.simages, WorkArea.IMAGE_TYPE);
 			}
@@ -81,7 +85,7 @@
 					newItem.sourceType = "TWEETS";
 					
 					//add it to the portfolio
-					portfolioGroup.addElement(newItem);
+					//portfolioGroup.addElement(newItem);
 					
 					//assign id
 					newItem.id = material.id;
@@ -95,9 +99,10 @@
 	
 	<components:SelectionHeader id="selectionheader" width="100%" height="23" currentState="assets"/>
 	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:Scroller top="5" right="5" bottom="5" left="5" skinClass="skins.animatorVScroller" >
+		<!--s:Scroller top="5" right="5" bottom="5" left="5" skinClass="skins.animatorVScroller" >
 			<s:VGroup id="portfolioGroup" width="100%" height="100%" />
-		</s:Scroller>
+		</s:Scroller-->
+		<selection:LiveFeedComponent id="liveFeedComponent" width="100%" height="100%" tweetFeedArray="{tweetFeedArray}" />
 	</s:BorderContainer>
 	
 </s:VGroup>
