@@ -43,13 +43,13 @@
 			 **/
 			
 			protected function creationCompleteHandler(event:FlexEvent):void {
-				if(_teacherMode) {
+				if(_teacherMode && data.ownerName == null) {
 					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.from));
-					bodyText.text = extractText(data.bdy);
+					data.text = this.extractText(data.bdy);
 				}
 				else {
 					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
-					
+
 					//make this thingy draggable
 					enableListeners(true);
 					
@@ -71,6 +71,8 @@
 				
 				//enable the right click menu
 				this.contextMenu = cm;
+				
+				this.width = bodyText.measuredWidth + 30;
 				
 			}
 			public function set teacherMode(m:Boolean):void {
@@ -233,8 +235,17 @@
 				var tc:TweetCreator = new TweetCreator();
 				tc.addEventListener(TweetCreatorEvent.CREATE_SUCCESSFUL, handleAddNewSuccessful);
 				tc.addEventListener(TweetCreatorEvent.CREATE_FAILED, handleAddNewFailure);
+				
+				var newTweetObject:Object = new Object();
+				newTweetObject.xpos = data.xpos;
+				newTweetObject.ypos = data.ypos;
+				newTweetObject.taskId = data.qId;
+				newTweetObject.ownerName = data.from;
+				newTweetObject.isVisible = data.isVisible;
+				newTweetObject.text = extractText(data.bdy);
+				
 				if(_teacherMode)
-					tc.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/teacherTweet", data);
+					tc.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/teacherTweet", newTweetObject);
 				else
 					tc.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/tweet", data);
 			}
@@ -244,12 +255,13 @@
 			 * Called when the tweetAddNew is successful
 			 * 
 			 **/
-			protected function handleAddNewSuccessful(evt:TweetUpdaterEvent):void {
+			protected function handleAddNewSuccessful(evt:TweetCreatorEvent):void {
 				var res:Object = com.adobe.serialization.json.JSON.decode(new String(evt.result));
-				conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"tag":"'+new String(res.tag)+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
+				//conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"tag":"'+new String(res.tag)+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
 				enableListeners(true);	
 				CursorManager.removeAllCursors();
-				data.id = evt.result.id;
+				data.id = res.id;
+				data.text = res.text;
 				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.presentationGroupArea.addElement(this);
 				teacherDrag(false);
 			}
@@ -260,7 +272,7 @@
 			 * Called when the tweetAddNew fails
 			 * 
 			 **/
-			protected function handleAddNewFailure(evt:TweetUpdaterEvent):void {
+			protected function handleAddNewFailure(evt:TweetCreatorEvent):void {
 				//something went wrong with the service, reposition the item to its last known position
 				this.x = oldX;
 				this.y = oldY;
@@ -300,7 +312,7 @@
 			 * 
 			 **/
 			protected function extractText(bdy:String):String {
-				var txt:String = "";
+				var txt:String = bdy;
 				
 				//need a try/catch as it is expected to receive a JSON formatted object
 				try {

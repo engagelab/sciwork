@@ -3,7 +3,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark" 
 				   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:listeners="listeners.*" xmlns:simulation="simulation.*" xmlns:components="components.*" borderVisible="false" scrollRect="{new Rectangle(0,0,1000,600)}" creationComplete="init(event)">
 	<fx:Declarations>
-		
+		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getQuestions_resultHandler(event)" fault="getQuestions_faultHandler(event)" resultFormat="text" id="getQuestions" showBusyCursor="true" />
 	</fx:Declarations>
 	
 	
@@ -13,12 +13,14 @@
 			import com.pfp.events.JPEGAsyncCompleteEvent;
 			import com.pfp.utils.JPEGAsyncEncoder;
 			import com.seesmic.as3.xmpp.XMPP;
+			import com.adobe.serialization.json.JSON;
 			
 			import content.workarea.TeacherWorkArea;
 			import content.workarea.WorkArea;
 			
 			import listeners.CaptureFullscreenEvent;
 			import listeners.ObjectDropEvent;
+			import listeners.QuestionsRefreshEvent;
 			import listeners.ShowFullscreenEvent;
 			import listeners.TweetsRefreshEvent;
 			
@@ -26,6 +28,8 @@
 			import mx.collections.IList;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
 			
 			private var sciApp:sciwork = mx.core.FlexGlobals.topLevelApplication as sciwork;
@@ -35,6 +39,7 @@
 			
 			private var groupId:String;
 			private var taskId:String;
+			private var questionsForGroup:Array;
 			
 			/**
 			 *
@@ -43,6 +48,7 @@
 			 **/
 			public function init(evt:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'CAPTURE_FULLSCREEN'), captureScreen);
+				this.addEventListener(resourceManager.getString('resources', 'REFRESH_QUESTIONS'), refreshQuestions);
 			}
 			
 			
@@ -83,7 +89,7 @@
 						this.currentState = "teacherQuestions";
 						presentationGroupArea.removeAllElements();
 						pullOutMenu.visible = true;
-						
+						dispatchEvent(new QuestionsRefreshEvent(resourceManager.getString('resources', 'REFRESH_QUESTIONS'), true));
 					}
 					else if(evt.mode == "simulation") {
 						this.currentState = "simulation";
@@ -128,10 +134,6 @@
 			 * 
 			 **/
 			public function handeHideFullScreen(event:Event):void {
-				var currentInterface:String = "studentInterface";
-				if(this.currentState == "loggedInTeacher") {
-					currentInterface = "teacherInterface";					
-				}
 				if(this.currentState == "html")
 					_htmlLocation='';
 				else if(this.currentState == "tweets")
@@ -140,7 +142,50 @@
 				this.includeInLayout = false;
 				this.currentState = "disabled";
 			}
+			/**
+			 * 
+			 * Calls the questions service to get all questions
+			 * 
+			 **/
+			protected function refreshQuestions(evt:QuestionsRefreshEvent = null):void {
+				//get existing questions
+				getQuestions.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/teacherTweet/" + taskId;
+				getQuestions.send();
+			}
+			/**
+			 *
+			 * Result handling method for getQuestions service 
+			 * 
+			 **/
+			protected function getQuestions_resultHandler(event:ResultEvent):void {
+				if(event.result != "") {
+					questionsForGroup = com.adobe.serialization.json.JSON.decode(String(event.result));
+					//build the correct arrays
+					var tweet:Tweet;
+					for each (var twt:Object in questionsForGroup) {
+						tweet = new Tweet();
+						tweet.data = twt;
+						tweet.conn = _conn;
+						if(this.currentState == "teacherQuestions")
+							tweet.teacherMode = true;
+						
+						//need to see if tweet is visisble
+						if(twt.isVisible) {
+							//place the tweets in the view
+							presentationGroupArea.addElement(tweet);
+						}
+					}
+				}
+			}
 			
+			/**
+			 * 
+			 * Error handling method for getTweets service
+			 * 
+			 **/
+			protected function getQuestions_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the questions from the server.", "Questions service error");
+			}
 			/**
 			 * 
 			 * Function to hide the busyindicator after html page has loaded
@@ -220,7 +265,7 @@
 	<s:states>
 		<s:State name="disabled" />
 		<s:State name="tweets" />
-		<s:State name="questions" />
+		<s:State name="teacherQuestions" />
 		<s:State name="html" />
 		<s:State name="simulation" />
 		<s:State name="picsvids" />
@@ -237,7 +282,7 @@
 	<s:VGroup width="100%" height="100%" gap="0">
 		<s:SkinnableContainer width="100%" height="40" skinClass="skins.sectionHeaderSkin" excludeFrom="simulation" />
 		<s:Group height="100%" width="1000" clipAndEnableScrolling="true">
-			<s:Group includeIn="tweets, questions" width="100%" height="100%">
+			<s:Group includeIn="tweets, teacherQuestions" width="100%" height="100%" >
 				<s:Group width="100%" height="100%" id="presentationGroupArea" />
 			</s:Group>
 			<s:Group includeIn="html" width="100%" height="100%">
@@ -247,7 +292,7 @@
 			<s:Group includeIn="simulation" width="100%" height="100%" >
 				<simulation:Sim id="simulate" x="2" y="-30" />
 			</s:Group>
-			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.questions="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
+			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.teacherQuestions="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
 			<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />
 		</s:Group>

@@ -13,7 +13,7 @@ package
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	
-	import listeners.TweetUpdaterEvent;
+	import listeners.TweetCreatorEvent;
 	
 	public class TweetCreator extends EventDispatcher
 	{
@@ -35,7 +35,7 @@ package
 		}
 		
 		protected function completeHandler(evt:Event):void {
-			var ev:TweetUpdaterEvent = new TweetUpdaterEvent(TweetUpdaterEvent.UPDATE_SUCCESSFUL, true);
+			var ev:TweetCreatorEvent = new TweetCreatorEvent(TweetCreatorEvent.CREATE_SUCCESSFUL, true);
 			ev.result = evt.target.data;
 			dispatchEvent(ev);
 		}
@@ -45,7 +45,7 @@ package
 		}
 		
 		protected function ioErrorHandler(evt:IOErrorEvent):void {
-			var ioev:TweetUpdaterEvent = new TweetUpdaterEvent(TweetUpdaterEvent.UPDATE_FAILED, true);
+			var ioev:TweetCreatorEvent = new TweetCreatorEvent(TweetCreatorEvent.CREATE_SUCCESSFUL, true);
 			ioev.result = evt.errorID;
 			dispatchEvent(ioev);
 		}

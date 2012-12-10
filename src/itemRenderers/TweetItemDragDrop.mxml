@@ -43,6 +43,7 @@
 			}
 			private function mouseDown(evt:MouseEvent):void {
 				// Create a new Tweet class to be dragged, then added to the screen
+				data.text = this.extractText(data.bdy);
 				var twt:Tweet = new Tweet();
 				twt.teacherDrag(true);
 				twt.teacherMode = true;
