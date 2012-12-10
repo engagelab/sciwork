@@ -79,8 +79,8 @@
 							}
 						}
 					}
-					else if(evt.mode == "questions") {
-						this.currentState = "questions";
+					else if(evt.mode == "teacherQuestions") {
+						this.currentState = "teacherQuestions";
 						presentationGroupArea.removeAllElements();
 						pullOutMenu.visible = true;
 						
