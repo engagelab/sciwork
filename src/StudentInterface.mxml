@@ -28,6 +28,7 @@
 			 **/
 			public function changeScene():void {
 				_description = "";
+				workareaContainer.preview.currentMaterialItem = null;
 				resetNRJ();
 			}
 			

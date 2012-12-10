@@ -22,6 +22,16 @@
 			
 			private var _currentMaterialItem:MaterialsItem;
 			
+			public function get currentMaterialItem():MaterialsItem
+			{
+				return _currentMaterialItem;
+			}
+
+			public function set currentMaterialItem(value:MaterialsItem):void
+			{
+				_currentMaterialItem = value;
+			}
+
 			/**
 			 * 
 			 * Creates the preview of each material, based on material type
@@ -115,11 +125,19 @@
 					stfe.mode = "ipad";
 				}
 				else if(this.currentState == "imageState" || this.currentState == "videoState" || this.currentState == "questionsState") {
-					stfe.mode = "picsvids";
-					stfe.showPullOutMenu = false;
-					stfe.material = _currentMaterialItem;
+					if(_currentMaterialItem != null) {
+						stfe.mode = "picsvids";
+						stfe.showPullOutMenu = false;
+						stfe.material = _currentMaterialItem;
+					}
+					else {
+						stfe.mode = null;
+					}
 				}
-				dispatchEvent(stfe);
+				
+				if(stfe.mode != null) {
+					dispatchEvent(stfe);
+				}
 			}
 		]]>
 	</fx:Script>
