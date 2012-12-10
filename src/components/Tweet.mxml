@@ -13,6 +13,7 @@
 			import com.adobe.serialization.json.JSON;
 			import com.seesmic.as3.xmpp.XMPP;
 			
+			import listeners.TweetCreatorEvent;
 			import listeners.TweetUpdaterEvent;
 			
 			import mx.core.Application;
@@ -134,15 +135,21 @@
 			 * 
 			 **/
 			protected function mouseUpHandlerTeacherDrag(event:MouseEvent):void {
-				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.removeElement(this);
+				// Remove from high level component (used for dragging), if successfully created on server it will be added to the presentationGroupArea component.
+				
+				var fsp:FullScreenPresentation = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation;
+				
+				fsp.removeElement(this);
 				var p:Point = new Point(this.x, this.y);
-				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.localToGlobal(p);
-				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.presentationGroupArea.globalToLocal(p);
+				p = fsp.localToGlobal(p);
+				p = fsp.presentationGroupArea.globalToLocal(p);
 				this.x = p.x;
 				this.y = p.y;
-				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.presentationGroupArea.addElement(this);
+				data.xpos = Math.floor((this.x * 100) / fsp.presentationGroupArea.width);
+				data.ypos = Math.floor((this.y * 100) / fsp.presentationGroupArea.height);
+				data.isVisible = true;
 				this.stopDrag();
-				teacherDrag(false);
+				addNewTweet();
 			}
 			/**
 			 *
@@ -187,7 +194,10 @@
 				var tu:TweetUpdater = new TweetUpdater();
 				tu.addEventListener(TweetUpdaterEvent.UPDATE_SUCCESSFUL, handleUpdateSuccessful);
 				tu.addEventListener(TweetUpdaterEvent.UPDATE_FAILED, handleUpdateFailure);
-				tu.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/tweet", data);
+				if(_teacherMode)
+					tu.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/teacherTweet", data);
+				else
+					tu.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/tweet", data);
 			}
 			
 			/**
@@ -214,7 +224,48 @@
 				this.y = oldY;
 				enableListeners(true);
 			}
+			/**
+			 *
+			 * Function to handle adding new tweet
+			 * 
+			 **/
+			protected function addNewTweet():void {
+				var tc:TweetCreator = new TweetCreator();
+				tc.addEventListener(TweetCreatorEvent.CREATE_SUCCESSFUL, handleAddNewSuccessful);
+				tc.addEventListener(TweetCreatorEvent.CREATE_FAILED, handleAddNewFailure);
+				if(_teacherMode)
+					tc.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/teacherTweet", data);
+				else
+					tc.postTweetToService(resourceManager.getString('resources', 'TWEET_SERVER_URL')+"/tweet", data);
+			}
 			
+			/**
+			 *
+			 * Called when the tweetAddNew is successful
+			 * 
+			 **/
+			protected function handleAddNewSuccessful(evt:TweetUpdaterEvent):void {
+				var res:Object = com.adobe.serialization.json.JSON.decode(new String(evt.result));
+				conn.plugin['muc'].sendMessage('conference.'+resourceManager.getString('resources', 'XMPP_SERVER'), resourceManager.getString('resources', 'TWEETS_COMMUNICATION_ROOM_NAME'), '{"tag":"'+new String(res.tag)+'", "messageType":"'+resourceManager.getString('resources', 'TWEET_POST_SUCCESSFUL')+'"}', null);
+				enableListeners(true);	
+				CursorManager.removeAllCursors();
+				data.id = evt.result.id;
+				mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.presentationGroupArea.addElement(this);
+				teacherDrag(false);
+			}
+			
+			
+			/**
+			 *
+			 * Called when the tweetAddNew fails
+			 * 
+			 **/
+			protected function handleAddNewFailure(evt:TweetUpdaterEvent):void {
+				//something went wrong with the service, reposition the item to its last known position
+				this.x = oldX;
+				this.y = oldY;
+				enableListeners(true);
+			}
 			/**
 			 *
 			 * Called when mouse rolls over this item

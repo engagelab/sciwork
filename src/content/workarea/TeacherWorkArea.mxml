@@ -291,6 +291,9 @@
 						
 						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
 						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+				//		mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation
+						
+						
 						getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
 						getQuestionPicture.send();
 						break;

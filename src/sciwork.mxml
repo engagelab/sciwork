@@ -195,12 +195,8 @@
 					//update footer bar
 					footer.updateSelectedFooterScene(evt.scene);
 				}
-								
-				var currentInterface:String = "studentInterface";
-				if(this.currentState == "loggedInTeacher") {
-					currentInterface = "teacherInterface";					
-				}
 				
+				var currentInterface:String = getCurrentInterface();
 				this[currentInterface].changeScene();
 			}
 			
@@ -297,7 +293,19 @@
 			public static function getGroupNameById(id:String):String {
 				return groupIdDico[id];
 			}
-			
+			/**
+			 *
+			 * Static function to return group name based on id
+			 * 
+			 **/
+			public function getCurrentInterface():String {
+				var currentInterface:String = "studentInterface";
+				if(this.currentState == "loggedInTeacher") {
+					currentInterface = "teacherInterface";					
+				}
+				
+				return currentInterface;
+			}
 			/**
 			 *
 			 * Static function to return color codes

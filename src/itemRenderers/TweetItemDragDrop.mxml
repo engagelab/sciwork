@@ -11,6 +11,7 @@
 			
 			import listeners.RetweetEvent;
 			
+			import mx.core.FlexGlobals;
 			import mx.effects.Tween;
 			import mx.events.FlexEvent;
 			
@@ -41,13 +42,16 @@
 				this.contextMenu = cm;*/
 			}
 			private function mouseDown(evt:MouseEvent):void {
+				// Create a new Tweet class to be dragged, then added to the screen
 				var twt:Tweet = new Tweet();
-				twt.data = this.data;
-				twt.teacherMode = true;
 				twt.teacherDrag(true);
+				twt.teacherMode = true;
+				twt.data = this.data;
+				twt.conn = mx.core.FlexGlobals.topLevelApplication.currentXMPPConnection;
+				
+				// Move event control to the tweet and determine it's position in the full screen component
 				evt.stopPropagation();
 				var p:Point = new Point(evt.stageX, evt.stageY);
-				
 				p = mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.globalToLocal(p);
 				var newEvent:MouseEvent = new MouseEvent(evt.type, evt.bubbles, evt.cancelable, p.x, p.y);
 				twt.x = p.x - 20;
