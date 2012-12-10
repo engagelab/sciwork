@@ -146,9 +146,8 @@
 		</s:Rect>
 		<preview:VideoViewer width="100%" height="100%" id="videoViewer" visible.default="false" visible.videoState="true" visible.questionsState="false" visible.imageState="false" visible.simulationState="false" visible.tweetsState="false" visible.ipadState="false" />
 		<preview:ImageViewer width="100%" height="100%" id="imageViewer" visible.default="false" visible.videoState="false" visible.questionsState="true" visible.imageState="true" visible.simulationState="false" visible.tweetsState="false" visible.ipadState="false" />
-		<preview:SimulationLauncher width="100%" height="100%" id="simulationUploader" includeIn="simulationState" />
+		<preview:FullScreenPlayLauncher width="100%" height="100%" id="simulationUploader" includeIn="simulationState, ipadState" />
 		<preview:TweetsViewer width="100%" height="100%" id="tweetsViewer" includeIn="tweetsState" />
-		<preview:IPadPresentationLauncher width="100%" height="100%" id="ipadPresentationLauncher" includeIn="ipadState" />
 		<s:Button id="sender" right="0" top="0" height="44" width="66" buttonMode="true" click="sendPreviewedMaterial(event)" skinClass="skins.addToPortfolioButtonSkin" excludeFrom="tweetsState, questionsState, default, simulationState, ipadState" />
 	</s:BorderContainer>	
 </s:VGroup>
