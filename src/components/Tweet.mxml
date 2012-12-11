@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" creationPolicy="all" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationPolicy="all" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" maxWidth="210" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
 	
 	<fx:Declarations>
 		<fx:Object id="data" />
@@ -44,11 +44,11 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void {
 				if(_teacherMode && data.ownerName == null) {
-					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.from));
+					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(data.from.toUpperCase()).toLowerCase()));
 					data.text = this.extractText(data.bdy);
 				}
 				else {
-					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(data.ownerName));
+					this.setStyle("backgroundColor", sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(data.ownerName.toUpperCase()).toLowerCase()));
 
 					//make this thingy draggable
 					enableListeners(true);
