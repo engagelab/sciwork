@@ -211,7 +211,7 @@
 					currentInterface = "teacherInterface";					
 				}
 				
-				this[currentInterface].changeTask(evt.taskId, currentGroup);
+				this[currentInterface].changeTask(evt.task, currentGroup);
 			}
 			
 			/**

@@ -4,7 +4,7 @@ package listeners
 	
 	public class TaskChangeEvent extends Event
 	{
-		public var taskId:String;
+		public var task:Object;
 		
 		public function TaskChangeEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

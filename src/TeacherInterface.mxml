@@ -22,7 +22,7 @@
 			
 			[Bindable] private var _description:String = "";
 			[Bindable] private var _currentGroup:Object;
-			[Bindable] private var _taskId:String;
+			[Bindable] private var _task:Object;
 			[Bindable] private var _htmlLocation:String = "";
 			
 			/**
@@ -51,12 +51,12 @@
 			 * called when a new task is selected 
 			 * 
 			 **/
-			public function changeTask(taskId:String, currentGroup:Object):void {
-				_taskId = taskId;
+			public function changeTask(task:Object, currentGroup:Object):void {
+				_task = task;
 				_currentGroup = currentGroup;
 				
 				//fetch the inherent tasks for the selected taskid
-				getTask.url = resourceManager.getString('resources', 'SERVER_URL') + "/task/" + taskId;
+				getTask.url = resourceManager.getString('resources', 'SERVER_URL') + "/task/" + _task.taskId;
 				getTask.send();
 			}
 			
@@ -192,7 +192,7 @@
 			 **/
 			protected function handleTaskPortfolioUpdateRequest(evt:TaskPortfolioUpdateEvent):void {
 				var params:Object = new Object();
-				params.taskId = _taskId;
+				params.taskId = _task.taskId;
 				params.groupId = _currentGroup.id;
 				
 				switch(evt.eventType) {
@@ -270,7 +270,7 @@
 			<content:Activity id="activityContainer" width="100%" height="100%" content="{_description}" />
 			<content:Resources id="resourceContainer" width="100%" height="150" />
 		</s:VGroup>
-		<workarea:TeacherWorkArea id="workareaContainer" width="100%" height="100%" taskId="{_taskId}" currentGroup="{_currentGroup}"/>
+		<workarea:TeacherWorkArea id="workareaContainer" width="100%" height="100%" task="{_task}" currentGroup="{_currentGroup}"/>
 	</s:HGroup>
 	
 	<s:Group width="100%" height="100%" includeIn="webState" itemDestructionPolicy="auto">

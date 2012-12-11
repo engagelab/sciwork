@@ -115,8 +115,8 @@
 					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
 						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
 						if(this.currentState == "questions") {
-							selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
-							mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+							selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
+							mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
 						}
 						break;
 				}
@@ -290,8 +290,8 @@
 						selection.currentState = "questions";
 						preview.currentState = "teacherQuestionsState";
 						
-						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
-						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+						selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
+						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
 						
 				//		getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
 				//		getQuestionPicture.send();
@@ -304,7 +304,7 @@
 						selection.currentState = "assets";
 						preview.currentState = "default";
 						//get existing assets selection (portfolio) for the current task and group
-						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
+						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						getAssetsPortfolio.send();
 						break;
 					}
@@ -324,7 +324,7 @@
 							selection.tweetsSelection.tweetFeedArray = _tArray;
 							//selection.tweetsSelection.refreshFeed();
 							
-							selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+							selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
 							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
 						else {
@@ -384,7 +384,7 @@
 			 * 
 			 **/
 			protected function refreshTweetsPortfolio(evt:Event):void {
-				selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+				selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
 			}
 			
 			/**
@@ -479,7 +479,7 @@
 			protected function getTweets_resultHandler(event:ResultEvent):void {
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
-					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn, _chosenEnergyID);
+					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, task.taskId, _conn, _chosenEnergyID);
 					
 					//will refresh the fullscreen container if enabled
 					var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
@@ -594,7 +594,7 @@
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
-		<fx:String id="taskId" />
+		<fx:Object id="task" />
 		<fx:Array id="hashTagArray" />
 	</fx:Declarations>
 	

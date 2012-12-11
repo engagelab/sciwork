@@ -52,7 +52,7 @@
 			 **/
 			protected function taskBar_changeHandler(event:IndexChangeEvent):void {
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
-				tce.taskId = (taskBar.selectedItem as Object).taskId;
+				tce.task = taskBar.selectedItem as Object;
 				dispatchEvent(tce);
 			}
 			
@@ -86,7 +86,7 @@
 						if(task.icon == "") {
 							task.icon = "notask.png";
 						}
-						tasks.addItem({label: task.title, taskId: task.id, icon: task.icon});
+						tasks.addItem({label: task.title, taskId: task.id, icon: task.icon, portFolioSceneId: task.portFolioSceneId});
 					}
 					
 					if(scene.icon == "") {
@@ -121,7 +121,7 @@
 				
 				//check that the scene has tasks before fetching content
 				if(tabs[sceneNumber].tasks.length > 0) {
-					tce.taskId = tabs[sceneNumber].tasks[0].taskId;
+					tce.task = tabs[sceneNumber].tasks[0];
 					taskBar.validateNow();
 					taskBar.selectedIndex = 0;
 					dispatchEvent(tce);

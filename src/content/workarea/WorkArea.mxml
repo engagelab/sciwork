@@ -115,7 +115,7 @@
 					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
 						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
 						if(this.currentState == "questions") {
-							selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+							selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
 							
 						}
 						break;
@@ -299,9 +299,9 @@
 						selection.currentState = "questions";
 						preview.currentState = "questionsState";
 						
-						selection.questionsSelection.refreshQuestionFeed(taskId, _qArray);
+						selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
 						
-						getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
+						getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						getQuestionPicture.send();
 						break;
 					}
@@ -309,7 +309,7 @@
 					case 'assets': {
 						//set correct state in subsequent components
 						this.currentState = "assets";
-						if(taskId == "50c5c602b760a8ae9a3bcb37") {
+						if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
 							selection.currentState = "default";
 						}
 						else {
@@ -318,7 +318,7 @@
 						
 						preview.currentState = "default";
 						//get existing assets selection (portfolio) for the current task and group
-						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
+						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						getAssetsPortfolio.send();
 						
 						break;
@@ -371,7 +371,7 @@
 						selection.currentState = "simulation";
 						preview.currentState = "simulationState";
 						
-						getSimQuestions.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/simQuestion/" + taskId + "/" + currentGroup.id;
+						getSimQuestions.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/simQuestion/" + task.taskId + "/" + currentGroup.id;
 						getSimQuestions.send();
 						break;
 					}
@@ -402,7 +402,7 @@
 			 * 
 			 **/
 			protected function refreshTweetsPortfolio(evt:Event):void {
-				selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+				selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
 			}
 			
 			/**
@@ -497,7 +497,7 @@
 			protected function getTweets_resultHandler(event:ResultEvent):void {
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
-					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, taskId, _conn, _chosenEnergyID);
+					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, task.taskId, _conn, _chosenEnergyID);
 					
 					//will refresh the fullscreen container if enabled
 					/*var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
@@ -667,7 +667,7 @@
 		<s:HTTPService method="GET" result="getSimQuestions_resultHandler(event)" fault="getSimQuestions_faultHandler(event)" resultFormat="text" id="getSimQuestions" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
-		<fx:String id="taskId" />
+		<fx:Object id="task" />
 		<fx:Array id="hashTagArray" />
 	</fx:Declarations>
 	
