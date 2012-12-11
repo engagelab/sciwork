@@ -37,7 +37,7 @@
 			 * Creates the preview of each material, based on material type
 			 * 
 			 **/
-			public function previewMaterial(materialItem:MaterialsItem, sourceType:String):void {
+			public function previewMaterial(materialItem:MaterialsItem):void {
 				_currentMaterialItem = materialItem;
 				
 				switch(_currentMaterialItem.previewType) {
@@ -52,11 +52,19 @@
 						break;
 				}
 				
-				if(sourceType == "TWEETS") {
+				if(materialItem.sourceType == "TWEETS") {
 					sender.visible = false;
 				}
-				else if(sourceType == "QUESTIONS") {
+				else if(materialItem.sourceType == "QUESTIONS") {
 					sender.visible = false;
+				}
+				else if(materialItem.sourceType == "PORTFOLIO") {
+					if(_currentMaterialItem.isFinalPortfolio == "true") {
+						sender.visible = false;
+					}
+					else {
+						sender.visible = true;
+					}
 				}
 				else {
 					if(_currentMaterialItem.isPortfolio == "true") {
@@ -75,8 +83,13 @@
 			 **/
 			protected function sendPreviewedMaterial(event:MouseEvent):void {
 				var sme:SelectMaterialEvent = new SelectMaterialEvent(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), true);
+				if(_currentMaterialItem.sourceType == WorkArea.ASSET_TYPE) {
+					_currentMaterialItem.isPortfolio = "true";
+				}
+				else if(_currentMaterialItem.sourceType == WorkArea.PORTFOLIO_TYPE) {
+					_currentMaterialItem.isFinalPortfolio = "true";
+				}
 				sme.materialItem = _currentMaterialItem;
-				sme.addToPortolio = "true";
 				dispatchEvent(sme);
 			}			
 			

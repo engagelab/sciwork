@@ -260,7 +260,7 @@
 			 * 
 			 **/
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
-				preview.previewMaterial(evt.materialItem, evt.sourceType);
+				preview.previewMaterial(evt.materialItem);
 			}
 			
 						

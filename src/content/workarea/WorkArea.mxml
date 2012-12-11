@@ -196,7 +196,7 @@
 				//prepare the JSON object to be sent
 				var params:Object = new Object();
 				params.id = evt.materialItem.id;
-				params.isPortfolio = evt.addToPortolio;
+				params.isPortfolio = evt.materialItem.isPortfolio;
 				params.isFinalPortfolio = evt.materialItem.isFinalPortfolio;
 				params.xpos = evt.materialItem.xpos;
 				params.ypos = evt.materialItem.ypos;
@@ -222,7 +222,6 @@
 				uploader.addEventListener(HTTPStatusEvent.HTTP_STATUS, handleSelectMaterialComplete);
 				uploader.addEventListener(IOErrorEvent.IO_ERROR, handleSelectMaterialIOerror);
 				uploader.load(urlRequest);
-				
 			}
 			
 			/**
@@ -274,7 +273,7 @@
 					dispatchEvent(stfe);
 				}
 				else {
-					preview.previewMaterial(evt.materialItem, evt.sourceType);
+					preview.previewMaterial(evt.materialItem);
 				}
 			}
 			
@@ -364,7 +363,6 @@
 						//set correct state in subsequent components
 						this.currentState = "portfolio";
 						selection.currentState = "portfolio";
-						preview.currentState = "default";
 						
 						getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + currentGroup.id + "/" + task.portFolioSceneId;
 						getSceneContributions.send();
