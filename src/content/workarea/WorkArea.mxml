@@ -30,6 +30,8 @@
 			
 			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
 			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
+			public static const ASSET_TYPE:String = "ASSETS";
+			public static const PORTFOLIO_TYPE:String = "PORTFOLIO";
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
 			[Bindable] private var _chosenEnergySource:String = null;
@@ -195,6 +197,7 @@
 				var params:Object = new Object();
 				params.id = evt.materialItem.id;
 				params.isPortfolio = evt.addToPortolio;
+				params.isFinalPortfolio = evt.materialItem.isFinalPortfolio;
 				params.xpos = evt.materialItem.xpos;
 				params.ypos = evt.materialItem.ypos;
 				
@@ -362,6 +365,9 @@
 						this.currentState = "portfolio";
 						selection.currentState = "portfolio";
 						preview.currentState = "default";
+						
+						getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + currentGroup.id + "/" + task.portFolioSceneId;
+						getSceneContributions.send();
 						break;
 					}
 						
@@ -428,8 +434,8 @@
 				selection.assetSelection.portfolioGroup.removeAllElements();
 				
 				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
-				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
-				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
 				
 				//test if the currentTask portfolio is empty or not and update footer navbar
 				if(_isAssetUpdate) {
@@ -445,23 +451,42 @@
 			 * Parsing method to assign retrieved material to a correct preview item
 			 * 
 			 **/
-			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
+			protected function parseMaterialSubArray(subArray:Array, materialType:String, pGroup:VGroup, mode:String):void {
 				var newItem:MaterialsItem;
 				
 				//extract materials
 				for each (var material:Object in subArray) {
 					newItem = new MaterialsItem();
+					newItem.sourceType = mode;
+					newItem.isFinalPortfolio = material.isFinalPortfolio;
 					newItem.isPortfolio = material.isPortfolio;
 					newItem.xpos = material.xpos;
 					newItem.ypos = material.ypos;
-					newItem.sourceType = "ASSETS";
 					
-					//add it to the portfolio instead is this is true
-					if(newItem.isPortfolio == "false") {
-						materialItems.addElement(newItem);
-					}
-					else {
-						selection.assetSelection.portfolioGroup.addElement(newItem);
+					switch(mode) {
+						case ASSET_TYPE:
+						{
+							//add it to the portfolio instead is this is true
+							if(newItem.isPortfolio == "true") {
+								pGroup.addElement(newItem);
+							}
+							else {
+								materialItems.addElement(newItem);
+							}
+							break;
+						}
+							
+						case PORTFOLIO_TYPE:
+						{
+							//add it to the portfolio instead is this is true
+							if(newItem.isFinalPortfolio == "true") {
+								pGroup.addElement(newItem);
+							}
+							else {
+								materialItems.addElement(newItem);
+							}
+							break;
+						}
 					}
 					
 					//assign id
@@ -655,6 +680,28 @@
 				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
 			}
 			
+			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//clean current material holders
+				materialItems.removeAllElements();
+				selection.portfolioSelection.portfolioGroup.removeAllElements();
+				
+				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getSceneContributions service
+			 * 
+			 **/
+			protected function getSceneContributions_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the scenecontributions assets from the server.", "SceneContribution service error");
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -665,6 +712,7 @@
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getSimQuestions_resultHandler(event)" fault="getSimQuestions_faultHandler(event)" resultFormat="text" id="getSimQuestions" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:Object id="task" />

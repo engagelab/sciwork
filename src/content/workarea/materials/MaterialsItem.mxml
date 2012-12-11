@@ -24,23 +24,51 @@
 			private var _fullSizeSource:String;
 			
 			private var _isPortfolio:String;
+			private var _isFinalPortfolio:String;
 			
 			[Bindable] private var groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
 				
+			public function get isFinalPortfolio():String
+			{
+				return _isFinalPortfolio;
+			}
+
+			public function set isFinalPortfolio(value:String):void
+			{
+				_isFinalPortfolio = value;
+				
+				if(sourceType == WorkArea.PORTFOLIO_TYPE) {
+					if(value == "true") {
+						deleter.visible = true;
+					}
+					else {
+						deleter.visible = false;
+					}
+				}
+				else {
+					deleter.visible = false;
+				}	
+			}
+
 			public function get isPortfolio():String
 			{
 				return _isPortfolio;
 			}
 			
-			public function set isPortfolio(value:String):void
-			{
+			public function set isPortfolio(value:String):void {
 				_isPortfolio = value;
-				if(value == "true") {
-					deleter.visible = true;
+				
+				if(sourceType == WorkArea.ASSET_TYPE) {
+					if(value == "true") {
+						deleter.visible = true;
+					}
+					else {
+						deleter.visible = false;
+					}
 				}
 				else {
 					deleter.visible = false;
-				}
+				}	
 			}
 
 			public function get fullSizeSource():String
