@@ -37,7 +37,7 @@
 			[Bindable] private var _chosenEnergySource:String = null;
 			[Bindable] private var _chosenEnergyID:String = null;
 			private var _isKeywordUpdate:Boolean = false;
-			private var _isAssetUpdate:Boolean = false;
+			private var _assetUpdateType:String = null;
 			private var _conn:XMPP;
 			private var hasJoinedMiracleRoom:Boolean = false;
 			
@@ -201,6 +201,8 @@
 				params.xpos = evt.materialItem.xpos;
 				params.ypos = evt.materialItem.ypos;
 				
+				_assetUpdateType = evt.materialItem.sourceType;
+				
 				//create urlrequest with correct headers
 				var urlRequest:URLRequest;
 				switch(evt.materialItem.previewType) {
@@ -226,7 +228,7 @@
 			
 			/**
 			 * 
-			 * Event handling method handlePostKeywordsComplete
+			 * Event handling method handleSelectMaterialComplete
 			 * 
 			 **/
 			protected function handleSelectMaterialComplete(ev:HTTPStatusEvent):void {
@@ -234,15 +236,21 @@
 				switch(ev.status) {
 					case 0:
 						//service not available
+						_assetUpdateType = null;
 						Alert.show("The add/remove to portfolio service is not available. Please contact your administrator.", "Add/remove to portfolio service error");
 						break;
 					case 200:
 						//update OK, password accepted
-						_isAssetUpdate = true;
-						updateCurrentState("assets");
+						if(_assetUpdateType == WorkArea.ASSET_TYPE) {
+							updateCurrentState("assets");
+						}
+						else if(_assetUpdateType == WorkArea.PORTFOLIO_TYPE) {
+							updateCurrentState("portfolio");
+						}
 						break;
 					case 401:
 						//update not OK, wrong password
+						_assetUpdateType = null;
 						Alert.show("Something went wrong when saving your item. Please contact your administrator.", "Add/remove to portfolio service error");
 						break;
 				}
@@ -263,7 +271,7 @@
 			 * 
 			 **/
 			protected function handleMaterialRequest(evt:MaterialToPreviewEvent):void {
-				if(evt.sourceType == "TWEETS") {
+				if(evt.materialItem.sourceType == "TWEETS") {
 					//show this full screen
 					var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
 					stfe.shouldShow = true;
@@ -363,6 +371,7 @@
 						//set correct state in subsequent components
 						this.currentState = "portfolio";
 						selection.currentState = "portfolio";
+						preview.currentState = "default";
 						
 						getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + currentGroup.id + "/" + task.portFolioSceneId;
 						getSceneContributions.send();
@@ -436,8 +445,8 @@
 				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
 				
 				//test if the currentTask portfolio is empty or not and update footer navbar
-				if(_isAssetUpdate) {
-					_isAssetUpdate = false;
+				if(_assetUpdateType != null) {
+					_assetUpdateType = null;
 					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
 					tpue.eventType = sciwork.ASSET_UPDATE_TYPE;
 					dispatchEvent(tpue);
@@ -642,7 +651,6 @@
 					
 					var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 					mtpe.materialItem = newItem;
-					mtpe.sourceType = newItem.sourceType;
 					dispatchEvent(mtpe);
 				}
 			}
@@ -689,6 +697,10 @@
 				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
 				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
 				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
+				
+				if(_assetUpdateType != null) {
+					_assetUpdateType = null;
+				}
 			}
 			
 			/**

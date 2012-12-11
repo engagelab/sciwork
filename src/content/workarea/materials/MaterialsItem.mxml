@@ -45,9 +45,6 @@
 						deleter.visible = false;
 					}
 				}
-				else {
-					deleter.visible = false;
-				}	
 			}
 
 			public function get isPortfolio():String
@@ -65,9 +62,6 @@
 					else {
 						deleter.visible = false;
 					}
-				}
-				else {
-					deleter.visible = false;
 				}	
 			}
 
@@ -111,14 +105,18 @@
 			protected function onSelected(event:FlexEvent):void {
 				var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 				mtpe.materialItem = this;
-				mtpe.sourceType = sourceType;
 				dispatchEvent(mtpe);
 			}
 			
 			protected function deleteItemFromPortfolio(event:MouseEvent):void {
 				var sme:SelectMaterialEvent = new SelectMaterialEvent(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), true);
+				if(sourceType == WorkArea.ASSET_TYPE) {
+					isPortfolio = "false";
+				}
+				else if(sourceType == WorkArea.PORTFOLIO_TYPE) {
+					isFinalPortfolio = "false";
+				}
 				sme.materialItem = this;
-				sme.addToPortolio = "false";
 				dispatchEvent(sme);
 			}
 		]]>
@@ -152,5 +150,5 @@
 		</s:Group>
 	</s:Group>
 
-	<s:Image id="deleter" source="@Embed('assets/close.png')" width="10" height="10" top="0" right="-15" backgroundColor.hovered="#CCCCCC" click="deleteItemFromPortfolio(event)" />
+	<s:Image id="deleter" source="@Embed('assets/close.png')" width="10" height="10" top="0" right="-15" visible="false" backgroundColor.hovered="#CCCCCC" click="deleteItemFromPortfolio(event)" />
 </s:ItemRenderer>

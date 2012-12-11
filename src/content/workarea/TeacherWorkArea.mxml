@@ -570,7 +570,6 @@
 					
 					var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 					mtpe.materialItem = newItem;
-					mtpe.sourceType = newItem.sourceType;
 					dispatchEvent(mtpe);
 				}
 			}
