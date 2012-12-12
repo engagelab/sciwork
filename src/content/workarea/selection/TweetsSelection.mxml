@@ -25,6 +25,8 @@
 			public static const SELECTION_STATE:String = "selection";
 			public static const LIVEFEED_STATE:String = "livefeed";
 			
+			private var _teacherMode:Boolean = false;
+			
 			protected function initGroup(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SELECTION_CHANGE'), tweetSelectionChangeHandler);
 				

@@ -72,7 +72,7 @@
 						break;
 					case "tweets" :
 						this.currentState = "tweets";
-						selection.enableTeacherMode("tweets");
+						selection.enableTeacherMode("teacherTweets");
 						break;
 					case "assets" :
 						this.currentState = "picsvids";

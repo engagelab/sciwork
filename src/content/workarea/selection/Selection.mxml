@@ -9,10 +9,10 @@
 				this.currentState = mode;
 				switch(mode) {
 					case "questions" :
-						questionsSelection.teacherMode = true;
+						basicSelection.teacherMode = true;
 						break;
-					case "tweets" :
-			//			tweetsSelection.enableTeacherMode();
+					case "teacherTweets" :
+						basicSelection.teacherMode = true;
 						break;
 				}
 			}
@@ -23,13 +23,14 @@
 		<s:State name="assets" />
 		<s:State name="tweets" />
 		<s:State name="questions" />
+		<s:State name="teacherTweets" />
 		<s:State name="portfolio" />
 		<s:State name="simulation" />
 	</s:states>
 	
 	<selection:AssetsSelection id="assetSelection" width="100%" height="100%" includeIn="assets" />
 	<selection:TweetsSelection id="tweetsSelection" width="100%" height="100%" includeIn="tweets"/>
-	<selection:QuestionsSelection id="questionsSelection" width="100%" height="100%" includeIn="questions"/>
+	<selection:BasicTweetQuestionsSelection id="basicSelection" width="100%" height="100%" includeIn="questions, teacherTweets"/>
 	<selection:PortfolioSelection id="portfolioSelection" width="100%" height="100%" includeIn="portfolio" />
 	<selection:SimQuestionsComponent id="simQuestionSelection" width="100%" height="100%" includeIn="simulation" />
 </s:SkinnableContainer>

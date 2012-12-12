@@ -117,7 +117,7 @@
 					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
 						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
 						if(this.currentState == "questions") {
-							selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
+							selection.basicSelection.refreshFeed(task.taskId, _qArray);
 							
 						}
 						break;
@@ -309,7 +309,7 @@
 						selection.currentState = "questions";
 						preview.currentState = "questionsState";
 						
-						selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
+						selection.basicSelection.refreshFeed(task.taskId, _qArray);
 						
 						getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						getQuestionPicture.send();

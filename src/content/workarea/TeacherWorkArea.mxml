@@ -98,7 +98,8 @@
 					case resourceManager.getString('resources', 'TWEETS_ROOM_NAME'):
 						_tArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
 						if(this.currentState == "tweets") {
-							selection.tweetsSelection.tweetFeedArray = _tArray;
+							selection.basicSelection.refreshFeed(task.taskId, _tArray, true);
+							mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.basicSelection.refreshFeed(task.taskId, _tArray, true);
 							//selection.tweetsSelection.refreshFeed();
 						}
 						break;
@@ -115,8 +116,8 @@
 					case resourceManager.getString('resources', 'QUESTIONS_ROOM_NAME'):
 						_qArray.addItem({bdy: evt.stanza.body, from: getOwnerForContent(evt.stanza.body), qId: getTaskIdForContent(evt.stanza.body), al: 1});
 						if(this.currentState == "questions") {
-							selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
-							mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
+							selection.basicSelection.refreshFeed(task.taskId, _qArray);
+							mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.basicSelection.refreshFeed(task.taskId, _qArray);
 						}
 						break;
 				}
@@ -289,52 +290,46 @@
 						this.currentState = "questions";
 						selection.currentState = "questions";
 						preview.currentState = "teacherQuestionsState";
-						
-						selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
-						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.questionsSelection.refreshQuestionFeed(task.taskId, _qArray);
-						
-				//		getQuestionPicture.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + taskId;
-				//		getQuestionPicture.send();
+						selection.basicSelection.refreshFeed(task.taskId, _qArray);
+						mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.basicSelection.refreshFeed(task.taskId, _qArray);
 						break;
 					}
-						
 					case 'assets': {
-						//set correct state in subsequent components
-						this.currentState = "assets";
-						selection.currentState = "assets";
-						preview.currentState = "default";
-						//get existing assets selection (portfolio) for the current task and group
-						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
-						getAssetsPortfolio.send();
+						// Second task for scene 2
+						if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
+							selection.currentState = "default";
+							this.currentState = "default";
+							preview.currentState = "ipadState";
+						}
+						else {
+							this.currentState = "assets";
+							selection.currentState = "assets";
+							preview.currentState = "default";
+							//get existing assets selection (portfolio) for the current task and group
+							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
+							getAssetsPortfolio.send();
+						}
 						break;
-					}
-						
+					}	
 					case 'tweets': {
 						//set correct state in subsequent components
 
-						selection.currentState = "default";
-						this.currentState = "default";
+						selection.currentState = "tweets";
+						this.currentState = "tweets";
 						preview.currentState = "ipadState";
 						
-						if(_chosenEnergySource != null) {
-							selection.currentState = "tweets";
-							preview.currentState = "tweetsState";
+						// First task for Scene 2
+						if(task.taskId == "50ab4629300480c12ec36945") {
+							selection.currentState = "teacherTweets";
+							preview.currentState = "teacherTweetsState";
 							this.currentState = "tweets";
-							
-							selection.tweetsSelection.tweetFeedArray = _tArray;
-							//selection.tweetsSelection.refreshFeed();
-							
-							selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
-							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+							selection.basicSelection.refreshFeed(task.taskId, _tArray, true);
+							mx.core.FlexGlobals.topLevelApplication.fullScreenPresentation.pullOutMenu.selection.basicSelection.refreshFeed(task.taskId, _tArray, true);
+					//		selection.tweetsSelection.tweetFeedArray = _tArray;
+					//		selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
 						}
-						else {
-							selection.currentState = "default";
-							this.currentState = "default";
-						}
-						
 						break;
 					}
-						
 					case 'article': {
 						//set correct state in subsequent components
 						this.currentState = "article";
@@ -350,14 +345,12 @@
 						preview.imageViewer.sourceImage.source = null;
 						break;
 					}
-					
 					case 'simulation': {
 						this.currentState = "simulation";
 						selection.currentState = "simulation";
 						preview.currentState = "simulationState";
 						break;
 					}
-						
 					default: {
 						this.currentState = "default";
 						selection.currentState = "default";
@@ -383,10 +376,10 @@
 			 * Calls the assets service for tweets
 			 * 
 			 **/
-			protected function refreshTweetsPortfolio(evt:Event):void {
+/*			protected function refreshTweetsPortfolio(evt:Event):void {
 				selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
 			}
-			
+*/			
 			/**
 			 * 
 			 * Error handling method for getAssets service
@@ -523,7 +516,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'ADD_MATERIAL_TO_PORTFOLIO'), handleAddMaterialToPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'TWEET_SUBMITTED'), handleTweetSubmitted);
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS'), refreshTweets);
-				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
+	//			this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
 			}
@@ -616,7 +609,7 @@
 					<s:HGroup id="materialItems" />
 				</s:Scroller>
 			</s:BorderContainer>
-			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" />
+			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" visible="false" includeInLayout="false"/>
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>

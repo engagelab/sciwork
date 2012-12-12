@@ -25,9 +25,9 @@
 				var count:int = 0;
 				
 				while (count++ < 10){
-					questionsFeedList.validateNow();
-					delta = questionsFeedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
-					questionsFeedList.layout.verticalScrollPosition += delta;
+					feedList.validateNow();
+					delta = feedList.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+					feedList.layout.verticalScrollPosition += delta;
 					
 					if (delta == 0) {
 						break;						
@@ -40,23 +40,25 @@
 			 * update the list of displayed tweets in the livefeed based on hash filters
 			 * 
 			 **/
-			public function refreshQuestionFeed(qId:String, qArray:ArrayCollection):void {
-				var questionsToDisplay:ArrayCollection = new ArrayCollection();
+			public function refreshFeed(qId:String, fArray:ArrayCollection, isTweetWithoutID:Boolean=false):void {
+				var feedToDisplay:ArrayCollection = new ArrayCollection();
 				
-				for each (var tweet:Object in qArray) {
+				for each (var tweet:Object in fArray) {
+					if(isTweetWithoutID)
+						tweet.qId = qId;
 					if(new String(tweet.qId) == qId) {
-						questionsToDisplay.addItem(tweet);
+						feedToDisplay.addItem(tweet);
 					}
 				}
 								
-				questionsFeedList.dataProvider = questionsToDisplay;
+				feedList.dataProvider = feedToDisplay;
 				scrollToBottom();
 			}
 			
 			public function set teacherMode(m:Boolean):void {
 				_teacherMode = m;
 				if(m)
-					questionsFeedList.itemRenderer = new ClassFactory( itemRenderers.TweetItemDragDrop );
+					feedList.itemRenderer = new ClassFactory( itemRenderers.TweetItemDragDrop );
 			}
 			public function get teacherMode():Boolean {
 				return _teacherMode;
@@ -76,7 +78,7 @@
 				</s:LinearGradient>
 			</s:fill>
 		</s:Rect>
-		<s:List id="questionsFeedList" top="10" left="10" right="10" bottom="10" contentBackgroundAlpha="0" horizontalScrollPolicy="off" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
+		<s:List id="feedList" top="10" left="10" right="10" bottom="10" contentBackgroundAlpha="0" horizontalScrollPolicy="off" borderVisible="false" itemRenderer="itemRenderers.TweetItem">
 			<s:layout>
 				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="true" />
 			</s:layout>
