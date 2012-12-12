@@ -1,40 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300" creationComplete="init(event)">
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<!--s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getTaskPortfolioComment_resultHandler(event)" fault="getTaskPortfolioComment_faultHandler(event)" resultFormat="text" id="getTaskPortfolioComment" showBusyCursor="true" /-->
+		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
+		<fx:Object id="currentGroup" />
 	</fx:Declarations>
-	
 	
 	<fx:Script>
 		<![CDATA[
-			import mx.collections.ArrayCollection;
+			import com.adobe.serialization.json.JSON;
 			
+			import content.workarea.materials.MaterialsItem;
+			
+			import flash.text.engine.TabAlignment;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable] private var _groupNameList:ArrayCollection;
+			[Bindable] private var _groupList:ArrayCollection;
+
 			// Data includes URL to album cover.
 			[Bindable]
-			private var initDG:ArrayCollection = new ArrayCollection([
-				{Artist:'Pavement', Album:'Slanted and Enchanted', 
-					Price:11.99, Cover:'assets/simu/pics/crossBG.png'},
-				{Artist:'Pavement', Album:'Brighten the Corners', 
-					Price:11.99, Cover:'assets/simu/pics/stop.png'}
+			private var sampleCollection:ArrayCollection = new ArrayCollection([
+				{Task:'Question 1', Complete:'Complete', Images:["assets/simu/pics/crossBG.png"]},
+				{Task:'Question 2', Complete:'Incomplete', Images:["assets/simu/pics/stop.png", "assets/simu/pics/start.png"]},
+				{Task:'Question 1', Complete:'Complete', Images:["assets/fs.png"]},
+				{Task:'Question 2', Complete:'Complete', Images:["assets/7.png"]},
+				{Task:'Question 3', Complete:'Incomplete', Images:["assets/trash.png"]}
 			]);
 			
-			public function refreshData(sceneID:String=""):void {
+			private function init(event:FlexEvent):void {
+				getAllGroups.send();
+			}
+			private function changeHandler(event:IndexChangeEvent):void { 
+				refreshData(_groupList[event.newIndex].id);
+			} 
+			public function refreshData(groupID:String=""):void {
+				
+//				getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + currentGroup.id + "/" + task.portFolioSceneId;
+//				getSceneContributions.send();
+				
+//				getTaskPortfolioComment.url = resourceManager.getString('resources', 'SERVER_URL') + "/finalPortfolioTaskComment/" + currentGroup.id + "/" + task.taskId;
+//				getTaskPortfolioComment.send();
 				
 			}
 			
+			
+			/**
+			 *
+			 * Result handling method for getSceneContributions service 
+			 * 
+			 **/
+/*			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//clean current material holders
+				materialItems.removeAllElements();
+				selection.portfolioSelection.portfolioGroup.removeAllElements();
+				
+				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
+				
+				if(_assetUpdateType != null) {
+					_assetUpdateType = null;
+				}
+			}
+*/
+			/**
+			 *
+			 * Result handling method for getAllGroups service 
+			 * 
+			 **/
+			protected function getAllGroups_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//instantiate and build group array
+				_groupList = new ArrayCollection();
+				_groupNameList = new ArrayCollection();
+				for each (var act:Object in res) {
+					// Exclude the teacher from this listing
+					if(act.id != "506c21c742060774910aeb8b")
+						_groupList.addItem({label: act.name, id: act.id, color: act.colour});
+				}
+				
+				//ordering the list alphabetically
+				var sortfield:SortField = new SortField();
+				sortfield.name = "title";
+				sortfield.descending = false;
+				
+				var sort:Sort = new Sort();
+				sort.fields = [sortfield];
+				
+				_groupList.sort = sort;
+				_groupList.refresh();
+				
+				for each(var act2:Object in _groupList)
+					_groupNameList.addItem(act2.label as String);
+			}
+			/**
+			 *
+			 * Error handling method for getAllGroups service 
+			 * 
+			 **/
+			protected function getAllGroups_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
+			}
+			/**
+			 * 
+			 * Error handling method for getSceneContributions service
+			 * 
+			 **/
+			protected function getSceneContributions_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the scenecontributions assets from the server.", "SceneContribution service error");
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getTaskPortfolioComment service
+			 * 
+			 **/
+			protected function getTaskPortfolioComment_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the taskportfoliocomments from the server.", "TaskPortfolioComment service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getTaskPortfolioComment service 
+			 * 
+			 **/
+/*			protected function getTaskPortfolioComment_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var comments:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				if(comments.length > 0) {
+					var portfolioTaskComment:PortfolioTaskComment = new PortfolioTaskComment("");
+					portfolioTaskComment.taskId = comments[0].taskId;
+					portfolioTaskComment.id = comments[0].id;
+					portfolioTaskComment.text = comments[0].text;
+					
+					portfolioEditContainer.updateCommentArea(portfolioTaskComment, currentGroup.id); 
+				}
+				else {
+					portfolioEditContainer.updateCommentArea(new PortfolioTaskComment(task.taskId), currentGroup.id); 
+				}
+			}
+*/			
+			/**
+			 *
+			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 **/
+/*			protected function parseMaterialSubArray(subArray:Array, materialType:String, pGroup:VGroup, mode:String):void {
+				var newItem:MaterialsItem;
+				
+				//extract materials
+				for each (var material:Object in subArray) {
+					newItem = new MaterialsItem();
+					newItem.sourceType = mode;
+					newItem.isFinalPortfolio = material.isFinalPortfolio;
+					newItem.isPortfolio = material.isPortfolio;
+					newItem.xpos = material.xpos;
+					newItem.ypos = material.ypos;
+					
+					switch(mode) {
+						case ASSET_TYPE:
+						{
+							//add it to the portfolio instead is this is true
+							if(newItem.isPortfolio == "true" && pGroup != null) {
+								pGroup.addElement(newItem);
+							}
+							else {
+								materialItems.addElement(newItem);
+							}
+							break;
+						}
+							
+						case PORTFOLIO_TYPE:
+						{
+							//add it to the portfolio instead is this is true
+							if(newItem.isFinalPortfolio == "true" && pGroup != null) {
+								pGroup.addElement(newItem);
+							}
+							else {
+								materialItems.addElement(newItem);
+							}
+							break;
+						}
+					}
+					
+					//assign id
+					newItem.id = material.id;
+					
+					//pick correct preview type
+					switch(materialType) {
+						case VIDEO_TYPE:
+							newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+							break;
+						case IMAGE_TYPE:
+							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
+							break;
+					}
+					
+				}
+			}
+*/
 		]]>
 	</fx:Script> 
 	
-	<s:DataGrid id="myGrid" 
-				dataProvider="{initDG}"
-				variableRowHeight="true">   
+	<!--s:ButtonBar id="groupSelector" width="100%" labelField="title" dataProvider="_groupList" skinClass="skins.taskOverviewButtonBarSkin" buttonMode="true" requireSelection="true" /-->
+	<s:TabBar id="groupSelector" width="{this.width}" dataProvider="{_groupList}" bottom="0" skinClass="skins.groupTabBarSkin" change="changeHandler(event)"/>
+	<s:DataGrid id="myGrid" dataProvider="{sampleCollection}" variableRowHeight="true" width="100%" height="90%">
+
 		<s:columns>
 			<s:ArrayList>
-				<s:GridColumn dataField="Artist"/>
-				<s:GridColumn dataField="Album" itemRenderer="itemRenderers.PortfolioItemRenderer"/>
-				<s:GridColumn dataField="Price"/>
+				<s:GridColumn dataField="Task" width="{this.myGrid.width * 0.1}"/>
+				<s:GridColumn dataField="Materials"  itemRenderer="itemRenderers.PortfolioItemRenderer"/>
 			</s:ArrayList>
 		</s:columns>       
 	</s:DataGrid>

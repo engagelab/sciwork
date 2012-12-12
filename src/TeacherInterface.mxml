@@ -280,8 +280,7 @@
 	</s:Group>
 	
 	<s:Group width="100%" height="100%" itemDestructionPolicy="auto" includeIn="portfolioState" >
-		<components:TaskOverview id="taskOverview" />
-		<s:Button label="X" click="this.currentState='contentState'" />
+		<components:TaskOverview id="taskOverview" width="100%" height="100%"/>
 	</s:Group>
 	
 </s:Group>
