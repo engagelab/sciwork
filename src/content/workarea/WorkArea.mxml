@@ -438,11 +438,16 @@
 				
 				//clean current material holders
 				materialItems.removeAllElements();
-				selection.assetSelection.portfolioGroup.removeAllElements();
+				if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
+					selection.assetSelection.portfolioGroup.removeAllElements();
+					parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
+					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
+				}
+				else {
+					parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, null, ASSET_TYPE);
+					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, null, ASSET_TYPE);
+				}
 				
-				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
-				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
-				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
 				
 				//test if the currentTask portfolio is empty or not and update footer navbar
 				if(_assetUpdateType != null) {
@@ -474,7 +479,7 @@
 						case ASSET_TYPE:
 						{
 							//add it to the portfolio instead is this is true
-							if(newItem.isPortfolio == "true") {
+							if(newItem.isPortfolio == "true" && pGroup != null) {
 								pGroup.addElement(newItem);
 							}
 							else {
@@ -486,7 +491,7 @@
 						case PORTFOLIO_TYPE:
 						{
 							//add it to the portfolio instead is this is true
-							if(newItem.isFinalPortfolio == "true") {
+							if(newItem.isFinalPortfolio == "true" && pGroup != null) {
 								pGroup.addElement(newItem);
 							}
 							else {
