@@ -375,6 +375,9 @@
 						
 						getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + currentGroup.id + "/" + task.portFolioSceneId;
 						getSceneContributions.send();
+						
+						getTaskPortfolioComment.url = resourceManager.getString('resources', 'SERVER_URL') + "/finalPortfolioTaskComment/" + currentGroup.id + "/" + task.taskId;
+						getTaskPortfolioComment.send();
 						break;
 					}
 						
@@ -691,6 +694,11 @@
 				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
 			}
 			
+			/**
+			 *
+			 * Result handling method for getSceneContributions service 
+			 * 
+			 **/
 			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
@@ -717,6 +725,37 @@
 				Alert.show("An error occured while retrieving the scenecontributions assets from the server.", "SceneContribution service error");
 			}
 			
+			/**
+			 * 
+			 * Error handling method for getTaskPortfolioComment service
+			 * 
+			 **/
+			protected function getTaskPortfolioComment_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the taskportfoliocomments from the server.", "TaskPortfolioComment service error");
+			}
+			
+			/**
+			 *
+			 * Result handling method for getTaskPortfolioComment service 
+			 * 
+			 **/
+			protected function getTaskPortfolioComment_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var comments:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				if(comments.length > 0) {
+					var portfolioTaskComment:PortfolioTaskComment = new PortfolioTaskComment("");
+					portfolioTaskComment.taskId = comments[0].taskId;
+					portfolioTaskComment.id = comments[0].id;
+					portfolioTaskComment.text = comments[0].text;
+					
+					portfolioEditContainer.updateCommentArea(portfolioTaskComment, currentGroup.id); 
+				}
+				else {
+					portfolioEditContainer.updateCommentArea(new PortfolioTaskComment(task.taskId), currentGroup.id); 
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -728,6 +767,7 @@
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getSimQuestions_resultHandler(event)" fault="getSimQuestions_faultHandler(event)" resultFormat="text" id="getSimQuestions" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getTaskPortfolioComment_resultHandler(event)" fault="getTaskPortfolioComment_faultHandler(event)" resultFormat="text" id="getTaskPortfolioComment" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:Object id="task" />

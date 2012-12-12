@@ -1,10 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*">
 	
-	<components:SectionHeader width="100%" height="23" titleString="COMMENTAR" currentState="portfolio"/>
-	<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
-		<s:TextArea left="5" right="5" top="5" bottom="5"/>
-	</s:BorderContainer>
-</s:VGroup>
+	<fx:Declarations>
+		<fx:Object id="comment" />
+		<fx:String id="groupId" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.controls.Alert;
+			
+			import spark.events.TextOperationEvent;
+			[Bindable] private var canSave:Boolean = false;
+			
+			public function updateCommentArea(comment:PortfolioTaskComment, groupId:String):void {
+				this.groupId = groupId;
+				this.comment = comment;
+				commentArea.text = comment.text;
+			}
+			
+			protected function handleTextChange(event:TextOperationEvent):void {
+				if(comment.text != commentArea.text) {
+					canSave = true;
+				}
+				else {
+					canSave = false;
+				}
+			}
+			
+			protected function saveAnswerBtn_clickHandler(event:MouseEvent):void {
+				canSave = false;
+				this.currentState = "saving";
+				
+				var urlRequest:URLRequest;
+				var params:Object = new Object();
+				if(comment.id == null) {
+					urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/finalPortfolioTaskComment");
+					urlRequest.method = URLRequestMethod.POST;
+					params.taskId = comment.taskId;
+					params.groupId = groupId;
+					params.text = commentArea.text;
+				}
+				else {
+					urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/finalPortfolioTaskComment");
+					urlRequest.method = URLRequestMethod.PUT;
+					params.id = comment.id;
+					params.text = commentArea.text;
+				}
+				
+				urlRequest.contentType = "application/json";
+				urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+				
+				var loader:URLLoader = new URLLoader();
+				loader.addEventListener(Event.COMPLETE, questionCompleteHandler);
+				loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				loader.load(urlRequest);
+			}
+			
+			/**
+			 * 
+			 * Event handler for Event.COMPLETE
+			 * 
+			 **/
+			protected function questionCompleteHandler(evt:Event):void {
+				var returnedComment:Object = com.adobe.serialization.json.JSON.decode(String(evt.target.data));
+				comment.id = returnedComment.id;
+				comment.taskId = returnedComment.taskId;
+				comment.text = returnedComment.text;
+
+				this.currentState = "default";
+			}
+			
+			/**
+			 * 
+			 * Event handler for IOErrorEvent.IO_ERROR
+			 * 
+			 **/
+			protected function ioErrorHandler(evt:IOErrorEvent):void {
+				Alert.show("An error occured while saving the task comment on the server.", "TaskComment service error");
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="default" />
+		<s:State name="saving" />
+	</s:states>
+	
+	<s:VGroup width="100%" height="100%" gap="0">
+		<components:SectionHeader width="100%" height="23" titleString="COMMENTAR" currentState="portfolio"/>
+		<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
+			<s:TextArea left="5" right="5" top="5" bottom="5" id="commentArea" change="handleTextChange(event)" />
+		</s:BorderContainer>
+		<s:Button width="100%" label="SAVE COMMENT" id="saveAnswerBtn" color="#333333" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
+	</s:VGroup>
+	
+	<s:SkinnableContainer width="100%" height="100%" backgroundAlpha=".8" backgroundColor="#333333" includeIn="saving">
+		<s:BusyIndicator horizontalCenter="0" verticalCenter="0" />
+	</s:SkinnableContainer>
+</s:Group>
