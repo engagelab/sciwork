@@ -73,13 +73,15 @@
 				_description = res.description;
 				updateResources(res.title);
 			
-				this.currentState = "contentState";
 				if(res.taskType == "portfolio") {
-					this.currentState = "portfolioState";
-					taskOverview.refreshData();
+					if(this.currentState != "portfolioState")
+						this.currentState = "portfolioState";
+					taskOverview.setTask(res);
 				}
-				else
+				else {
+					this.currentState = "contentState";
 					workareaContainer.updateCurrentState(res.taskType);
+				}
 			}
 			
 			/**

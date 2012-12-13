@@ -146,7 +146,7 @@
 					<s:SolidColor color="0x000000" alpha=".5" alpha.hovered="0" alpha.selected="0" />
 				</s:fill>
 			</s:Rect>
-			<s:Image source="@Embed('assets/15-play.png')" horizontalCenter="0" verticalCenter="0" excludeFrom="hovered, selected" />
+			<s:Image source="@Embed('assets/15-play.png')" horizontalCenter="0" verticalCenter="0" excludeFrom="hovered, selected" enabled="false" />
 		</s:Group>
 	</s:Group>
 

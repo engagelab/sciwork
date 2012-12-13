@@ -3,10 +3,11 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300" creationComplete="init(event)">
 	<fx:Declarations>
-		<!--s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
-		<s:HTTPService method="GET" result="getTaskPortfolioComment_resultHandler(event)" fault="getTaskPortfolioComment_faultHandler(event)" resultFormat="text" id="getTaskPortfolioComment" showBusyCursor="true" /-->
+		<s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getTaskPortfolioComment_resultHandler(event)" fault="getTaskPortfolioComment_faultHandler(event)" resultFormat="text" id="getTaskPortfolioComment" showBusyCursor="true" />
 		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
 		<fx:Object id="currentGroup" />
+		<fx:Object id="currentTask" />
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -16,6 +17,9 @@
 			import content.workarea.materials.MaterialsItem;
 			
 			import flash.text.engine.TabAlignment;
+			
+			import listeners.MaterialToPreviewEvent;
+			import listeners.ShowFullscreenEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -29,8 +33,14 @@
 			
 			[Bindable] private var _groupNameList:ArrayCollection;
 			[Bindable] private var _groupList:ArrayCollection;
+			private var groupsLoaded:Boolean = false;
+			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
+			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
+			public static const PORTFOLIO_TYPE:String = "PORTFOLIO";
 
 			// Data includes URL to album cover.
+/*			[Bindable]
+			private var actualCollection:ArrayCollection = new ArrayCollection();
 			[Bindable]
 			private var sampleCollection:ArrayCollection = new ArrayCollection([
 				{Task:'Question 1', Complete:'Complete', Images:["assets/simu/pics/crossBG.png"]},
@@ -39,46 +49,80 @@
 				{Task:'Question 2', Complete:'Complete', Images:["assets/7.png"]},
 				{Task:'Question 3', Complete:'Incomplete', Images:["assets/trash.png"]}
 			]);
-			
+*/			
 			private function init(event:FlexEvent):void {
+				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialFullscreenRequest);
 				getAllGroups.send();
 			}
-			private function changeHandler(event:IndexChangeEvent):void { 
-				refreshData(_groupList[event.newIndex].id);
-			} 
-			public function refreshData(groupID:String=""):void {
-				
-//				getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + currentGroup.id + "/" + task.portFolioSceneId;
-//				getSceneContributions.send();
-				
-//				getTaskPortfolioComment.url = resourceManager.getString('resources', 'SERVER_URL') + "/finalPortfolioTaskComment/" + currentGroup.id + "/" + task.taskId;
-//				getTaskPortfolioComment.send();
-				
+			public function setTask(task:Object):void {
+				currentTask = task;
+				if(groupsLoaded)
+					refreshData(groupSelector.selectedIndex);
 			}
-			
+			private function changeHandlerProgrammatic(event:FlexEvent):void {
+				if(groupsLoaded)
+					refreshData(groupSelector.selectedIndex);
+			} 
+			private function refreshData(selectedGroupIndex:int):void {
+				materialItems.removeAllElements();
+				comment.text = "";
+				
+				getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + _groupList[selectedGroupIndex].id + "/" + currentTask.portFolioSceneId;
+				getSceneContributions.send();
+				
+				getTaskPortfolioComment.url = resourceManager.getString('resources', 'SERVER_URL') + "/finalPortfolioTaskComment/" + _groupList[selectedGroupIndex].id + "/" + currentTask.id;
+				getTaskPortfolioComment.send();
+			}
 			
 			/**
 			 *
 			 * Result handling method for getSceneContributions service 
 			 * 
 			 **/
-/*			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
+			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
-				//clean current material holders
-				materialItems.removeAllElements();
-				selection.portfolioSelection.portfolioGroup.removeAllElements();
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
+			}
+			/**
+			 *
+			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 **/
+			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
+				var newItem:MaterialsItem;
 				
-				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
-				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
-				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.portfolioSelection.portfolioGroup, PORTFOLIO_TYPE);
-				
-				if(_assetUpdateType != null) {
-					_assetUpdateType = null;
+				//extract materials
+				for each (var material:Object in subArray) {
+					if(material.isFinalPortfolio) {
+						newItem = new MaterialsItem();
+						newItem.sourceType = PORTFOLIO_TYPE;
+						newItem.isFinalPortfolio = material.isFinalPortfolio;
+						newItem.isPortfolio = material.isPortfolio;
+						newItem.xpos = material.xpos;
+						newItem.ypos = material.ypos;
+						newItem.deleter.visible = false;
+						newItem.deleter.includeInLayout = false;
+						
+						materialItems.addElement(newItem);
+						
+						//assign id
+						newItem.id = material.id;
+						
+						//pick correct preview type
+						switch(materialType) {
+							case VIDEO_TYPE:
+								newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+								break;
+							case IMAGE_TYPE:
+								newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
+								break;
+						}
+					}
 				}
 			}
-*/
 			/**
 			 *
 			 * Result handling method for getAllGroups service 
@@ -110,6 +154,10 @@
 				
 				for each(var act2:Object in _groupList)
 					_groupNameList.addItem(act2.label as String);
+				
+				groupSelector.selectedIndex = 0;
+				groupsLoaded = true;
+			//	refreshData(0);
 			}
 			/**
 			 *
@@ -142,95 +190,53 @@
 			 * Result handling method for getTaskPortfolioComment service 
 			 * 
 			 **/
-/*			protected function getTaskPortfolioComment_resultHandler(event:ResultEvent):void {
-				//store the returned object as JSON 
+			protected function getTaskPortfolioComment_resultHandler(event:ResultEvent):void {
 				var comments:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 				
-				if(comments.length > 0) {
-					var portfolioTaskComment:PortfolioTaskComment = new PortfolioTaskComment("");
-					portfolioTaskComment.taskId = comments[0].taskId;
-					portfolioTaskComment.id = comments[0].id;
-					portfolioTaskComment.text = comments[0].text;
-					
-					portfolioEditContainer.updateCommentArea(portfolioTaskComment, currentGroup.id); 
-				}
-				else {
-					portfolioEditContainer.updateCommentArea(new PortfolioTaskComment(task.taskId), currentGroup.id); 
-				}
+				if(comments.length > 0)
+					comment.text = comments[0].text;
 			}
-*/			
 			/**
-			 *
-			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 * Event handling method for MATERIAL_TO_PREVIEW
 			 * 
 			 **/
-/*			protected function parseMaterialSubArray(subArray:Array, materialType:String, pGroup:VGroup, mode:String):void {
-				var newItem:MaterialsItem;
-				
-				//extract materials
-				for each (var material:Object in subArray) {
-					newItem = new MaterialsItem();
-					newItem.sourceType = mode;
-					newItem.isFinalPortfolio = material.isFinalPortfolio;
-					newItem.isPortfolio = material.isPortfolio;
-					newItem.xpos = material.xpos;
-					newItem.ypos = material.ypos;
-					
-					switch(mode) {
-						case ASSET_TYPE:
-						{
-							//add it to the portfolio instead is this is true
-							if(newItem.isPortfolio == "true" && pGroup != null) {
-								pGroup.addElement(newItem);
-							}
-							else {
-								materialItems.addElement(newItem);
-							}
-							break;
-						}
-							
-						case PORTFOLIO_TYPE:
-						{
-							//add it to the portfolio instead is this is true
-							if(newItem.isFinalPortfolio == "true" && pGroup != null) {
-								pGroup.addElement(newItem);
-							}
-							else {
-								materialItems.addElement(newItem);
-							}
-							break;
-						}
-					}
-					
-					//assign id
-					newItem.id = material.id;
-					
-					//pick correct preview type
-					switch(materialType) {
-						case VIDEO_TYPE:
-							newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
-							break;
-						case IMAGE_TYPE:
-							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
-							break;
-					}
-					
-				}
+			protected function handleMaterialFullscreenRequest(evt:MaterialToPreviewEvent):void {
+				var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
+				stfe.shouldShow = true;
+				stfe.mode = "picsvids";
+				stfe.showPullOutMenu = false;
+				stfe.material = evt.materialItem;
+				dispatchEvent(stfe);
 			}
-*/
+
 		]]>
 	</fx:Script> 
 	
 	<!--s:ButtonBar id="groupSelector" width="100%" labelField="title" dataProvider="_groupList" skinClass="skins.taskOverviewButtonBarSkin" buttonMode="true" requireSelection="true" /-->
-	<s:TabBar id="groupSelector" width="{this.width}" dataProvider="{_groupList}" bottom="0" skinClass="skins.groupTabBarSkin" change="changeHandler(event)"/>
-	<s:DataGrid id="myGrid" dataProvider="{sampleCollection}" variableRowHeight="true" width="100%" height="90%">
+	<s:TabBar id="groupSelector" width="{this.width}" dataProvider="{_groupList}" top="-21" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
+		<s:filters>
+			<s:DropShadowFilter 
+				distance="3" alpha=".3" blurX="7" blurY="7"
+				angle="90" />
+		</s:filters>
+	</s:TabBar>
+	<s:VGroup width="100%" height="100%" top="20" gap="15">
+		<s:BorderContainer id="materials" width="100%" height="50%" borderAlpha=".3" >
+			<s:Scroller top="5" right="5" bottom="5" left="5">
+				<s:HGroup id="materialItems" />
+			</s:Scroller>
+		</s:BorderContainer>
+		<s:TextArea id="comment" editable="false" width="100%" height="50%" borderAlpha=".3"/>
+	</s:VGroup>
+	<!--s:DataGrid id="materialGrid" dataProvider="{sampleCollection}" variableRowHeight="true" width="100%" height="90%" top="10">
 
 		<s:columns>
 			<s:ArrayList>
-				<s:GridColumn dataField="Task" width="{this.myGrid.width * 0.1}"/>
+				<s:GridColumn dataField="Task" width="{this.materialGrid.width * 0.1}"/>
 				<s:GridColumn dataField="Materials"  itemRenderer="itemRenderers.PortfolioItemRenderer"/>
 			</s:ArrayList>
 		</s:columns>       
-	</s:DataGrid>
+	</s:DataGrid-->
 		
 </s:Group>
