@@ -102,7 +102,8 @@
 					}
 					else if(evt.mode == "simulation") {
 						this.currentState = "simulation";
-						pullOutMenu.visible = false;
+						pullOutMenu.visible = true;
+						
 						simulate.setSimulationLevel(task.label);
 						
 					}
@@ -348,7 +349,7 @@
 				<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.teacherQuestions="false" visible.teacherTweets="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
 				<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			</s:Group>
-			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />
+			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" y.simulation="30"/>
 		</s:Group>
 	</s:VGroup>
 	<s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/>

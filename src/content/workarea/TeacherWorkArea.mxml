@@ -35,6 +35,7 @@
 			
 			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
 			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
+			public static const PORTFOLIO_TYPE:String = "PORTFOLIO";
 			
 			[Bindable] private var _enableMaterials:Boolean = false;
 			[Bindable] private var _chosenEnergySource:String = null;
@@ -80,50 +81,18 @@
 					refreshData(groupSelector.selectedIndex);
 			} 
 			private function refreshData(selectedGroupIndex:int):void {
-				htmlBI.visible = true;
-				getArticleUrl.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/articleUrl/" + _groupList[selectedGroupIndex].id;
-				getArticleUrl.send();
-			}
-			/**
-			 *
-			 * Result handling method for getAllGroups service 
-			 * 
-			 **/
-			protected function getAllGroups_resultHandler(event:ResultEvent):void {
-				//store the returned object as JSON
-				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				
-				//instantiate and build group array
-				_groupList = new ArrayCollection();
-				for each (var act:Object in res) {
-					// Exclude the teacher from this listing
-					if(act.id != "506c21c742060774910aeb8b")
-						_groupList.addItem({label: act.name, id: act.id, color: act.colour});
+				if(this.currentState == "article") {
+					htmlBI.visible = true;
+					getArticleUrl.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/articleUrl/" + _groupList[selectedGroupIndex].id;
+					getArticleUrl.send();
 				}
-				
-				//ordering the list alphabetically
-				var sortfield:SortField = new SortField();
-				sortfield.name = "title";
-				sortfield.descending = false;
-				
-				var sort:Sort = new Sort();
-				sort.fields = [sortfield];
-				
-				_groupList.sort = sort;
-				_groupList.refresh();
-				
-				groupSelector.selectedIndex = 0;
-				groupsLoaded = true;
-				//	refreshData(0);
+				else if(this.currentState == "assets") {
+					materialItems.removeAllElements();
+					getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + _groupList[selectedGroupIndex].id + "/" + task.portFolioSceneId;
+					getSceneContributions.send();
+				}
 			}
-			/**
-			 *
-			 * Error handling method for getAllGroups service 
-			 * 
-			 **/
-			protected function getAllGroups_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
-			}
+
 			/**
 			 * 
 			 * Event handling method for MUCMessages
@@ -175,7 +144,103 @@
 						break;
 				}
 			}
-			
+			/**
+			 *
+			 * Result handling method for getAllGroups service 
+			 * 
+			 **/
+			protected function getAllGroups_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//instantiate and build group array
+				_groupList = new ArrayCollection();
+				for each (var act:Object in res) {
+					// Exclude the teacher from this listing
+					if(act.id != "506c21c742060774910aeb8b")
+						_groupList.addItem({label: act.name, id: act.id, color: act.colour});
+				}
+				
+				//ordering the list alphabetically
+				var sortfield:SortField = new SortField();
+				sortfield.name = "title";
+				sortfield.descending = false;
+				
+				var sort:Sort = new Sort();
+				sort.fields = [sortfield];
+				
+				_groupList.sort = sort;
+				_groupList.refresh();
+				
+		//		groupSelector.selectedIndex = 0;
+				groupsLoaded = true;
+				//	refreshData(0);
+			}
+			/**
+			 *
+			 * Error handling method for getAllGroups service 
+			 * 
+			 **/
+			protected function getAllGroups_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
+			}
+			/**
+			 * 
+			 * Error handling method for getSceneContributions service
+			 * 
+			 **/
+			protected function getSceneContributions_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the scenecontributions assets from the server.", "SceneContribution service error");
+			}
+			/**
+			 *
+			 * Result handling method for getSceneContributions service 
+			 * 
+			 **/
+			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON 
+				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
+			}
+			/**
+			 *
+			 * Parsing method to assign retrieved material to a correct preview item
+			 * 
+			 **/
+			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
+				var newItem:MaterialsItem;
+				
+				//extract materials
+				for each (var material:Object in subArray) {
+					if(material.isFinalPortfolio) {
+						newItem = new MaterialsItem();
+						newItem.sourceType = PORTFOLIO_TYPE;
+						newItem.isFinalPortfolio = material.isFinalPortfolio;
+						newItem.isPortfolio = material.isPortfolio;
+						newItem.xpos = material.xpos;
+						newItem.ypos = material.ypos;
+						newItem.deleter.visible = false;
+						newItem.deleter.includeInLayout = false;
+						
+						materialItems.addElement(newItem);
+						
+						//assign id
+						newItem.id = material.id;
+						
+						//pick correct preview type
+						switch(materialType) {
+							case VIDEO_TYPE:
+								newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
+								break;
+							case IMAGE_TYPE:
+								newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
+								break;
+						}
+					}
+				}
+			}
 			
 			/**
 			 * 
@@ -356,11 +421,8 @@
 						}
 						else {
 							this.currentState = "assets";
-							selection.currentState = "assets";
-							preview.currentState = "default";
+							getAllGroups.send();
 							//get existing assets selection (portfolio) for the current task and group
-							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
-							getAssetsPortfolio.send();
 						}
 						break;
 					}	
@@ -422,89 +484,6 @@
 				getTweets.send();
 			}
 
-			/**
-			 * 
-			 * Calls the assets service for tweets
-			 * 
-			 **/
-/*			protected function refreshTweetsPortfolio(evt:Event):void {
-				selection.tweetsSelection.retrieveAssets(currentGroup.id, task.taskId);
-			}
-*/			
-			/**
-			 * 
-			 * Error handling method for getAssets service
-			 * 
-			 **/
-			protected function getAssets_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
-			}
-			
-			/**
-			 *
-			 * Result handling method for getAssets service 
-			 * 
-			 **/
-			protected function getAssets_resultHandler(event:ResultEvent):void {
-				//store the returned object as JSON 
-				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				
-				//clean current material holders
-				materialItems.removeAllElements();
-				selection.assetSelection.portfolioGroup.removeAllElements();
-				
-				//TODO: could try to sort the arrays in a combined one, sorted according to timestamp
-				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
-				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
-				
-				//test if the currentTask portfolio is empty or not and update footer navbar
-				if(_isAssetUpdate) {
-					_isAssetUpdate = false;
-					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
-					tpue.eventType = sciwork.ASSET_UPDATE_TYPE;
-					dispatchEvent(tpue);
-				}
-			}
-
-			/**
-			 *
-			 * Parsing method to assign retrieved material to a correct preview item
-			 * 
-			 **/
-			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
-				var newItem:MaterialsItem;
-				
-				//extract materials
-				for each (var material:Object in subArray) {
-					newItem = new MaterialsItem();
-					newItem.isPortfolio = material.isPortfolio;
-					newItem.xpos = material.xpos;
-					newItem.ypos = material.ypos;
-					newItem.sourceType = "ASSETS";
-					
-					//add it to the portfolio instead is this is true
-					if(newItem.isPortfolio == "false") {
-						materialItems.addElement(newItem);
-					}
-					else {
-						selection.assetSelection.portfolioGroup.addElement(newItem);
-					}
-					
-					//assign id
-					newItem.id = material.id;
-					
-					//pick correct preview type
-					switch(materialType) {
-						case VIDEO_TYPE:
-							newItem.setupPreview(VIDEO_TYPE, material.uri, resourceManager.getString('resources', 'YOUTUBE_BASE_IMAGE_URL')+material.uri+"/1.jpg");
-							break;
-						case IMAGE_TYPE:
-							newItem.setupPreview(IMAGE_TYPE, resourceManager.getString('resources', 'SERVER_URL')+material.filePath, resourceManager.getString('resources', 'SERVER_URL')+material.filePath);
-							break;
-					}
-					
-				}
-			}
 			
 			/**
 			 *
@@ -635,12 +614,12 @@
 	</fx:Script>
 	
 	<fx:Declarations>
-		<s:HTTPService method="GET" result="getAssets_resultHandler(event)" fault="getAssets_faultHandler(event)" resultFormat="text" id="getAssetsPortfolio" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getTweets_resultHandler(event)" fault="getTweets_faultHandler(event)" resultFormat="text" id="getTweets" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
+		<s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:Object id="task" />
@@ -658,27 +637,27 @@
 		<s:State name="portfolio" />
 	</s:states>
 	
-	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article">
+	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article, assets">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<preview:Preview id="preview" width="100%" height="100%" />
-			<s:BorderContainer id="materials" width="100%" includeIn="assets" enabled="{_enableMaterials}" borderAlpha=".3" >
-				<s:Scroller top="5" right="5" bottom="5" left="5">
-					<s:HGroup id="materialItems" />
-				</s:Scroller>
-			</s:BorderContainer>
 			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" visible="false" includeInLayout="false"/>
 		</s:VGroup>
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>
-	<s:Group width="100%" height="100%" includeIn="article" itemDestructionPolicy="auto">
-		<s:TabBar id="groupSelector" width="{this.width}" dataProvider="{_groupList}" top="-21" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
+	<s:Group width="100%" height="100%" includeIn="article, assets">
+		<s:TabBar id="groupSelector" width="100%" dataProvider="{_groupList}" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
 			<s:filters>
 				<s:DropShadowFilter 
 					distance="3" alpha=".3" blurX="7" blurY="7"
 					angle="90" />
 			</s:filters>
 		</s:TabBar>
-		<mx:HTML id="htmlLoader" width="100%" height="100%" top="10" location="{_htmlLocation}" complete="htmlLoded(event)" />
-		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+		<s:BorderContainer id="materials" width="100%" height="90%" top="20" borderAlpha=".3" includeIn="assets" >
+			<s:Scroller top="5" right="5" bottom="5" left="5">
+				<s:HGroup id="materialItems" />
+			</s:Scroller>
+		</s:BorderContainer>
+		<mx:HTML id="htmlLoader" width="100%" height="0%" top="20" location="{_htmlLocation}" complete="htmlLoded(event)" includeIn="article" />
+		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" includeIn="article" />
 	</s:Group>
 </s:Group>
