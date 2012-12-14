@@ -29,7 +29,10 @@
 				//for each tasks found in the scene, display them as a "finished" or "unfinished" checkbox
 				for each (var task:Object in scene.tasks as ArrayCollection) {
 					cb = new FooterTask();
-					sceneGroup.addElement(cb);
+					
+					if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
+						sceneGroup.addElement(cb);
+					}
 					
 					//only way to display the checkbox a little bigger
 					cb.scaleX = 1.3;
