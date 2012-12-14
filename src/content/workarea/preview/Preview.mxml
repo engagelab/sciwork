@@ -74,6 +74,10 @@
 						sender.visible = true;
 					}
 				}
+				
+				if(!_currentMaterialItem.canBeAddedToPF) {
+					sender.visible = false;
+				}
 			}
 			
 			/**

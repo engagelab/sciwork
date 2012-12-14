@@ -256,8 +256,8 @@
 				pullOutMenu.pbar.includeInLayout = true;
 				pullOutMenu.screenCaptureButton.visible = false;
 				pullOutMenu.screenCaptureButton.includeInLayout = false;
-				var compositionBitmapData:BitmapData = new BitmapData(this.width,this.height);
-				compositionBitmapData.draw(this);
+				var compositionBitmapData:BitmapData = new BitmapData(contentFS.width,contentFS.height);
+				compositionBitmapData.draw(contentFS);
 				
 				asyncEncoder = new JPEGAsyncEncoder(100);
 				asyncEncoder.PixelsPerIteration = 128;
@@ -281,7 +281,7 @@
 			 * 
 			 **/
 			private function asyncComplete(event:JPEGAsyncCompleteEvent):void {
-				var form:Multipart = new Multipart(resourceManager.getString('resources', 'SERVER_URL')+"/image/"+groupId+"/"+taskId+"/3");
+				var form:Multipart = new Multipart(resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId);
 				form.addFile("picture", event.ImageData, "application/octet-stream", UIDUtil.createUID()+".jpg", true);
 				
 				var loader:URLLoader = new URLLoader();
@@ -334,18 +334,20 @@
 	<s:VGroup width="100%" height="100%" gap="0">
 		<s:SkinnableContainer width="100%" height="40" skinClass="skins.sectionHeaderSkin" excludeFrom="simulation" />
 		<s:Group height="100%" width="1000" clipAndEnableScrolling="true">
-			<s:Group includeIn="tweets, teacherQuestions, teacherTweets" width="100%" height="100%" >
-				<s:Group width="100%" height="100%" id="presentationGroupArea" />
+			<s:Group width="100%" height="100%"  id="contentFS">
+				<s:Group includeIn="tweets, teacherQuestions, teacherTweets" width="100%" height="100%" >
+					<s:Group width="100%" height="100%" id="presentationGroupArea" />
+				</s:Group>
+				<s:Group includeIn="html" width="100%" height="100%">
+					<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+					<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
+				</s:Group>
+				<s:Group includeIn="simulation" width="100%" height="100%" >
+					<simulation:Sim id="simulate" x="2" y="-30" />
+				</s:Group>
+				<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.teacherQuestions="false" visible.teacherTweets="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
+				<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			</s:Group>
-			<s:Group includeIn="html" width="100%" height="100%">
-				<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
-				<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
-			</s:Group>
-			<s:Group includeIn="simulation" width="100%" height="100%" >
-				<simulation:Sim id="simulate" x="2" y="-30" />
-			</s:Group>
-			<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.teacherQuestions="false" visible.teacherTweets="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
-			<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" />
 		</s:Group>
 	</s:VGroup>

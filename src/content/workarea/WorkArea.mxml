@@ -319,16 +319,17 @@
 					case 'assets': {
 						//set correct state in subsequent components
 						this.currentState = "assets";
+						preview.currentState = "default";
+						
 						if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
 							selection.currentState = "default";
+							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/50ab4629300480c12ec36945";
 						}
 						else {
 							selection.currentState = "assets";
+							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						}
 						
-						preview.currentState = "default";
-						//get existing assets selection (portfolio) for the current task and group
-						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						getAssetsPortfolio.send();
 						
 						break;
@@ -477,6 +478,10 @@
 					newItem.isPortfolio = material.isPortfolio;
 					newItem.xpos = material.xpos;
 					newItem.ypos = material.ypos;
+					
+					if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
+						newItem.canBeAddedToPF = false;
+					}
 					
 					switch(mode) {
 						case ASSET_TYPE:

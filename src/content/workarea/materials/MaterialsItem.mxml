@@ -26,6 +26,8 @@
 			private var _isPortfolio:String;
 			private var _isFinalPortfolio:String;
 			
+			public var canBeAddedToPF:Boolean = true;
+			
 			[Bindable] private var groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
 				
 			public function get isFinalPortfolio():String
