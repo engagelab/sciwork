@@ -55,14 +55,14 @@
 				var data:BitmapData = new BitmapData(sourceImage.width, sourceImage.height);
 				data.draw(sourceImage); // this copies the content in the clipboard
 				Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, data);
-				Alert.show("Your image is now copied. Use 'cmd+v' to paste it in the Google Doc document.", "Image successfully copied");
+				Alert.show("Your image is now copied. In the Google Doc document, go to 'Insert -> Image -> By URL', and use 'cmd+v' to paste the URL.", "Image successfully copied");
 			}
 			
 			protected function selectCopyMIHandler(event:ContextMenuEvent):void {
 				Clipboard.generalClipboard.clearData(ClipboardFormats.TEXT_FORMAT);
 				var data:String = new String(sourceImage.source);
 				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, data);
-				Alert.show("Your image URL is now copied. Use 'cmd+v' to paste it in the Google Doc document.", "Image URL successfully copied");
+				Alert.show("Your image is now copied. In the Google Doc document, go to 'Insert -> Image -> By URL', and use 'cmd+v' to paste the URL.", "Image successfully copied");
 			}
 			
 		]]>

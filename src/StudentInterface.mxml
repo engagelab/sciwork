@@ -172,8 +172,6 @@
 				params.groupId = _currentGroup.id;
 				
 				switch(evt.eventType) {
-
-
 					case sciwork.ASSET_UPDATE_TYPE:
 
 						if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
