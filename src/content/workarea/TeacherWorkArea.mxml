@@ -88,7 +88,7 @@
 				}
 				else if(this.currentState == "assets") {
 					materialItems.removeAllElements();
-					getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + _groupList[selectedGroupIndex].id + "/" + task.portFolioSceneId;
+					getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + _groupList[selectedGroupIndex].id + "/" + task.taskId;
 					getSceneContributions.send();
 				}
 			}
@@ -645,19 +645,19 @@
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>
 	<s:Group width="100%" height="100%" includeIn="article, assets">
-		<s:TabBar id="groupSelector" width="100%" dataProvider="{_groupList}" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
+		<s:TabBar id="groupSelector" width="100%" dataProvider="{_groupList}" top="-21" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
 			<s:filters>
 				<s:DropShadowFilter 
 					distance="3" alpha=".3" blurX="7" blurY="7"
 					angle="90" />
 			</s:filters>
 		</s:TabBar>
-		<s:BorderContainer id="materials" width="100%" height="90%" top="20" borderAlpha=".3" includeIn="assets" >
+		<s:BorderContainer id="materials" width="100%" height="100%" top="20" borderAlpha=".3" includeIn="assets" >
 			<s:Scroller top="5" right="5" bottom="5" left="5">
 				<s:HGroup id="materialItems" />
 			</s:Scroller>
 		</s:BorderContainer>
-		<mx:HTML id="htmlLoader" width="100%" height="0%" top="20" location="{_htmlLocation}" complete="htmlLoded(event)" includeIn="article" />
+		<mx:HTML id="htmlLoader" width="100%" height="100%" top="20" location="{_htmlLocation}" complete="htmlLoded(event)" includeIn="article" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" includeIn="article" />
 	</s:Group>
 </s:Group>
