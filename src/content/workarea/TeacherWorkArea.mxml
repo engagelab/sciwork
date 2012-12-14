@@ -23,12 +23,14 @@
 			import listeners.TweetsRefreshEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
 			
+			import spark.collections.SortField;
 			import spark.events.TextOperationEvent;
 			
 			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
@@ -41,9 +43,11 @@
 			private var _isAssetUpdate:Boolean = false;
 			private var _conn:XMPP;
 			private var hasJoinedMiracleRoom:Boolean = false;
+			private var groupsLoaded:Boolean = false;
 			
 			[Bindable] private var _tArray:ArrayCollection = new ArrayCollection();
 			[Bindable] private var _qArray:ArrayCollection = new ArrayCollection();
+			[Bindable] private var _groupList:ArrayCollection;
 			
 			[Bindable] private var _htmlLocation:String = "";
 			
@@ -71,6 +75,55 @@
 				updateCurrentState("tweets");
 			}
 			
+			private function changeHandlerProgrammatic(event:FlexEvent):void {
+				if(groupsLoaded)
+					refreshData(groupSelector.selectedIndex);
+			} 
+			private function refreshData(selectedGroupIndex:int):void {
+				htmlBI.visible = true;
+				getArticleUrl.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/articleUrl/" + _groupList[selectedGroupIndex].id;
+				getArticleUrl.send();
+			}
+			/**
+			 *
+			 * Result handling method for getAllGroups service 
+			 * 
+			 **/
+			protected function getAllGroups_resultHandler(event:ResultEvent):void {
+				//store the returned object as JSON
+				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				
+				//instantiate and build group array
+				_groupList = new ArrayCollection();
+				for each (var act:Object in res) {
+					// Exclude the teacher from this listing
+					if(act.id != "506c21c742060774910aeb8b")
+						_groupList.addItem({label: act.name, id: act.id, color: act.colour});
+				}
+				
+				//ordering the list alphabetically
+				var sortfield:SortField = new SortField();
+				sortfield.name = "title";
+				sortfield.descending = false;
+				
+				var sort:Sort = new Sort();
+				sort.fields = [sortfield];
+				
+				_groupList.sort = sort;
+				_groupList.refresh();
+				
+				groupSelector.selectedIndex = 0;
+				groupsLoaded = true;
+				//	refreshData(0);
+			}
+			/**
+			 *
+			 * Error handling method for getAllGroups service 
+			 * 
+			 **/
+			protected function getAllGroups_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
+			}
 			/**
 			 * 
 			 * Event handling method for MUCMessages
@@ -333,9 +386,7 @@
 					case 'article': {
 						//set correct state in subsequent components
 						this.currentState = "article";
-						htmlBI.visible = true;
-						getArticleUrl.url = resourceManager.getString('resources', 'SERVER_URL') + "/article/" + currentGroup.id;
-						getArticleUrl.send();
+						getAllGroups.send();
 						break;
 					}
 					case 'portfolio': {
@@ -530,8 +581,13 @@
 			}
 			
 			protected function getArticleUrl_resultHandler(event:ResultEvent):void {
-				var articleResult:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				_htmlLocation = articleResult.uri;
+				//needed to force a reload
+				_htmlLocation = "";
+				var articleResult:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				URLRequestDefaults.userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8";
+				if(articleResult.length > 0) {
+					_htmlLocation = articleResult[0].articleUrl;
+				}
 			}
 			
 			protected function getArticleUrl_faultHandler(event:FaultEvent):void {
@@ -584,6 +640,7 @@
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergies_resultHandler(event)" fault="getEnergies_faultHandler(event)" resultFormat="text" id="getEnergies" showBusyCursor="true" />
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getArticleUrl_resultHandler(event)" fault="getArticleUrl_faultHandler(event)" resultFormat="text" id="getArticleUrl" showBusyCursor="true" />
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
+		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:Object id="task" />
@@ -614,7 +671,14 @@
 		<selection:Selection id="selection" width="200" height="100%" />
 	</s:HGroup>
 	<s:Group width="100%" height="100%" includeIn="article" itemDestructionPolicy="auto">
-		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
+		<s:TabBar id="groupSelector" width="{this.width}" dataProvider="{_groupList}" top="-21" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
+			<s:filters>
+				<s:DropShadowFilter 
+					distance="3" alpha=".3" blurX="7" blurY="7"
+					angle="90" />
+			</s:filters>
+		</s:TabBar>
+		<mx:HTML id="htmlLoader" width="100%" height="100%" top="10" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
 	</s:Group>
 </s:Group>

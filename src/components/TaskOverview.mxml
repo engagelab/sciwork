@@ -134,7 +134,6 @@
 				
 				//instantiate and build group array
 				_groupList = new ArrayCollection();
-				_groupNameList = new ArrayCollection();
 				for each (var act:Object in res) {
 					// Exclude the teacher from this listing
 					if(act.id != "506c21c742060774910aeb8b")
@@ -151,9 +150,6 @@
 				
 				_groupList.sort = sort;
 				_groupList.refresh();
-				
-				for each(var act2:Object in _groupList)
-					_groupNameList.addItem(act2.label as String);
 				
 				groupSelector.selectedIndex = 0;
 				groupsLoaded = true;
