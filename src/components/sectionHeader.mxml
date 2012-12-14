@@ -11,6 +11,7 @@
 		<s:State name="activity" />
 		<s:State name="resources" />
 		<s:State name="portfolio" />
+		<s:State name="comment" />
 	</s:states>
 	
 	<s:HGroup left="10" right="10" height="100%" verticalAlign="middle">
@@ -18,4 +19,8 @@
 		<s:Image source="assets/1.png" verticalCenter="0" includeIn="portfolio"/>
 		<s:Label width="100%" id="title" color="#333333" fontSize="10" verticalCenter="-2" text="{titleString}" />
 	</s:HGroup>
+	
+	<s:Button includeIn="portfolio" right="3" verticalCenter="0" width="25" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="dispatchEvent(new Event(resourceManager.getString('resources', 'SHOW_ZOOMED_COMMENT'), true));" />
+	
+	<s:Button includeIn="comment" label="X" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_COMMENT'), true));" right="2" top="2" width="30"/>
 </s:SkinnableContainer>

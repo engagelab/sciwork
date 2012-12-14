@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*" creationComplete="initWorkArea(event)" xmlns:selection="content.workarea.selection.*" xmlns:content="content.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:materials="content.workarea.materials.*" xmlns:preview="content.workarea.preview.*" xmlns:workarea="content.workarea.*" creationComplete="initWorkArea(event)" xmlns:selection="content.workarea.selection.*" xmlns:content="content.*" xmlns:components="components.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -27,6 +27,8 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
+			
+			import spark.events.TextOperationEvent;
 			
 			public static const VIDEO_TYPE:String = "VIDEO_TYPE";
 			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
@@ -594,6 +596,8 @@
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
+				this.addEventListener(resourceManager.getString('resources', 'SHOW_ZOOMED_COMMENT'), handleZoomComment);
+				this.addEventListener(resourceManager.getString('resources', 'HIDE_ZOOMED_COMMENT'), handleHideComment);
 			}
 			
 			/**
@@ -761,6 +765,17 @@
 				}
 			}
 			
+			
+			protected function handleZoomComment(evt:Event):void {
+				this.currentState = "comment";
+				bigCommentArea.text = portfolioEditContainer.commentArea.text;
+			}
+			
+			protected function handleHideComment(evt:Event):void {
+				portfolioEditContainer.commentArea.text = bigCommentArea.text;
+				portfolioEditContainer.commentArea.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
+				this.currentState = "portfolio";
+			}
 		]]>
 	</fx:Script>
 	
@@ -788,12 +803,13 @@
 		<s:State name="simulation" />
 		<s:State name="article" />
 		<s:State name="portfolio" />
+		<s:State name="comment" />
 	</s:states>
 	
 	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article">
 		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<preview:Preview id="preview" width="100%" height="324" />
-			<s:BorderContainer id="materials" width="100%" includeIn="assets, portfolio" enabled="{_enableMaterials}" borderAlpha=".3" >
+			<s:BorderContainer id="materials" width="100%" height="100%" includeIn="assets, portfolio" enabled="{_enableMaterials}" borderAlpha=".3" >
 				<s:Scroller top="5" right="5" bottom="5" left="5">
 					<s:HGroup id="materialItems" />
 				</s:Scroller>
@@ -810,4 +826,19 @@
 		<mx:HTML id="htmlLoader" width="100%" height="100%" location="{_htmlLocation}" complete="htmlLoded(event)" />
 		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" />
 	</s:Group>
+	<s:VGroup width="100%" height="100%" includeIn="comment" gap="0">
+		<components:SectionHeader width="100%" height="23" currentState="comment" />
+		<s:BorderContainer width="100%" height="100%" borderWeight="1" borderAlpha=".3">
+			<s:Rect left="0" right="0" top="0" bottom="0">
+				<s:fill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="#DDDDDD" />
+						<s:GradientEntry color="#FFFFFF" />
+						<s:GradientEntry color="#FFFFFF" />
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:TextArea width="100%" height="100%" id="bigCommentArea" />
+		</s:BorderContainer>	
+	</s:VGroup>
 </s:Group>
