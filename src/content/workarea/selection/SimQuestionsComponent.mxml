@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0" xmlns:selection="content.workarea.selection.*">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" gap="0" xmlns:selection="content.workarea.selection.*" creationComplete="initComponent(event)">
 	
 	<fx:Script>
 		<![CDATA[
+			import listeners.SimQuestionChangeEvent;
+			import listeners.TaskPortfolioUpdateEvent;
+			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
 			
 			import spark.collections.Sort;
 			import spark.collections.SortField;
+			
+			[Bindable] private var answersDico:Dictionary;
 			
 			public function populateQuestions(questions:Array):void {
 				if(questionsFeedList.dataProvider != null) {
@@ -17,8 +23,11 @@
 				
 				var questionsToDisplay:ArrayCollection = new ArrayCollection();
 				
+				answersDico = new Dictionary();
+				
 				for each (var question:Object in questions) {
 					questionsToDisplay.addItem({order: question.order, taskId: question.taskId, groupId: question.groupId, questionId: question.id, question: question.question, answer: question.answer});
+					answersDico[question.id] = question.answer;
 				}
 				
 				var sortfield:SortField = new SortField();
@@ -33,6 +42,28 @@
 				
 				questionsFeedList.dataProvider = questionsToDisplay;
 			}
+			
+			protected function handleCheckAnswers(evt:SimQuestionChangeEvent):void {
+				var ready:Boolean = true;
+				
+				answersDico[evt.questionId] = evt.questionAnswer;
+				
+				for each (var value:String in answersDico) {
+					if(value== "") {
+						ready = false;
+					}
+				}
+				
+				var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+				tpue.isTaskCompleted = ready;
+				dispatchEvent(tpue);
+				
+			}
+			
+			protected function initComponent(event:FlexEvent):void {
+				this.addEventListener(resourceManager.getString('resources', 'CHECK_SIMQUESTION_ANSWER_STATUS'), handleCheckAnswers);
+			}
+			
 		]]>
 	</fx:Script>
 	

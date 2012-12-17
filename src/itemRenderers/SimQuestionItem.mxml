@@ -8,6 +8,7 @@
 			import com.adobe.serialization.json.JSON;
 			
 			import listeners.RetweetEvent;
+			import listeners.SimQuestionChangeEvent;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -75,6 +76,13 @@
 			 **/
 			protected function questionCompleteHandler(evt:Event):void {
 				this.currentState = "default";
+				
+				var sqce:SimQuestionChangeEvent = new SimQuestionChangeEvent(resourceManager.getString('resources', 'CHECK_SIMQUESTION_ANSWER_STATUS'), true);
+				sqce.questionId = data.questionId;
+				sqce.questionAnswer = answerArea.text;
+				dispatchEvent(sqce);
+				
+				data.answer = answerArea.text;
 			}
 			
 			/**

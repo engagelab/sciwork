@@ -170,20 +170,7 @@
 				var params:Object = new Object();
 				params.taskId = _task.taskId;
 				params.groupId = _currentGroup.id;
-				
-				switch(evt.eventType) {
-					case sciwork.ASSET_UPDATE_TYPE:
-
-						if(workareaContainer.selection.assetSelection.portfolioGroup.numElements > 0) {
-							params.isTaskCompleted = true;
-						}
-						else {
-							params.isTaskCompleted = false;
-						}
-
-						break;
-				}
-				
+				params.isTaskCompleted = evt.isTaskCompleted;
 				
 				//create urlrequest with correct headers
 				var urlRequest:URLRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/tasksCompleted/");
