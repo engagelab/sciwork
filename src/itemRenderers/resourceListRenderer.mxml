@@ -6,12 +6,16 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import listeners.ShowFullscreenEvent;
 			import listeners.ShowWebPage;
 			
 			protected function goToLinkURL(event:MouseEvent):void {
-				var swp:ShowWebPage = new ShowWebPage(resourceManager.getString('resources', 'LOAD_WEBPAGE'), true);
-				swp.url = data.url;
-				dispatchEvent(swp);
+				var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
+				stfe.shouldShow = true;
+				stfe.mode = "html";
+				stfe.showPullOutMenu = false;
+				stfe.url = data.url;
+				dispatchEvent(stfe);
 			}
 		]]>
 	</fx:Script>
