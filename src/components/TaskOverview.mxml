@@ -64,7 +64,9 @@
 					refreshData(groupSelector.selectedIndex);
 			} 
 			private function refreshData(selectedGroupIndex:int):void {
-				materialItems.removeAllElements();
+				materialItemsT1.removeAllElements();
+				materialItemsT2.removeAllElements();
+				materialItemsT3.removeAllElements();
 				comment.text = "";
 				
 				getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + _groupList[selectedGroupIndex].id + "/" + currentTask.portFolioSceneId;
@@ -82,20 +84,32 @@
 			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
+				var taskArray:ArrayCollection = new ArrayCollection();
 				
-				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
-				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, taskArray);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, taskArray);
 			}
 			/**
 			 *
 			 * Parsing method to assign retrieved material to a correct preview item
 			 * 
 			 **/
-			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
+			protected function parseMaterialSubArray(subArray:Array, materialType:String, taskArray:ArrayCollection):void {
 				var newItem:MaterialsItem;
+				var materialGroup:int;
 				
 				//extract materials
 				for each (var material:Object in subArray) {
+					var newTaskId:String = material.taskId;
+					if(taskArray.contains(newTaskId)) {
+						materialGroup = taskArray.getItemIndex(newTaskId) + 1;
+					}
+					else {
+						taskArray.addItem(newTaskId);
+						materialGroup = taskArray.length;
+					}
+						
+					
 					if(material.isFinalPortfolio) {
 						newItem = new MaterialsItem();
 						newItem.sourceType = PORTFOLIO_TYPE;
@@ -103,10 +117,12 @@
 						newItem.isPortfolio = material.isPortfolio;
 						newItem.xpos = material.xpos;
 						newItem.ypos = material.ypos;
+						newItem.scaleX = 1.2;
+						newItem.scaleY = 1.2;
 						newItem.deleter.visible = false;
 						newItem.deleter.includeInLayout = false;
 						
-						materialItems.addElement(newItem);
+						this["materialItemsT"+materialGroup].addElement(newItem);
 						
 						//assign id
 						newItem.id = material.id;
@@ -218,21 +234,32 @@
 		</s:filters>
 	</s:TabBar>
 	<s:VGroup width="100%" height="100%" top="20" gap="15">
-		<s:BorderContainer id="materials" width="100%" height="50%" borderAlpha=".3" >
-			<s:Scroller top="5" right="5" bottom="5" left="5">
-				<s:HGroup id="materialItems" />
-			</s:Scroller>
-		</s:BorderContainer>
-		<s:TextArea id="comment" editable="false" width="100%" height="50%" borderAlpha=".3"/>
+		<s:Group id="materials" width="100%" height="60%" >
+			<s:layout>
+				<s:VerticalLayout variableRowHeight="false" rowHeight="85"/> 
+			</s:layout>
+			<s:VGroup>
+				<s:Label text="Task 1" />
+				<s:Scroller top="5" right="5" bottom="5" left="5">
+					<s:HGroup id="materialItemsT1" />
+				</s:Scroller>
+			</s:VGroup>
+			<s:VGroup>
+				<s:Label text="Task 2" />
+				<s:Scroller top="5" right="5" bottom="5" left="5">
+					<s:HGroup id="materialItemsT2" />
+				</s:Scroller>
+			</s:VGroup>
+			<s:VGroup>
+				<s:Label text="Task 3" />
+				<s:Scroller top="5" right="5" bottom="5" left="5">
+					<s:HGroup id="materialItemsT3"/>
+				</s:Scroller>
+			</s:VGroup>
+		</s:Group>
+		<s:VGroup width="100%">
+			<s:Label text="Comment" />
+			<s:TextArea id="comment" editable="false" width="100%" height="80%" borderAlpha=".3"/>
+		</s:VGroup>
 	</s:VGroup>
-	<!--s:DataGrid id="materialGrid" dataProvider="{sampleCollection}" variableRowHeight="true" width="100%" height="90%" top="10">
-
-		<s:columns>
-			<s:ArrayList>
-				<s:GridColumn dataField="Task" width="{this.materialGrid.width * 0.1}"/>
-				<s:GridColumn dataField="Materials"  itemRenderer="itemRenderers.PortfolioItemRenderer"/>
-			</s:ArrayList>
-		</s:columns>       
-	</s:DataGrid-->
-		
 </s:Group>
