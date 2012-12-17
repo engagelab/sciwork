@@ -66,6 +66,7 @@
 			 * 
 			 **/
 			protected function initWorkArea(event:FlexEvent):void {
+				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialFullscreenRequest);
 				getEnergies.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/energySources";
 				getEnergies.send();
 			}
@@ -223,7 +224,8 @@
 						newItem.ypos = material.ypos;
 						newItem.deleter.visible = false;
 						newItem.deleter.includeInLayout = false;
-						
+						newItem.scaleX = 1.5;
+						newItem.scaleY = 1.5;
 						materialItems.addElement(newItem);
 						
 						//assign id
@@ -539,7 +541,6 @@
 					hashTagArray.push("#"+nrj.energy);
 				}
 				
-				
 				//various event listeners
 				this.addEventListener(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), handleMaterialRequest);
 				this.addEventListener(resourceManager.getString('resources', 'VIDEO_PLAYER_READY'), handleVideoPlayerReady);
@@ -609,6 +610,20 @@
 			protected function getQuestionPicture_faultHandler(event:FaultEvent):void
 			{
 				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
+			}
+			
+			/**
+			 * 
+			 * Event handling method for MATERIAL_TO_PREVIEW
+			 * 
+			 **/
+			protected function handleMaterialFullscreenRequest(evt:MaterialToPreviewEvent):void {
+				var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
+				stfe.shouldShow = true;
+				stfe.mode = "picsvids";
+				stfe.showPullOutMenu = false;
+				stfe.material = evt.materialItem;
+				dispatchEvent(stfe);
 			}
 		]]>
 	</fx:Script>
