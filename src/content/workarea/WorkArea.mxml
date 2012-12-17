@@ -727,6 +727,14 @@
 				
 				if(_assetUpdateType != null) {
 					_assetUpdateType = null;
+					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+					if(selection.portfolioSelection.portfolioGroup.numElements > 0) {
+						tpue.isTaskCompleted = true;
+					}
+					else {
+						tpue.isTaskCompleted = false;
+					}
+					dispatchEvent(tpue);
 				}
 			}
 			
