@@ -215,7 +215,7 @@
 				
 				//extract materials
 				for each (var material:Object in subArray) {
-					if(material.isFinalPortfolio) {
+					if(material.isPortfolio) {
 						newItem = new MaterialsItem();
 						newItem.sourceType = PORTFOLIO_TYPE;
 						newItem.isFinalPortfolio = material.isFinalPortfolio;
@@ -423,7 +423,10 @@
 						}
 						else {
 							this.currentState = "assets";
-							getAllGroups.send();
+							if(!groupsLoaded)
+								getAllGroups.send();
+							else
+								refreshData(groupSelector.selectedIndex);
 							//get existing assets selection (portfolio) for the current task and group
 						}
 						break;
@@ -450,7 +453,10 @@
 					case 'article': {
 						//set correct state in subsequent components
 						this.currentState = "article";
-						getAllGroups.send();
+						if(!groupsLoaded)
+							getAllGroups.send();
+						else
+							refreshData(groupSelector.selectedIndex);
 						break;
 					}
 					case 'portfolio': {
