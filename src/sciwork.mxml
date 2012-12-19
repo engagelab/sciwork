@@ -349,7 +349,7 @@
 				if(event.shouldShow) {
 					this.mainScreen.includeInLayout = false;
 					this.mainScreen.visible = false;
-					fullScreenPresentation.handleShowFullscreen(event, (tabBar.sceneBar.selectedItem as Object), (tabBar.taskBar.selectedItem as Object), _conn);
+					fullScreenPresentation.handleShowFullscreen(event, (tabBar.sceneBar.selectedItem as Object), (tabBar.taskBar.selectedItem as Object), _conn, currentGroup.id);
 				}
 				else {
 					this.mainScreen.includeInLayout = true;

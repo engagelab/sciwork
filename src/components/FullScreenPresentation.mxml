@@ -38,7 +38,7 @@
 			[Bindable] private var _conn:XMPP = null;
 			private var asyncEncoder:JPEGAsyncEncoder;
 			
-			private var groupId:String;
+			private var _groupId:String;
 			private var taskId:String;
 			private var questionsForGroup:Array;
 			private var tweetsForGroup:Array;
@@ -62,9 +62,9 @@
 			 * Event handling method to display various fullscreen information 
 			 * 
 			 **/
-			public function handleShowFullscreen(evt:ShowFullscreenEvent, scene:Object, task:Object, conn:XMPP):void {
+			public function handleShowFullscreen(evt:ShowFullscreenEvent, scene:Object, task:Object, conn:XMPP, groupId:String):void {
 				_conn = conn;
-				groupId = scene.sceneId;
+				_groupId = groupId;
 				taskId = task.taskId;
 				if(evt.shouldShow) {
 					this.visible = true;
@@ -285,10 +285,13 @@
 			 **/
 			private function asyncComplete(event:JPEGAsyncCompleteEvent):void {
 				var submitUrl:String = "";
-				if(inTeacherState)
-					submitUrl = resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId;
-				else
-					submitUrl = resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId;
+				if(inTeacherState) {
+					submitUrl = resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId;					
+				}
+				else {
+					submitUrl = resourceManager.getString('resources', 'SERVER_URL')+"/image/"+_groupId+"/"+taskId+"/3";					
+				}
+				
 				var form:Multipart = new Multipart(submitUrl);
 				form.addFile("picture", event.ImageData, "application/octet-stream", UIDUtil.createUID()+".jpg", true);
 				
