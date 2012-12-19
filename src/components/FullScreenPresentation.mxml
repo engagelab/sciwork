@@ -10,11 +10,11 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.adobe.serialization.json.JSON;
 			import com.jonas.net.Multipart;
 			import com.pfp.events.JPEGAsyncCompleteEvent;
 			import com.pfp.utils.JPEGAsyncEncoder;
 			import com.seesmic.as3.xmpp.XMPP;
-			import com.adobe.serialization.json.JSON;
 			
 			import content.workarea.TeacherWorkArea;
 			import content.workarea.WorkArea;
@@ -42,6 +42,8 @@
 			private var taskId:String;
 			private var questionsForGroup:Array;
 			private var tweetsForGroup:Array;
+			
+			public var inTeacherState:Boolean = false;
 			
 			/**
 			 *
@@ -282,7 +284,12 @@
 			 * 
 			 **/
 			private function asyncComplete(event:JPEGAsyncCompleteEvent):void {
-				var form:Multipart = new Multipart(resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId);
+				var submitUrl:String = "";
+				if(inTeacherState)
+					submitUrl = resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId;
+				else
+					submitUrl = resourceManager.getString('resources', 'SERVER_URL')+"/teacherImage/"+taskId;
+				var form:Multipart = new Multipart(submitUrl);
 				form.addFile("picture", event.ImageData, "application/octet-stream", UIDUtil.createUID()+".jpg", true);
 				
 				var loader:URLLoader = new URLLoader();

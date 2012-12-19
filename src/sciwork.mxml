@@ -267,6 +267,7 @@
 				
 				if(_currentGroup.id == resourceManager.getString('resources', 'TEACHER_LOGIN_ID')) {
 					this.currentState = "loggedInTeacher";
+					fullScreenPresentation.inTeacherState = true;
 				}
 				else {
 					this.currentState = "loggedIn";

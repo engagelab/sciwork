@@ -13,7 +13,6 @@
 			import com.adobe.serialization.json.JSON;
 			import com.jonas.net.Multipart;
 			import com.pfp.events.JPEGAsyncCompleteEvent;
-			import com.pfp.utils.JPEGAsyncEncoder;
 			import com.seesmic.as3.xmpp.XMPP;
 			
 			import components.Tweet;
@@ -23,7 +22,6 @@
 			import mx.events.FlexEvent;
 			import mx.utils.UIDUtil;
 			
-			private var asyncEncoder:JPEGAsyncEncoder;
 			
 			private var _tweetsForGroup:Array;
 			private var _conn:XMPP;
