@@ -117,7 +117,7 @@
 						htmlBI.visible = true;
 					}
 					else if(evt.mode == "ipad") {
-						pullOutMenu.visible = false;
+						pullOutMenu.visible = true;
 						this.currentState = "ipad";
 						ipadPresentation.initContainer();
 					}
@@ -259,7 +259,9 @@
 				pullOutMenu.pbar.includeInLayout = true;
 				pullOutMenu.screenCaptureButton.visible = false;
 				pullOutMenu.screenCaptureButton.includeInLayout = false;
-				var compositionBitmapData:BitmapData = new BitmapData(contentFS.width,contentFS.height);
+				//var compositionBitmapData:BitmapData = new BitmapData(contentFS.width,contentFS.height);
+				//need to specify the width and height, as the simulation is scaled and does not render properly
+				var compositionBitmapData:BitmapData = new BitmapData(1000, 520);
 				compositionBitmapData.draw(contentFS);
 				
 				asyncEncoder = new JPEGAsyncEncoder(100);
@@ -314,6 +316,27 @@
 			 * 
 			 **/
 			protected function onComplete (e: Event):void {
+				if(!inTeacherState && this.currentState == "simulation") {
+					var imageObject:Object = com.adobe.serialization.json.JSON.decode(e.target.data);
+					
+					var params:Object = new Object();
+					params.id = imageObject.id;
+					params.isPortfolio = true;
+					params.isFinalPortfolio = imageObject.isFinalPortfolio;
+					params.xpos = imageObject.xpos;
+					params.ypos = imageObject.ypos;
+					
+					var urlRequest:URLRequest;
+					urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image/");
+					urlRequest.method = URLRequestMethod.PUT;
+					urlRequest.contentType = "application/json";
+					urlRequest.data = com.adobe.serialization.json.JSON.encode(params);
+					
+					//load the url and define listeners
+					var uploader:URLLoader = new URLLoader();
+					uploader.load(urlRequest);
+				}
+				
 				pullOutMenu.pbar.visible = false;
 				pullOutMenu.pbar.includeInLayout = false;
 				pullOutMenu.screenCaptureButton.visible = true;
