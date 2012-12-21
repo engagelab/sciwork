@@ -11,7 +11,7 @@
 	
 	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="tweets">
 		<s:Image source="@Embed('assets/11-tweets.png')" verticalCenter="0"/>
-		<s:Label width="100%" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="TWEETFEED" />
+		<s:Label width="100%" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="TWEETS" />
 	</s:HGroup>
 
 	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="assets">

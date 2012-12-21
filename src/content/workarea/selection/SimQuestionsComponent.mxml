@@ -80,7 +80,7 @@
 		</s:Rect>
 		<s:List id="questionsFeedList" top="10" left="10" right="10" bottom="10" contentBackgroundAlpha="0" horizontalScrollPolicy="off" borderVisible="false" itemRenderer="itemRenderers.SimQuestionItem">
 			<s:layout>
-				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" rowHeight="{(questionsFeedList.height-4)/3}" />
+				<s:VerticalLayout gap="2" horizontalAlign="contentJustify" variableRowHeight="false" rowHeight="{(questionsFeedList.height-2)/2}" />
 			</s:layout>
 		</s:List>
 	</s:BorderContainer>

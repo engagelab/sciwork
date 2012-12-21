@@ -126,7 +126,7 @@
 	<s:VGroup top="10" right="10" bottom="10" left="10" >
 		<s:Label text="{extractText(data.question)}" width="100%" color="#CCCCCC" />
 		<s:TextArea width="100%" height="100%" color="#FFFFFF" id="answerArea" change="handleTextChange(event)" />
-		<s:Button width="100%" chromeColor="{groupColor}" label="SAVE" id="saveAnswerBtn" color="#CCCCCC" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
+		<s:Button width="100%" chromeColor="{groupColor}" label="LAGRE" id="saveAnswerBtn" color="#CCCCCC" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
 	</s:VGroup>
 	
 	<s:SkinnableContainer width="100%" height="100%" backgroundAlpha=".8" backgroundColor="#333333" includeIn="saving">
