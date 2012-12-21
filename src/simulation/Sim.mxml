@@ -46,10 +46,10 @@
 			private var indoorTweener1:TweenLite;
 			private var indoorTweener2:TweenLite;
 			
-			private var rotator:simulation.Rotator;
 			private var TARGET_HOUSE_TEMP:uint = 18;
 			private var crossSpeed:Number = -10;
 			private var cross:Loader = new Loader();
+			private var rotator:simulation.Rotator = new simulation.Rotator(cross, new Point(49,49));
 			private var timeCounter:uint = 0;
 			private var heatpumpRunning:Boolean = false;
 			private var countingUp:Boolean = true;
@@ -88,7 +88,6 @@
 				
 				crossOverlay.addChild(cross);
 				ventOverlay.addChild(ventLoader);
-				rotator = new simulation.Rotator(cross, new Point(49,49));
 				
 				sl = new TheSliderClass();
 				sl.theText.text = "0";
@@ -202,31 +201,61 @@
 			public function showBubble(event:MouseEvent):void {
 				var name:String = (event.target as MovieClip).name;
 				infoBubble.visible = true;
-				switch(name) {
-					case "one":
-						infoBubble.setInfoText("Crank");
-						break;
-					case "two":
-						infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
-						break;
-					case "three":
-						infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + String(currentOutdoorTemp) + 'º');
-						break;
-					case "four":
-						infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp - 3) : String(currentOutdoorTemp)) + 'º');
-						break;
-					case "five":
-						infoBubble.setInfoText("Release Valve");
-						break;
-					case "six":
-						infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36-currentOutdoorTemp-3) : String(currentOutdoorTemp)) + 'º');
-						break;
-					case "seven":
-						infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36 - currentOutdoorTemp) : String(currentOutdoorTemp)) + 'º');
-						break;
-					case "eight":
-						infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36 - currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
-						break;
+				if(_simLevel == resourceManager.getString('resources', 'SIMULATION_LEVEL_2')) {
+					switch(name) {
+						case "one":
+							infoBubble.setInfoText("Kompressor");
+							break;
+						case "two":
+							infoBubble.setInfoText("Beholderen");
+							break;
+						case "three":
+							infoBubble.setInfoText("Beholderen");
+							break;
+						case "four":
+							infoBubble.setInfoText("Beholderen");
+							break;
+						case "five":
+							infoBubble.setInfoText("Ventil");
+							break;
+						case "six":
+							infoBubble.setInfoText("Beholderen");
+							break;
+						case "seven":
+							infoBubble.setInfoText("Beholderen");
+							break;
+						case "eight":
+							infoBubble.setInfoText("Beholderen");
+							break;
+					}
+				}
+				else if(_simLevel == resourceManager.getString('resources', 'SIMULATION_LEVEL_3')){
+					switch(name) {
+						case "one":
+							infoBubble.setInfoText("Kompressor");
+							break;
+						case "two":
+							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
+							break;
+						case "three":
+							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + String(currentOutdoorTemp) + 'º');
+							break;
+						case "four":
+							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp - 3) : String(currentOutdoorTemp)) + 'º');
+							break;
+						case "five":
+							infoBubble.setInfoText("Ventil");
+							break;
+						case "six":
+							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36-currentOutdoorTemp-3) : String(currentOutdoorTemp)) + 'º');
+							break;
+						case "seven":
+							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36 - currentOutdoorTemp) : String(currentOutdoorTemp)) + 'º');
+							break;
+						case "eight":
+							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36 - currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
+							break;
+					}
 				}
 				this.addEventListener(MouseEvent.MOUSE_MOVE, bubbleMove);
 			}
@@ -278,7 +307,7 @@
 				clickUpStop(new MouseEvent(MouseEvent.MOUSE_UP));
 
 				afterBoilDown();
-				if(_simLevel == "SIMU1") {
+				if(_simLevel == resourceManager.getString('resources', 'SIMULATION_LEVEL_1')) {
 					sim.hp.alpha = 0.1;
 					spriteGroup.alpha = 0.1;
 					startStopButton.visible = false;
@@ -286,16 +315,16 @@
 					arrowPlayer.source="assets/simu/flash/ARROW_n1.swf";
 					hpOverlay.visible = false;
 				}
-				else if(_simLevel == "SIMU2") {
+				else if(_simLevel == resourceManager.getString('resources', 'SIMULATION_LEVEL_2')) {
 					sim.hp.alpha = 1;
 					spriteGroup.visible = true;
 					spriteGroup.alpha = 1;
 					startStopButton.visible = false;
 					arrowPlayer.source="assets/simu/flash/ARROW_n2.swf";
-					hpOverlay.visible = false;
+					hpOverlay.visible = true;
 					operatePump();
 				}
-				else if(_simLevel == "SIMU3") {
+				else if(_simLevel == resourceManager.getString('resources', 'SIMULATION_LEVEL_3')) {
 					sim.hp.alpha = 1;
 					spriteGroup.visible = true;
 					spriteGroup.alpha = 1;

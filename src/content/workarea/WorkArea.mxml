@@ -389,6 +389,7 @@
 						this.currentState = "simulation";
 						selection.currentState = "simulation";
 						preview.currentState = "simulationState";
+						preview.simulate.setSimulationLevel(task.label);
 						
 						getSimQuestions.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/simQuestion/" + task.taskId + "/" + currentGroup.id;
 						getSimQuestions.send();

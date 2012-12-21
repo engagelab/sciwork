@@ -19,6 +19,7 @@ package simulation
 			var tformat:TextFormat = new TextFormat("miracleFont", 18, 0xFFFF00, true, null, null, null, null);
 			tfield.defaultTextFormat = tformat;
 			tfield.selectable = false;
+			tfield.width += 20;
 			this.addChild(tfield);
 		}
 		
@@ -26,8 +27,8 @@ package simulation
 			tfield.htmlText = theText;
 			tfield.x = 3;
 			graphics.clear();
-			graphics.beginFill(0x00BF00,0.8);
-			graphics.drawRoundRect(0,0,tfield.textWidth+8,tfield.textHeight+6,10,5);
+			graphics.beginFill(0x444444,0.8);
+			graphics.drawRoundRect(0,0,tfield.textWidth+12,tfield.textHeight+6,5,5);
 			graphics.endFill();
 		}
 	}
