@@ -72,7 +72,7 @@
 		<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0">
 			<s:fill>
 				<s:LinearGradient rotation="90">
-					<s:GradientEntry color="#DDDDDD" />
+					<s:GradientEntry color="#EEEEEE" />
 					<s:GradientEntry color="#FFFFFF" />
 					<s:GradientEntry color="#FFFFFF" />
 				</s:LinearGradient>

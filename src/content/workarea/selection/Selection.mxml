@@ -8,16 +8,17 @@
 			public function enableTeacherMode(mode:String):void {
 				this.currentState = mode;
 				switch(mode) {
-					case "questions" :
+					case "questions":
 						basicSelection.teacherMode = true;
 						break;
-					case "teacherTweets" :
+					case "teacherTweets":
 						basicSelection.teacherMode = true;
 						break;
 				}
 			}
 		]]>
 	</fx:Script>
+	
 	<s:states>
 		<s:State name="default" />
 		<s:State name="assets" />

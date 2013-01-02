@@ -17,13 +17,13 @@
 		<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0">
 			<s:fill>
 				<s:LinearGradient rotation="90">
-					<s:GradientEntry color="#DDDDDD" />
+					<s:GradientEntry color="#EEEEEE" />
 					<s:GradientEntry color="#FFFFFF" />
 					<s:GradientEntry color="#FFFFFF" />
 				</s:LinearGradient>
 			</s:fill>
 		</s:Rect>
-		<s:RichText left="5" right="5" top="5" textFlow="{TextConverter.importToFlow(content, TextConverter.TEXT_FIELD_HTML_FORMAT)}" />
+		<s:RichText left="5" right="5" top="5" bottom="5" textFlow="{TextConverter.importToFlow(content, TextConverter.TEXT_FIELD_HTML_FORMAT)}" fontSize="10" />
 	</s:BorderContainer>
 
 </s:VGroup>

@@ -46,7 +46,7 @@
             @see spark.skins.spark.ButtonBarFirstButtonSkin
         -->
         <fx:Component id="firstButton">
-            <s:ButtonBarButton skinClass="skins.firstTaskButtonBarButtonSkin" fontSize="11" />
+            <s:ButtonBarButton skinClass="skins.firstTaskButtonBarButtonSkin" fontSize="10" />
         </fx:Component>
 
         <!--- 
@@ -55,7 +55,7 @@
             @see spark.skins.spark.ButtonBarMiddleButtonSkin
         -->
         <fx:Component id="middleButton" >
-            <s:ButtonBarButton skinClass="skins.buttonTaskBarButtonSkin" fontSize="11" />
+            <s:ButtonBarButton skinClass="skins.buttonTaskBarButtonSkin" fontSize="10" />
         </fx:Component>
 
         <!--- 
@@ -64,7 +64,7 @@
             @see spark.skins.spark.ButtonBarLastButtonSkin
         -->
         <fx:Component id="lastButton" >
-            <s:ButtonBarButton skinClass="skins.lastTaskButtonBarButtonSkin" fontSize="11" />
+            <s:ButtonBarButton skinClass="skins.lastTaskButtonBarButtonSkin" fontSize="10" />
         </fx:Component>
 
     </fx:Declarations>
