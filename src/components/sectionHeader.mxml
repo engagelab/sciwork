@@ -18,10 +18,10 @@
 		<s:Image source="@Embed('assets/activity.png')" verticalCenter="0" includeIn="activity"/>
 		<s:Image source="@Embed('assets/resources.png')" verticalCenter="0" includeIn="resources"/>
 		<s:Image source="assets/1.png" verticalCenter="0" includeIn="portfolio"/>
-		<s:Label width="100%" id="title" color="#333333" fontSize="10" verticalCenter="-2" text="{titleString}" />
+		<s:Label fontWeight="bold" width="100%" id="title" color="#333333" fontSize="10" verticalCenter="-2" text="{titleString}" />
 	</s:HGroup>
 	
 	<s:Button includeIn="portfolio" right="1" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="dispatchEvent(new Event(resourceManager.getString('resources', 'SHOW_ZOOMED_COMMENT'), true));" />
 	
-	<s:Button includeIn="comment" label="X" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_COMMENT'), true));" right="2" top="2" width="30"/>
+	<s:Button includeIn="comment" fontSize="10" fontWeight="bold" label="X" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_COMMENT'), true));" right="2" top="2" width="30"/>
 </s:SkinnableContainer>

@@ -343,6 +343,7 @@
 						if(_chosenEnergySource != null) {
 							selection.currentState = "tweets";
 							preview.currentState = "tweetsState";
+							preview.pHeader.chosenNRJ = _chosenEnergySource;
 							this.currentState = "tweets";
 							
 							selection.tweetsSelection.tweetFeedArray = _tArray;
@@ -852,7 +853,7 @@
 					</s:LinearGradient>
 				</s:fill>
 			</s:Rect>
-			<s:TextArea width="100%" height="100%" id="bigCommentArea" />
+			<s:TextArea fontSize="10" width="100%" height="100%" id="bigCommentArea" />
 		</s:BorderContainer>	
 	</s:VGroup>
 </s:Group>

@@ -40,6 +40,7 @@
 					b.label = nrj.energy;
 					b.width = 100;
 					b.height = 30;
+					b.setStyle("fontSize", 10);
 					b.addEventListener(MouseEvent.CLICK, pickEnergy);
 					nrjs.addItem(b);
 					
