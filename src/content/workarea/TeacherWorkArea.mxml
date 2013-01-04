@@ -470,6 +470,7 @@
 						this.currentState = "simulation";
 						selection.currentState = "simulation";
 						preview.currentState = "simulationState";
+						preview.simulate.setSimulationLevel(task.label);
 						break;
 					}
 					default: {

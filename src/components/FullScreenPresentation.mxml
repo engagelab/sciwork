@@ -150,8 +150,14 @@
 					_htmlLocation='';
 				else if(this.currentState == "tweets")
 					sciApp.dispatchEventToWorkArea(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
-				else if(this.currentState == "simulation" && sciApp.currentState == "loggedIn")
-					sciApp.studentInterface.workareaContainer.preview.currentState = "simulationState";
+				else if(this.currentState == "simulation") {
+					if(sciApp.currentState == "loggedIn")
+						sciApp.studentInterface.workareaContainer.preview.currentState = "simulationState";
+					else
+						sciApp.teacherInterface.workareaContainer.preview.currentState = "simulationState";
+				}
+				else if(this.currentState == "picsvids")
+					this.videoPicturePresentationContainer.videoViewer.player.stopVideo();
 				this.visible=false;
 				this.includeInLayout = false;
 				this.currentState = "disabled";
