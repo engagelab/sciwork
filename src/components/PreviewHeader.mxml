@@ -28,5 +28,5 @@
 	</s:states>
 	
 	<s:Label includeIn="tweetsState" fontSize="10" fontWeight="bold" text="{'#'+chosenNRJ}" left="5" verticalCenter="0"/>
-	<s:Button right="1" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
+	<s:Button right="1" buttonMode="true" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
 </s:SkinnableContainer>

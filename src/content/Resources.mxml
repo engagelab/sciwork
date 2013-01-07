@@ -22,7 +22,7 @@
 				</s:LinearGradient>
 			</s:fill>
 		</s:Rect>
-		<s:List borderVisible="false" dataProvider="{content}" left="5" right="5" top="5" contentBackgroundAlpha="0" bottom="5" itemRenderer="itemRenderers.resourceListRenderer" includeIn="loaded"/>
+		<s:List borderVisible="false" fontSize="10" dataProvider="{content}" left="5" right="5" top="5" contentBackgroundAlpha="0" bottom="5" itemRenderer="itemRenderers.resourceListRenderer" includeIn="loaded"/>
 		<s:BusyIndicator horizontalCenter="0" verticalCenter="0" includeIn="loading" />
 	</s:BorderContainer>
 </s:VGroup>

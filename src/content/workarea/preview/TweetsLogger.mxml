@@ -38,6 +38,7 @@
 					b = new Button();
 					b.name = nrj.id;
 					b.label = nrj.energy;
+					b.buttonMode = true;
 					b.width = 100;
 					b.height = 30;
 					b.setStyle("fontSize", 10);

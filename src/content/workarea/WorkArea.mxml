@@ -284,6 +284,19 @@
 				}
 				else {
 					preview.previewMaterial(evt.materialItem);
+					
+					if(evt.materialItem.sourceType == "ASSETS") {
+						var mat:MaterialsItem;
+						for (var i:int = 0; i < selection.assetSelection.portfolioGroup.numElements; i++) {
+							mat = selection.assetSelection.portfolioGroup.getElementAt(i) as MaterialsItem;
+							if(mat == evt.materialItem) {
+								mat.groupColour = uint(0xFF0000);
+							}
+							else {
+								mat.groupColour = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
+							}
+						}
+					}
 				}
 			}
 			
@@ -456,7 +469,6 @@
 					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, null, ASSET_TYPE);
 				}
 				
-				
 				//test if the currentTask portfolio is empty or not and update footer navbar
 				if(_assetUpdateType != null) {
 					_assetUpdateType = null;
@@ -468,6 +480,14 @@
 						tpue.isTaskCompleted = false;
 					}
 					dispatchEvent(tpue);
+				}
+				
+				trace(selection.assetSelection.portfolioGroup.numElements);
+				if(selection.assetSelection.portfolioGroup.numElements > 0) {
+					var firstMaterial:MaterialsItem = selection.assetSelection.portfolioGroup.getElementAt(0) as MaterialsItem;
+					var mtpe:MaterialToPreviewEvent = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+					mtpe.materialItem = firstMaterial;
+					dispatchEvent(mtpe);
 				}
 			}
 			
@@ -847,7 +867,7 @@
 			<s:Rect left="0" right="0" top="0" bottom="0">
 				<s:fill>
 					<s:LinearGradient rotation="90">
-						<s:GradientEntry color="#DDDDDD" />
+						<s:GradientEntry color="#EEEEEE" />
 						<s:GradientEntry color="#FFFFFF" />
 						<s:GradientEntry color="#FFFFFF" />
 					</s:LinearGradient>
