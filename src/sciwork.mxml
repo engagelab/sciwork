@@ -68,8 +68,8 @@
 			 * 
 			 **/
 			protected function initApp(event:FlexEvent):void {
-				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-				this.maximize();
+				//stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				//this.maximize();
 				
 				this.addEventListener(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), handleLoginAccepted);
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
