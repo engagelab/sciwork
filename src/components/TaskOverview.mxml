@@ -38,6 +38,8 @@
 			public static const IMAGE_TYPE:String = "IMAGE_TYPE";
 			public static const PORTFOLIO_TYPE:String = "PORTFOLIO";
 
+			private var sciApp:sciwork = mx.core.FlexGlobals.topLevelApplication as sciwork;
+			
 			// Data includes URL to album cover.
 /*			[Bindable]
 			private var actualCollection:ArrayCollection = new ArrayCollection();
@@ -84,31 +86,30 @@
 			protected function getSceneContributions_resultHandler(event:ResultEvent):void {
 				//store the returned object as JSON 
 				var contributions:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
-				var taskArray:ArrayCollection = new ArrayCollection();
 				
-				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, taskArray);
-				parseMaterialSubArray(contributions.simages, IMAGE_TYPE, taskArray);
+				parseMaterialSubArray(contributions.svideos, VIDEO_TYPE);
+				parseMaterialSubArray(contributions.simages, IMAGE_TYPE);
 			}
 			/**
 			 *
 			 * Parsing method to assign retrieved material to a correct preview item
 			 * 
 			 **/
-			protected function parseMaterialSubArray(subArray:Array, materialType:String, taskArray:ArrayCollection):void {
+			protected function parseMaterialSubArray(subArray:Array, materialType:String):void {
 				var newItem:MaterialsItem;
 				var materialGroup:int;
 				
+				var sceneArray:ArrayCollection = sciApp.tabBar.sceneBar.dataProvider as ArrayCollection;
+				var taskArray:ArrayCollection = sceneArray.getItemAt(sciApp.tabBar.taskBar.selectedIndex + 2).tasks as ArrayCollection;
+
 				//extract materials
 				for each (var material:Object in subArray) {
 					var newTaskId:String = material.taskId;
-					if(taskArray.contains(newTaskId)) {
-						materialGroup = taskArray.getItemIndex(newTaskId) + 1;
+					
+					for(var i:int = 0; i<taskArray.length; i++) {
+						if(taskArray[i].taskId == material.taskId)
+							materialGroup = i+1;
 					}
-					else {
-						taskArray.addItem(newTaskId);
-						materialGroup = taskArray.length;
-					}
-						
 					
 					if(material.isFinalPortfolio) {
 						newItem = new MaterialsItem();
