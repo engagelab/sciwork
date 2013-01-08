@@ -20,26 +20,22 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import air.update.ApplicationUpdaterUI;
+			import air.update.events.UpdateEvent;
+			
 			import com.adobe.serialization.json.JSON;
 			import com.seesmic.as3.xmpp.StreamEvent;
 			import com.seesmic.as3.xmpp.XMPP;
 			import com.seesmic.as3.xmpp.XMPPEvent;
 			import com.seesmic.as3.xmpp.xep.muc.MUC;
 			
-			import components.Tweet;
-			
-			import content.workarea.WorkArea;
-			
 			import listeners.EnergyChosenEvent;
 			import listeners.LoginAcceptedEvent;
 			import listeners.SceneChangeEvent;
 			import listeners.ShowFullscreenEvent;
-			import listeners.ShowWebPage;
 			import listeners.TabbarLoadedEvent;
 			import listeners.TaskChangeEvent;
-			import listeners.TweetsRefreshEvent;
 			
-			import mx.collections.XMLListCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
@@ -62,6 +58,8 @@
 			private var _conn:XMPP = null;
 			private var _currentGroup:Object;
 			
+			private var appUpdater:ApplicationUpdaterUI;
+			
 			/**
 			 *
 			 * Called when application creation is complete
@@ -70,6 +68,17 @@
 			protected function initApp(event:FlexEvent):void {
 				//stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				//this.maximize();
+				
+				appUpdater = new ApplicationUpdaterUI();
+				appUpdater.delay = 1;
+				appUpdater.updateURL = resourceManager.getString('resources', 'APP_UPDATE_URL');
+				appUpdater.isCheckForUpdateVisible = false;
+				appUpdater.isDownloadUpdateVisible = true;
+				appUpdater.isDownloadProgressVisible = true;
+				appUpdater.isInstallUpdateVisible = true;
+				appUpdater.addEventListener(ErrorEvent.ERROR, onError);
+				appUpdater.addEventListener(UpdateEvent.INITIALIZED, initFinished);
+				appUpdater.initialize();
 				
 				this.addEventListener(resourceManager.getString('resources', 'LOGIN_ACCEPTED'), handleLoginAccepted);
 				this.addEventListener(resourceManager.getString('resources', 'SCENE_CHANGED'), handleSceneChange);
@@ -80,9 +89,14 @@
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
 				this.addEventListener(resourceManager.getString('resources', 'RESET_ENERGY'), handleResetEnergy);
 				this.addEventListener(Event.CLOSING, onApplicationQuit);
-				
-				// FOR TESTING: In the case of no server connection
-				// this.currentState = "loggedIn";
+			}
+			
+			private function onError(event:ErrorEvent):void {
+				Alert.show(event.toString());
+			}
+			
+			private function initFinished(evt:UpdateEvent):void {
+				appUpdater.checkNow();
 			}
 			
 			/**
