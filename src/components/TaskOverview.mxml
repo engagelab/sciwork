@@ -71,6 +71,14 @@
 				materialItemsT3.removeAllElements();
 				comment.text = "";
 				
+				var sceneArray:ArrayCollection = sciApp.tabBar.sceneBar.dataProvider as ArrayCollection;
+				var taskArray:ArrayCollection = sceneArray.getItemAt(sciApp.tabBar.taskBar.selectedIndex + 2).tasks as ArrayCollection;
+				
+				task1.text = task2.text = task3.text = "";
+				for(var taskNumber:int = 1; taskNumber <= taskArray.length; taskNumber++) {
+					this["task"+taskNumber].text = taskArray[taskNumber-1].label;
+				}
+				
 				getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/sceneContributions/" + _groupList[selectedGroupIndex].id + "/" + currentTask.portFolioSceneId;
 				getSceneContributions.send();
 				
@@ -240,26 +248,53 @@
 				<s:VerticalLayout variableRowHeight="false" rowHeight="85"/> 
 			</s:layout>
 			<s:VGroup>
-				<s:Label text="Task 1" />
+				<s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0">
+					<s:fill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="#EEEEEE" />
+							<s:GradientEntry color="#FFFFFF" />
+							<s:GradientEntry color="#FFFFFF" />
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="task1" text="Task 1" />
 				<s:Scroller top="5" right="5" bottom="5" left="5">
 					<s:HGroup id="materialItemsT1" />
 				</s:Scroller>
 			</s:VGroup>
 			<s:VGroup>
-				<s:Label text="Task 2" />
+				<s:Rect id="backgroundRect2" left="0" right="0" top="0" bottom="0">
+					<s:fill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="#EEEEEE" />
+							<s:GradientEntry color="#FFFFFF" />
+							<s:GradientEntry color="#FFFFFF" />
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="task2" text="Task 2" />
 				<s:Scroller top="5" right="5" bottom="5" left="5">
 					<s:HGroup id="materialItemsT2" />
 				</s:Scroller>
 			</s:VGroup>
 			<s:VGroup>
-				<s:Label text="Task 3" />
+				<s:Rect id="backgroundRect3" left="0" right="0" top="0" bottom="0">
+					<s:fill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="#EEEEEE" />
+							<s:GradientEntry color="#FFFFFF" />
+							<s:GradientEntry color="#FFFFFF" />
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Label id="task3" text="Task 3" />
 				<s:Scroller top="5" right="5" bottom="5" left="5">
 					<s:HGroup id="materialItemsT3"/>
 				</s:Scroller>
 			</s:VGroup>
 		</s:Group>
 		<s:VGroup width="100%">
-			<s:Label text="Comment" />
+			<s:Label text="Kommentere" />
 			<s:TextArea id="comment" editable="false" width="100%" height="80%" borderAlpha=".3"/>
 		</s:VGroup>
 	</s:VGroup>

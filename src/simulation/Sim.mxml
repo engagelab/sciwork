@@ -49,7 +49,7 @@
 			private var TARGET_HOUSE_TEMP:uint = 18;
 			private var crossSpeed:Number = -10;
 			private var cross:Loader = new Loader();
-			private var rotator:simulation.Rotator = new simulation.Rotator(cross, new Point(49,49));
+			private var rotator:simulation.Rotator;
 			private var timeCounter:uint = 0;
 			private var heatpumpRunning:Boolean = false;
 			private var countingUp:Boolean = true;
@@ -81,6 +81,7 @@
 				
 				cross = new Loader();
 				cross.load(new URLRequest("assets/simu/pics/crossX.png"));
+				rotator = new simulation.Rotator(cross, new Point(49,49));
 				
 				var crossLoader2:Loader = new Loader();
 				crossLoader2.load(new URLRequest("assets/simu/pics/crossBG.png"));
