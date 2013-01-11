@@ -16,6 +16,10 @@
 			skinClass: ClassReference("skins.animatorVerticalScrollBar");
 		}
 		
+		s|HScrollBar {
+			skinClass: ClassReference("skins.animatorHerticalScrollBar");
+		}
+		
 	</fx:Style>
 	
 	<fx:Script>
@@ -512,7 +516,7 @@
 		<s:State name="loggedInTeacher" />
 	</s:states>
 	
-	<s:Button label="LOGG UT" fontSize="10" click="logout(event)" right="20" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff" itemDestructionPolicy="auto" buttonMode="true">
+	<s:Button label="LOGG UT" fontSize="11" click="logout(event)" right="20" top="0" skinClass="skins.logoutButton" excludeFrom="loggedOff" itemDestructionPolicy="auto" buttonMode="true">
 		<s:filters>
 			<s:DropShadowFilter 
 			distance="3" alpha=".3" blurX="7" blurY="7"

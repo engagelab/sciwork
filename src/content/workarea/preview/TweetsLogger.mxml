@@ -37,11 +37,11 @@
 				for each (var nrj:Object in res) {
 					b = new Button();
 					b.name = nrj.id;
-					b.label = nrj.energy;
+					b.label = "#"+nrj.energy;
 					b.buttonMode = true;
 					b.width = 100;
 					b.height = 30;
-					b.setStyle("fontSize", 10);
+					b.setStyle("fontSize", 11);
 					b.addEventListener(MouseEvent.CLICK, pickEnergy);
 					nrjs.addItem(b);
 					

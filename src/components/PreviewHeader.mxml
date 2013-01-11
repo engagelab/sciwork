@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
-					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#FFFFFF" skinClass="skins.sectionHeaderSkin">
+					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
 	
 	<fx:Declarations>
 		<fx:String id="chosenNRJ" />
@@ -27,6 +27,6 @@
 		<s:State name="simulationState" />
 	</s:states>
 	
-	<s:Label includeIn="tweetsState" fontSize="10" fontWeight="bold" text="{'#'+chosenNRJ}" left="5" verticalCenter="0"/>
+	<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text.tweetsState="{'Arbeidsrom (#'+chosenNRJ+')'}" text="Arbeidsrom" left="5" verticalCenter="0"/>
 	<s:Button right="1" buttonMode="true" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
 </s:SkinnableContainer>

@@ -71,7 +71,8 @@
             //if (hldownstroke2) hldownstroke2.radiusX = cornerRadius;
             */
 			iconImage.source = 'assets/'+(this as Object).hostComponent.data.icon;  
-			lab.text = (this as Object).hostComponent.data.label;
+			var _label:String = (this as Object).hostComponent.data.label;
+			lab.text = _label.substr(0,1).toUpperCase()+_label.substr(1).toLowerCase();
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
         }
         

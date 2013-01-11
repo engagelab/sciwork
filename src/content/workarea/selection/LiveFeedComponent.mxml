@@ -136,7 +136,7 @@
 					filterGroup.addElement(cb);
 					cb.label = nrj.energy;
 					cb.setStyle("color", 0xFFFFFF);
-					cb.setStyle("fontSize", 10);
+					cb.setStyle("fontSize", 11);
 					cb.addEventListener(Event.CHANGE, handleHashTag);
 				}
 			}

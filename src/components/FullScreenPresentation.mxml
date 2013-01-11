@@ -18,6 +18,7 @@
 			
 			import content.workarea.TeacherWorkArea;
 			import content.workarea.WorkArea;
+			import content.workarea.materials.MaterialsItem;
 			
 			import listeners.CaptureFullscreenEvent;
 			import listeners.ObjectDropEvent;
@@ -124,7 +125,7 @@
 					else if(evt.mode == "picsvids") {
 						pullOutMenu.visible = evt.showPullOutMenu;
 						this.currentState = "picsvids";
-						videoPicturePresentationContainer.previewMaterial(evt.material);
+						videoPicturePresentationContainer.previewMaterial(evt.material as MaterialsItem);
 					}
 				}
 			}

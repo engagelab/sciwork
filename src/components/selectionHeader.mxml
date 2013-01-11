@@ -11,11 +11,11 @@
 	
 	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="tweets">
 		<s:Image source="@Embed('assets/11-tweets.png')" verticalCenter="0"/>
-		<s:Label fontWeight="bold" width="100%" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="TWEETS" />
+		<s:Label fontWeight="bold" width="100%" color="#FFFFFF" fontSize="11" verticalCenter="-2" text="Tweets" />
 	</s:HGroup>
 
 	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="assets">
 		<s:Image source="@Embed('assets/12-assets.png')" verticalCenter="0"/>
-		<s:Label fontWeight="bold" width="100%" color="#FFFFFF" fontSize="10" verticalCenter="-2" text="BESVAELSER" />
+		<s:Label fontWeight="bold" width="100%" color="#FFFFFF" fontSize="11" verticalCenter="-2" text="Svar" />
 	</s:HGroup>
 </s:SkinnableContainer>
