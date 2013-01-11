@@ -92,7 +92,7 @@
 	</s:states>
 	
 	<s:VGroup width="100%" height="100%" gap="0">
-		<components:SectionHeader width="100%" height="23" titleString="Beskrivelse" currentState="portfolio"/>
+		<components:PortfolioCommentHeader width="100%" height="23" />
 		<s:BorderContainer width="100%" height="100%" borderAlpha=".3" borderWeight="2">
 			<s:TextArea fontSize="11" left="5" right="5" top="5" bottom="5" id="commentArea" change="handleTextChange(event)" />
 		</s:BorderContainer>

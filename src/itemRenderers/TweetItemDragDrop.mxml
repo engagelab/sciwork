@@ -27,7 +27,7 @@
 			protected function initRenderer():void {
 				var groupName:String = new String(data.from).toLowerCase();
 				groupColor = sciwork.getColorBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
-				callOut = sciwork.getIndexBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
+				//callOut = sciwork.getIndexBasedOnGroup(sciwork.cleanGroupName(groupName.toUpperCase()).toLowerCase());
 				
 				if(mx.core.FlexGlobals.topLevelApplication.currentState == "loggedInTeacher") {
 						this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
@@ -108,6 +108,8 @@
 			<s:SolidColor id="itemBackground" alpha="{data.al}" color="{groupColor}" />
 		</s:fill>
 	</s:Rect>
+	
+	<!-- not needed anymore
 	<s:Path bottom="0" left="20" data="M 0 0 L 0 10 L 10 0 L 0 0" visible="{!callOut}">
 		<s:fill>
 			<s:SolidColor color="{groupColor}" alpha="{data.al}"/>
@@ -118,7 +120,7 @@
 			<s:SolidColor color="{groupColor}" alpha="{data.al}"/>
 		</s:fill>
 	</s:Path>
-	
+	-->
 	
 	
 	<s:VGroup top="10" right="10" bottom="20" left="10" >

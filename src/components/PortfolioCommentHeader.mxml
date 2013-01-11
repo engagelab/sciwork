@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ShowZoomedTextEvent;
+			protected function zoomOut(event:MouseEvent):void {
+				var szte:ShowZoomedTextEvent = new ShowZoomedTextEvent(resourceManager.getString('resources', 'SHOW_ZOOMED_TXT'), true);
+				szte.currentState = "portfolio";
+				dispatchEvent(szte);
+			}
+		]]>
+	</fx:Script>
+	
+	
+	
+	
+	<s:Label fontSize="11" color="#FFFFFF" fontWeight="bold" text="Beskrivelse" left="5" verticalCenter="0"/>
+	<s:Button buttonMode="true" right="1" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="zoomOut(event)" />
+</s:SkinnableContainer>

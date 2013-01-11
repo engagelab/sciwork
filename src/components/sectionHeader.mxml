@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
-					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#FFFFFF" skinClass="skins.sectionHeaderSkin">
+					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#FFFFFF" backgroundColor.comment="#333333" skinClass="skins.sectionHeaderSkin" skinClass.comment="skins.selectionHeaderSkin">
 	
 	<fx:Declarations>
 		<fx:String id="titleString" />
@@ -21,7 +21,5 @@
 		<s:Label fontWeight="bold" width="100%" id="title" color="#333333" fontSize="11" verticalCenter="-2" text="{titleString}" />
 	</s:HGroup>
 	
-	<s:Button includeIn="portfolio" buttonMode="true" right="1" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="dispatchEvent(new Event(resourceManager.getString('resources', 'SHOW_ZOOMED_COMMENT'), true));" />
-	
-	<s:Button includeIn="comment" fontSize="11" fontWeight="bold" label="X" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_COMMENT'), true));" right="2" top="2" width="30"/>
+	<s:Button includeIn="comment" fontSize="11" fontWeight="bold" label="X" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_TXT'), true));" right="2" top="2" width="30"/>
 </s:SkinnableContainer>

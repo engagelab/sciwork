@@ -2,12 +2,13 @@
 <s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				autoDrawBackground="false" width="100%" minHeight="30">
+				autoDrawBackground="false" width="100%" minHeight="30" creationComplete="initRender(event)">
 	<fx:Script>
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
 			
 			import listeners.RetweetEvent;
+			import listeners.ShowZoomedTextEvent;
 			import listeners.SimQuestionChangeEvent;
 			
 			import mx.controls.Alert;
@@ -103,6 +104,22 @@
 				Alert.show("An error occured while saving the simQuestion answer on the server.", "SimQuestion service error");
 			}
 			
+			protected function zoomOut(event:MouseEvent):void {
+				var szte:ShowZoomedTextEvent = new ShowZoomedTextEvent(resourceManager.getString('resources', 'SHOW_ZOOMED_TXT'), true);
+				szte.currentState = "simulation";
+				szte.text = answerArea.text;
+				szte.objId = data.questionId;
+				dispatchEvent(szte);
+			}
+			
+			protected function initRender(event:FlexEvent):void {
+				this.addEventListener('dataChange', onDataChange);
+			}
+			
+			protected function onDataChange(event:Event):void {
+				canSave = true;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -125,10 +142,13 @@
 	
 	<s:VGroup top="10" right="10" bottom="10" left="10" >
 		<s:Label fontSize="11" text="{extractText(data.question)}" width="100%" color="#CCCCCC" />
+		<s:Spacer height="5" />
 		<s:TextArea fontSize="11" width="100%" height="100%" color="#FFFFFF" id="answerArea" change="handleTextChange(event)" />
 		<s:Button buttonMode="true" fontSize="11" width="100%" chromeColor="{groupColor}" label="LAGRE" id="saveAnswerBtn" color="#CCCCCC" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
 	</s:VGroup>
 	
+	<s:Button buttonMode="true" right="6" top="6" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="zoomOut(event)" />
+
 	<s:SkinnableContainer width="100%" height="100%" backgroundAlpha=".8" backgroundColor="#333333" includeIn="saving">
 		<s:BusyIndicator horizontalCenter="0" verticalCenter="0" />
 	</s:SkinnableContainer>

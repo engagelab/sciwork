@@ -375,7 +375,7 @@
 	
 	<!--s:Image source="assets/topBar.png" x="0" y="0" id="topBar" /-->
 	<s:VGroup width="100%" height="100%" gap="0">
-		<s:SkinnableContainer width="100%" height="40" skinClass="skins.sectionHeaderSkin" excludeFrom="simulation" />
+		<s:SkinnableContainer width="100%" height="40" skinClass="skins.selectionHeaderSkin" backgroundColor="#333333" excludeFrom="simulation" />
 		<s:Group height="100%" width="1000" clipAndEnableScrolling="true">
 			<s:Group width="100%" height="100%"  id="contentFS">
 				<s:Group includeIn="tweets, teacherQuestions, teacherTweets" width="100%" height="100%" >

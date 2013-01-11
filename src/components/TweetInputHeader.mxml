@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
+	
+	<s:Label fontSize="11" color="#FFFFFF" fontWeight="bold" text="Tweets input" left="5" verticalCenter="0"/>
+</s:SkinnableContainer>

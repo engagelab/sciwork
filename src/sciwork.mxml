@@ -330,18 +330,18 @@
 			 * Static function to return color codes
 			 * 
 			 **/
-			public static function getIndexBasedOnGroup(groupName:String):Boolean {
-				var finalPosition:int = 0;
-				var i:int = 0;
-				for (var k:Object in groupColorDico) {
-					if(k as String == groupName) {
-						finalPosition = i;
-					}
-					i++;
-				}
-				
-				return getNumType(finalPosition);
-			}
+//			public static function getIndexBasedOnGroup(groupName:String):Boolean {
+//				var finalPosition:int = 0;
+//				var i:int = 0;
+//				for (var k:Object in groupColorDico) {
+//					if(k as String == groupName) {
+//						finalPosition = i;
+//					}
+//					i++;
+//				}
+//				
+//				return getNumType(finalPosition);
+//			}
 			
 			/**
 			 * 

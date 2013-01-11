@@ -49,7 +49,7 @@
 				answersDico[evt.questionId] = evt.questionAnswer;
 				
 				for each (var value:String in answersDico) {
-					if(value== "") {
+					if(value == "") {
 						ready = false;
 					}
 				}

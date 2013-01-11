@@ -17,6 +17,7 @@
 			import listeners.RetweetEvent;
 			import listeners.SelectMaterialEvent;
 			import listeners.ShowFullscreenEvent;
+			import listeners.ShowZoomedTextEvent;
 			import listeners.SubmitTweetEvent;
 			import listeners.TaskPortfolioUpdateEvent;
 			import listeners.TweetsRefreshEvent;
@@ -47,6 +48,8 @@
 			[Bindable] private var _qArray:ArrayCollection = new ArrayCollection();
 			
 			[Bindable] private var _htmlLocation:String = "";
+			
+			private var zoomObjectOrigin:Object;
 			
 			public function resetEnergySource():void {
 				if(_chosenEnergyID != null) {
@@ -93,11 +96,13 @@
 				var al:Number = 1;
 				var xm:XML = evt.stanza.xml as XML;
 				
+				/*
+				Not needed anymore. Can display old message with alpha
 				for each (var i:XML in xm.elements()) {
 					if(i.name() == "urn:xmpp:delay::delay") {
 						al = .5;
 					}
-				}
+				}*/
 				
 				//based on room origin, make necessary call
 				switch(new String(evt.stanza.from.user)) {
@@ -645,8 +650,8 @@
 				this.addEventListener(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), refreshTweetsPortfolio);
 				this.addEventListener(resourceManager.getString('resources', 'RE_TWEET'), handleReTweet);
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
-				this.addEventListener(resourceManager.getString('resources', 'SHOW_ZOOMED_COMMENT'), handleZoomComment);
-				this.addEventListener(resourceManager.getString('resources', 'HIDE_ZOOMED_COMMENT'), handleHideComment);
+				this.addEventListener(resourceManager.getString('resources', 'SHOW_ZOOMED_TXT'), handleZoomTxt);
+				this.addEventListener(resourceManager.getString('resources', 'HIDE_ZOOMED_TXT'), handleHideTxt);
 			}
 			
 			/**
@@ -823,15 +828,50 @@
 			}
 			
 			
-			protected function handleZoomComment(evt:Event):void {
+			protected function handleZoomTxt(evt:ShowZoomedTextEvent):void {
 				this.currentState = "comment";
-				bigCommentArea.text = portfolioEditContainer.commentArea.text;
+				
+				zoomObjectOrigin = new Object();
+				zoomObjectOrigin.state = evt.currentState;
+				zoomObjectOrigin.text = evt.text;
+				zoomObjectOrigin.id = evt.objId;
+				
+				switch(zoomObjectOrigin.state)	{
+					case 'portfolio':
+						bigCommentArea.text = portfolioEditContainer.commentArea.text;
+						break;
+					
+					case 'simulation':
+						bigCommentArea.text = zoomObjectOrigin.text;
+						break;
+				}
+				
 			}
 			
-			protected function handleHideComment(evt:Event):void {
-				portfolioEditContainer.commentArea.text = bigCommentArea.text;
-				portfolioEditContainer.commentArea.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
-				this.currentState = "portfolio";
+			protected function handleHideTxt(evt:Event):void {
+				
+				switch(zoomObjectOrigin.state)	{
+					case 'portfolio':
+						portfolioEditContainer.commentArea.text = bigCommentArea.text;
+						portfolioEditContainer.commentArea.dispatchEvent(new TextOperationEvent(TextOperationEvent.CHANGE, true));
+						this.currentState = "portfolio";
+						break;
+					
+					case 'simulation':
+						for each (var answer:Object in selection.simQuestionSelection.questionsFeedList.dataProvider) {
+							if(answer.questionId == zoomObjectOrigin.id) {
+								answer.answer = bigCommentArea.text;
+								
+							}
+						}
+						
+						(selection.simQuestionSelection.questionsFeedList.dataProvider as ArrayCollection).refresh();
+						this.currentState = "portfolio";
+						
+						break;
+				}
+				
+				zoomObjectOrigin = null;
 			}
 		]]>
 	</fx:Script>
@@ -874,7 +914,12 @@
 					</s:Scroller>
 				</s:BorderContainer>
 			</s:VGroup>
-			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" />
+			<s:VGroup width="100%" height="100%" gap="0" includeIn="tweets" >
+				<components:TweetInputHeader id="tiHeader" width="100%" height="23" />
+				<s:BorderContainer id="tinput" width="100%" height="100%" borderAlpha=".3" >
+					<workarea:TweetsInput id="tweetInput" top="5" right="5" left="5" height="50" />
+				</s:BorderContainer>
+			</s:VGroup>
 			<preview:TweetsLogger width="100%" height="100%" id="tweetsLogger" includeIn="tweetLoggerState" />
 		</s:VGroup>
 		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
