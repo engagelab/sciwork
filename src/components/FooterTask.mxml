@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:CheckBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			xmlns:s="library://ns.adobe.com/flex/spark" 
-			xmlns:mx="library://ns.adobe.com/flex/mx" skinClass="skins.footerTaskSkin" symbolColor="#FFFFFF">
+			xmlns:mx="library://ns.adobe.com/flex/mx" height="100%" minHeight="15" minWidth="2">
 	
 	<fx:Declarations>
 		<fx:String id="taskId" />
 	</fx:Declarations>
-</s:CheckBox>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="completed" />
+	</s:states>
+	
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color.normal="#FFFFFF" color.completed="#FF0000" />
+		</s:fill>
+	</s:Rect>
+	
+</s:Group>

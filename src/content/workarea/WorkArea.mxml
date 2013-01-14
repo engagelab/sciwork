@@ -291,29 +291,27 @@
 					preview.previewMaterial(evt.materialItem);
 					
 					if(evt.materialItem.sourceType == "ASSETS") {
-						var mat:MaterialsItem;
-						
-						for (var i:int = 0; i < materialItems.numElements; i++) {
-							mat = materialItems.getElementAt(i) as MaterialsItem;
-							
-							if(mat == evt.materialItem) {
-								mat.groupColour = uint(0xFF0000);
-							}
-							else {
-								mat.groupColour = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
-							}
-						}
-						
-						for (var j:int = 0; j < selection.assetSelection.portfolioGroup.numElements; j++) {
-							mat = selection.assetSelection.portfolioGroup.getElementAt(j) as MaterialsItem;
-							
-							if(mat == evt.materialItem) {
-								mat.groupColour = uint(0xFF0000);
-							}
-							else {
-								mat.groupColour = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
-							}
-						}
+						highLightMaterial(materialItems, evt.materialItem);
+						highLightMaterial(selection.assetSelection.portfolioGroup, evt.materialItem);
+					}
+					else if(evt.materialItem.sourceType == "PORTFOLIO") {
+						highLightMaterial(materialItems, evt.materialItem);
+						highLightMaterial(selection.portfolioSelection.portfolioGroup, evt.materialItem);
+					}
+				}
+			}
+			
+			
+			protected function highLightMaterial(container:Group, materialFromEvent:MaterialsItem):void {
+				var mat:MaterialsItem;
+				for (var i:int = 0; i < container.numElements; i++) {
+					mat = container.getElementAt(i) as MaterialsItem;
+					
+					if(mat == materialFromEvent) {
+						mat.groupColour = uint(0xFF0000);
+					}
+					else {
+						mat.groupColour = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
 					}
 				}
 			}
@@ -529,15 +527,17 @@
 				//extract materials
 				for each (var material:Object in subArray) {
 					newItem = new MaterialsItem();
+
+					if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
+						newItem.canBeAddedToPF = false;
+					}
+					
 					newItem.sourceType = mode;
 					newItem.isFinalPortfolio = material.isFinalPortfolio;
 					newItem.isPortfolio = material.isPortfolio;
 					newItem.xpos = material.xpos;
 					newItem.ypos = material.ypos;
 					
-					if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
-						newItem.canBeAddedToPF = false;
-					}
 					
 					switch(mode) {
 						case ASSET_TYPE:
@@ -599,12 +599,6 @@
 				if(event.result != "") {
 					var tweetsForGroup:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
 					preview.tweetsViewer.populateTweets(tweetsForGroup, currentGroup.id, task.taskId, _conn, _chosenEnergyID);
-					
-					//will refresh the fullscreen container if enabled
-					/*var stfe:ShowFullscreenEvent = new ShowFullscreenEvent(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), true);
-					stfe.tweetsInView = tweetsForGroup;
-					stfe.mode = "tweets";
-					dispatchEvent(stfe);*/
 				}
 			}
 			
@@ -777,13 +771,30 @@
 				if(_assetUpdateType != null) {
 					_assetUpdateType = null;
 					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+					
 					if(selection.portfolioSelection.portfolioGroup.numElements > 0) {
 						tpue.isTaskCompleted = true;
 					}
 					else {
 						tpue.isTaskCompleted = false;
 					}
+					
 					dispatchEvent(tpue);
+				}
+				
+				var firstMaterial:MaterialsItem;
+				var mtpe:MaterialToPreviewEvent;
+				if(selection.portfolioSelection.portfolioGroup.numElements > 0) {
+					firstMaterial = selection.portfolioSelection.portfolioGroup.getElementAt(0) as MaterialsItem;
+					mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+					mtpe.materialItem = firstMaterial;
+					dispatchEvent(mtpe);
+				}
+				else if(materialItems.numElements > 0) {
+					firstMaterial = materialItems.getElementAt(0) as MaterialsItem;
+					mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+					mtpe.materialItem = firstMaterial;
+					dispatchEvent(mtpe);
 				}
 			}
 			
@@ -861,7 +872,6 @@
 						for each (var answer:Object in selection.simQuestionSelection.questionsFeedList.dataProvider) {
 							if(answer.questionId == zoomObjectOrigin.id) {
 								answer.answer = bigCommentArea.text;
-								
 							}
 						}
 						

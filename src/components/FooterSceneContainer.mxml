@@ -29,27 +29,29 @@
 				//for each tasks found in the scene, display them as a "finished" or "unfinished" checkbox
 				for each (var task:Object in scene.tasks as ArrayCollection) {
 					cb = new FooterTask();
+					//cb.width = (this.width-fsb.width)/(scene.tasks as ArrayCollection).length;
+					cb.percentWidth = 100;
 					
 					if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
 						sceneGroup.addElement(cb);
 					}
 					
 					//only way to display the checkbox a little bigger
-					cb.scaleX = 1.3;
-					cb.scaleY = 1.3;
+					//cb.scaleX = 1.3;
+					//cb.scaleY = 1.3;
 					
 					//assign the task id to the object
 					cb.taskId = task.taskId;
 					
 					//assess if task is completed
 					if(completedTasks.indexOf(new String(cb.taskId)) > -1) {
-						cb.enabled = false;
+						cb.currentState = "completed";
 					}
 					
-					if(cb.enabled) {
-						cb.buttonMode = true;
+					//if(cb.enabled) {
+						//cb.buttonMode = true;
 						//cb.addEventListener(MouseEvent.CLICK, handleTaskClick);
-					}
+					//}
 				}
 			}
 			
@@ -87,10 +89,10 @@
 					cb = sceneGroup.getElementAt(i) as FooterTask;
 					
 					if(completedTasks.indexOf(new String(cb.taskId)) > -1) {
-						cb.enabled = false;
+						cb.currentState = "completed";
 					}
 					else {
-						cb.enabled = true;
+						cb.currentState = "normal";
 					}
 				}
 			}
@@ -108,7 +110,6 @@
 		<s:State name="selected" />
 	</s:states>
 	
-	<components:FooterSceneButton imgUrl="{'assets/'+_currentScene.icon}" currentState="{this.currentState}" click="handleSceneClick(event)" buttonMode.default="true" buttonMode.selected="false" />
-	<s:Spacer width="5" />
-	<s:HGroup id="sceneGroup" gap="0"/>
+	<components:FooterSceneButton id="fsb" imgUrl="{'assets/'+_currentScene.icon}" currentState="{this.currentState}" click="handleSceneClick(event)" buttonMode.default="true" buttonMode.selected="false" />
+	<s:HGroup id="sceneGroup" gap="0" width="100%" />
 </s:HGroup>

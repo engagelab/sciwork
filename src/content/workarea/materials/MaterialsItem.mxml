@@ -51,7 +51,7 @@
 				_isFinalPortfolio = value;
 				
 				if(sourceType == WorkArea.PORTFOLIO_TYPE) {
-					if(value == "true") {
+					if(value == "true" && canBeAddedToPF) {
 						deleter.visible = true;
 					}
 					else {
@@ -69,7 +69,7 @@
 				_isPortfolio = value;
 				
 				if(sourceType == WorkArea.ASSET_TYPE) {
-					if(value == "true") {
+					if(value == "true" && canBeAddedToPF) {
 						deleter.visible = true;
 					}
 					else {

@@ -22,7 +22,7 @@
 				//for each scene, add a scene object (scene button + tasks checkboxes)
 				for each (var scene:Object in menu) {
 					sceneContainer = new FooterSceneContainer();
-					sceneContainer.width = menuItemWidth;
+					sceneContainer.width = menuItemWidth-10;
 					trajMenu.addElement(sceneContainer);
 					sceneContainer.initScene(scene, completedTasks);
 				}
@@ -81,5 +81,5 @@
 	
 	<s:SkinnableContainer id="footerBar" width="100%" height="24" bottom="0" backgroundColor="#333333" skinClass="skins.footerSkin" />
 	
-	<s:HGroup id="trajMenu" width="1000" bottom="13" gap="0" horizontalCenter="0"/>
+	<s:HGroup id="trajMenu" width="1000" bottom="13" gap="10" horizontalCenter="0"/>
 </s:Group>
