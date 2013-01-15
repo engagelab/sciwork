@@ -15,6 +15,7 @@
 			import spark.collections.SortField;
 			
 			[Bindable] private var answersDico:Dictionary;
+			private var _teacherMode:Boolean = false;
 			
 			public function populateQuestions(questions:Array):void {
 				if(questionsFeedList.dataProvider != null) {
@@ -62,6 +63,13 @@
 			
 			protected function initComponent(event:FlexEvent):void {
 				this.addEventListener(resourceManager.getString('resources', 'CHECK_SIMQUESTION_ANSWER_STATUS'), handleCheckAnswers);
+			}
+			
+			public function set teacherMode(m:Boolean):void {
+				_teacherMode = m;
+			}
+			public function get teacherMode():Boolean {
+				return _teacherMode;
 			}
 			
 		]]>

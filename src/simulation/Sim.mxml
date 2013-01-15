@@ -209,25 +209,25 @@
 							infoBubble.setInfoText("Kompressor");
 							break;
 						case "two":
-							infoBubble.setInfoText("Beholderen");
+							infoBubble.setInfoText("Fordamper");
 							break;
 						case "three":
-							infoBubble.setInfoText("Beholderen");
+							infoBubble.setInfoText("Fordamper");
 							break;
 						case "four":
-							infoBubble.setInfoText("Beholderen");
+							infoBubble.setInfoText("Fordamper");
 							break;
 						case "five":
 							infoBubble.setInfoText("Reduksjonsventil");
 							break;
 						case "six":
-							infoBubble.setInfoText("Beholderen");
+							infoBubble.setInfoText("Kondensator");
 							break;
 						case "seven":
-							infoBubble.setInfoText("Beholderen");
+							infoBubble.setInfoText("Kondensator");
 							break;
 						case "eight":
-							infoBubble.setInfoText("Beholderen");
+							infoBubble.setInfoText("Kondensator");
 							break;
 					}
 				}
@@ -237,25 +237,25 @@
 							infoBubble.setInfoText("Kompressor");
 							break;
 						case "two":
-							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
+							infoBubble.setInfoText("Press: " + getPressure("coolTank") + 'bar\n' + "Temperatur: " + (heatpumpRunning ? String(currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
 							break;
 						case "three":
-							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + String(currentOutdoorTemp) + 'º');
+							infoBubble.setInfoText("Press: " + getPressure("coolTank") + 'bar\n' + "Temperatur: " + String(currentOutdoorTemp) + 'º');
 							break;
 						case "four":
-							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp - 3) : String(currentOutdoorTemp)) + 'º');
+							infoBubble.setInfoText("Press: " + getPressure("coolTank") + 'bar\n' + "Temperatur: " + (heatpumpRunning ? String(currentOutdoorTemp - 3) : String(currentOutdoorTemp)) + 'º');
 							break;
 						case "five":
 							infoBubble.setInfoText("Reduksjonsventil");
 							break;
 						case "six":
-							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36-currentOutdoorTemp-3) : String(currentOutdoorTemp)) + 'º');
+							infoBubble.setInfoText("Press: " + getPressure("hotTank") + 'bar\n' + "Temperatur: " + (heatpumpRunning ? String(36-currentOutdoorTemp-3) : String(currentOutdoorTemp)) + 'º');
 							break;
 						case "seven":
-							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36 - currentOutdoorTemp) : String(currentOutdoorTemp)) + 'º');
+							infoBubble.setInfoText("Press: " + getPressure("hotTank") + 'bar\n' + "Temperatur: " + (heatpumpRunning ? String(36 - currentOutdoorTemp) : String(currentOutdoorTemp)) + 'º');
 							break;
 						case "eight":
-							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36 - currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
+							infoBubble.setInfoText("Press: " + getPressure("hotTank") + 'bar\n' + "Temperatur: " + (heatpumpRunning ? String(36 - currentOutdoorTemp + 3) : String(currentOutdoorTemp)) + 'º');
 							break;
 					}
 				}

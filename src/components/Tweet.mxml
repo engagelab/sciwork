@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" creationPolicy="all" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" minHeight="30" maxWidth="210" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" creationPolicy="all" width="{calculatedWidth}" creationComplete="creationCompleteHandler(event)" borderVisible="false" minHeight="30" maxWidth="210" cornerRadius="5" xmlns:xmpp="com.seesmic.as3.xmpp.*">
 	
 	<fx:Declarations>
 		<fx:Object id="data" />
@@ -331,4 +331,9 @@
 	<s:HGroup left="10" right="10" top="10" bottom="10">
 		<s:Label id="bodyText" text="{extractText(data.text)}" color="#FFFFFF" width="100%" textAlign="left" />
 	</s:HGroup>
+	<s:filters>
+		<s:DropShadowFilter 
+			distance="3" alpha=".6" blurX="4" blurY="4"
+			angle="90" />
+	</s:filters>
 </s:BorderContainer>

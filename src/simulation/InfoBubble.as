@@ -16,18 +16,19 @@ package simulation
 		{
 			super();
 			
-			var tformat:TextFormat = new TextFormat("miracleFont", 18, 0xFFFF00, true, null, null, null, null);
+			var tformat:TextFormat = new TextFormat("miracleFont", 18, 0xFFFFFF, true, null, null, null, null);
 			tfield.defaultTextFormat = tformat;
 			tfield.selectable = false;
-			tfield.width += 20;
+			tfield.width += 45;
 			this.addChild(tfield);
 		}
 		
 		public function setInfoText(theText:String):void {
 			tfield.htmlText = theText;
 			tfield.x = 3;
+			this.width = tfield.textWidth + 20;
 			graphics.clear();
-			graphics.beginFill(0x444444,0.8);
+			graphics.beginFill(0x000000,0.8);
 			graphics.drawRoundRect(0,0,tfield.textWidth+12,tfield.textHeight+6,5,5);
 			graphics.endFill();
 		}

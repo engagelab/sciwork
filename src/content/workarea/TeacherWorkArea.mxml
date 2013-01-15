@@ -92,6 +92,10 @@
 					getSceneContributions.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + _groupList[selectedGroupIndex].id + "/" + task.taskId;
 					getSceneContributions.send();
 				}
+				else if(this.currentState == "simulation") {
+					getSimQuestions.url = resourceManager.getString('resources', 'TWEET_SERVER_URL') + "/simQuestion/" + task.taskId + "/" + _groupList[selectedGroupIndex].id;
+					getSimQuestions.send();
+				}
 			}
 			
 			/**
@@ -472,6 +476,12 @@
 						selection.currentState = "simulation";
 						preview.currentState = "simulationState";
 						preview.simulate.setSimulationLevel(task.label);
+						selection.enableTeacherMode("simulation");
+
+						if(!groupsLoaded)
+							getAllGroups.send();
+						else
+							refreshData(groupSelector.selectedIndex);
 						break;
 					}
 					default: {
@@ -621,6 +631,25 @@
 			}
 			
 			/**
+			 *
+			 * Result handling method for getSimQuestions service 
+			 * 
+			 **/
+			protected function getSimQuestions_resultHandler(event:ResultEvent):void {
+				var simQuestions:Array = com.adobe.serialization.json.JSON.decode(String(event.result));
+				selection.simQuestionSelection.populateQuestions(simQuestions);
+			}
+			
+			/**
+			 * 
+			 * Error handling method for getSimQuestions service
+			 * 
+			 **/
+			protected function getSimQuestions_faultHandler(event:FaultEvent):void {
+				Alert.show("An error occured while retrieving the question asset from the server.", "Question Asset service error");
+			}
+			
+			/**
 			 * 
 			 * Event handling method for MATERIAL_TO_PREVIEW
 			 * 
@@ -643,6 +672,7 @@
 		<s:HTTPService method="GET" result="getQuestionPicture_resultHandler(event)" fault="getQuestionPicture_faultHandler(event)" resultFormat="text" id="getQuestionPicture" showBusyCursor="true" />
 		<s:HTTPService url="{resourceManager.getString('resources', 'SERVER_URL')+'/groupInfo'}" method="GET" result="getAllGroups_resultHandler(event)" fault="getAllGroups_faultHandler(event)" resultFormat="text" id="getAllGroups" />
 		<s:HTTPService method="GET" result="getSceneContributions_resultHandler(event)" fault="getSceneContributions_faultHandler(event)" resultFormat="text" id="getSceneContributions" showBusyCursor="true" />
+		<s:HTTPService method="GET" result="getSimQuestions_resultHandler(event)" fault="getSimQuestions_faultHandler(event)" resultFormat="text" id="getSimQuestions" showBusyCursor="true" />
 		
 		<fx:Object id="currentGroup" />
 		<fx:Object id="task" />
@@ -660,27 +690,27 @@
 		<s:State name="portfolio" />
 	</s:states>
 	
-	<s:HGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article, assets">
-		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
-			<preview:Preview id="preview" width="100%" height="100%" />
-			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" visible="false" includeInLayout="false"/>
-		</s:VGroup>
-		<selection:Selection id="selection" width="200" height="100%" />
-	</s:HGroup>
-	<s:Group width="100%" height="100%" includeIn="article, assets">
-		<s:TabBar id="groupSelector" width="100%" dataProvider="{_groupList}" top="-21" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
+	<s:Group id="tabBarGroup" top="-21" width="100%" height="100%" includeIn="article, assets, simulation" height.simulation="5%">
+		<s:TabBar id="groupSelector" width="100%" dataProvider="{_groupList}" skinClass="skins.groupTabBarSkin" valueCommit="changeHandlerProgrammatic(event)" requireSelection="true">
 			<s:filters>
 				<s:DropShadowFilter 
 					distance="3" alpha=".3" blurX="7" blurY="7"
 					angle="90" />
 			</s:filters>
 		</s:TabBar>
-		<s:BorderContainer id="materials" width="100%" height="100%" top="20" borderAlpha=".3" includeIn="assets" >
+		<s:BorderContainer id="materials" width="100%" height="100%" top="30" borderAlpha=".3" includeIn="assets" >
 			<s:Scroller top="5" right="5" bottom="5" left="5">
 				<s:HGroup id="materialItems" />
 			</s:Scroller>
 		</s:BorderContainer>
-		<mx:HTML id="htmlLoader" width="100%" height="100%" top="20" location="{_htmlLocation}" complete="htmlLoded(event)" includeIn="article" />
-		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" includeIn="article" />
+		<mx:HTML id="htmlLoader" width="100%" height="100%" top="20" location="{_htmlLocation}" complete="htmlLoded(event)" includeIn="article" top.article="25" height.article="100%"/>
+		<s:BusyIndicator verticalCenter="0" horizontalCenter="0" id="htmlBI" includeIn="article"/>
 	</s:Group>
+	<s:HGroup id="mainGroup" width="100%" height="100%" gap="{sciwork._gapBetweenContainers}" excludeFrom="article, assets" height.simulation="100%" top.simulation="25">
+		<s:VGroup width="100%" height="100%" gap="{sciwork._gapBetweenContainers}">
+			<preview:Preview id="preview" width="100%" height="100%" />
+			<workarea:TweetsInput id="tweetInput" width="100%" height="50" includeIn="tweets" visible="false" includeInLayout="false"/>
+		</s:VGroup>
+		<selection:Selection id="selection" width="200" height="100%" />
+	</s:HGroup>
 </s:Group>
