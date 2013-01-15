@@ -334,6 +334,7 @@
 					params.isFinalPortfolio = imageObject.isFinalPortfolio;
 					params.xpos = imageObject.xpos;
 					params.ypos = imageObject.ypos;
+					params.groupId = _groupId;
 					
 					var urlRequest:URLRequest;
 					urlRequest = new URLRequest(resourceManager.getString('resources', 'SERVER_URL') + "/group/image/");

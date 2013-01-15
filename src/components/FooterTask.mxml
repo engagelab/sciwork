@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			xmlns:s="library://ns.adobe.com/flex/spark" 
-			xmlns:mx="library://ns.adobe.com/flex/mx" height="100%" minHeight="15" minWidth="2">
+			xmlns:mx="library://ns.adobe.com/flex/mx" height="100%" minHeight="12" minWidth="2">
 	
 	<fx:Declarations>
 		<fx:String id="taskId" />
 	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			private var selectedColor:uint = uint((mx.core.FlexGlobals.topLevelApplication).currentGroup.colour);
+		]]>
+	</fx:Script>
 	
 	<s:states>
 		<s:State name="normal" />
@@ -14,7 +21,7 @@
 	
 	<s:Rect width="100%" height="100%">
 		<s:fill>
-			<s:SolidColor color.normal="#FFFFFF" color.completed="#FF0000" />
+			<s:SolidColor color.normal="#FFFFFF" alpha=".8" color.completed="{selectedColor}" />
 		</s:fill>
 	</s:Rect>
 	

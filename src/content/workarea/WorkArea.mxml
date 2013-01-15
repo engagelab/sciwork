@@ -207,6 +207,7 @@
 				params.isFinalPortfolio = evt.materialItem.isFinalPortfolio;
 				params.xpos = evt.materialItem.xpos;
 				params.ypos = evt.materialItem.ypos;
+				params.groupId = currentGroup.id;
 				
 				_assetUpdateType = evt.materialItem.sourceType;
 				
@@ -502,17 +503,28 @@
 				
 				var firstMaterial:MaterialsItem;
 				var mtpe:MaterialToPreviewEvent;
-				if(selection.assetSelection.portfolioGroup.numElements > 0) {
-					firstMaterial = selection.assetSelection.portfolioGroup.getElementAt(0) as MaterialsItem;
-					mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
-					mtpe.materialItem = firstMaterial;
-					dispatchEvent(mtpe);
+				
+				if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
+					if(selection.assetSelection.portfolioGroup.numElements > 0) {
+						firstMaterial = selection.assetSelection.portfolioGroup.getElementAt(0) as MaterialsItem;
+						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+						mtpe.materialItem = firstMaterial;
+						dispatchEvent(mtpe);
+					}
+					else if(materialItems.numElements > 0) {
+						firstMaterial = materialItems.getElementAt(0) as MaterialsItem;
+						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+						mtpe.materialItem = firstMaterial;
+						dispatchEvent(mtpe);
+					}
 				}
-				else if(materialItems.numElements > 0) {
-					firstMaterial = materialItems.getElementAt(0) as MaterialsItem;
-					mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
-					mtpe.materialItem = firstMaterial;
-					dispatchEvent(mtpe);
+				else {
+					if(materialItems.numElements > 0) {
+						firstMaterial = materialItems.getElementAt(0) as MaterialsItem;
+						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+						mtpe.materialItem = firstMaterial;
+						dispatchEvent(mtpe);
+					}
 				}
 			}
 			
@@ -579,6 +591,7 @@
 					}
 					
 				}
+				trace();
 			}
 			
 			/**
@@ -678,6 +691,10 @@
 				URLRequestDefaults.userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.17.8 (KHTML, like Gecko) Version/5.0.1 Safari/533.17.8";
 				if(articleResult.length > 0) {
 					_htmlLocation = articleResult[0].articleUrl;
+					
+					var tpue:TaskPortfolioUpdateEvent = new TaskPortfolioUpdateEvent(resourceManager.getString('resources', 'TASK_PORTFOLIO_UPDATE'), true);
+					tpue.isTaskCompleted = true;
+					dispatchEvent(tpue);
 				}
 			}
 			

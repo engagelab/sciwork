@@ -318,6 +318,7 @@
 				params.isPortfolio = evt.addToPortolio;
 				params.xpos = evt.materialItem.xpos;
 				params.ypos = evt.materialItem.ypos;
+				params.groupId = currentGroup.id;
 				
 				//create urlrequest with correct headers
 				var urlRequest:URLRequest;

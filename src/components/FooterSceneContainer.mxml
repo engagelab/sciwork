@@ -111,5 +111,6 @@
 	</s:states>
 	
 	<components:FooterSceneButton id="fsb" imgUrl="{'assets/'+_currentScene.icon}" currentState="{this.currentState}" click="handleSceneClick(event)" buttonMode.default="true" buttonMode.selected="false" />
+	<s:Spacer width="3" />
 	<s:HGroup id="sceneGroup" gap="0" width="100%" />
 </s:HGroup>
