@@ -354,6 +354,11 @@
 				
 				dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), true));
 			}
+			
+			private function capture(evt:MouseEvent):void {
+				var cfse:CaptureFullscreenEvent = new CaptureFullscreenEvent(resourceManager.getString('resources', 'CAPTURE_FULLSCREEN'), true);
+				dispatchEvent(cfse);
+			}
 		]]>
 	</fx:Script>
 	
@@ -392,8 +397,9 @@
 				<components:VideoPicturePresentationContainer id="videoPicturePresentationContainer" visible.disabled="false" visible.tweets="false" visible.teacherQuestions="false" visible.teacherTweets="false" visible.html="false" visible.simulation="false" visible.ipad="false" visible.picsvids="true" width="100%" height="100%" />
 				<components:IPadPresentationContainer id="ipadPresentation" includeIn="ipad" width="100%" height="100%" conn="{_conn}" />
 			</s:Group>
-			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html" y.simulation="30"/>
+			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html, simulation" y.simulation="30"/>
 		</s:Group>
 	</s:VGroup>
+	<s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="50" top="5" includeIn="simulation" />
 	<s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/>
 </s:BorderContainer>

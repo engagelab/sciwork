@@ -98,6 +98,7 @@
 				sliderContainer.addEventListener(MouseEvent.MOUSE_UP, sliderUp);
 				sliderContainer.addEventListener(MouseEvent.MOUSE_OVER, showHandCursor);
 				sliderContainer.addEventListener(MouseEvent.MOUSE_OUT, hideHandCursor);
+				this.addEventListener(MouseEvent.ROLL_OUT, sliderUp);
 				
 				sl = new TheSliderClass();
 				sl.theText.text = "0";
@@ -217,7 +218,7 @@
 							infoBubble.setInfoText("Beholderen");
 							break;
 						case "five":
-							infoBubble.setInfoText("Ventil");
+							infoBubble.setInfoText("Reduksjonsventil");
 							break;
 						case "six":
 							infoBubble.setInfoText("Beholderen");
@@ -245,7 +246,7 @@
 							infoBubble.setInfoText("P: " + getPressure("coolTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(currentOutdoorTemp - 3) : String(currentOutdoorTemp)) + 'º');
 							break;
 						case "five":
-							infoBubble.setInfoText("Ventil");
+							infoBubble.setInfoText("Reduksjonsventil");
 							break;
 						case "six":
 							infoBubble.setInfoText("P: " + getPressure("hotTank") + 'bar\n' + "T: " + (heatpumpRunning ? String(36-currentOutdoorTemp-3) : String(currentOutdoorTemp)) + 'º');
@@ -461,7 +462,8 @@
 			
 			// Each enter frame event animates the rotating crank cross
 			private function enterFrame(event:Event):void {
-				rotator.rotation += crossSpeed;
+				if(rotator != null)
+					rotator.rotation += crossSpeed;
 			}
 			
 			// When the heat pump is running, makes inside temperature move to the heat pump desired level (18 degrees)
