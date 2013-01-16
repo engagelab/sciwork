@@ -264,10 +264,14 @@
 			 * 
 			 **/
 			private function captureScreen(event:CaptureFullscreenEvent):void {
-				pullOutMenu.pbar.visible = true;
-				pullOutMenu.pbar.includeInLayout = true;
-				pullOutMenu.screenCaptureButton.visible = false;
-				pullOutMenu.screenCaptureButton.includeInLayout = false;
+				pbar.visible = true;
+				pbar.includeInLayout = true;
+				if(this.currentState == "simulation") {
+					pbarBG.visible = true;
+					pbarBG.includeInLayout = true;
+				}
+				screenCaptureButton.visible = false;
+				screenCaptureButton.includeInLayout = false;
 				//var compositionBitmapData:BitmapData = new BitmapData(contentFS.width,contentFS.height);
 				//need to specify the width and height, as the simulation is scaled and does not render properly
 				var compositionBitmapData:BitmapData = new BitmapData(1000, 520);
@@ -286,7 +290,8 @@
 			 * 
 			 **/
 			private function updateProgress(event:ProgressEvent):void {
-				pullOutMenu.pbar.setProgress(event.bytesLoaded, event.bytesTotal);
+				pbar.setProgress(event.bytesLoaded, event.bytesTotal);
+				pbar.label = "Saving.. %3%%";
 			}
 			
 			/**
@@ -312,10 +317,10 @@
 					loader.load(form.request);
 				} catch (error: Error) {
 					Alert.show("Unable to load requested document", "image upload error");
-					pullOutMenu.pbar.visible = false;
-					pullOutMenu.pbar.includeInLayout = false;
-					pullOutMenu.screenCaptureButton.visible = true;
-					pullOutMenu.screenCaptureButton.includeInLayout = true;
+					pbar.visible = false;
+					pbar.includeInLayout = false;
+					screenCaptureButton.visible = true;
+					screenCaptureButton.includeInLayout = true;
 				}
 			}
 			
@@ -347,10 +352,14 @@
 					uploader.load(urlRequest);
 				}
 				
-				pullOutMenu.pbar.visible = false;
-				pullOutMenu.pbar.includeInLayout = false;
-				pullOutMenu.screenCaptureButton.visible = true;
-				pullOutMenu.screenCaptureButton.includeInLayout = true;
+				pbar.visible = false;
+				pbarBG.visible = false;
+				if(this.currentState == "simulation") {
+					pbarBG.includeInLayout = false;
+					pbar.includeInLayout = false;
+				}
+				screenCaptureButton.visible = true;
+				screenCaptureButton.includeInLayout = true;
 				
 				dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_TWEETS_PORTFOLIO'), true));
 			}
@@ -400,6 +409,8 @@
 			<components:PullOutMenu id="pullOutMenu" height="518" x="1000" excludeFrom="html, simulation" y.simulation="30"/>
 		</s:Group>
 	</s:VGroup>
-	<s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="50" top="5" includeIn="simulation" />
+	<s:BorderContainer id="pbarBG" borderVisible="false" backgroundColor="0x3980C1" right="50" alpha="0.5" top="5" width="90" visible="false" cornerRadius="2"/>
+	<s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="60" top="5" />
+	<mx:ProgressBar id="pbar" mode="manual" color="#ffffff" visible="false" includeInLayout="false" width="40" right="90" top="5" />
 	<s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/>
 </s:BorderContainer>
