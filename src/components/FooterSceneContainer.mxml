@@ -32,7 +32,7 @@
 					//cb.width = (this.width-fsb.width)/(scene.tasks as ArrayCollection).length;
 					cb.percentWidth = 100;
 					
-					if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
+					if(task.taskId != "50c5c602b760a8ae9a3bcb37" && task.taskId != "50f689c2b760de188086ebe1") {
 						sceneGroup.addElement(cb);
 					}
 					
