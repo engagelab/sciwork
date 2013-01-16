@@ -903,7 +903,7 @@
 						}
 						
 						(selection.simQuestionSelection.questionsFeedList.dataProvider as ArrayCollection).refresh();
-						this.currentState = "portfolio";
+						this.currentState = "simulation";
 						
 						break;
 				}
