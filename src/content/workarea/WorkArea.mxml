@@ -108,7 +108,7 @@
 				switch(new String(evt.stanza.from.user)) {
 					case resourceManager.getString('resources', 'TWEETS_ROOM_NAME'):
 						_tArray.addItem({bdy: evt.stanza.body, from: cleanResource(roomjid.getResource()), al: al, visible: true, tags: getTagsForContent(evt.stanza.body)});
-						if(this.currentState == "tweets") {
+						if(this.currentState == "tweets" || task.taskId == "50ab4629300480c12ec36945") {
 							selection.tweetsSelection.tweetFeedArray = _tArray;
 							selection.tweetsSelection.refreshFeed();
 						}
@@ -293,7 +293,9 @@
 					
 					if(evt.materialItem.sourceType == "ASSETS") {
 						highLightMaterial(materialItems, evt.materialItem);
-						highLightMaterial(selection.assetSelection.portfolioGroup, evt.materialItem);
+						if(task.taskId != "50ab4629300480c12ec36945") {
+							highLightMaterial(selection.assetSelection.portfolioGroup, evt.materialItem);
+						}
 					}
 					else if(evt.materialItem.sourceType == "PORTFOLIO") {
 						highLightMaterial(materialItems, evt.materialItem);
@@ -372,24 +374,39 @@
 					case 'tweets': {
 						//set correct state in subsequent components
 						
-						if(_chosenEnergySource != null) {
+						//case scene 2, task 1
+						if(task.taskId == "50ab4629300480c12ec36945") {
+							this.currentState = "assets";
+							preview.currentState = "default";
 							selection.currentState = "tweets";
-							preview.currentState = "tweetsState";
-							preview.pHeader.chosenNRJ = _chosenEnergySource;
-							this.currentState = "tweets";
+							
+							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/50ab4629300480c12ec36945";
+							getAssetsPortfolio.send();
 							
 							selection.tweetsSelection.tweetFeedArray = _tArray;
 							selection.tweetsSelection.refreshFeed();
-							
-							//selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
-							dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 						}
 						else {
-							selection.currentState = "default";
-							preview.currentState = "default";
-							this.currentState = "tweetLoggerState";
-							tweetsLogger.dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_NRJS'), true));
+							if(_chosenEnergySource != null) {
+								selection.currentState = "tweets";
+								preview.currentState = "tweetsState";
+								preview.pHeader.chosenNRJ = _chosenEnergySource;
+								this.currentState = "tweets";
+								
+								selection.tweetsSelection.tweetFeedArray = _tArray;
+								selection.tweetsSelection.refreshFeed();
+								
+								//selection.tweetsSelection.retrieveAssets(currentGroup.id, taskId);
+								dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
+							}
+							else {
+								selection.currentState = "default";
+								preview.currentState = "default";
+								this.currentState = "tweetLoggerState";
+								tweetsLogger.dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_NRJS'), true));
+							}
 						}
+						
 						
 						break;
 					}
@@ -478,14 +495,14 @@
 				
 				//clean current material holders
 				materialItems.removeAllElements();
-				if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
+				if(task.taskId == "50c5c602b760a8ae9a3bcb37" || task.taskId == "50ab4629300480c12ec36945") {
+					parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, null, ASSET_TYPE);
+					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, null, ASSET_TYPE);
+				}
+				else {
 					selection.assetSelection.portfolioGroup.removeAllElements();
 					parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
 					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, selection.assetSelection.portfolioGroup, ASSET_TYPE);
-				}
-				else {
-					parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, null, ASSET_TYPE);
-					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, null, ASSET_TYPE);
 				}
 				
 				//test if the currentTask portfolio is empty or not and update footer navbar
@@ -504,14 +521,8 @@
 				var firstMaterial:MaterialsItem;
 				var mtpe:MaterialToPreviewEvent;
 				
-				if(task.taskId != "50c5c602b760a8ae9a3bcb37") {
-					if(selection.assetSelection.portfolioGroup.numElements > 0) {
-						firstMaterial = selection.assetSelection.portfolioGroup.getElementAt(0) as MaterialsItem;
-						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
-						mtpe.materialItem = firstMaterial;
-						dispatchEvent(mtpe);
-					}
-					else if(materialItems.numElements > 0) {
+				if(task.taskId == "50c5c602b760a8ae9a3bcb37" || task.taskId == "50ab4629300480c12ec36945") {
+					if(materialItems.numElements > 0) {
 						firstMaterial = materialItems.getElementAt(0) as MaterialsItem;
 						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 						mtpe.materialItem = firstMaterial;
@@ -519,7 +530,13 @@
 					}
 				}
 				else {
-					if(materialItems.numElements > 0) {
+					if(selection.assetSelection.portfolioGroup.numElements > 0) {
+						firstMaterial = selection.assetSelection.portfolioGroup.getElementAt(0) as MaterialsItem;
+						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
+						mtpe.materialItem = firstMaterial;
+						dispatchEvent(mtpe);
+					}
+					else if(materialItems.numElements > 0) {
 						firstMaterial = materialItems.getElementAt(0) as MaterialsItem;
 						mtpe = new MaterialToPreviewEvent(resourceManager.getString('resources', 'MATERIAL_TO_PREVIEW'), true);
 						mtpe.materialItem = firstMaterial;
@@ -540,7 +557,7 @@
 				for each (var material:Object in subArray) {
 					newItem = new MaterialsItem();
 
-					if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
+					if(task.taskId == "50c5c602b760a8ae9a3bcb37" || task.taskId == "50ab4629300480c12ec36945") {
 						newItem.canBeAddedToPF = false;
 					}
 					
