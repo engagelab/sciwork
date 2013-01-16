@@ -37,7 +37,7 @@
 			 * Creates the preview of each material, based on material type
 			 * 
 			 **/
-			public function previewMaterial(materialItem:MaterialsItem):void {
+			public function previewMaterial(materialItem:MaterialsItem, taskId:String):void {
 				_currentMaterialItem = materialItem;
 				
 				switch(_currentMaterialItem.previewType) {
@@ -65,6 +65,9 @@
 					else {
 						sender.visible = true;
 					}
+				}
+				else if(taskId == "50f689c2b760de188086ebe1") {
+					sender.visible = false;
 				}
 				else {
 					if(_currentMaterialItem.isPortfolio == "true") {

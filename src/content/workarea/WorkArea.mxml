@@ -289,7 +289,7 @@
 					dispatchEvent(stfe);
 				}
 				else {
-					preview.previewMaterial(evt.materialItem);
+					preview.previewMaterial(evt.materialItem, task.taskId);
 					
 					if(evt.materialItem.sourceType == "ASSETS") {
 						highLightMaterial(materialItems, evt.materialItem);
@@ -356,9 +356,15 @@
 						//set correct state in subsequent components
 						this.currentState = "assets";
 						preview.currentState = "default";
-						
 						selection.currentState = "assets";
-						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
+						
+						if(task.taskId == "50f689c2b760de188086ebe1") {
+							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/50c5c602b760a8ae9a3bcb37";
+							selection.currentState = "default";
+						}
+						else {
+							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
+						}
 						getAssetsPortfolio.send();
 						
 						break;
@@ -601,7 +607,6 @@
 					}
 					
 				}
-				trace();
 			}
 			
 			/**
