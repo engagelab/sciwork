@@ -168,7 +168,7 @@
 				
 				//ordering the list alphabetically
 				var sortfield:SortField = new SortField();
-				sortfield.name = "title";
+				sortfield.name = "label";
 				sortfield.descending = false;
 				
 				var sort:Sort = new Sort();
