@@ -357,15 +357,8 @@
 						this.currentState = "assets";
 						preview.currentState = "default";
 						
-						if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
-							selection.currentState = "default";
-							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/50ab4629300480c12ec36945";
-						}
-						else {
-							selection.currentState = "assets";
-							getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
-						}
-						
+						selection.currentState = "assets";
+						getAssetsPortfolio.url = resourceManager.getString('resources', 'SERVER_URL') + "/contributions/" + currentGroup.id + "/" + task.taskId;
 						getAssetsPortfolio.send();
 						
 						break;
@@ -400,10 +393,10 @@
 								dispatchEvent(new TweetsRefreshEvent(resourceManager.getString('resources', 'REFRESH_TWEETS'), true));
 							}
 							else {
+								this.currentState = "default";
 								selection.currentState = "default";
-								preview.currentState = "default";
-								this.currentState = "tweetLoggerState";
-								tweetsLogger.dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_NRJS'), true));
+								preview.currentState = "tweetLoggerState";
+								preview.tweetsLogger.dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_NRJS'), true));
 							}
 						}
 						
@@ -495,7 +488,7 @@
 				
 				//clean current material holders
 				materialItems.removeAllElements();
-				if(task.taskId == "50c5c602b760a8ae9a3bcb37" || task.taskId == "50ab4629300480c12ec36945") {
+				if(task.taskId == "50ab4629300480c12ec36945") {
 					parseMaterialSubArray(contributions.svideos, VIDEO_TYPE, null, ASSET_TYPE);
 					parseMaterialSubArray(contributions.simages, IMAGE_TYPE, null, ASSET_TYPE);
 				}
@@ -557,7 +550,7 @@
 				for each (var material:Object in subArray) {
 					newItem = new MaterialsItem();
 
-					if(task.taskId == "50c5c602b760a8ae9a3bcb37" || task.taskId == "50ab4629300480c12ec36945") {
+					if(task.taskId == "50ab4629300480c12ec36945") {
 						newItem.canBeAddedToPF = false;
 					}
 					
@@ -939,7 +932,6 @@
 		<s:State name="default" />
 		<s:State name="assets" />
 		<s:State name="tweets" />
-		<s:State name="tweetLoggerState" />
 		<s:State name="questions" />
 		<s:State name="simulation" />
 		<s:State name="article" />
@@ -964,7 +956,6 @@
 					<workarea:TweetsInput id="tweetInput" top="5" right="5" left="5" height="50" />
 				</s:BorderContainer>
 			</s:VGroup>
-			<preview:TweetsLogger width="100%" height="100%" id="tweetsLogger" includeIn="tweetLoggerState" />
 		</s:VGroup>
 		<s:VGroup width="200" height="100%" gap="{sciwork._gapBetweenContainers}">
 			<selection:Selection id="selection" width="100%" height="100%" height.portfolio="324" />

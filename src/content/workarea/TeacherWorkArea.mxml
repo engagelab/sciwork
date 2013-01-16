@@ -420,7 +420,7 @@
 						break;
 					}
 					case 'assets': {
-						// Second task for scene 2
+						// Second task for scene 4
 						if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
 							selection.currentState = "default";
 							this.currentState = "default";

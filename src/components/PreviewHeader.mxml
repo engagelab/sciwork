@@ -25,6 +25,7 @@
 		<s:State name="teacherTweetsState" />
 		<s:State name="ipadState" />
 		<s:State name="simulationState" />
+		<s:State name="tweetLoggerState" />
 	</s:states>
 	
 	<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text.tweetsState="{'Arbeidsrom (#'+chosenNRJ+')'}" text="Arbeidsrom" left="5" verticalCenter="0"/>
