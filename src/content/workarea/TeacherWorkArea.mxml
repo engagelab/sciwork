@@ -443,6 +443,11 @@
 						this.currentState = "tweets";
 						preview.currentState = "ipadState";
 						
+						// scene 4 , task 2
+						if(task.taskId == "50c5c602b760a8ae9a3bcb37") {
+							selection.currentState = "default";
+						}
+						
 						// First task for Scene 2
 						if(task.taskId == "50ab4629300480c12ec36945") {
 							selection.currentState = "teacherTweets";
