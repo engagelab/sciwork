@@ -90,9 +90,9 @@
 				crossOverlay.addChild(cross);
 				ventOverlay.addChild(ventLoader);
 				
-				sl = new TheSliderClass();
-				sl.theText.text = "0";
-				sliderContainer.addChild(sl);
+	//			sl = new TheSliderClass();
+	//			sl.theText.text = "0";
+	//			sliderContainer.addChild(sl);
 				
 				sliderContainer.addEventListener(MouseEvent.MOUSE_DOWN, sliderDown);
 				sliderContainer.addEventListener(MouseEvent.MOUSE_UP, sliderUp);
@@ -497,26 +497,29 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<!--s:Group width="995" height="600" y="-150"-->
-		<local:simulation id="sim" addedToStage="setInitialTempOnAddedToStage(event)"/>
-		<s:Group id="arrowGroup">
-			<s:SWFLoader id="arrowPlayer"/>
-		</s:Group>
-		<local:Slider id="slide" x="850" y="173" />
-		<s:Group left="335" top="77" scaleX="0.595" scaleY="0.59" visible="true">
-			<s:VideoDisplay id="videoPlayer" width="576" height="832"  />
-			<s:VideoDisplay id="videoPlayer2" width="576" height="832" loop="true" visible="false"/>
-		</s:Group>
-		<s:Group id="spriteGroup" x="457" y="90">
-			<s:SpriteVisualElement id="crossOverlay" x="0" y="0" width="200" height="200"/>
-			<s:SpriteVisualElement id="ventOverlay" x="6" y="375" />
-		</s:Group>
-		<local:HPOverlay id="hpOverlay" x="346" y="101" />
-		<s:Group id="sliderGroup" x="895" y="155">
-			<s:SpriteVisualElement id="sliderContainer" width="50" height="290" y="167"/>
-		</s:Group>
-		<local:startStop id="startStopButton" x="740" y="500" click="clickStartStop(event)" />
-	<!--/s:Group-->
-
-	
+	<local:simulation id="sim" addedToStage="setInitialTempOnAddedToStage(event)"/>
+	<!--Flowing Energy Arrows Towards House-->
+	<s:Group id="arrowGroup">
+		<s:SWFLoader id="arrowPlayer"/>
+	</s:Group>
+	<!--Four Stage Termperature Bar-->
+	<local:Slider id="slide" x="850" y="173" />
+	<!--Pump Video Clips-->
+	<s:Group left="335" top="77" scaleX="0.595" scaleY="0.59" visible="true">
+		<s:VideoDisplay id="videoPlayer" width="576" height="832"  />
+		<s:VideoDisplay id="videoPlayer2" width="576" height="832" loop="true" visible="false"/>
+	</s:Group>
+	<!--Vent and Crank Elements-->
+	<s:Group id="spriteGroup" x="457" y="90">
+		<s:SpriteVisualElement id="crossOverlay" x="0" y="0" width="200" height="200"/>
+		<s:SpriteVisualElement id="ventOverlay" x="6" y="375" />
+	</s:Group>
+	<!--Termperature & Pressure Overlay-->
+	<local:HPOverlay id="hpOverlay" x="346" y="101" />
+	<!--Draggable Temperature Arrow-->
+	<s:Group id="sliderGroup" x="895" y="155">
+		<s:SpriteVisualElement id="sliderContainer" width="50" height="290" y="167"/>
+	</s:Group>
+	<!--Start Stop Button-->
+	<local:startStop id="startStopButton" x="740" y="500" click="clickStartStop(event)" />
 </s:Group>

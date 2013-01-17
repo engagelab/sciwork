@@ -410,7 +410,7 @@
 		</s:Group>
 	</s:VGroup>
 	<s:BorderContainer id="pbarBG" borderVisible="false" backgroundColor="0x3980C1" right="50" alpha="0.5" top="5" width="90" visible="false" cornerRadius="2"/>
-	<s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="60" top="5" />
+	<s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="60" top="5" excludeFrom="picsvids" />
 	<mx:ProgressBar id="pbar" mode="manual" color="#ffffff" visible="false" includeInLayout="false" width="40" right="90" top="5" />
 	<s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/>
 </s:BorderContainer>
