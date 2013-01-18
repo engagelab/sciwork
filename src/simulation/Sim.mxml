@@ -6,7 +6,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.greensock.BlitMask;
-			import com.greensock.TweenLite;
+			import com.greensock.TweenMax;
 			import com.greensock.easing.Linear;
 			
 			import fl.motion.AdjustColor;
@@ -43,8 +43,8 @@
 			private const OUTDOOR_TRANSITION_DURATION:uint = 4;
 			private const INDOOR_TRANSITION_DURATION:uint = 10;
 			
-			private var indoorTweener1:TweenLite;
-			private var indoorTweener2:TweenLite;
+			private var indoorTweener1:TweenMax;
+			private var indoorTweener2:TweenMax;
 			
 			private var TARGET_HOUSE_TEMP:uint = 18;
 			private var crossSpeed:Number = -10;
@@ -338,9 +338,11 @@
 			
 			private function showHandCursor(event:MouseEvent):void {
 				Mouse.cursor = "hand";
+				TweenMax.to(sl, 0.5, {glowFilter:{color:0xFFFFFF, alpha:1, blurX:30, blurY:30}});
 			}
 			private function hideHandCursor(event:MouseEvent):void {
 				Mouse.cursor = "arrow";
+				TweenMax.to(sl, 0.5, {glowFilter:{color:0xFFFFFF, alpha:0, blurX:30, blurY:30}});
 			}
 			private function sliderDown(event:MouseEvent):void {
 				sliderContainer.startDrag(false,new Rectangle(0,1,0,257));
@@ -359,7 +361,7 @@
 				
 				if(sliderContainer.y < 50) {
 					currentOutdoorTemp = 15;
-					TweenLite.to(sliderContainer, 0.2, {y: 0});
+					TweenMax.to(sliderContainer, 0.2, {y: 0});
 					sl.theText.text = String(currentOutdoorTemp);
 					crossSpeed = -1;
 					slide.temp1.alpha = 1;
@@ -368,7 +370,7 @@
 				}
 				else if(sliderContainer.y >= 50 && sliderContainer.y < 130) {
 					currentOutdoorTemp = 8;
-					TweenLite.to(sliderContainer, 0.2, {y: 82});
+					TweenMax.to(sliderContainer, 0.2, {y: 82});
 					sl.theText.text = String(currentOutdoorTemp);
 					crossSpeed = -5;
 					slide.temp2.alpha = 1;
@@ -377,7 +379,7 @@
 				}
 				else if(sliderContainer.y >= 130 && sliderContainer.y < 220) {
 					currentOutdoorTemp = 0;
-					TweenLite.to(sliderContainer, 0.2, {y: 167});
+					TweenMax.to(sliderContainer, 0.2, {y: 167});
 					sl.theText.text = String(currentOutdoorTemp);
 					crossSpeed = -10;
 					slide.temp3.alpha = 1;
@@ -386,7 +388,7 @@
 				}
 				else if(sliderContainer.y >= 220) {
 					currentOutdoorTemp = -5;
-					TweenLite.to(sliderContainer, 0.2, {y: 250});
+					TweenMax.to(sliderContainer, 0.2, {y: 250});
 					sl.theText.text = String(currentOutdoorTemp);
 					crossSpeed = -15;
 					slide.temp4.alpha = 1;
@@ -474,8 +476,8 @@
 					indoorTweener1.kill();
 					indoorTweener2.kill();
 				}
-				indoorTweener1 = TweenLite.to(sim.TEMPERATURE.left_temp_mc.leftMarks, duration, {y: tempMarks_Y, ease:Linear.easeNone});
-				indoorTweener2 = TweenLite.to(sim.TEMPERATURE.left_temp_mc.leftMarksBG, duration, {y: tempMarksBG_Y, ease:Linear.easeNone});
+				indoorTweener1 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarks, duration, {y: tempMarks_Y, ease:Linear.easeNone});
+				indoorTweener2 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarksBG, duration, {y: tempMarksBG_Y, ease:Linear.easeNone});
 			}
 			
 			// When heat pump is not operating, move the inside temperature to match the outside
@@ -487,8 +489,8 @@
 					indoorTweener1.kill();
 					indoorTweener2.kill();
 				}
-				indoorTweener1 = TweenLite.to(sim.TEMPERATURE.left_temp_mc.leftMarks, duration, {y: tempMarks_Y + currentOutdoorTemp*LARGE_PIXELS_PER_DEGREE - 18*LARGE_PIXELS_PER_DEGREE, ease:Linear.easeNone});
-				indoorTweener2 = TweenLite.to(sim.TEMPERATURE.left_temp_mc.leftMarksBG, duration, {y: tempMarksBG_Y + currentOutdoorTemp*PIXELS_PER_DEGREE - 17.3*PIXELS_PER_DEGREE, ease:Linear.easeNone});
+				indoorTweener1 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarks, duration, {y: tempMarks_Y + currentOutdoorTemp*LARGE_PIXELS_PER_DEGREE - 18*LARGE_PIXELS_PER_DEGREE, ease:Linear.easeNone});
+				indoorTweener2 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarksBG, duration, {y: tempMarksBG_Y + currentOutdoorTemp*PIXELS_PER_DEGREE - 17.3*PIXELS_PER_DEGREE, ease:Linear.easeNone});
 			}
 		]]>
 	</fx:Script>
@@ -517,9 +519,9 @@
 	<!--Termperature & Pressure Overlay-->
 	<local:HPOverlay id="hpOverlay" x="346" y="101" />
 	<!--Draggable Temperature Arrow-->
-	<s:Group id="sliderGroup" x="895" y="155">
+	<s:Group id="sliderGroup" x="897" y="155">
 		<s:SpriteVisualElement id="sliderContainer" width="50" height="290" y="167"/>
 	</s:Group>
 	<!--Start Stop Button-->
-	<local:startStop id="startStopButton" x="740" y="500" click="clickStartStop(event)" />
+	<local:startStop id="startStopButton" x="800" y="500" click="clickStartStop(event)" />
 </s:Group>
