@@ -322,7 +322,7 @@
 					spriteGroup.visible = true;
 					spriteGroup.alpha = 1;
 					startStopButton.visible = false;
-					arrowPlayer.source="assets/simu/flash/ARROW_n2.swf";
+					arrowPlayer.source="assets/simu/flash/ARROW_n3.swf";
 					hpOverlay.visible = true;
 					operatePump();
 				}
@@ -400,6 +400,7 @@
 					movingGrad.transitionDuration = OUTDOOR_TRANSITION_DURATION;
 					movingGrad.colourChange(previousTempColour, currentTempColour);
 					if(!heatpumpRunning) {
+						arrowPlayer.visible = true;
 						moveIndoorsToOutdoorTemp();
 					}
 				}
@@ -492,8 +493,13 @@
 					indoorTweener2.kill();
 				}
 				indoorTweener1 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarks, duration, {y: tempMarks_Y + currentOutdoorTemp*LARGE_PIXELS_PER_DEGREE - 18*LARGE_PIXELS_PER_DEGREE, ease:Linear.easeNone});
-				indoorTweener2 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarksBG, duration, {y: tempMarksBG_Y + currentOutdoorTemp*PIXELS_PER_DEGREE - 17.3*PIXELS_PER_DEGREE, ease:Linear.easeNone});
+				indoorTweener2 = TweenMax.to(sim.TEMPERATURE.left_temp_mc.leftMarksBG, duration, {y: tempMarksBG_Y + currentOutdoorTemp*PIXELS_PER_DEGREE - 17.3*PIXELS_PER_DEGREE, ease:Linear.easeNone, onComplete:stopArrowsMoving});
 			}
+			
+			private function stopArrowsMoving():void {
+				arrowPlayer.visible = false;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -525,5 +531,5 @@
 		<s:SpriteVisualElement id="sliderContainer" width="50" height="290" y="167"/>
 	</s:Group>
 	<!--Start Stop Button-->
-	<local:startStop id="startStopButton" x="800" y="500" click="clickStartStop(event)" />
+	<local:startStop id="startStopButton" x="812" y="500" click="clickStartStop(event)" />
 </s:Group>
