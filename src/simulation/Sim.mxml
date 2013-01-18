@@ -331,7 +331,8 @@
 					spriteGroup.visible = true;
 					spriteGroup.alpha = 1;
 					startStopButton.visible = true;
-					arrowPlayer.source="assets/simu/flash/ARROW_n2.swf";
+					arrowPlayer.visible = false;
+					arrowPlayer.source = "assets/simu/flash/ARROW_n3.swf";
 					hpOverlay.visible = true;
 				}
 			}
@@ -412,12 +413,12 @@
 			// Operate the pump depending on it's present state
 			private function operatePump():void {
 				if(!heatpumpRunning) {
-					arrowPlayer.source="assets/simu/flash/ARROW_n3.swf";
+					arrowPlayer.visible = true;
 					heatpumpRunning=true;
 					this.addEventListener(Event.ENTER_FRAME, enterFrame);
 					countingUp = true;
 					videoPlayer.source="assets/simu/vids/boiling_up_v002.flv";
-					videoPlayer2.source = "assets/simu/vids/boiling_loop_v002.flv"
+					videoPlayer2.source = "assets/simu/vids/boiling_loop_v002.flv";
 					videoPlayer.visible = true;
 					videoPlayer.play();
 					moveIndoorsToHeatPumpTemp();
@@ -427,6 +428,7 @@
 					clearInterval(afterBoilUpInterval);
 					countingUp = false;
 					startStopButton.enabled = false;
+					arrowPlayer.visible = false;
 					videoPlayer.source="assets/simu/vids/boiling_down_v002.flv";
 					videoPlayer.visible=true;
 					videoPlayer.play();
