@@ -12,6 +12,9 @@
 			
 			import content.workarea.materials.MaterialsItem;
 			
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
+			
 			import listeners.EnergyChosenEvent;
 			import listeners.MaterialToPreviewEvent;
 			import listeners.RetweetEvent;
@@ -50,6 +53,8 @@
 			[Bindable] private var _htmlLocation:String = "";
 			
 			private var zoomObjectOrigin:Object;
+			
+			private var refreshNRJInterval:Number;
 			
 			public function resetEnergySource():void {
 				if(_chosenEnergyID != null) {
@@ -676,6 +681,7 @@
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
 				this.addEventListener(resourceManager.getString('resources', 'SHOW_ZOOMED_TXT'), handleZoomTxt);
 				this.addEventListener(resourceManager.getString('resources', 'HIDE_ZOOMED_TXT'), handleHideTxt);
+				this.addEventListener(resourceManager.getString('resources', 'CHANGE_NRJ_SOURCE'), handleChangeNrjSource);
 			}
 			
 			/**
@@ -917,6 +923,18 @@
 				
 				zoomObjectOrigin = null;
 			}
+			
+			protected function handleChangeNrjSource(evt:Event):void {
+				bi.visible = true;
+				resetEnergySource();
+				refreshNRJInterval = setInterval(refreshNRJResume, 2000);
+			}
+			
+			protected function refreshNRJResume():void {
+				clearInterval(refreshNRJInterval);
+				updateCurrentState("tweets");
+				bi.visible = false;
+			}
 		]]>
 	</fx:Script>
 	
@@ -997,4 +1015,8 @@
 			<s:TextArea fontSize="11" width="100%" height="100%" id="bigCommentArea" />
 		</s:BorderContainer>	
 	</s:VGroup>
+	
+	<s:BorderContainer visible="false" width="100%" height="100%" backgroundColor="#333333" backgroundAlpha=".7" id="bi">
+		<s:BusyIndicator width="50" height="50" horizontalCenter="0" verticalCenter="0" symbolColor="#FFFFFF" />
+	</s:BorderContainer>
 </s:Group>

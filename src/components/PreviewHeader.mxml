@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
-					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
+					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin" xmlns:components="components.*">
 	
 	<fx:Declarations>
 		<fx:String id="chosenNRJ" />
@@ -32,5 +32,9 @@
 		<s:Image source="@Embed('assets/arbeidsrom.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
 		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text.tweetsState="{'Arbeidsrom (#'+chosenNRJ+')'}" text="Arbeidsrom" />
 	</s:HGroup>
-	<s:Button right="1" buttonMode="true" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
+	
+	<s:HGroup right="1" verticalCenter="0">
+		<components:NRJButton label="Velg annen kilde" height="100%" width="120" buttonMode="true" bData="{new NRJBackObject()}" includeIn="tweetsState" click="dispatchEvent(new Event(resourceManager.getString('resources', 'CHANGE_NRJ_SOURCE'), true))" />
+		<s:Button buttonMode="true" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
+	</s:HGroup>
 </s:SkinnableContainer>

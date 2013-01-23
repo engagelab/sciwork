@@ -7,6 +7,8 @@
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
 			
+			import components.NRJButton;
+			
 			import listeners.EnergyChosenEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -32,16 +34,16 @@
 			protected function getEnergySources_resultHandler(event:ResultEvent):void {
 				var res:Object = com.adobe.serialization.json.JSON.decode(String(event.result));
 				var nrjs:ArrayCollection = new ArrayCollection();
-				var b:Button;
+				var b:NRJButton;
 				
 				for each (var nrj:Object in res) {
-					b = new Button();
+					b = new NRJButton();
+					b.bData = nrj;
 					b.name = nrj.id;
 					b.label = "#"+nrj.energy;
 					b.buttonMode = true;
 					b.width = 100;
 					b.height = 30;
-					b.setStyle("fontSize", 11);
 					b.addEventListener(MouseEvent.CLICK, pickEnergy);
 					nrjs.addItem(b);
 					
@@ -121,8 +123,8 @@
 		<s:HTTPService method="GET" headers="{'pragma', 'no-cache'}" result="getEnergySources_resultHandler(event)" fault="getEnergySources_faultHandler(event)" resultFormat="text" id="getEnergySources" />
 	</fx:Declarations>
 	
-	<s:Group horizontalCenter="0" verticalCenter="0">
-		<s:TileGroup id="energies" width="{this.width*.7}" horizontalGap="20" verticalGap="20" />
+	<s:Group right="10" top="10">
+		<s:TileGroup id="energies" width="100" horizontalGap="20" verticalGap="10" />
 	</s:Group>
 	
 	<s:BorderContainer visible="false" width="100%" height="100%" backgroundColor="#333333" backgroundAlpha=".7" id="bi">
