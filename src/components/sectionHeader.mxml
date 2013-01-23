@@ -10,16 +10,17 @@
 	<s:states>
 		<s:State name="activity" />
 		<s:State name="resources" />
-		<s:State name="portfolio" />
+		<!-- <s:State name="portfolio" /> -->
 		<s:State name="comment" />
 	</s:states>
 	
-	<s:HGroup left="10" right="10" height="100%" verticalAlign="middle">
-		<s:Image source="@Embed('assets/activity.png')" verticalCenter="0" includeIn="activity"/>
-		<s:Image source="@Embed('assets/resources.png')" verticalCenter="0" includeIn="resources"/>
-		<s:Image source="assets/1.png" verticalCenter="0" includeIn="portfolio"/>
-		<s:Label fontWeight="bold" width="100%" id="title" color="#333333" fontSize="11" verticalCenter="-2" text="{titleString}" />
+	
+	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5">
+		<s:Image source="@Embed('assets/activity.png')" includeIn="activity" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Image source="@Embed('assets/resources.png')" includeIn="resources" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<!-- <s:Image source="@Embed('assets/svar.png')" includeIn="portfolio" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/> -->
+		<s:Label fontWeight="bold" id="title" color="#333333" fontSize="11" text="{titleString}" />
 	</s:HGroup>
 	
-	<s:Button includeIn="comment" fontSize="11" fontWeight="bold" label="X" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_TXT'), true));" right="2" top="2" width="30"/>
+	<s:Button includeIn="comment" buttonMode="true" right="1" top="0" width="20" icon="@Embed('assets/btn_close.png')" skinClass="skins.fullScreenButtonSkin" click="dispatchEvent(new Event(resourceManager.getString('resources', 'HIDE_ZOOMED_TXT'), true));" />
 </s:SkinnableContainer>

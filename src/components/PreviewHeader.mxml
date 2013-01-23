@@ -28,6 +28,9 @@
 		<s:State name="tweetLoggerState" />
 	</s:states>
 	
-	<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text.tweetsState="{'Arbeidsrom (#'+chosenNRJ+')'}" text="Arbeidsrom" left="5" verticalCenter="0"/>
+	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5">
+		<s:Image source="@Embed('assets/arbeidsrom.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text.tweetsState="{'Arbeidsrom (#'+chosenNRJ+')'}" text="Arbeidsrom" />
+	</s:HGroup>
 	<s:Button right="1" buttonMode="true" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="button1_clickHandler(event)" />
 </s:SkinnableContainer>

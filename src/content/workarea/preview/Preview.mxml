@@ -183,18 +183,13 @@
 	
 	<components:PreviewHeader id="pHeader" width="100%" height="23" currentState="{currentState}" />
 	<s:BorderContainer width="100%" height="100%" borderWeight="1" borderAlpha=".3" >
-		<s:Rect left="0" right="0" top="0" bottom="0" excludeFrom="imageState">
+		<s:Rect left="0" right="0" top="0" bottom="0">
 			<s:fill>
 				<s:LinearGradient rotation="90" >
 					<s:GradientEntry color="#EEEEEE" />
 					<s:GradientEntry color="#FFFFFF" />
 					<s:GradientEntry color="#FFFFFF" />
 				</s:LinearGradient>
-			</s:fill>
-		</s:Rect>
-		<s:Rect includeIn="imageState" left="0" right="0" top="0" bottom="0">
-			<s:fill>
-				<s:SolidColor color="#000000" />
 			</s:fill>
 		</s:Rect>
 		

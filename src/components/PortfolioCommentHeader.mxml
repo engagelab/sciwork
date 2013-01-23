@@ -15,8 +15,10 @@
 	</fx:Script>
 	
 	
+	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5">
+		<s:Image source="@Embed('assets/6.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text="Beskrivelse" />
+	</s:HGroup>
 	
-	
-	<s:Label fontSize="11" color="#FFFFFF" fontWeight="bold" text="Beskrivelse" left="5" verticalCenter="0"/>
 	<s:Button buttonMode="true" right="1" verticalCenter="0" width="20" icon="@Embed('assets/10-plus.png')" skinClass="skins.fullScreenButtonSkin" click="zoomOut(event)" />
 </s:SkinnableContainer>

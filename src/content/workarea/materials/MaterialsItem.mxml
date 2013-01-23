@@ -29,6 +29,8 @@
 			public var canBeAddedToPF:Boolean = true;
 			
  			private var _groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
+			
+			[Bindable] public var colorWeigth:Number = 3;
 				
 			[Bindable]
 			public function get groupColour():uint
@@ -147,7 +149,7 @@
 				<s:SolidColor color="0x000000" />
 			</s:fill>
 			<s:stroke>
-				<s:SolidColorStroke color="{groupColour}" weight="3"/>
+				<s:SolidColorStroke color="{groupColour}" weight="{colorWeigth}"/>
 			</s:stroke>
 		</s:Rect>
 

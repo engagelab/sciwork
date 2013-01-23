@@ -7,7 +7,6 @@
 		<![CDATA[
 			import com.adobe.serialization.json.JSON;
 			
-			import listeners.ShowWebPage;
 			import listeners.TaskPortfolioUpdateEvent;
 			
 			import mx.collections.ArrayCollection;

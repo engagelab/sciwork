@@ -3,5 +3,8 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
 					  xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#333333" skinClass="skins.selectionHeaderSkin">
 	
-	<s:Label fontSize="11" color="#FFFFFF" fontWeight="bold" text="Gruppens medier" left="5" verticalCenter="0"/>
+	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5">
+		<s:Image source="@Embed('assets/medier.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text="Gruppens medier" />
+	</s:HGroup>
 </s:SkinnableContainer>

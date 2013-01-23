@@ -257,7 +257,7 @@
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
 	<s:VGroup horizontalCenter="0" verticalCenter="0" gap="3" horizontalAlign="center">
-		<s:Image id="iconImage" scaleMode="letterbox"/>
+		<s:Image id="iconImage" width="29" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
 		<s:Label id="lab" color="#333333" maxDisplayedLines="1" />
 		<!-- <s:Label id="labelDisplay" color="#FFFFFF" maxDisplayedLines="1" /> -->
 	</s:VGroup>

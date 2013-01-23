@@ -86,19 +86,6 @@
 			<s:SolidColor id="itemBackground" alpha="{data.al}" color="{groupColor}" />
 		</s:fill>
 	</s:Rect>
-	<!-- not needed anymore
-	<s:Path bottom="0" left="20" data="M 0 0 L 0 10 L 10 0 L 0 0" visible="{!callOut}">
-		<s:fill>
-			<s:SolidColor color="{groupColor}" alpha="{data.al}" />
-		</s:fill>
-	</s:Path>
-	<s:Path bottom="0" right="25" data="M 0 0 L 10 10 L 10 0 L 0 0" visible="{callOut}">
-		<s:fill>
-			<s:SolidColor color="{groupColor}" alpha="{data.al}" />
-		</s:fill>
-	</s:Path>
-	-->
-	
 	
 	<s:VGroup top="10" right="10" bottom="20" left="10" >
 		<!--s:Label text="{data.from+':'}" width="100%" color="#FFFFFF" /-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			xmlns:s="library://ns.adobe.com/flex/spark" 
-			xmlns:mx="library://ns.adobe.com/flex/mx" height="100%" minHeight="12" minWidth="2">
+			xmlns:mx="library://ns.adobe.com/flex/mx" height="100%" minHeight="11" minWidth="2">
 	
 	<fx:Declarations>
 		<fx:String id="taskId" />
@@ -23,6 +23,9 @@
 		<s:fill>
 			<s:SolidColor color.normal="#FFFFFF" alpha=".8" color.completed="{selectedColor}" />
 		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color.normal="#333333" weight="1" />
+		</s:stroke>
 	</s:Rect>
 	
 </s:Group>

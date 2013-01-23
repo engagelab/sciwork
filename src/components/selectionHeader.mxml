@@ -9,13 +9,13 @@
 		<s:State name="tweets" />
 	</s:states>
 	
-	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="tweets">
-		<s:Image source="@Embed('assets/11-tweets.png')" verticalCenter="0"/>
-		<s:Label fontWeight="bold" width="100%" color="#FFFFFF" fontSize="11" verticalCenter="-2" text="Tweets" />
+	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5" includeIn="tweets">
+		<s:Image source="@Embed('assets/tweet.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text="Tweets" />
 	</s:HGroup>
-
-	<s:HGroup left="10" verticalCenter="0" verticalAlign="baseline" includeIn="assets">
-		<s:Image source="@Embed('assets/12-assets.png')" verticalCenter="0"/>
-		<s:Label fontWeight="bold" width="100%" color="#FFFFFF" fontSize="11" verticalCenter="-2" text="Svar" />
+	
+	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5" includeIn="assets">
+		<s:Image source="@Embed('assets/svar.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text="Svar" />
 	</s:HGroup>
 </s:SkinnableContainer>
