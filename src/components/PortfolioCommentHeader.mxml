@@ -16,7 +16,7 @@
 	
 	
 	<s:HGroup left="5" verticalCenter="0" verticalAlign="baseline" gap="5">
-		<s:Image source="@Embed('assets/6.png')" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
+		<s:Image source="assets/6.png" width="14" height="14" smooth="true" smoothingQuality="high" cacheAsBitmap="true"/>
 		<s:Label color="#FFFFFF" fontSize="11" fontWeight="bold" text="Beskrivelse" />
 	</s:HGroup>
 	
