@@ -413,11 +413,5 @@
 	<!--s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="60" top="5" excludeFrom="picsvids" /-->
 	<s:Button id="screenCaptureButton" right="60" top="5" buttonMode="true" width="84" height="24" icon="@Embed('assets/taBilde.png')" click="capture(event)" excludeFrom="picsvids"/>
 	<mx:ProgressBar id="pbar" mode="manual" color="#ffffff" visible="false" includeInLayout="false" width="40" right="90" top="5" />
-<<<<<<< HEAD
-	<!--s:Image source="assets/btn_close.png" id="closeButton" click="callHideFullscreen(event)" right="10" top="5"/-->
-	<s:Button right="10" top="5" buttonMode="true" width="20" icon="@Embed('assets/btn_close.png')" skinClass="skins.fullScreenButtonSkin" click="callHideFullscreen(event)" />
-	<!--s:Button label="X" click="callHideFullscreen(event)" right="10" top="5" width="30"/-->
-=======
 	<s:Button buttonMode="true" right="2" top="1" width="20" icon="@Embed('assets/btn_close.png')" skinClass="skins.fullScreenButtonSkin" click="callHideFullscreen(event)" />
->>>>>>> styling
 </s:BorderContainer>
