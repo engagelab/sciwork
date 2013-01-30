@@ -187,7 +187,7 @@
 			 * 
 			 **/
 			protected function getAllGroups_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
+				Alert.show(sciwork.ALERT_TEXT4, "Group service error");
 			}
 			/**
 			 * 
@@ -195,7 +195,7 @@
 			 * 
 			 **/
 			protected function getSceneContributions_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the scenecontributions assets from the server.", "SceneContribution service error");
+				Alert.show(sciwork.ALERT_TEXT5, "SceneContribution service error");
 			}
 			/**
 			 *
@@ -357,7 +357,7 @@
 				switch(ev.status) {
 					case 0:
 						//service not available
-						Alert.show("The add/remove to portfolio service is not available. Please contact your administrator.", "Add/remove to portfolio service error");
+						Alert.show(sciwork.ALERT_TEXT11, "Add/remove to portfolio service error");
 						break;
 					case 200:
 						//update OK, password accepted
@@ -366,7 +366,7 @@
 						break;
 					case 401:
 						//update not OK, wrong password
-						Alert.show("Something went wrong when saving your item. Please contact your administrator.", "Add/remove to portfolio service error");
+						Alert.show(sciwork.ALERT_TEXT12, "Add/remove to portfolio service error");
 						break;
 				}
 			}
@@ -377,7 +377,7 @@
 			 * 
 			 **/
 			protected function handleSelectMaterialIOerror(ev:IOErrorEvent):void {
-				Alert.show("An error occured while adding the item to the portfolio.", "Contributions service error");
+				Alert.show(sciwork.ALERT_TEXT13, "Contributions service error");
 			}
 			
 			/**
@@ -543,7 +543,7 @@
 			 * 
 			 **/
 			protected function getTweets_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the tweets from the server.", "Tweets service error");
+				Alert.show(sciwork.ALERT_TEXT2, "Tweets service error");
 			}
 			
 			/**
@@ -576,7 +576,7 @@
 			}
 			
 			protected function getEnergies_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
+				Alert.show(sciwork.ALERT_TEXT9, "Energies service error");
 			}
 			
 			protected function htmlLoded(event:Event):void {
@@ -594,7 +594,7 @@
 			}
 			
 			protected function getArticleUrl_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the article URL from the server.", "Energies service error");
+				Alert.show(sciwork.ALERT_TEXT14, "Energies service error");
 			}
 			/**
 			 *

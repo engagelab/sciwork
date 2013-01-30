@@ -26,14 +26,17 @@
 			protected function handleTextChange(event:TextOperationEvent):void {
 				if(comment.text != commentArea.text) {
 					canSave = true;
+					dispatchEvent(new Event(resourceManager.getString('resources', 'UNSAVED_EDIT_TRUE'), true));
 				}
 				else {
 					canSave = false;
+					dispatchEvent(new Event(resourceManager.getString('resources', 'UNSAVED_EDIT_FALSE'), true));
 				}
 			}
 			
 			protected function saveAnswerBtn_clickHandler(event:MouseEvent):void {
 				canSave = false;
+				dispatchEvent(new Event(resourceManager.getString('resources', 'UNSAVED_EDIT_FALSE'), true));
 				this.currentState = "saving";
 				
 				var urlRequest:URLRequest;
@@ -81,7 +84,7 @@
 			 * 
 			 **/
 			protected function ioErrorHandler(evt:IOErrorEvent):void {
-				Alert.show("An error occured while saving the task comment on the server.", "TaskComment service error");
+				Alert.show(sciwork.ALERT_TEXT15, "TaskComment service error");
 			}
 		]]>
 	</fx:Script>
@@ -106,7 +109,7 @@
 			
 			<s:TextArea fontSize="11" left="5" right="5" top="5" bottom="5" id="commentArea" change="handleTextChange(event)" />
 		</s:BorderContainer>
-		<s:Button fontSize="11" buttonMode="true" width="100%" label="SAVE COMMENT" id="saveAnswerBtn" color="#333333" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
+		<s:Button fontSize="11" buttonMode="true" width="100%" label="LAGRE" id="saveAnswerBtn" color="#333333" enabled="{canSave}" click="saveAnswerBtn_clickHandler(event)" />
 	</s:VGroup>
 	
 	<s:SkinnableContainer width="100%" height="100%" backgroundAlpha=".8" backgroundColor="#333333" includeIn="saving">

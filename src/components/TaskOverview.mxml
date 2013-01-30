@@ -186,7 +186,7 @@
 			 * 
 			 **/
 			protected function getAllGroups_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
+				Alert.show(sciwork.ALERT_TEXT4, "Group service error");
 			}
 			/**
 			 * 
@@ -194,7 +194,7 @@
 			 * 
 			 **/
 			protected function getSceneContributions_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the scenecontributions assets from the server.", "SceneContribution service error");
+				Alert.show(sciwork.ALERT_TEXT5, "SceneContribution service error");
 			}
 			
 			/**
@@ -203,7 +203,7 @@
 			 * 
 			 **/
 			protected function getTaskPortfolioComment_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the taskportfoliocomments from the server.", "TaskPortfolioComment service error");
+				Alert.show(sciwork.ALERT_TEXT6, "TaskPortfolioComment service error");
 			}
 			
 			/**

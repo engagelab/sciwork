@@ -91,7 +91,7 @@
 			 **/
 			protected function getTask_faultHandler(event:FaultEvent):void {
 				
-				Alert.show("An error occured while retrieving the task from the server.", "Task service error");
+				Alert.show(sciwork.ALERT_TEXT21, "Task service error");
 				
 			}
 			
@@ -156,7 +156,7 @@
 			 * 
 			 **/
 			protected function handlePostKeywordsIOerror(ev:IOErrorEvent):void {
-				Alert.show("An error occured while retrieving the list of resources from the server.", "GDrive service error");
+				Alert.show(sciwork.ALERT_TEXT22, "GDrive service error");
 			}
 			
 			/**
@@ -203,14 +203,14 @@
 				switch(ev.status) {
 					case 0:
 						//service not available
-						Alert.show("The task portfolio validation service is not available. Please contact your administrator.", "Task portfolio service error");
+						Alert.show(sciwork.ALERT_TEXT23, "Task portfolio service error");
 						break;
 					case 200:
 						dispatchEvent(new Event(resourceManager.getString('resources', 'REFRESH_COMPLETED_TASKS'), true));
 						break;
 					case 401:
 						//update not OK, wrong password
-						Alert.show("Something went wrong when validating the task. Please contact your administrator.", "Task portfolio service error");
+						Alert.show(sciwork.ALERT_TEXT24, "Task portfolio service error");
 						break;
 				}
 			}
@@ -221,7 +221,7 @@
 			 * 
 			 **/
 			protected function handleTaskPortfolioUpdateIOerror(ev:IOErrorEvent):void {
-				Alert.show("An error occured while validating the task's portfolio.", "Task portfolio service error");
+				Alert.show(sciwork.ALERT_TEXT25, "Task portfolio service error");
 			}
 			
 		]]>

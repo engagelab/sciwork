@@ -31,6 +31,7 @@
  			private var _groupColour:uint = uint(mx.core.FlexGlobals.topLevelApplication.currentGroup.colour);
 			
 			[Bindable] public var colorWeigth:Number = 3;
+			[Bindable] private var materialPreviewSource:String = "";
 				
 			[Bindable]
 			public function get groupColour():uint
@@ -109,10 +110,12 @@
 					case WorkArea.IMAGE_TYPE:
 						sourceImage.source = previewSource;
 						sourceImage.visible = true;
+						materialPreviewSource = "assets/15w.png";
 						break;
 					case WorkArea.VIDEO_TYPE :
 						sourceImage.source = previewSource;
 						sourceImage.visible = true;
+						materialPreviewSource = "assets/16w.png";
 						break;
 				}
 			}
@@ -161,7 +164,7 @@
 					<s:SolidColor color="0x000000" alpha=".5" alpha.hovered="0" alpha.selected="0" />
 				</s:fill>
 			</s:Rect>
-			<s:Image source="@Embed('assets/15-play.png')" horizontalCenter="0" verticalCenter="0" excludeFrom="hovered, selected" enabled="false" />
+			<s:Image source="{materialPreviewSource}" horizontalCenter="0" verticalCenter="0" excludeFrom="hovered, selected" enabled="false" />
 		</s:Group>
 	</s:Group>
 

@@ -28,7 +28,7 @@
 			}
 			
 			protected function getEnergySources_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the energy sources from the server.", "Energy Sources service error");
+				Alert.show(sciwork.ALERT_TEXT8, "Energy Sources service error");
 			}
 			
 			protected function getEnergySources_resultHandler(event:ResultEvent):void {

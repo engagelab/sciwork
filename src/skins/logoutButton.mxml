@@ -212,8 +212,8 @@
     
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay  -->
-   <s:HGroup left="10" right="10" top="4" bottom="4" gap="10">
-		<s:Image source="@Embed('assets/logface.png')" width="10" height="10" />
+   <s:HGroup left="10" right="10" top="4" bottom="4" gap="10" verticalAlign="baseline">
+		<s:Image source="@Embed('assets/logface.png')" />
 		
 		<s:Label id="labelDisplay" color="0x000000"
 				 textAlign="center"

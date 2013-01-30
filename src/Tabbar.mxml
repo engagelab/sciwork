@@ -19,6 +19,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.controls.Button;
+			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -29,19 +30,47 @@
 			[Bindable] private var tasks:ArrayCollection;
 			[Bindable] private var dividerColor:uint = 0xFFFFFF;
 			
+			private var lastSceneIndex:Number = 0;
+			private var newSceneIndex:Number = 0;
+			
+			private var lastTaskIndex:Number = 0;
+			private var newTaskIndex:Number = 0;
+			
 			/**
 			 * 
 			 * Handle scene change 
 			 * 
 			 **/
 			protected function sceneBar_changeHandler(event:IndexChangeEvent):void {
+				newSceneIndex = event.newIndex;
+				
+				if(mx.core.FlexGlobals.topLevelApplication.unsavedEdit as Boolean) {
+					Alert.show(sciwork.ALERT_TEXT26, "Unsaved Text", Alert.YES | Alert.NO, null, editAlertSceneHandler, null, Alert.YES);
+				}
+				else {
+					proceedChangeScene(newSceneIndex);
+				}
+			}
+			
+			private function editAlertSceneHandler(evt:CloseEvent):void {
+				if(evt.detail == Alert.YES) {
+					proceedChangeScene(newSceneIndex);
+					dispatchEvent(new Event(resourceManager.getString('resources', 'UNSAVED_EDIT_FALSE'), true));
+				}
+				else {
+					sceneBar.selectedIndex = lastSceneIndex;
+				}
+			}
+			
+			private function proceedChangeScene(ind:Number):void {
 				var sce:SceneChangeEvent = new SceneChangeEvent(resourceManager.getString('resources', 'SCENE_CHANGED'), true);
 				sce.scene = sceneBar.selectedItem as Object;
 				sce.eventOrigin = SceneChangeEvent.MENU;
 				dispatchEvent(sce);
 				
-				selectFirstTask(event.newIndex);
+				lastSceneIndex = ind;
 				
+				selectFirstTask(ind);
 			}
 			
 					
@@ -51,9 +80,34 @@
 			 * 
 			 **/
 			protected function taskBar_changeHandler(event:IndexChangeEvent):void {
+				newTaskIndex = event.newIndex;
+				
+				if(mx.core.FlexGlobals.topLevelApplication.unsavedEdit as Boolean) {
+					Alert.show(sciwork.ALERT_TEXT27, "Unsaved Text", Alert.YES | Alert.NO, null, editAlertTaskHandler, null, Alert.YES);
+				}
+				else {
+					proceedChangeTask(newTaskIndex);
+				}
+				
+				
+			}
+			
+			private function editAlertTaskHandler(evt:CloseEvent):void {
+				if(evt.detail == Alert.YES) {
+					proceedChangeTask(newTaskIndex);
+					dispatchEvent(new Event(resourceManager.getString('resources', 'UNSAVED_EDIT_FALSE'), true));
+				}
+				else {
+					taskBar.selectedIndex = lastTaskIndex;
+				}
+			}
+			
+			private function proceedChangeTask(ind:Number):void {
 				var tce:TaskChangeEvent = new TaskChangeEvent(resourceManager.getString('resources', 'TASK_CHANGED'), true);
 				tce.task = taskBar.selectedItem as Object;
 				dispatchEvent(tce);
+				
+				lastTaskIndex = ind;
 			}
 			
 			
@@ -63,7 +117,7 @@
 			 * 
 			 **/
 			protected function getMenu_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving menu items from the server.", "Menu service error");
+				Alert.show(sciwork.ALERT_TEXT28, "Menu service error");
 			}
 			
 			/**

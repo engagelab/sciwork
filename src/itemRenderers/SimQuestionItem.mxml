@@ -101,7 +101,7 @@
 			 * 
 			 **/
 			protected function ioErrorHandler(evt:IOErrorEvent):void {
-				Alert.show("An error occured while saving the simQuestion answer on the server.", "SimQuestion service error");
+				Alert.show(sciwork.ALERT_TEXT16, "SimQuestion service error");
 			}
 			
 			protected function zoomOut(event:MouseEvent):void {

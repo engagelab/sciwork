@@ -142,7 +142,7 @@
 			}
 			
 			protected function getEnergies_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the energies from the server.", "Energies service error");
+				Alert.show(sciwork.ALERT_TEXT9, "Energies service error");
 			}
 		]]>
 	</fx:Script>

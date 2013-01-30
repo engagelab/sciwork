@@ -46,8 +46,6 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.UIDUtil;
 			
-			public static const ASSET_UPDATE_TYPE:String = "ASSET_UPDATE_TYPE";
-			
 			public static const _gapBetweenContainers:Number = 15;
 			
 			[Bindable] private var _completedTaskArray:Array;
@@ -61,8 +59,39 @@
 			
 			private var _conn:XMPP = null;
 			private var _currentGroup:Object;
+			private var _unsavedEdit:Boolean = false;
 			
 			private var appUpdater:ApplicationUpdaterUI;
+			
+			
+			public static const ALERT_TEXT1:String = "An error occured while retrieving the questions from the server.";
+			public static const ALERT_TEXT2:String = "An error occured while retrieving the tweets from the server.";
+			public static const ALERT_TEXT3:String = "Unable to load requested document";
+			public static const ALERT_TEXT4:String = "An error occured while retrieving group names from the server.";
+			public static const ALERT_TEXT5:String = "An error occured while retrieving the scenecontributions assets from the server.";
+			public static const ALERT_TEXT6:String = "An error occured while retrieving the taskportfoliocomments from the server.";
+			public static const ALERT_TEXT7:String = "Your image is now copied. In the Google Doc document, go to 'Insert -> Image -> By URL', and use 'cmd+v' to paste the URL.";
+			public static const ALERT_TEXT8:String = "An error occured while retrieving the energy sources from the server.";
+			public static const ALERT_TEXT9:String = "An error occured while retrieving the energies from the server.";
+			public static const ALERT_TEXT10:String = "An error occured while retrieving the assets from the server.";
+			public static const ALERT_TEXT11:String = "The add/remove to portfolio service is not available. Please contact your administrator.";
+			public static const ALERT_TEXT12:String = "Something went wrong when saving your item. Please contact your administrator.";
+			public static const ALERT_TEXT13:String = "An error occured while adding the item to the portfolio.";
+			public static const ALERT_TEXT14:String = "An error occured while retrieving the article URL from the server.";
+			public static const ALERT_TEXT15:String = "An error occured while saving the task comment on the server.";
+			public static const ALERT_TEXT16:String = "An error occured while saving the simQuestion answer on the server.";
+			public static const ALERT_TEXT17:String = "The login service is not available. Please contact your administrator.";
+			public static const ALERT_TEXT18:String = "The password is not valid.";
+			public static const ALERT_TEXT19:String = "The connection with the messaging server failed. The application will not load.";
+			public static const ALERT_TEXT20:String = "An error occured while retrieving completed tasks from the server.";
+			public static const ALERT_TEXT21:String = "An error occured while retrieving the task from the server.";
+			public static const ALERT_TEXT22:String = "An error occured while retrieving the list of resources from the server.";
+			public static const ALERT_TEXT23:String = "The task portfolio validation service is not available. Please contact your administrator.";
+			public static const ALERT_TEXT24:String = "Something went wrong when validating the task. Please contact your administrator.";
+			public static const ALERT_TEXT25:String = "An error occured while validating the task's portfolio.";
+			public static const ALERT_TEXT26:String = "There is some unsaved text, do you still want to change scene?";
+			public static const ALERT_TEXT27:String = "There is some unsaved text, do you still want to change task?";
+			public static const ALERT_TEXT28:String = "An error occured while retrieving menu items from the server.";
 			
 			/**
 			 *
@@ -92,6 +121,8 @@
 				this.addEventListener(resourceManager.getString('resources', 'SHOW_FULLSCREEN'), handleShowFullscreen);
 				this.addEventListener(resourceManager.getString('resources', 'ENERGY_CHOSEN'), handleEnergyChosen);
 				this.addEventListener(resourceManager.getString('resources', 'RESET_ENERGY'), handleResetEnergy);
+				this.addEventListener(resourceManager.getString('resources', 'UNSAVED_EDIT_TRUE'), handleUnsavedEditTrue);
+				this.addEventListener(resourceManager.getString('resources', 'UNSAVED_EDIT_FALSE'), handleUnsavedEditFalse);
 				this.addEventListener(Event.CLOSING, onApplicationQuit);
 			}
 			
@@ -174,7 +205,7 @@
 			 * 
 			 **/
 			protected function handleConnectFailed(e:StreamEvent):void {
-				Alert.show("The connection with the messaging server failed. The application will not load.", "XMPP Connection Error");
+				Alert.show(sciwork.ALERT_TEXT19, "XMPP Connection Error");
 				_conn.cancelReconnectionTimer();
 			}
 			
@@ -271,7 +302,7 @@
 			 * 
 			 **/
 			protected function getCompletedTasks_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving completed tasks from the server.", "Completed tasks service error");
+				Alert.show(sciwork.ALERT_TEXT20, "Completed tasks service error");
 			}
 			
 			/**
@@ -502,6 +533,25 @@
 			public static function cleanGroupName(name:String):String {
 				return name.replace("Å","A").replace("Ø", "O").replace("Æ", "AE");
 			}
+
+			public function get unsavedEdit():Boolean
+			{
+				return _unsavedEdit;
+			}
+
+			public function set unsavedEdit(value:Boolean):void
+			{
+				_unsavedEdit = value;
+			}
+			
+			protected function handleUnsavedEditTrue(evt:Event):void {
+				unsavedEdit = true;
+			}
+			
+			protected function handleUnsavedEditFalse(evt:Event):void {
+				unsavedEdit = false;
+			}
+
 		]]>
 	</fx:Script>
 	

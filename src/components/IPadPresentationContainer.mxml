@@ -109,7 +109,7 @@
 			 * 
 			 **/
 			protected function getTweets_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the tweets from the server.", "Tweets service error");
+				Alert.show(sciwork.ALERT_TEXT2, "Tweets service error");
 			}
 			
 			/**

@@ -47,7 +47,7 @@
 			 * 
 			 **/
 			protected function getAssets_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the assets from the server.", "Assets service error");
+				Alert.show(sciwork.ALERT_TEXT10, "Assets service error");
 			}
 			
 			public function refreshFeed():void {

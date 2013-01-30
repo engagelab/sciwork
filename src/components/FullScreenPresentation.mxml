@@ -239,7 +239,7 @@
 			 * 
 			 **/
 			protected function getQuestions_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the questions from the server.", "Questions service error");
+				Alert.show(sciwork.ALERT_TEXT1, "Questions service error");
 			}
 			/**
 			 * 
@@ -247,7 +247,7 @@
 			 * 
 			 **/
 			protected function getTweets_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving the tweets from the server.", "Tweets service error");
+				Alert.show(sciwork.ALERT_TEXT2, "Tweets service error");
 			}
 			/**
 			 * 
@@ -316,7 +316,7 @@
 				try {
 					loader.load(form.request);
 				} catch (error: Error) {
-					Alert.show("Unable to load requested document", "image upload error");
+					Alert.show(sciwork.ALERT_TEXT3, "Image Upload error");
 					pbar.visible = false;
 					pbar.includeInLayout = false;
 					screenCaptureButton.visible = true;
@@ -411,7 +411,7 @@
 	</s:VGroup>
 	<s:BorderContainer id="pbarBG" borderVisible="false" backgroundColor="0x3980C1" right="50" alpha="0.5" top="5" width="90" visible="false" cornerRadius="2"/>
 	<!--s:Image source="assets/taBilde.png" id="screenCaptureButton" click="capture(event)" right="60" top="5" excludeFrom="picsvids" /-->
-	<s:Button id="screenCaptureButton" right="60" top="5" buttonMode="true" width="84" height="24" icon="@Embed('assets/taBilde.png')" click="capture(event)" excludeFrom="picsvids"/>
+	<s:Button id="screenCaptureButton" right="60" top="5" buttonMode="true" width="84" height="24" icon="@Embed('assets/taBilde.png')" click="capture(event)" excludeFrom="picsvids,html"/>
 	<mx:ProgressBar id="pbar" mode="manual" color="#ffffff" visible="false" includeInLayout="false" width="40" right="90" top="5" />
 	<s:Button buttonMode="true" right="2" top="1" width="20" icon="@Embed('assets/btn_close.png')" skinClass="skins.fullScreenButtonSkin" click="callHideFullscreen(event)" />
 </s:BorderContainer>

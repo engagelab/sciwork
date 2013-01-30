@@ -30,7 +30,7 @@
 			 * 
 			 **/
 			protected function getAllGroups_faultHandler(event:FaultEvent):void {
-				Alert.show("An error occured while retrieving group names from the server.", "Group service error");
+				Alert.show(sciwork.ALERT_TEXT4, "Group service error");
 			}
 			
 			/**
@@ -110,7 +110,7 @@
 				switch(ev.status) {
 					case 0:
 						//service not available
-						Alert.show("The login service is not available. Please contact your administrator.", "Login service error");
+						Alert.show(sciwork.ALERT_TEXT17, "Login service error");
 						break;
 					case 200:
 						//login OK, password accepted
@@ -125,7 +125,7 @@
 						break;
 					case 401:
 						//login not OK, wrong password
-						Alert.show("The password is not valid.", "Login service error");
+						Alert.show(sciwork.ALERT_TEXT18, "Login service error");
 						groupPass.text = "";
 						break;
 				}
