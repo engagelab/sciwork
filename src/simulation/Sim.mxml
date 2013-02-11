@@ -428,7 +428,6 @@
 				else {
 					clearInterval(afterBoilUpInterval);
 					countingUp = false;
-					startStopButton.enabled = false;
 					arrowPlayer.visible = false;
 					videoPlayer.source="assets/simu/vids/boiling_down_v002.flv";
 					videoPlayer.visible=true;
@@ -458,8 +457,6 @@
 				videoPlayer2.stop();
 				videoPlayer.visible = false;
 				videoPlayer2.visible = false;
-				startStopButton.enabled = true;
-				startStopButton.enabled = true;
 				heatpumpRunning = false;
 				this.removeEventListener(Event.ENTER_FRAME, enterFrame);
 				moveIndoorsToOutdoorTemp();
