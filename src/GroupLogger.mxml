@@ -180,7 +180,7 @@
 		<s:Group horizontalCenter="0" y="70">
 			<s:Image source="@Embed('assets/loginlogo.png')" cacheAsBitmap="true" smooth="true" smoothingQuality="high" horizontalCenter="0"/>
 			<s:DropDownList fontSize="11" cornerRadius="3" y="70" id="groupCombo" dataProvider="{_groupList}" labelField="title" prompt="Velg gruppe" width="200" itemRenderer="itemRenderers.LoginItemRenderer" horizontalCenter="0" />
-			<s:TextInput y="110" id="groupPass" text="password" displayAsPassword="true" width="100%" horizontalCenter="0" skinClass="skins.LoginInput"/>
+			<s:TextInput y="110" id="groupPass" text="" displayAsPassword="true" width="100%" horizontalCenter="0" skinClass="skins.LoginInput"/>
 			<s:Button fontSize="11" y="145" width="60" height="23" cornerRadius="3" label="LOGIN" click="validateBeforeLoggingIn()" right="0" chromeColor="#4668B0" color="#FFFFFF"/>
 		</s:Group>
 	</s:Group>

@@ -3,7 +3,7 @@
 	<id>no.uio.intermedia.sciwork</id>
 	<filename>sciwork</filename>
 	<name>sciwork</name>
-	<versionNumber>1.1.1</versionNumber>
+	<versionNumber>1.1.3</versionNumber>
 	<description>SCIWORK portal for the Miracle project</description>
 	<initialWindow>
 		<!-- The main SWF or HTML file of the application. Required. -->

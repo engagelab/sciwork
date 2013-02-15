@@ -64,34 +64,34 @@
 			private var appUpdater:ApplicationUpdaterUI;
 			
 			
-			public static const ALERT_TEXT1:String = "An error occured while retrieving the questions from the server.";
-			public static const ALERT_TEXT2:String = "An error occured while retrieving the tweets from the server.";
-			public static const ALERT_TEXT3:String = "Unable to load requested document";
-			public static const ALERT_TEXT4:String = "An error occured while retrieving group names from the server.";
-			public static const ALERT_TEXT5:String = "An error occured while retrieving the scenecontributions assets from the server.";
-			public static const ALERT_TEXT6:String = "An error occured while retrieving the taskportfoliocomments from the server.";
-			public static const ALERT_TEXT7:String = "Your image is now copied. In the Google Doc document, go to 'Insert -> Image -> By URL', and use 'cmd+v' to paste the URL.";
-			public static const ALERT_TEXT8:String = "An error occured while retrieving the energy sources from the server.";
-			public static const ALERT_TEXT9:String = "An error occured while retrieving the energies from the server.";
-			public static const ALERT_TEXT10:String = "An error occured while retrieving the assets from the server.";
-			public static const ALERT_TEXT11:String = "The add/remove to portfolio service is not available. Please contact your administrator.";
-			public static const ALERT_TEXT12:String = "Something went wrong when saving your item. Please contact your administrator.";
-			public static const ALERT_TEXT13:String = "An error occured while adding the item to the portfolio.";
-			public static const ALERT_TEXT14:String = "An error occured while retrieving the article URL from the server.";
-			public static const ALERT_TEXT15:String = "An error occured while saving the task comment on the server.";
-			public static const ALERT_TEXT16:String = "An error occured while saving the simQuestion answer on the server.";
-			public static const ALERT_TEXT17:String = "The login service is not available. Please contact your administrator.";
-			public static const ALERT_TEXT18:String = "The password is not valid.";
-			public static const ALERT_TEXT19:String = "The connection with the messaging server failed. The application will not load.";
-			public static const ALERT_TEXT20:String = "An error occured while retrieving completed tasks from the server.";
-			public static const ALERT_TEXT21:String = "An error occured while retrieving the task from the server.";
-			public static const ALERT_TEXT22:String = "An error occured while retrieving the list of resources from the server.";
-			public static const ALERT_TEXT23:String = "The task portfolio validation service is not available. Please contact your administrator.";
-			public static const ALERT_TEXT24:String = "Something went wrong when validating the task. Please contact your administrator.";
-			public static const ALERT_TEXT25:String = "An error occured while validating the task's portfolio.";
-			public static const ALERT_TEXT26:String = "There is some unsaved text, do you still want to change scene?";
-			public static const ALERT_TEXT27:String = "There is some unsaved text, do you still want to change task?";
-			public static const ALERT_TEXT28:String = "An error occured while retrieving menu items from the server.";
+			public static const ALERT_TEXT1:String = "En feil oppstod ved henting av spørsmålene fra serveren.";
+			public static const ALERT_TEXT2:String = "En feil oppstod ved henting av tweets fra serveren.";
+			public static const ALERT_TEXT3:String = "Kan ikke laste det forespurte dokumentet.";
+			public static const ALERT_TEXT4:String = "En feil oppstod ved henting av gruppenavnene fra serveren.";
+			public static const ALERT_TEXT5:String = "En feil oppstod ved henting av 'scenecontributions assets' fra serveren.";
+			public static const ALERT_TEXT6:String = "En feil oppstod ved henting av 'taskportfoliocomments' fra serveren.";
+			public static const ALERT_TEXT7:String = "Bildet ditt er nå kopiert. I Google Doc dokumentet, gå til 'Insert -> Image' -> By URL'. Bruk deretter 'cmd + v' for å lime inn URL.";
+			public static const ALERT_TEXT8:String = "En feil oppstod ved henting av energikildene fra serveren.";
+			public static const ALERT_TEXT9:String = "En feil oppstod ved henting av 'energies' fra serveren.";
+			public static const ALERT_TEXT10:String = "En feil oppstod ved henting av 'assets' fra serveren.";
+			public static const ALERT_TEXT11:String = "'Add/remove to portfolio service' er ikke tilgjengelig. Kontakt administrator.";
+			public static const ALERT_TEXT12:String = "Noe gikk galt når du lagrer elementet. Ta kontakt med administrator.";
+			public static const ALERT_TEXT13:String = "En feil oppstod da elementet skulle legges til i porteføljen.";
+			public static const ALERT_TEXT14:String = "En feil oppstod ved henting av artikkelens URL fra serveren.";
+			public static const ALERT_TEXT15:String = "En feil oppstod ved lagring av oppgaven 'comments' på serveren.";
+			public static const ALERT_TEXT16:String = "En feil oppstod ved lagring av 'simQuestion answer' på serveren.";
+			public static const ALERT_TEXT17:String = "Login-tjenesten er ikke tilgjengelig. Kontakt administrator.";
+			public static const ALERT_TEXT18:String = "Passordet er ikke gyldig.";
+			public static const ALERT_TEXT19:String = "Forbindelsen med meldingsserveren mislyktes. Applikasjonen vil ikke laste.";
+			public static const ALERT_TEXT20:String = "En feil oppstod ved henting av fullførte oppgaver fra serveren.";
+			public static const ALERT_TEXT21:String = "En feil oppstod ved henting av oppgaven fra serveren.";
+			public static const ALERT_TEXT22:String = "En feil oppstod ved henting av liste med ressurser fra serveren.";
+			public static const ALERT_TEXT23:String = "Tjeneste for validering av porteføljen er ikke tilgjengelig. Kontakt administrator.";
+			public static const ALERT_TEXT24:String = "Noe gikk galt ved godkjenning av oppgaven. Ta kontakt med administrator.";
+			public static const ALERT_TEXT25:String = "En feil oppstod ved validering av portefølje.";
+			public static const ALERT_TEXT26:String = "Det er ulagret tekst på siden, ønsker du likevel å endre scene?";
+			public static const ALERT_TEXT27:String = "Det er ulagret tekst på siden, ønsker du likevel å endre oppgave?";
+			public static const ALERT_TEXT28:String = "En feil oppstod ved henting av menyelementer fra serveren.";
 			
 			/**
 			 *
